@@ -1,0 +1,22 @@
+﻿@using LoginKiri.Db
+
+@inject NavigationManager NavigationManager
+
+@page "/profile"
+
+<PageTitle>Profile</PageTitle>
+
+
+<h3>Profile</h3>
+
+<h1 style="color:white">Hello, @CurrentUser.user.Name!</h1>
+
+<div class="button-holder" style="width: 200px"><button type="submit" class="sign-button" @onclick="OutAction">Sign out</button></div>
+
+@code {
+    private void OutAction()
+    {
+        CurrentUser.isLogined = false;
+        NavigationManager.NavigateTo("/");
+    }
+}

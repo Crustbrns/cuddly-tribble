@@ -51,6 +51,10 @@
     margin-left: 14px;
 }
 
+.line-in {
+    background-color: #ffc845;
+}
+
 .password-strength {
     font-size: 11px;
     font-weight: bolder;

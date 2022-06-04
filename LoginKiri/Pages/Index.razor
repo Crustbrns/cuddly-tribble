@@ -1,35 +1,114 @@
 ﻿@page "/"
+@using LoginKiri.Db
+@using LoginKiri.Db.AuthDbContext
+
+@inject NavigationManager NavigationManager
 
 <PageTitle>Index</PageTitle>
 
 <div>
     <div class="main-form--login">
-        <div class="title">Registration</div>
-        <div class="field-holder"><input placeholder="Name" class="field" maxlength=12 Value="@user.Name" /></div>
+        <div class="title">@Title</div>
+        <div class="field-holder"><input placeholder="Name" class="field" maxlength=12 @bind="@Name" /></div>
         <div class="field-holder"><input placeholder="Email" class="@email" maxlength=40 @onchange="EmailChanged" /></div>
-        <div class="field-holder"><input placeholder="Password" class="field" maxlength=20 type="password" Value="@user.Password" /></div>
+        <div class="field-holder"><input placeholder="Password" class="field" maxlength=20 type="password" @onchange="PasswordChanged" /></div>
         <div style="display:flex">
             <div class="password-strength">Password strength</div>
             <div class=password-lines>
-                <div class="line"></div>
-                <div class="line"></div>
-                <div class="line"></div>
+                <div class="@LinesOn[0]"></div>
+                <div class="@LinesOn[1]"></div>
+                <div class="@LinesOn[2]"></div>
             </div>
         </div>
         <div class="lower-part">
-            <div class="button-holder"><button type="submit" class="create-button">Create account</button></div>
-            <div class="button-holder"><button type="submit" class="sign-button">Sign in</button></div>
+            <div class="button-holder"><button type="submit" class="create-button" @onclick="CreateUser">Create account</button></div>
+            <div class="button-holder"><button type="submit" class="sign-button" @onclick="RedirectLogin">Sign in</button></div>
         </div>
     </div>
 </div>
 
 @code {
-    private User user { get; set; } = new User();
+    private string Title = "Registration";
     private string email = "field";
+    private List<string> LinesOn = new List<string>() { "line", "line", "line" };
 
-    private void EmailChanged(Microsoft.AspNetCore.Components.ChangeEventArgs args)
+    private string Name = string.Empty;
+    private string Email = string.Empty;
+    private string Password = string.Empty;
+
+    private void EmailChanged(Microsoft.AspNetCore.Components.ChangeEventArgs? args)
     {
-        user.Email = args.Value.ToString();
-        email = user.Email.Contains("@") ? "field" : "field error-field";
+        Email = args.Value.ToString();
+        email = Email.Contains("@") ? "field" : "field error-field";
+    }
+
+    private void PasswordChanged(Microsoft.AspNetCore.Components.ChangeEventArgs? args)
+    {
+        Password = args.Value.ToString();
+
+        if (Password != null)
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                LinesOn[i] = "line";
+            }
+
+            for (int i = 0; i < ((Password.Length > 15) ? 3 : Password.Length / 5); i++)
+            {
+                LinesOn[i] = "line line-in";
+            }
+        }
+    }
+
+    private void RedirectLogin()
+    {
+        NavigationManager.NavigateTo("/Login");
+    }
+
+    protected override void OnInitialized()
+    {
+        if (CurrentUser.isLogined)
+        {
+            NavigationManager.NavigateTo("/Profile");
+        }
+    }
+
+    private void CreateUser()
+    {
+        if ((Email != string.Empty && Email.Contains("@")) && Name != string.Empty && (Password != string.Empty && Password.Length > 5))
+        {
+            using (var context = new AuthContext())
+            {
+                if (context.Users.Any(x => x.Email == Email))
+                {
+                    Name = string.Empty;
+                    Email = string.Empty;
+                    email = "field error-field";
+                    Password = string.Empty;
+                    Title = "Registration failed. Try Again!";
+                }
+                else
+                {
+
+                    context.Users.Add(new User()
+                        {
+                            Name = Name,
+                            Email = Email,
+                            Password = Password
+                        });
+
+                    context.SaveChanges();
+
+                    CurrentUser.user = new User() { Name = Name, Email = Email, Password = Password };
+                    CurrentUser.isLogined = true;
+                    NavigationManager.NavigateTo("/Profile");
+                }
+            }
+            //DbService.AddUser(user);
+        }
+        else
+        {
+            Title = "Registration failed. Try Again!";
+        }
     }
 }

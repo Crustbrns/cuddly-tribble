@@ -1,0 +1,65 @@
+﻿@page "/Login"
+@using LoginKiri.Db
+@using LoginKiri.Db.AuthDbContext
+
+@inject NavigationManager NavigationManager
+
+<PageTitle>Index</PageTitle>
+
+<div>
+    <div class="main-form--login">
+        <div class="title">@Title</div>
+        <div class="field-holder"><input placeholder="Email" class="@email" maxlength=40 @onchange="EmailChanged" /></div>
+        <div class="field-holder"><input placeholder="Password" class="field" maxlength=20 type="password" @bind="Password" /></div>
+        <div class="lower-part">
+            <div class="button-holder"><button type="submit" class="create-button" @onclick="RedirectRegistration">Create account</button></div>
+            <div class="button-holder"><button type="submit" class="sign-button" @onclick="CheckLogin">Sign in</button></div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private string Title = "Login";
+    private string email = "field";
+
+    private string Email = string.Empty;
+    private string Password = string.Empty;
+
+    private void EmailChanged(Microsoft.AspNetCore.Components.ChangeEventArgs? args)
+    {
+        Email = args.Value.ToString();
+        email = Email.Contains("@") ? "field" : "field error-field";
+    }
+
+    private void RedirectRegistration()
+    {
+        NavigationManager.NavigateTo("/");
+    }
+
+    private void CheckLogin()
+    {
+        if (Email != string.Empty && Password != string.Empty)
+        {
+            using (var context = new AuthContext())
+            {
+                if (context.Users.Any(x => x.Email == Email && x.Password == Password))
+                {
+                    CurrentUser.user = new User() { Name = context.Users.First(x => x.Email == Email).Name, Email = Email, Password = Password };
+                    CurrentUser.isLogined = true;
+                    NavigationManager.NavigateTo("/Profile");
+                }
+                else
+                {
+                    Email = string.Empty;
+                    Password = string.Empty;
+                    Title = "Login failed. Try Again!";
+                }
+            }
+            //DbService.AddUser(user);
+        }
+        else
+        {
+            Title = "Login failed. Try Again!";
+        }
+    }
+}
