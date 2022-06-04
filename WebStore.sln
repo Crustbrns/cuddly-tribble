@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebStore", "WebStore\WebStore.csproj", "{2DA6A17D-14BA-4507-B33B-F034C099F6A0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebStore", "WebStore\WebStore.csproj", "{2DA6A17D-14BA-4507-B33B-F034C099F6A0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoginKiri", "LoginKiri\LoginKiri.csproj", "{2E618BB6-3401-43C4-9157-FE9DB128A5E3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{2DA6A17D-14BA-4507-B33B-F034C099F6A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2DA6A17D-14BA-4507-B33B-F034C099F6A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2DA6A17D-14BA-4507-B33B-F034C099F6A0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E618BB6-3401-43C4-9157-FE9DB128A5E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E618BB6-3401-43C4-9157-FE9DB128A5E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E618BB6-3401-43C4-9157-FE9DB128A5E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E618BB6-3401-43C4-9157-FE9DB128A5E3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

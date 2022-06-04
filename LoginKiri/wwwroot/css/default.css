@@ -1,0 +1,107 @@
+﻿body {
+    background-color: #7552cc;
+}
+
+.main-form--login {
+    width: 340px;
+    height: 240px;
+    margin: auto;
+    position: absolute;
+    top: 40%;
+    left: 44%;
+}
+
+.title{
+    color: white;
+    font-size: 14px;
+    margin-bottom: 14px;
+}
+
+.field-holder{
+    width:100%;
+}
+
+.field {
+    width: 100%;
+    padding: 10px 20px;
+    border-radius: 30px;
+    color: #553a99;
+    background-color: white;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.error-field {
+    color: #e4002b;
+    border: 2px solid #e4002b;
+}
+
+.password-lines {
+    display: flex;
+    justify-content: space-between;
+    width: 60%;
+}
+
+.line {
+    margin-top: 20px;
+    background-color: #553a99;
+    width: 30%;
+    height: 4px;
+    border-radius: 10px;
+    margin-left: 14px;
+}
+
+.password-strength {
+    font-size: 11px;
+    font-weight: bolder;
+    letter-spacing: 1px;
+    color: white;
+    margin: 14px 0 30px 0;
+}
+
+.lower-part {
+    display: flex;
+    justify-content: space-between;
+}
+
+.button-holder {
+    width: 45%;
+}
+
+.create-button {
+    border: 0;
+    padding: 10px 20px;
+    text-align: center;
+    border-radius: 30px;
+    background: linear-gradient(to right, #ffc845, #f48924);
+    font-size: 12px;
+    font-weight: bolder;
+    letter-spacing: 1px;
+    width: 100%;
+    transition: 0.3s ease;
+}
+
+    .create-button:hover {
+        background: linear-gradient(to right, #f37023, #ec1c24);
+        color: white;
+        transition: 0.3s ease;
+    }
+
+.sign-button {
+    padding: 10px 20px;
+    text-align: center;
+    color: white;
+    width:100%;
+    background-color: transparent;
+    border: 1px solid white;
+    border-radius: 30px;
+    font-size: 12px;
+    font-weight: bolder;
+    letter-spacing: 1px;
+    transition: 0.3s ease;
+}
+
+    .sign-button:hover {
+        background-color: rgba(255,255,255, 0.2);
+        transition: 0.3s ease;
+    }

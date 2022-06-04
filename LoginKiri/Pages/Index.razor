@@ -1,0 +1,35 @@
+﻿@page "/"
+
+<PageTitle>Index</PageTitle>
+
+<div>
+    <div class="main-form--login">
+        <div class="title">Registration</div>
+        <div class="field-holder"><input placeholder="Name" class="field" maxlength=12 Value="@user.Name" /></div>
+        <div class="field-holder"><input placeholder="Email" class="@email" maxlength=40 @onchange="EmailChanged" /></div>
+        <div class="field-holder"><input placeholder="Password" class="field" maxlength=20 type="password" Value="@user.Password" /></div>
+        <div style="display:flex">
+            <div class="password-strength">Password strength</div>
+            <div class=password-lines>
+                <div class="line"></div>
+                <div class="line"></div>
+                <div class="line"></div>
+            </div>
+        </div>
+        <div class="lower-part">
+            <div class="button-holder"><button type="submit" class="create-button">Create account</button></div>
+            <div class="button-holder"><button type="submit" class="sign-button">Sign in</button></div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private User user { get; set; } = new User();
+    private string email = "field";
+
+    private void EmailChanged(Microsoft.AspNetCore.Components.ChangeEventArgs args)
+    {
+        user.Email = args.Value.ToString();
+        email = user.Email.Contains("@") ? "field" : "field error-field";
+    }
+}
