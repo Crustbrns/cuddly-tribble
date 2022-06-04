@@ -1,0 +1,140 @@
+﻿@page "/"
+@using WebStore.Db.Context
+@using WebStore.Db.Model.Enum
+@using WebStore.Model
+
+<PageTitle>Store</PageTitle>
+@*
+    <h1>Hello, world!</h1>
+
+    Welcome to your new app.
+
+    <SurveyPrompt Title="How is Blazor working for you?" />*@
+
+<div class="main-title">
+    <span>iPhone 13 Pro</span>
+    <br />
+    <span style="font-size: 18px">Filters: @display_all_filters()</span>
+</div>
+<div style="display: flex">
+    <div style="width: 12%">
+        <div>
+            <span class="title-filter">Цена</span><br />
+            <div>
+                <input type="range" id="points" name="points" min="0" step="@step" max=@max_price @bind="@current_price" @bind:event="oninput">
+                <span><br />@current_price грн</span>
+            </div>
+
+            <hr />
+        </div>
+
+        <div>
+            <span class="title-filter">Встроенная память</span>
+            <ol class="ol-filter">
+                <li><label><input type="checkbox" @oninput="@(e=> CheckboxChanged(e.Value, "128Gb"))"><span> 128Gb</span></label></li>
+                <li><label><input type="checkbox" @oninput="@(e=> CheckboxChanged(e.Value, "256Gb"))"><span> 256Gb</span></label></li>
+                <li><label><input type="checkbox" @oninput="@(e=> CheckboxChanged(e.Value, "512Gb"))"><span> 512Gb</span></label></li>
+                <li><label><input type="checkbox" @oninput="@(e=> CheckboxChanged(e.Value, "1Tb"))"><span> 1Tb</span></label></li>
+            </ol>
+            <hr />
+        </div>
+
+        <div>
+            <span class="title-filter">Оперативная память</span>
+            <ol class="ol-filter">
+                <li><label><input type="checkbox" @oninput="@(e=> CheckboxChanged(e.Value, "2Gb"))"><span> 2Gb</span></label></li>
+                <li><label><input type="checkbox" @oninput="@(e=> CheckboxChanged(e.Value, "4Gb"))"><span> 4Gb</span></label></li>
+                <li><label><input type="checkbox" @oninput="@(e=> CheckboxChanged(e.Value, "6Gb"))"><span> 6Gb</span></label></li>
+            </ol>
+            <hr />
+        </div>
+
+        <div>
+            <span class="title-filter">Цвет</span>
+            <ol class="ol-filter">
+                <li><label><input type="checkbox" @oninput="@(e=> CheckboxChanged(e.Value, "Green"))"><span> Green</span></label></li>
+                <li><label><input type="checkbox" @oninput="@(e=> CheckboxChanged(e.Value, "Silver"))"><span> Silver</span></label></li>
+                <li><label><input type="checkbox" @oninput="@(e=> CheckboxChanged(e.Value, "Gold"))"><span> Gold</span></label></li>
+                <li><label><input type="checkbox" @oninput="@(e=> CheckboxChanged(e.Value, "Graphite"))"><span> Graphite</span></label></li>
+            </ol>
+            <hr />
+        </div>
+    </div>
+    <div class="store">
+
+        @foreach (var item in @AvailableByFilters())
+        {
+            <div class="card">
+                <div>
+                    <img class="card-image" src="@PhoneImage.Images.GetValueOrDefault(item.Color)" />
+                </div>
+                <div class="card-title">
+                    @item.Name @item.ROM (@item.Color)
+                </div>
+                <div class="card-price">
+                    @item.Price грн
+                </div>
+                <div class="card-buy-holder">
+                    <a href=""><span class="card-buy">Купить</span></a>
+                </div>
+                <div style="display: flex; justify-content: space-between;">
+                    <div class="card-availability">
+                        Есть в наличии
+                    </div>
+                    <div class="card-code">
+                        код: @item.Id
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+    StoreDbContext dbContext = new StoreDbContext();
+
+    private int max_price = 54000;
+    private int current_price = 43200;
+    private int step = 5400;
+
+    private List<string> filters { get; set; } = new List<string>();
+
+    private void CheckboxChanged(object? truth, string filter)
+    {
+        if (truth != null && Convert.ToBoolean(truth))
+        {
+            filters.Add(filter);
+        }
+        else
+        {
+            filters.Remove(filter);
+        }
+    }
+
+    private string display_all_filters()
+    {
+        string output = string.Empty;
+        foreach (var item in filters)
+        {
+            output += $"{item} ";
+        }
+        return output == string.Empty ? "All" : output;
+    }
+
+    private List<Phone> AvailableByFilters()
+    {
+        if (filters.Count == 0)
+            return dbContext.Phones.Where(x=>x.Price < current_price).ToList();
+
+        List<Phone> phones = new List<Phone>();
+        dbContext.Phones.ToList().ForEach(x =>
+        {
+            string[] Props = new string[] { x.Color, x.RAM, x.ROM };
+            if (filters.Any(y => Props.Contains(y)))
+            {
+                phones.Add(x);
+            }
+        });
+        return phones.Where(x=>x.Price < current_price).ToList();
+    }
+}
