@@ -51,6 +51,7 @@ button {
     .registration-button:hover {
         background-color: #061d2b;
         transition: 0.3s ease;
+        transform: scale(0.96);
     }
 
 .logo {
@@ -71,9 +72,10 @@ button {
 }
 
     .cart-button:hover {
-        padding: 14px;
+        padding: 15px;
         background-color: #6ddd5b;
         transition: 0.3s ease;
+        transform: scale(0.96);
     }
 
 .common-button {

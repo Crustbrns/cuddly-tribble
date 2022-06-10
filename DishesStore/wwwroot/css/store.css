@@ -67,7 +67,7 @@
     z-index: 4;
 }
 
-.category{
+.category {
     margin-right: 40px;
     font-size: 18px;
     font-family: 'Circe-R';
@@ -89,5 +89,89 @@
     margin-top: 40px;
     background-color: #fafafa;
     width: 100%;
-    height: 1080px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.card {
+    font-family: 'Circe-R';
+    width: 24%;
+    border: 0;
+    border-radius: 20px;
+    padding: 30px;
+    margin: 0 0.5% 4% 0.5%;
+    transition: 0.3s ease;
+}
+
+    .card:hover {
+        box-shadow: 0 0 30px 10px rgba(0,0,0,0.1);
+        transition: 0.3s ease;
+    }
+
+.card-title {
+    color: #0b2a3d;
+    font-size: 24px;
+    margin-bottom: 14px;
+    font-family: 'Circe-B';
+}
+
+.card-calorie {
+    color: #a1a9b0;
+    font-size: 15px;
+    margin-bottom: 6px;
+}
+
+.purchase-segment {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+}
+
+.card-price {
+    color: #0b2a3d;
+    font-size: 28px;
+    font-family: 'Circe-B';
+    margin-top: 10px;
+}
+
+.values-container {
+    display: flex;
+}
+
+.checkbox-value {
+    color: #a1abb1;
+    border: 2px solid #a1abb1;
+    border-radius: 9px;
+    font-family: 'Circe-R';
+    padding: 3px 8px;
+    font-size: 14px;
+    background-color: white;
+    margin-right: 10px;
+}
+
+.checkbox-active {
+    color: white;
+    background-color: #85ce78;
+    border-color: #85ce78;
+}
+
+.purchase-button {
+    background-color: #0b2a3d;
+    border-radius: 100%;
+    padding: 12px;
+    color: white;
+    width: auto;
+    transition: 0.3s ease;
+}
+
+    .purchase-button:hover {
+        background-color: #061d2b;
+        transition: 0.3s ease;
+        padding: 15px;
+        transform: scale(0.96);
+    }
+
+#PurchaseIcon {
+    fill: white;
+    height: 50px;
 }
