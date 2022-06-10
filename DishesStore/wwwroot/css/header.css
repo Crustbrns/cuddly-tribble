@@ -1,0 +1,100 @@
+﻿.header {
+    padding: 34px 60px;
+    max-width: 1920px;
+    margin: 0 auto;
+    font-family: 'Circe-R';
+    display: flex;
+    justify-content: space-between;
+}
+
+.noselect {
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -moz-user-select: none; /* Old versions of Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently */
+}
+
+button {
+    padding: 0;
+    border: none;
+    background: none;
+}
+
+.vertical-divide {
+    width: 2px;
+    background-color: #0b2a3d;
+    margin-right: 50px;
+}
+
+#Cart {
+    fill: white;
+    height: 50px;
+}
+
+.buttons-container {
+    display: flex;
+}
+
+.registration-button {
+    font-family: 'Circe-R';
+    padding: 11.5px 60px;
+    background-color: #0b2a3d;
+    color: white;
+    font-size: 18px;
+    border-radius: 10px;
+    margin: 10px 0px 0px 10px;
+    letter-spacing: 1px;
+    transition: 0.3s ease;
+}
+
+    .registration-button:hover {
+        background-color: #061d2b;
+        transition: 0.3s ease;
+    }
+
+.logo {
+    padding-top: 8px;
+    font-family: Circe-B;
+    color: #0b2a3d;
+}
+
+.cart-button {
+    background-color: #68c15a;
+    color: white;
+    border-radius: 10px;
+    letter-spacing: 1px;
+    padding: 12px;
+    width: auto;
+    margin: 10px 10px 10px 10px;
+    transition: 0.3s ease;
+}
+
+    .cart-button:hover {
+        padding: 14px;
+        background-color: #6ddd5b;
+        transition: 0.3s ease;
+    }
+
+.common-button {
+    font-family: 'Circe-B';
+    font-size: 20px;
+    font-weight: bold;
+    color: #0b2a3d;
+    margin: 20px 70px 0 0;
+    transition: 0.7s ease;
+}
+
+    .common-button:hover {
+        color: #051c29;
+        transition: 0.3s ease;
+    }
+
+
+.choosen-button {
+    color: #1d9dff;
+}
+
+.last-button {
+    margin-right: 50px;
+}

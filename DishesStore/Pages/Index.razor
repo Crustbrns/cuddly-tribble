@@ -1,9 +1,40 @@
 ﻿@page "/"
 
-<PageTitle>Index</PageTitle>
+<PageTitle>Store</PageTitle>
 
-<h1>Hello, world!</h1>
+<div class="site-holder">
+    <div class="main-container">
+        <div>
+            <h1 class="main-title">Dishes</h1>
+        </div>
 
-Welcome to your new app.
+        <div class="filters-container">
+            <div class="search-field">
+                <span class="search-label">Find by name</span>
+                <input class="input-field" placeholder="Filters" />
+            </div>
+            <div class="categories-field">
+                <div class="categories">
+                    <div class="category current-category">All</div>
+                    <div class="category">Vegan</div>
+                    <div class="category">Vegetables</div>
+                    <div class="category">Meat</div>
+                    <div class="category">Low Carb</div>
+                    <div class="category">Snack</div>
+                    <div class="category">For Kids</div>
+                </div>
+                <div class="category-pointer">
+                    •
+                </div>
+            </div>
+        </div>
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+        <div class="assortment-container">
+            s
+        </div>
+    </div>
+</div>
+
+@code {
+
+}

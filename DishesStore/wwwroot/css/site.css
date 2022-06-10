@@ -1,5 +1,25 @@
 @import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
 
+@font-face {
+    font-family: Circe-B;
+    src: url('/fonts/Circe-Bold.otf');
+}
+
+@font-face {
+    font-family: Circe-R;
+    src: url('/fonts/Circe-Regular.otf');
+}
+
+@font-face {
+    font-family: Circe-L;
+    src: url('/fonts/Circe-Light.otf');
+}
+
+@font-face {
+    font-family: Circe-EB;
+    src: url('/fonts/Circe-ExtraBold.otf');
+}
+
 html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }

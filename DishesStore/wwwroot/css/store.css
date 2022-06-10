@@ -1,0 +1,93 @@
+﻿.site-holder {
+    max-width: 1920px;
+    margin: 0px auto;
+}
+
+.main-container {
+    margin: 60px 200px 0px 200px;
+}
+
+.main-title {
+    font-family: 'Circe-EB';
+    color: #0b2a3d;
+    font-size: 50px;
+    letter-spacing: 1px;
+}
+
+
+#search {
+    fill: #0b2a3d;
+}
+
+.filters-container {
+    margin-top: 50px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.search-field {
+    width: 25%;
+    margin-right: 20px;
+}
+
+.search-label {
+    font-family: 'Circe-B';
+    margin-left: 22px;
+    padding: 0 4px;
+    background-color: white;
+    position: relative;
+    z-index: 2;
+}
+
+.input-field {
+    width: 100%;
+    max-width: 800px;
+    min-width: 200px;
+    border-radius: 16px;
+    margin-top: -14px;
+    padding: 14px 24px;
+    border: 2px solid #112837;
+    color: #3e5262;
+    position: relative;
+    z-index: 1;
+}
+
+.categories-field {
+    padding-top: 0;
+}
+
+.categories {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 15px;
+    white-space: nowrap;
+    color: #a0aab2;
+    position: relative;
+    z-index: 4;
+}
+
+.category{
+    margin-right: 40px;
+    font-size: 18px;
+    font-family: 'Circe-R';
+}
+
+.current-category {
+    color: #0b2a3f;
+}
+
+.category-pointer {
+    font-size: 30px;
+    padding: 0;
+    margin-top: -15px;
+    position: relative;
+    z-index: 3;
+}
+
+.assortment-container {
+    margin-top: 40px;
+    background-color: #fafafa;
+    width: 100%;
+    height: 1080px;
+}
