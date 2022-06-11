@@ -1,4 +1,8 @@
-﻿.site-holder {
+﻿ol {
+    list-style-type: none;
+}
+
+.site-holder {
     max-width: 1920px;
     margin: 0px auto;
 }
@@ -83,6 +87,7 @@
     padding: 0;
     margin-top: -15px;
     position: relative;
+    color: #68c15a;
     z-index: 3;
 }
 
@@ -114,6 +119,7 @@
 
     .card:hover {
         box-shadow: 0 0 30px 10px rgba(0,0,0,0.1);
+        transform: scale(1.04);
         transition: 0.3s ease;
     }
 

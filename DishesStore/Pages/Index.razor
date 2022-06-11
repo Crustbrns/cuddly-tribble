@@ -8,6 +8,11 @@
             <h1 class="main-title">Dishes</h1>
         </div>
 
+        <label><input type="radio" id="1"><span> 2Gb</span></label>
+        <label><input type="radio" id="2"><span> 4Gb</span></label>
+        <label><input type="radio" id="3"><span> 6Gb</span></label>
+
+
         <div class="filters-container">
             <div class="search-field">
                 <span class="search-label">Find by name</span>
@@ -31,11 +36,12 @@
     </div>
 </div>
 
+
 <div class="stretched">
     <div class="assortment-container">
         @for (int i = 0; i < 19; i++)
         {
-            <div class="card">
+            <element @onclick="myScript" class="card">
                 <div>
                     <img class="card-img" src="https://mercatopizzakurier.ch/wp-content/uploads/2019/10/1459955-free-png-pepperoni-pizza-png-images-transparent-free-png-images-pizza-850_834.png">
                 </div>
@@ -48,15 +54,57 @@
                         <div class="checkbox-value">600 kcal</div>
                     </div>
                     <div class="purchase-segment">
-                        <div class="card-price">$4</div>
-                        <button><svg class="purchase-button" id="PurchaseIcon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M24 3l-.743 2h-1.929l-3.474 12h-13.239l-4.615-11h16.812l-.564 2h-13.24l2.937 7h10.428l3.432-12h4.195zm-15.5 15c-.828 0-1.5.672-1.5 1.5 0 .829.672 1.5 1.5 1.5s1.5-.671 1.5-1.5c0-.828-.672-1.5-1.5-1.5zm6.9-7-1.9 7c-.828 0-1.5.671-1.5 1.5s.672 1.5 1.5 1.5 1.5-.671 1.5-1.5c0-.828-.672-1.5-1.5-1.5z" /></svg></button>
+                        <div class="card-price">$@name</div>
+                        <button @onclick="myScript1"><svg class="purchase-button" id="PurchaseIcon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M24 3l-.743 2h-1.929l-3.474 12h-13.239l-4.615-11h16.812l-.564 2h-13.24l2.937 7h10.428l3.432-12h4.195zm-15.5 15c-.828 0-1.5.672-1.5 1.5 0 .829.672 1.5 1.5 1.5s1.5-.671 1.5-1.5c0-.828-.672-1.5-1.5-1.5zm6.9-7-1.9 7c-.828 0-1.5.671-1.5 1.5s.672 1.5 1.5 1.5 1.5-.671 1.5-1.5c0-.828-.672-1.5-1.5-1.5z" /></svg></button>
                     </div>
                 </div>
-            </div>
+            </element>
         }
     </div>
 </div>
 
+<Confirmation @ref="confirmation" OnPurchase="OnPurchase">
+    <div>
+        <div>
+            <div>
+                <img class="" src="https://mercatopizzakurier.ch/wp-content/uploads/2019/10/1459955-free-png-pepperoni-pizza-png-images-transparent-free-png-images-pizza-850_834.png" />
+            </div>
+
+            <div>
+                <div class="values-container">
+                    <div class="checkbox-value checkbox-active">250 kcal</div>
+                    <div class="checkbox-value">400 kcal</div>
+                    <div class="checkbox-value">600 kcal</div>
+                </div>
+                <div class="card-title">Dish 1</div>
+            </div>
+        </div>
+    </div>
+</Confirmation>
+
 @code {
-    string name = "asd";
+    string name = "2";
+
+    private void myScript1()
+    {
+        name = "543";
+    }
+
+    private void myScript()
+    {
+        confirmation.Show();
+    }
+
+
+    private void CheckboxChanged(object? truth, string filter)
+    {
+        name = "5";
+    }
+
+    Confirmation confirmation;
+
+    private void OnPurchase()
+    {
+        confirmation.Hide();
+    }
 }

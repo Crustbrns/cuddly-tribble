@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebStore", "WebStore\WebSto
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoginKiri", "LoginKiri\LoginKiri.csproj", "{2E618BB6-3401-43C4-9157-FE9DB128A5E3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DishesStore", "DishesStore\DishesStore.csproj", "{3D6BF070-D944-4F5D-B5B2-29C2EC03C3BD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DishesStore", "DishesStore\DishesStore.csproj", "{3D6BF070-D944-4F5D-B5B2-29C2EC03C3BD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

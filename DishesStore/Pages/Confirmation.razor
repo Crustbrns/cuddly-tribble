@@ -1,0 +1,28 @@
+@if (isDisplaying)
+{
+    <div class="modal-backdrop show"></div>
+
+    <div class="modal fade show" id="elementDisplay" tabindex="-1" role="dialog"
+     aria-labelledby="elementDisplay" aria-hidden="true" style="display:block">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    @ChildContent
+                </div>
+                <div class="modal-footer">
+                    <button @onclick="OnPurchase" type="button" class="btn btn-light">Purchase</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    private bool isDisplaying { get; set; } = false;
+
+    [Parameter] public RenderFragment ChildContent { get; set; }
+    [Parameter] public EventCallback OnPurchase { get; set; }
+
+    public void Hide() => isDisplaying = false;
+    public void Show() => isDisplaying = true;
+}
