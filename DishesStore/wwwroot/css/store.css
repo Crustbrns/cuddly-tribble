@@ -68,7 +68,7 @@
 }
 
 .category {
-    margin-right: 40px;
+    margin-left: 40px;
     font-size: 18px;
     font-family: 'Circe-R';
 }
@@ -79,17 +79,26 @@
 
 .category-pointer {
     font-size: 30px;
+    margin-left: 40px;
     padding: 0;
     margin-top: -15px;
     position: relative;
     z-index: 3;
 }
 
-.assortment-container {
-    margin-top: 40px;
+.stretched {
+    margin: 40px auto 0 auto;
     background-color: #fafafa;
     width: 100%;
+}
+
+.assortment-container {
+    margin: 40px auto 0 auto;
+    padding: 40px 200px;
+    background-color: #fafafa;
     display: flex;
+    width: 100%;
+    max-width: 1920px;
     flex-wrap: wrap;
 }
 
@@ -107,6 +116,11 @@
         box-shadow: 0 0 30px 10px rgba(0,0,0,0.1);
         transition: 0.3s ease;
     }
+
+.card-img{
+    width: 100%;
+    height: auto;
+}
 
 .card-title {
     color: #0b2a3d;
