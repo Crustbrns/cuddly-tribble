@@ -1,11 +1,11 @@
 @if (isDisplaying)
 {
-    <div class="modal-backdrop show"></div>
+    <div class="modal-backdrop show-item-display" @onclick="Hide"></div>
 
     <div class="modal fade show" id="elementDisplay" tabindex="-1" role="dialog"
      aria-labelledby="elementDisplay" aria-hidden="true" style="display:block">
         <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
+            <div class="modal-content modal-item-stylized">
                 <div class="modal-body">
                     @ChildContent
                 </div>

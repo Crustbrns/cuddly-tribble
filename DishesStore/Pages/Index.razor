@@ -8,9 +8,9 @@
             <h1 class="main-title">Dishes</h1>
         </div>
 
-        <label><input type="radio" id="1"><span> 2Gb</span></label>
-        <label><input type="radio" id="2"><span> 4Gb</span></label>
-        <label><input type="radio" id="3"><span> 6Gb</span></label>
+        <label><input type="radio" id="1"><span> 2</span></label>
+        <label><input type="radio" id="2"><span> 4</span></label>
+        <label><input type="radio" id="3"><span> 6</span></label>
 
 
         <div class="filters-container">
@@ -65,18 +65,48 @@
 
 <Confirmation @ref="confirmation" OnPurchase="OnPurchase">
     <div>
-        <div>
-            <div>
-                <img class="" src="https://mercatopizzakurier.ch/wp-content/uploads/2019/10/1459955-free-png-pepperoni-pizza-png-images-transparent-free-png-images-pizza-850_834.png" />
+        <div class="item-display-container">
+            <div class="img-display-holder">
+                <img class="img-popup" src="https://mercatopizzakurier.ch/wp-content/uploads/2019/10/1459955-free-png-pepperoni-pizza-png-images-transparent-free-png-images-pizza-850_834.png" />
             </div>
 
-            <div>
-                <div class="values-container">
-                    <div class="checkbox-value checkbox-active">250 kcal</div>
-                    <div class="checkbox-value">400 kcal</div>
-                    <div class="checkbox-value">600 kcal</div>
+            <div class="additional-display-holder">
+                <div class="display-item-values-container">
+                    <div class="display-item-checkbox-value display-item-checkbox-active">250 kcal</div>
+                    <div class="display-item-checkbox-value">400 kcal</div>
+                    <div class="display-item-checkbox-value">600 kcal</div>
                 </div>
-                <div class="card-title">Dish 1</div>
+                <div class="display-item-card-title">Dish 1</div>
+                <div class="display-item-card-description">Dish description dish description dish description dish description dish description dish description</div>
+
+                <div>
+                    <div>
+                        proteins carbohydrates fats.
+                    </div>
+
+                    <div>
+                        <div>
+                            <div class="amount-label">
+                                Amount
+                            </div>
+                            <div style="display:flex">
+                                <div class="input-modal">
+                                    <span>@dishCount</span>
+                                </div>
+                                <div class="btns-container">
+                                    <div>
+                                        <button class="modal-button-count btn-green">+</button>
+                                    </div>
+                                    <div>
+                                        <button class="modal-button-count btn-red">-</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -84,6 +114,7 @@
 
 @code {
     string name = "2";
+    int dishCount = 0;
 
     private void myScript1()
     {
@@ -95,6 +126,10 @@
         confirmation.Show();
     }
 
+    private void CountChanged()
+    {
+
+    }
 
     private void CheckboxChanged(object? truth, string filter)
     {

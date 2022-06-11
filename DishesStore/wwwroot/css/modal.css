@@ -1,6 +1,110 @@
-﻿namespace DishesStore.wwwroot.css
-{
-    public class modal
-    {
-    }
+﻿.show-item-display {
+    opacity: .75;
+}
+
+.modal-item-stylized {
+    border-radius: 20px;
+}
+
+.item-display-popup {
+    width: 1000px;
+}
+
+.item-display-container {
+    display: flex;
+    width: 100%;
+}
+
+.img-display-holder {
+    width: 50%;
+    height: auto;
+    margin-right: 20px;
+}
+
+.additional-display-holder {
+    width: 50%;
+}
+
+.img-popup {
+    width: 100%;
+    height: auto;
+}
+
+.display-item-values-container {
+    display: flex;
+    margin-top: 60px;
+}
+
+.display-item-checkbox-value {
+    color: #a1abb1;
+    border: 2px solid #a1abb1;
+    border-radius: 9px;
+    font-family: 'Circe-R';
+    padding: 2px 6px;
+    font-size: 12px;
+    background-color: white;
+    margin-right: 10px;
+}
+
+.display-item-checkbox-active {
+    color: white;
+    background-color: #85ce78;
+    border-color: #85ce78;
+}
+
+.display-item-card-title {
+    color: #0b2a3d;
+    font-size: 40px;
+    margin: 20px 0 14px 0;
+    font-family: 'Circe-B';
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.amount-label {
+    color: #a3abb1;
+    margin: 20px 0 10px 0;
+    font-family: 'Circe-R';
+    font-size: 16px;
+}
+
+.input-modal {
+    border: 2px solid #0b2a3d;
+    text-align: center;
+    padding: 8px;
+    font-family: 'Circe-B';
+    font-size: 28px;
+    width: 60px;
+    height: 60px;
+    border-radius: 15px;
+}
+
+.modal-button-count {
+    border-radius: 100%;
+    width: 28px;
+    height: 28px;
+    background-color: black;
+    font-size: 21px;
+    text-align: center;
+    color: white;
+    font-family: 'Circe-L';
+}
+
+.btns-container {
+    margin-left: 6px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.btn-green {
+    background-color: #68c25a;
+}
+
+.btn-red {
+    background-color: #e76554;
 }
