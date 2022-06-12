@@ -13,6 +13,7 @@
 .item-display-container {
     display: flex;
     width: 100%;
+    margin-bottom: 40px;
 }
 
 .img-display-holder {
@@ -56,7 +57,7 @@
     color: #0b2a3d;
     font-size: 40px;
     margin: 20px 0 14px 0;
-    font-family: 'Circe-B';
+    font-family: 'Circe-EB';
 }
 
 input::-webkit-outer-spin-button,
@@ -67,9 +68,9 @@ input::-webkit-inner-spin-button {
 
 .amount-label {
     color: #a3abb1;
-    margin: 20px 0 10px 0;
+    margin-bottom: 10px;
     font-family: 'Circe-R';
-    font-size: 16px;
+    font-size: 14px;
 }
 
 .input-modal {
@@ -92,7 +93,14 @@ input::-webkit-inner-spin-button {
     text-align: center;
     color: white;
     font-family: 'Circe-L';
+    transition: 0.3s ease;
 }
+
+    .modal-button-count:hover {
+        transform: scale(0.96);
+        transition: 0.3s ease;
+        opacity: 0.85;
+    }
 
 .btns-container {
     margin-left: 6px;
@@ -103,8 +111,92 @@ input::-webkit-inner-spin-button {
 
 .btn-green {
     background-color: #68c25a;
+    color: white;
+    transition: 0.3s ease;
 }
+
+    .btn-green:hover {
+        background-color: #68c25a;
+        color: white;
+        opacity: 0.85;
+        transform: scale(0.96);
+        transition: 0.3s ease;
+    }
 
 .btn-red {
     background-color: #e76554;
 }
+
+.display-item-lower-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 60px;
+}
+
+.modal-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+
+.modal-section-last {
+    margin-right: 40px;
+    flex-direction: column-reverse;
+}
+
+.modal-item-price-label {
+    color: #a3abb1;
+    margin: 0 0 0px 0;
+    font-family: 'Circe-R';
+    font-size: 14px;
+}
+
+.modal-item-price {
+    color: #0b2a3d;
+    font-size: 43px;
+    margin-top: -6px;
+    font-family: 'Circe-B';
+}
+
+.modal-item-totalprice {
+    color: #3c5261;
+    font-size: 19px;
+    margin-top: -11px;
+    font-family: 'Circe-R';
+}
+
+.btn-purchase {
+    background-color: #03253a;
+    color: white;
+    font-family: 'Circe-R';
+    padding: 4px 24px;
+    transition: 0.3s ease;
+    margin-top: -11px;
+}
+
+    .btn-purchase:hover {
+        background-color: #03253a;
+        color: white;
+        opacity: 0.85;
+        transform: scale(0.96);
+        transition: 0.3s ease;
+    }
+
+.additional-section {
+    display: flex;
+    justify-content: space-between;
+}
+
+.cross-btn {
+    color: #03253a;
+    transition: 0.3s ease;
+    opacity: 1;
+}
+
+    .cross-btn:hover {
+        color: #e4002b;
+        opacity: 0.98;
+        transform: scale(0.8);
+        transition: 0.3s ease;
+    }

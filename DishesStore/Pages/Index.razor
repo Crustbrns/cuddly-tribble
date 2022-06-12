@@ -1,4 +1,5 @@
 ﻿@page "/"
+@using DishesStore.Data
 
 <PageTitle>Store</PageTitle>
 
@@ -71,10 +72,15 @@
             </div>
 
             <div class="additional-display-holder">
-                <div class="display-item-values-container">
-                    <div class="display-item-checkbox-value display-item-checkbox-active">250 kcal</div>
-                    <div class="display-item-checkbox-value">400 kcal</div>
-                    <div class="display-item-checkbox-value">600 kcal</div>
+                <div class="additional-section">
+                    <div class="display-item-values-container">
+                        <div class="display-item-checkbox-value display-item-checkbox-active">250 kcal</div>
+                        <div class="display-item-checkbox-value">400 kcal</div>
+                        <div class="display-item-checkbox-value">600 kcal</div>
+                    </div>
+                    <div>
+                        <button class="cross-btn" @onclick="OnPurchase">&#9932;</button>
+                    </div>
                 </div>
                 <div class="display-item-card-title">Dish 1</div>
                 <div class="display-item-card-description">Dish description dish description dish description dish description dish description dish description</div>
@@ -85,25 +91,43 @@
                     </div>
 
                     <div>
-                        <div>
-                            <div class="amount-label">
-                                Amount
-                            </div>
-                            <div style="display:flex">
-                                <div class="input-modal">
-                                    <span>@dishCount</span>
+                        <div class="display-item-lower-container">
+                            <div>
+                                <div class="amount-label">
+                                    Amount
                                 </div>
-                                <div class="btns-container">
-                                    <div>
-                                        <button class="modal-button-count btn-green">+</button>
+                                <div style="display:flex">
+                                    <div class="input-modal">
+                                        <span>@dishCount</span>
                                     </div>
-                                    <div>
-                                        <button class="modal-button-count btn-red">-</button>
+                                    <div class="btns-container">
+                                        <div>
+                                            <button class="modal-button-count btn-green" @onclick="CountIncrease">+</button>
+                                        </div>
+                                        <div>
+                                            <button class="modal-button-count btn-red" @onclick="CountDecrease">-</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div>
+                            <div>
+                                <div class="modal-section">
+                                    <div class="modal-item-price-label">
+                                        Price
+                                    </div>
+                                    <div class="modal-item-price">
+                                        @dishPrice usd.
+                                    </div>
+                                    <div class="modal-item-totalprice">
+                                        Total: <span style="font-family: 'Circe-B'">@totalPrice usd.</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-section modal-section-last">
+                                <div>
+                                    <button @onclick="OnPurchase" type="button" class="btn btn-purchase">Purchase</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -114,7 +138,9 @@
 
 @code {
     string name = "2";
-    int dishCount = 0;
+    int dishCount = 1;
+    double dishPrice = 4;
+    double totalPrice = 4;
 
     private void myScript1()
     {
@@ -131,6 +157,18 @@
 
     }
 
+    private void CountIncrease()
+    {
+        dishCount += (dishCount == 10 ? 0 : 1);
+        totalPrice = dishCount * dishPrice;
+    }
+
+    private void CountDecrease()
+    {
+        dishCount -= (dishCount == 1 ? 0 : 1);
+        totalPrice = dishCount * dishPrice;
+    }
+
     private void CheckboxChanged(object? truth, string filter)
     {
         name = "5";
@@ -141,5 +179,7 @@
     private void OnPurchase()
     {
         confirmation.Hide();
+        Cart.AddPrice(totalPrice);
+        dishCount = 1;
     }
 }
