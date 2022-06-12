@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using WebStore.Model;
+using Microsoft.Extensions.Configuration;
 
 namespace WebStore.Db.Context
 {
@@ -13,7 +14,8 @@ namespace WebStore.Db.Context
 
         protected override void OnConfiguring(DbContextOptionsBuilder dbContextOptionsBuilder)
         {
-            dbContextOptionsBuilder.UseSqlServer("Data Source=kiridb.cl7x24udak66.eu-central-1.rds.amazonaws.com;Initial Catalog=STORE;Persist Security Info=True;User ID=admin;Password=EgorPrivet123");
+            
+            dbContextOptionsBuilder.UseSqlServer("Data Source=kiridb.cl7x24udak66.eu-central-1.rds.amazonaws.com;Initial Catalog=STORE;Persist Security Info=True;User ID=admin;Password=egorprivet123");
         }
 
         public DbSet<Phone> Phones { get; set; } = null!;
