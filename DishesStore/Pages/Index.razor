@@ -1,5 +1,6 @@
 ﻿@page "/"
 @using DishesStore.Data
+@using DishesStore.Db.Model
 
 <PageTitle>Store</PageTitle>
 
@@ -40,14 +41,14 @@
 
 <div class="stretched">
     <div class="assortment-container">
-        @for (int i = 0; i < 19; i++)
+        @foreach(var item in @dishes)
         {
             <element @onclick="myScript" class="card">
                 <div>
                     <img class="card-img" src="https://mercatopizzakurier.ch/wp-content/uploads/2019/10/1459955-free-png-pepperoni-pizza-png-images-transparent-free-png-images-pizza-850_834.png">
                 </div>
                 <div>
-                    <div class="card-title">Dish 1</div>
+                    <div class="card-title">@item.Name</div>
                     <div class="card-calorie">Calorieness</div>
                     <div class="values-container">
                         <div class="checkbox-value checkbox-active">250 kcal</div>
@@ -55,8 +56,8 @@
                         <div class="checkbox-value">600 kcal</div>
                     </div>
                     <div class="purchase-segment">
-                        <div class="card-price">$@name</div>
-                        <button @onclick="myScript1" @onclick:stopPropagation="true" @onclick:preventDefault="true"><svg class="purchase-button" id="PurchaseIcon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M24 3l-.743 2h-1.929l-3.474 12h-13.239l-4.615-11h16.812l-.564 2h-13.24l2.937 7h10.428l3.432-12h4.195zm-15.5 15c-.828 0-1.5.672-1.5 1.5 0 .829.672 1.5 1.5 1.5s1.5-.671 1.5-1.5c0-.828-.672-1.5-1.5-1.5zm6.9-7-1.9 7c-.828 0-1.5.671-1.5 1.5s.672 1.5 1.5 1.5 1.5-.671 1.5-1.5c0-.828-.672-1.5-1.5-1.5z" /></svg></button>
+                        <div class="card-price">$@item.Price</div>
+                        <button id="@item.Id" @onclick="myScript1" @onclick:stopPropagation="true" @onclick:preventDefault="true"><svg class="purchase-button" id="PurchaseIcon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M24 3l-.743 2h-1.929l-3.474 12h-13.239l-4.615-11h16.812l-.564 2h-13.24l2.937 7h10.428l3.432-12h4.195zm-15.5 15c-.828 0-1.5.672-1.5 1.5 0 .829.672 1.5 1.5 1.5s1.5-.671 1.5-1.5c0-.828-.672-1.5-1.5-1.5zm6.9-7-1.9 7c-.828 0-1.5.671-1.5 1.5s.672 1.5 1.5 1.5 1.5-.671 1.5-1.5c0-.828-.672-1.5-1.5-1.5z" /></svg></button>
                     </div>
                 </div>
             </element>
@@ -142,6 +143,9 @@
     double dishPrice = 4;
     double totalPrice = 4;
 
+    List<Dish> dishes = new List<Dish>();
+    //List<Dish> dishes = new List<Dish>() { new Dish() { Id = 0, Name = "Dish 0", Description = "Desc 0", Price = 1, IsAvailable = true } };
+
     private void myScript1()
     {
         name = "543";
@@ -181,5 +185,21 @@
         confirmation.Hide();
         Cart.AddPrice(totalPrice);
         dishCount = 1;
+    }
+
+    protected override void OnInitialized()
+    {
+        for (int i = 0; i < 20; i++)
+        {
+            dishes.Add(new Dish()
+                {
+                    Id = i,
+                    Name = $"Dish {i}",
+                    Description = $"Description {i}",
+                    Price = i,
+                    IsAvailable = true
+                });
+        }
+        base.OnInitialized();
     }
 }
