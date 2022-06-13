@@ -30,30 +30,68 @@
                     }
                 }
             </div>
-            <div>
-                <textarea class="conversation-input-message" rows="2"
-                          @bind-value="MessageBody"
-                          @bind-value:event="oninput"
-                          @onkeydown="@SubmitMessage" 
-                          maxlength = "160"/>
-                @*<textarea type="text" class="conversation-input-message" placeholder="Express your feelings with other people." />*@
+            <div style="display: flex; width: 100%">
+                <div style="width: 100%">
+                    @*<textarea class="conversation-input-message" rows="@Rows"
+                        @bind-value="MessageBody"
+                        @onkeydown="@SubmitMessage"
+                        @bind-value:event="oninput"
+                        maxlength="160" />
+                        <textarea class="conversation-input-message" rows="@Rows"
+                        spellcheck="false"
+                        @oninput="OnInputHandle"
+                        @onkeydown="@SubmitMessage"
+                        maxlength="160">@MessageBody</textarea>*@
+                    <textarea class="conversation-input-message" rows="@Rows"
+                              @bind-value:event="oninput"
+                              @bind-value="MessageBody"
+                              @onkeydown="@SubmitMessage"
+                              maxlength="160" />
+                    @*<textarea class="conversation-input-message" rows="@Rows"
+                        @bind-value="MessageBody"
+                        @onkeypress="SubmitMessage"
+                        maxlength="160" />*@
+                    @*<textarea type="text" class="conversation-input-message" placeholder="Express your feelings with other people." />*@
+                </div>
+                <div style="width: 3%">
+                </div>
             </div>
         </div>
     </div>
 </div>
 
 @code {
-    string MessageBody = string.Empty;
+    int Rows = 2;
+    string LastMessageBody = string.Empty;
+
+    string _MessageBody { get; set; } = string.Empty;
+    string MessageBody
+    {
+        get => _MessageBody;
+        set
+        {
+            _MessageBody = value;
+            CalcRows();
+            StateHasChanged();
+        }
+    }
+
+    private void CalcRows()
+    {
+        Rows = Math.Max(MessageBody.Split('\n').Length, 2);
+    }
 
     private void SubmitMessage(KeyboardEventArgs e)
     {
         if (e.Code == "Enter")
         {
-            if (MessageBody != "")
+            CalcRows();
+            if (MessageBody.Trim() != string.Empty)
             {
-                Dialog.AddMessage(new Message(MessageBody));
-                MessageBody = string.Empty;
-                return;
+                LastMessageBody = MessageBody;
+                Dialog.AddMessage(new Message(MessageBody.ToString()));
+                MessageBody = "";
+                StateHasChanged();
             }
         }
     }
