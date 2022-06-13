@@ -1,0 +1,117 @@
+﻿hr {
+    color: #b6b6b6;
+}
+
+.cart-container {
+    display: flex;
+    margin: 0 auto 0 auto;
+    justify-content: space-between;
+    background-color: #fafafa;
+    display: flex;
+    padding: 0 240px;
+    width: 100%;
+    max-width: 1920px;
+    flex-wrap: wrap;
+}
+
+.cart-holder {
+    display: flex;
+    justify-content: space-between;
+    height: 2000px;
+    width: 100%;
+    margin-top: 140px;
+    padding: 0 140px;
+}
+
+.cart-left-part {
+    width: 66%;
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 0 10px 4px rgba(0,0,0,0.035);
+}
+
+.cart-right-part {
+    width: 32%;
+    height: 500px;
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 0 10px 4px rgba(0,0,0,0.035);
+}
+
+.content-holder {
+    padding: 24px;
+}
+
+.cart-title {
+    font-family: 'Circe-R';
+    font-size: 26px;
+}
+
+.delivery-title {
+    font-family: 'Circe-R';
+    font-size: 20px;
+    color: #585757;
+}
+
+.cart-warn-title {
+    margin-top: 20px;
+    font-family: 'Circe-R';
+    font-size: 16px;
+    color: #585757;
+}
+
+.cart-item {
+    width: 100%;
+    display: flex;
+    transition: 0.3s ease;
+}
+
+    .cart-item:hover {
+        transform: scale(1.03);
+        transition: 0.3s ease;
+    }
+
+.cart-item-image {
+    width: 100%;
+    height: auto;
+    border: 1px solid #f8f8f8;
+    border-radius: 15px;
+    background-color: #f8f8f8;
+}
+
+.cart-item-additional-info {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    margin-left: 20px;
+    width: 100%;
+}
+
+.cart-info-part {
+    display: flex;
+    justify-content: space-between;
+}
+
+.cart-item-title {
+    font-family: 'Circe-B';
+    font-size: 20px;
+    color: #0b2a3d;
+}
+
+.cart-item-total-price {
+    font-family: 'Circe-EB';
+    font-size: 20px;
+    color: #0b2a3d;
+}
+
+.cart-item-price {
+    font-family: 'Circe-R';
+    font-size: 16px;
+    color: #828282;
+}
+
+.cart-remove-button {
+    font-family: 'Circe-R';
+    font-size: 16px;
+    color: #828282;
+}

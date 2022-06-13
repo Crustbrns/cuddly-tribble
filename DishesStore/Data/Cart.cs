@@ -13,5 +13,6 @@ namespace DishesStore.Data
         }
         public static void AddPrice(double price) => Price += price;
         public static void AddItem(Dish dish) => Dishes.Add(dish);
+        public static void RemoveItem(Dish dish) => Dishes.Remove(dish);
     }
 }
