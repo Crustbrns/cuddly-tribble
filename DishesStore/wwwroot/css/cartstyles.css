@@ -6,7 +6,7 @@
     display: flex;
     margin: 0 auto 0 auto;
     justify-content: space-between;
-    background-color: #fafafa;
+    background-color: #f1f3f4;
     display: flex;
     padding: 0 240px;
     width: 100%;
@@ -17,10 +17,11 @@
 .cart-holder {
     display: flex;
     justify-content: space-between;
-    height: 2000px;
+    /*height: 2000px;*/
     width: 100%;
     margin-top: 140px;
     padding: 0 140px;
+    margin-bottom: 240px;
 }
 
 .cart-left-part {
@@ -40,6 +41,7 @@
 
 .content-holder {
     padding: 24px;
+    height: auto;
 }
 
 .cart-title {
@@ -114,4 +116,10 @@
     font-family: 'Circe-R';
     font-size: 16px;
     color: #828282;
+    transition: 0.3s ease;
 }
+
+    .cart-remove-button:hover {
+        color: #e76554;
+        transition: 0.3s ease;
+    }

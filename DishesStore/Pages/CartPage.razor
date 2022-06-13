@@ -75,16 +75,11 @@
     </div>
 </div>
 
-<h3>Cart @Id @Cart.Price</h3>
-
 @code
 {
     int Id = 0;
     private void OnRemove(Dish dish)
     {
         Cart.RemoveItem(dish);
-        //List<Dish> dishes = new List<Dish>();
-        //dishes = @Cart.Dishes;
-        //@Cart.Dishes.RemoveAt(Id);
     }
 }

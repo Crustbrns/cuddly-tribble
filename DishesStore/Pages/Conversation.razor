@@ -1,0 +1,67 @@
+﻿@page "/chat"
+@using DishesStore.Data
+@using DishesStore.Db.Model
+
+<h3>Conversation</h3>
+
+
+<div class="stretched">
+    <div class="conversation-container">
+        <div style="margin-bottom: 240px;">
+            <div class="conversation-holder">
+                @{
+                    string lasttime = string.Empty;
+                    @foreach (var item in @Dialog.messages)
+                    {
+                        @if (@item.Time.ToString("HH:mm") != lasttime)
+                        {
+                            <div class="conversation-separate-time">
+                                @item.Time.ToString("HH:mm")
+                            </div>
+                        }
+                        lasttime = @item.Time.ToString("HH:mm");
+                        <div>
+                            <div>
+                                <div style="border-radius: "></div>
+                                <div class="conversation-message-username">@item.UserName says:</div>
+                            </div>
+                            <div class="conversation-message-body">@item.Body</div>
+                        </div>
+                    }
+                }
+            </div>
+            <div>
+                <textarea class="conversation-input-message" rows="2"
+                          @bind-value="MessageBody"
+                          @bind-value:event="oninput"
+                          @onkeydown="@SubmitMessage" 
+                          maxlength = "160"/>
+                @*<textarea type="text" class="conversation-input-message" placeholder="Express your feelings with other people." />*@
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    string MessageBody = string.Empty;
+
+    private void SubmitMessage(KeyboardEventArgs e)
+    {
+        if (e.Code == "Enter")
+        {
+            if (MessageBody != "")
+            {
+                Dialog.AddMessage(new Message(MessageBody));
+                MessageBody = string.Empty;
+            }
+        }
+    }
+
+    protected override void OnInitialized()
+    {
+        Dialog.AddMessage(new Message("asdddasdddasdddasdddasdddasdddasdddasdddasdddasdddasdddasdddasdddasdddasdddasdddasdddasdddasdddasdddasdddasdddasdddasdddasdddasdddasdddasdddasdddasdddasdddasdddasdddasdddasdddasdddasdddasdddasdddasdddasdddasdddasdddasdddasdddasdddasdddasdddasdddasdddasdddasdddasdddasddd"));
+
+        base.OnInitialized();
+
+    }
+}

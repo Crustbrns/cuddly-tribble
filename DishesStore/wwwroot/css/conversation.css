@@ -1,0 +1,94 @@
+﻿
+.conversation-container {
+    display: flex;
+    margin: 0 auto 0 auto;
+    justify-content: space-between;
+    background-color: #f1f3f4;
+    display: flex;
+    padding: 0 440px;
+    width: 100%;
+    max-width: 1920px;
+    flex-wrap: wrap;
+}
+
+.conversation-holder {
+    background-color: white;
+    height: 500px;
+    display: flex;
+    flex-direction: column-reverse;
+    width: 100%;
+    margin-top: 70px;
+    padding: 0 20px;
+    overflow-y: scroll;
+    border-radius: 15px;
+    box-shadow: 0 0 10px 4px rgba(0,0,0,0.035);
+    padding-bottom: 20px;
+}
+
+.conversation-message {
+    display: flex;
+    margin-top: 20px;
+    /*color: #969696;*/
+}
+
+.conversation-message-time {
+    font-size: 16px;
+    width: 5%;
+}
+
+.conversation-message-username {
+    margin-top: 20px;
+    color: black;
+}
+
+.conversation-message-body {
+    word-break: break-word;
+    overflow-wrap: break-word;
+    color: black;
+    width: 100%;
+    background-color: #f2f2f2;
+    border-radius: 0 15px 15px 15px;
+    padding: 15px;
+}
+
+.conversation-separate-time{
+    margin: 10px 0 30px 0;
+    font-size: 12px;
+    color: gray;
+    text-align: right;
+    width: 100%;
+}
+
+.conversation-input-message {
+    width: 100%;
+    background-color: white;
+    word-wrap: break-word;
+    word-break: break-all;
+    height: auto;
+    border-radius: 15px;
+    box-shadow: 0 0 10px 4px rgba(0,0,0,0.035);
+    margin-top: 20px;
+    padding: 15px;
+    border: 0;
+    resize: none;
+}
+
+.conversation-input-message-body {
+    border: 0;
+    padding: 0;
+    color: black;
+}
+
+conversation-input-message:focus, input:focus {
+    outline: none;
+}
+
+.conversation-input-message-body{
+    border: none;
+    overflow: auto;
+    outline: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    resize: none; /*remove the resize handle on the bottom right*/
+}

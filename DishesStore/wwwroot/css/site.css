@@ -97,7 +97,7 @@ a, .btn-link {
 }
 
     ::-webkit-scrollbar-thumb:hover {
-        background-color: #315bee;
+        background-color: #999999;
         transition: 1s ease 1s;
         -webkit-transition: 1s ease;
         -moz-transition: 1s ease;

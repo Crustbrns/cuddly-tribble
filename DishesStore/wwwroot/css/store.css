@@ -93,14 +93,14 @@
 
 .stretched {
     margin: 40px auto 0 auto;
-    background-color: #fafafa;
+    background-color: #f1f3f4;
     width: 100%;
 }
 
 .assortment-container {
     margin: 40px auto 0 auto;
     padding: 40px 200px;
-    background-color: #fafafa;
+    background-color: #f1f3f4;
     display: flex;
     width: 100%;
     max-width: 1920px;
