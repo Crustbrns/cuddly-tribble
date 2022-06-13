@@ -46,7 +46,7 @@
     overflow-wrap: break-word;
     color: black;
     width: 100%;
-    background-color: #f2f2f2;
+    background-color: #f1f3f4;
     border-radius: 0 15px 15px 15px;
     padding: 15px;
 }
@@ -71,6 +71,13 @@
     padding: 15px;
     border: 0;
     resize: none;
+    border: none;
+    overflow: auto;
+    outline: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    resize: none; /*remove the resize handle on the bottom right*/
 }
 
 .conversation-section {
@@ -97,3 +104,22 @@ conversation-input-message:focus, input:focus {
     box-shadow: none;
     resize: none; /*remove the resize handle on the bottom right*/
 }
+
+.conversation-submit-button {
+    background-color: white;
+    height: 50px;
+    text-align: center;
+    border-radius: 15px;
+    box-shadow: 0 0 10px 4px rgba(0,0,0,0.035);
+    margin-top: 20px;
+    padding: 15px;
+    width: 50px;
+    transition: 0.3s ease;
+}
+
+    .conversation-submit-button:hover {
+        transform: scale(0.85);
+        opacity: 0.9;
+        background-color: #f7f7f7;
+        transition: 0.3s ease;
+    }

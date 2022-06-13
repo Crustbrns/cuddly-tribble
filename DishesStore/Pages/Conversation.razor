@@ -30,8 +30,8 @@
                     }
                 }
             </div>
-            <div style="display: flex; width: 100%">
-                <div style="width: 100%">
+            <div style="display: flex; width: 100%; justify-content: space-between">
+                <div style="width: 93%;">
                     @*<textarea class="conversation-input-message" rows="@Rows"
                         @bind-value="MessageBody"
                         @onkeydown="@SubmitMessage"
@@ -53,7 +53,8 @@
                         maxlength="160" />*@
                     @*<textarea type="text" class="conversation-input-message" placeholder="Express your feelings with other people." />*@
                 </div>
-                <div style="width: 3%">
+                <div >
+                    <button class="conversation-submit-button" @onclick="ClickSubmit">➜</button>
                 </div>
             </div>
         </div>
@@ -81,6 +82,15 @@
         Rows = Math.Max(MessageBody.Split('\n').Length, 2);
     }
 
+    private void ClickSubmit()
+    {
+        if (MessageBody.Trim() != string.Empty)
+        {
+            Dialog.AddMessage(new Message(MessageBody.ToString()));
+            MessageBody = "";
+        }
+    }
+
     private void SubmitMessage(KeyboardEventArgs e)
     {
         if (e.Code == "Enter")
@@ -89,10 +99,8 @@
             if (MessageBody.Trim() != string.Empty)
             {
                 LastMessageBody = MessageBody;
-                Dialog.AddMessage(new Message(MessageBody.ToString()));
-                MessageBody = "";
                 StateHasChanged();
             }
         }
     }
-}
+        }
