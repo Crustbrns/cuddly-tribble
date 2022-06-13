@@ -3,6 +3,15 @@
 
 <h3>Cart @Cart.Price</h3>
 
+@foreach (var item in @Cart.Dishes)
+{
+    <div>@item.Name</div>
+    <div>@item.Description</div>
+    <div>@item.Price</div>
+    <div>@item.Id</div>
+    <br />
+}
+
 @code {
 
 }
