@@ -7,7 +7,7 @@
 
 <div class="stretched">
     <div class="conversation-container">
-        <div style="margin-bottom: 240px;">
+        <div class="conversation-section">
             <div class="conversation-holder">
                 @{
                     string lasttime = string.Empty;
@@ -53,15 +53,8 @@
             {
                 Dialog.AddMessage(new Message(MessageBody));
                 MessageBody = string.Empty;
+                return;
             }
         }
-    }
-
-    protected override void OnInitialized()
-    {
-        Dialog.AddMessage(new Message("asdddasdddasdddasdddasdddasdddasdddasdddasdddasdddasdddasdddasdddasdddasdddasdddasdddasdddasdddasdddasdddasdddasdddasdddasdddasdddasdddasdddasdddasdddasdddasdddasdddasdddasdddasdddasdddasdddasdddasdddasdddasdddasdddasdddasdddasdddasdddasdddasdddasdddasdddasdddasdddasddd"));
-
-        base.OnInitialized();
-
     }
 }

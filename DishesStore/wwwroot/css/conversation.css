@@ -51,7 +51,7 @@
     padding: 15px;
 }
 
-.conversation-separate-time{
+.conversation-separate-time {
     margin: 10px 0 30px 0;
     font-size: 12px;
     color: gray;
@@ -73,6 +73,11 @@
     resize: none;
 }
 
+.conversation-section {
+    margin-bottom: 240px;
+    width: 100%;
+}
+
 .conversation-input-message-body {
     border: 0;
     padding: 0;
@@ -83,7 +88,7 @@ conversation-input-message:focus, input:focus {
     outline: none;
 }
 
-.conversation-input-message-body{
+.conversation-input-message-body {
     border: none;
     overflow: auto;
     outline: none;
