@@ -84,6 +84,10 @@
         color: #0b2a3f;
     }
 
+    ul{
+        margin-top: 20px;
+    }
+
 .current-category {
     color: #0b2a3f;
 }

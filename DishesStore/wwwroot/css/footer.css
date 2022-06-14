@@ -1,0 +1,126 @@
+﻿
+.footer {
+    display: flex;
+    padding: 0;
+    height: 775px;
+    padding-left: 0;
+    padding-right: 0;
+    line-height: 44px;
+    background-color: #101010;
+    justify-content: space-between;
+}
+
+.column-spacing {
+    margin-right: 112px;
+}
+
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+    margin: auto;
+    width: 1260px;
+    padding-top: 100px;
+    padding-left: 0;
+    padding-right: 0;
+    margin-top: 70px
+}
+
+.footer-block {
+    display: flex;
+    align-items: flex-start;
+}
+
+.footer-column {
+    display: inline-block;
+    position: relative;
+    margin-right: 90px;
+    margin-top: 0px;
+}
+
+.footer-row {
+    font-size: 20px;
+    letter-spacing: 0.04em;
+    color: white;
+    margin-bottom: 0px;
+    font-family: 'Circe-R';
+    margin: 0px;
+    -webkit-transition: 0.2s ease;
+    -moz-transition: 0.2s ease;
+    -o-transition: 0.2s ease;
+}
+
+.footer-row:hover {
+    text-decoration: none;
+    color: #3369e7;
+    transition: ease 0.2s;
+}
+
+.white-logo {
+    display: inline;
+    padding: 0px 0 0 0;
+    height: 62px;
+    width: 62px;
+}
+
+
+a{
+    text-decoration: none;
+}
+
+.white-logo-text {
+    display: inline;
+    font-family: 'Circe-R';
+    padding: 20px 0 0 22px;
+    font-weight: bold;
+    color: white;
+    font-size: 60px;
+    letter-spacing: 0.02em;
+    position: relative;
+    top: 15px;
+}
+
+
+.full-white-logo {
+    margin: 0 0 0 100px;
+    display: inline-block;
+}
+
+
+@media(max-width:1502px) {
+
+    .footer-container {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 0;
+    }
+
+    .full-white-logo {
+        margin:0;
+    }
+
+
+    .footer-block {
+        justify-content: end;
+    }
+
+    .footer-column {
+        margin: 0px;
+        top: 0;
+    }
+    .footer-row {
+        font-size:14pt;
+    }
+
+    .column-spacing {
+        margin-right: 0px;
+    }
+
+    .footer-container {
+        justify-content: center;
+        margin: auto;
+        width: fit-content;
+    }
+
+    .footer-block {
+    }
+}

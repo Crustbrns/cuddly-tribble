@@ -49,7 +49,7 @@
     <div class="assortment-container">
         @if (@dishes.Count == 0 || (@searchQuery != string.Empty && @dishes.Where(x => x.Name.ToLower().Contains(searchQuery)).ToList().Count == 0))
         {
-            <div class="assortment-container-stretched">Sorry! Nothing has been found by your request!</div>
+            <div class="assortment-container-stretched">Sorry! Nothing has been found by your query!</div>
         }
         else
         {
