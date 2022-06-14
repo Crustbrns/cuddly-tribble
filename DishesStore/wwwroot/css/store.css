@@ -72,10 +72,17 @@
 }
 
 .category {
-    margin-left: 40px;
+    margin-left: 20px;
     font-size: 18px;
     font-family: 'Circe-R';
+    transition: 0.3s ease;
+    color: #bfc4c8;
 }
+
+    .category:hover {
+        transition: 0.3s ease;
+        color: #0b2a3f;
+    }
 
 .current-category {
     color: #0b2a3f;
@@ -107,6 +114,10 @@
     flex-wrap: wrap;
 }
 
+.assortment-container-stretched {
+    height: 600px;
+}
+
 .card {
     font-family: 'Circe-R';
     width: 24%;
@@ -123,7 +134,7 @@
         transition: 0.3s ease;
     }
 
-.card-img{
+.card-img {
     width: 100%;
     height: auto;
 }
@@ -194,4 +205,24 @@
 #PurchaseIcon {
     fill: white;
     height: 50px;
+}
+
+.store-categories {
+    list-style: none;
+}
+
+.store-categories-element {
+    display: inline-block;
+}
+
+.store-categories-element-input {
+    visibility: hidden;
+}
+
+label {
+    cursor: pointer;
+}
+
+.store-categories-element-input:checked + label {
+    color: #0b2a3f;
 }
