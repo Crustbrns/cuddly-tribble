@@ -12,7 +12,10 @@ namespace DishesStore.Data
             Dishes = new List<Dish>();
         }
         public static void AddPrice(double price) => Price += price;
-        public static void AddItem(Dish dish) => Dishes.Add(dish);
+        public static void AddItem(Dish dish)
+        {
+            if (Dishes.Count < 10) Dishes.Add(dish);
+        }
         public static void RemoveItem(Dish dish) => Dishes.Remove(dish);
     }
 }

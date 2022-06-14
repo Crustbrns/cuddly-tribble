@@ -2,9 +2,6 @@
 @using DishesStore.Data
 @using DishesStore.Db.Model
 
-<h3>Conversation</h3>
-
-
 <div class="stretched">
     <div class="conversation-container">
         <div class="conversation-section">
@@ -25,7 +22,9 @@
                                 <div style="border-radius: "></div>
                                 <div class="conversation-message-username">@item.UserName says:</div>
                             </div>
+                            <div style="float: left;">
                             <div class="conversation-message-body">@item.Body</div>
+                            </div>
                         </div>
                     }
                 }
@@ -84,7 +83,7 @@
 
     private void ClickSubmit()
     {
-        if (MessageBody.Trim() != string.Empty)
+        if (MessageBody.Trim() != string.Empty && !MessageBody.Contains("⠀"))
         {
             Dialog.AddMessage(new Message(MessageBody.ToString()));
             MessageBody = "";
