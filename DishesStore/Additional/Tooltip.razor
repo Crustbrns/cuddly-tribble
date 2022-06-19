@@ -1,0 +1,12 @@
+﻿
+<link href="css/tooltip.css" rel="stylesheet" />
+
+<div class="tooltip-wrapper">
+    <span>@Text</span>
+    @ChildContent
+</div>
+
+@code {
+    [Parameter] public RenderFragment ChildContent { get; set; }
+    [Parameter] public string Text { get; set; }
+}
