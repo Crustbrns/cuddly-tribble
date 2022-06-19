@@ -22,6 +22,7 @@
     margin-top: 140px;
     padding: 0 140px;
     margin-bottom: 240px;
+    align-items: flex-start;
 }
 
 .cart-left-part {
@@ -33,7 +34,6 @@
 
 .cart-right-part {
     width: 32%;
-    height: 500px;
     background-color: white;
     border-radius: 15px;
     box-shadow: 0 0 10px 4px rgba(0,0,0,0.035);
@@ -41,7 +41,6 @@
 
 .content-holder {
     padding: 24px;
-    height: auto;
 }
 
 .cart-title {
@@ -61,6 +60,7 @@
     font-family: 'Circe-R';
     font-size: 16px;
     color: #585757;
+    margin-bottom: 300px;
 }
 
 .cart-item {
@@ -202,6 +202,7 @@
     font-size: 14px;
     font-family: 'Circe-R';
 }
+
 .dish-cart-preview-title {
     color: #585757;
     font-size: 20px;
@@ -212,6 +213,39 @@
     font-family: 'Circe-B';
 }
 
-.delivery-additional{
+.dish-cart-preview-price-total {
+    color: #1c1c1c;
+}
+
+.delivery-additional {
     margin-bottom: 18px;
 }
+
+.proceed-button {
+    padding: 15px 0;
+    background-color: #0085ff;
+    text-align: center;
+    width: 100%;
+    border-radius: 15px;
+    color: white;
+    text-decoration: none;
+    font-family: 'Circe-R';
+    box-shadow: 0 5px 5px rgba(0, 0, 0, 0.03);
+    transition: 0.3s ease;
+}
+
+    .proceed-button:hover {
+        background-color: #0074df;
+        transition: 0.3s ease;
+    }
+
+
+.proceed-button-to-index {
+    color: #1c1c1c;
+    background-color: white;
+    border: 2px solid #e8e8e8;
+}
+
+    .proceed-button-to-index:hover {
+        background-color: #f1f1f1;
+    }

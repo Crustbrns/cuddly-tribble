@@ -2,75 +2,77 @@
 @using DishesStore.Data
 @using DishesStore.Db.Model
 
-<PageTitle>Store</PageTitle>
+<PageTitle>Catalogue</PageTitle>
 
-<div class="site-holder">
-    <div class="main-container">
-        <div>
-            <h1 class="main-title">Dishes</h1>
-        </div>
-
-        <div class="filters-container">
-            <div class="search-field">
-                <span class="search-label">Find by name</span>
-                <input class="input-field" maxlength="30" placeholder="Filters" @bind-value="searchQuery" @bind-value:event="oninput" />
+<div class="@blurclass">
+    <div class="site-holder">
+        <div class="main-container">
+            <div>
+                <h1 class="main-title">Dishes</h1>
             </div>
-            <div class="categories-field">
-                <div class="categories">
-                    <div class="">
-                        <ul class="store-categories">
-                            @{
-                                int id = 1;
-                                @foreach (var item in @categories)
-                                {
-                                    <li class="store-categories-element">
-                                        <input class="store-categories-element-input" type='radio' value='@id' name='radio' id='radio@(id)' />
-                                        <label class="category" for='radio@(id)'>@item.Name</label>
-                                    </li>
 
-                                    id++;
+            <div class="filters-container">
+                <div class="search-field">
+                    <span class="search-label">Find by name</span>
+                    <input class="input-field" maxlength="30" placeholder="Filters" @bind-value="searchQuery" @bind-value:event="oninput" />
+                </div>
+                <div class="categories-field">
+                    <div class="categories">
+                        <div class="">
+                            <ul class="store-categories">
+                                @{
+                                    int id = 1;
+                                    @foreach (var item in @categories)
+                                    {
+                                        <li class="store-categories-element">
+                                            <input class="store-categories-element-input" type='radio' value='@id' name='radio' id='radio@(id)'/>
+                                            <label class="category" for='radio@(id)'>@item.Name</label>
+                                        </li>
+
+                                        id++;
+                                    }
                                 }
-                            }
-                        </ul>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
 
-<div class="stretched">
-    <div class="assortment-container">
-        @if (@dishes.Count == 0 || (@searchQuery != string.Empty && @dishes.Where(x => x.Name.ToLower().Contains(searchQuery)).ToList().Count == 0))
-        {
-            <div class="assortment-container-stretched">Sorry! Nothing has been found by your query!</div>
-        }
-        else
-        {
-            @foreach (var item in searchQuery == string.Empty ? @dishes : @dishes.Where(x => x.Name.ToLower().Contains(searchQuery)))
+    <div class="stretched">
+        <div class="assortment-container">
+            @if (@dishes.Count == 0 || (@searchQuery != string.Empty && @dishes.Where(x => x.Name.ToLower().Contains(searchQuery)).ToList().Count == 0))
             {
-                <element @onclick="myScript" class="card">
-                    <div>
-                        <img class="card-img" src="https://mercatopizzakurier.ch/wp-content/uploads/2019/10/1459955-free-png-pepperoni-pizza-png-images-transparent-free-png-images-pizza-850_834.png">
-                    </div>
-                    <div>
-                        <div class="card-title">@item.Name</div>
-                        <div class="card-calorie">Calorieness</div>
-                        <div class="values-container">
-                            <div class="checkbox-value checkbox-active">250 kcal</div>
-                            <div class="checkbox-value">400 kcal</div>
-                            <div class="checkbox-value">600 kcal</div>
-                        </div>
-                        <div class="purchase-segment">
-                            <div class="card-price">$@item.Price</div>
-                            @*<button id="@item.Id" @onclick="myScript1" @onclick:stopPropagation="true" @onclick:preventDefault="true"><svg class="purchase-button" id="PurchaseIcon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M24 3l-.743 2h-1.929l-3.474 12h-13.239l-4.615-11h16.812l-.564 2h-13.24l2.937 7h10.428l3.432-12h4.195zm-15.5 15c-.828 0-1.5.672-1.5 1.5 0 .829.672 1.5 1.5 1.5s1.5-.671 1.5-1.5c0-.828-.672-1.5-1.5-1.5zm6.9-7-1.9 7c-.828 0-1.5.671-1.5 1.5s.672 1.5 1.5 1.5 1.5-.671 1.5-1.5c0-.828-.672-1.5-1.5-1.5z" /></svg></button>*@
-                            <button @onclick="@((args)=>myScript1(@item))" @onclick:stopPropagation="true" @onclick:preventDefault="true"><svg class="purchase-button" id="PurchaseIcon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M24 3l-.743 2h-1.929l-3.474 12h-13.239l-4.615-11h16.812l-.564 2h-13.24l2.937 7h10.428l3.432-12h4.195zm-15.5 15c-.828 0-1.5.672-1.5 1.5 0 .829.672 1.5 1.5 1.5s1.5-.671 1.5-1.5c0-.828-.672-1.5-1.5-1.5zm6.9-7-1.9 7c-.828 0-1.5.671-1.5 1.5s.672 1.5 1.5 1.5 1.5-.671 1.5-1.5c0-.828-.672-1.5-1.5-1.5z" /></svg></button>
-                        </div>
-                    </div>
-                </element>
+                <div class="assortment-container-stretched">Sorry! Nothing has been found by your query!</div>
             }
-        }
+            else
+            {
+                @foreach (var item in searchQuery == string.Empty ? @dishes : @dishes.Where(x => x.Name.ToLower().Contains(searchQuery)))
+                {
+                    <element @onclick="myScript" class="card">
+                        <div>
+                            <img class="card-img" src="https://mercatopizzakurier.ch/wp-content/uploads/2019/10/1459955-free-png-pepperoni-pizza-png-images-transparent-free-png-images-pizza-850_834.png">
+                        </div>
+                        <div>
+                            <div class="card-title">@item.Name</div>
+                            <div class="card-calorie">Calorieness</div>
+                            <div class="values-container">
+                                <div class="checkbox-value checkbox-active">250 kcal</div>
+                                <div class="checkbox-value">400 kcal</div>
+                                <div class="checkbox-value">600 kcal</div>
+                            </div>
+                            <div class="purchase-segment">
+                                <div class="card-price">$@item.Price</div>
+                                @*<button id="@item.Id" @onclick="myScript1" @onclick:stopPropagation="true" @onclick:preventDefault="true"><svg class="purchase-button" id="PurchaseIcon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M24 3l-.743 2h-1.929l-3.474 12h-13.239l-4.615-11h16.812l-.564 2h-13.24l2.937 7h10.428l3.432-12h4.195zm-15.5 15c-.828 0-1.5.672-1.5 1.5 0 .829.672 1.5 1.5 1.5s1.5-.671 1.5-1.5c0-.828-.672-1.5-1.5-1.5zm6.9-7-1.9 7c-.828 0-1.5.671-1.5 1.5s.672 1.5 1.5 1.5 1.5-.671 1.5-1.5c0-.828-.672-1.5-1.5-1.5z" /></svg></button>*@
+                                <button @onclick="@((args)=>myScript1(@item))" @onclick:stopPropagation="true" @onclick:preventDefault="true"><svg class="purchase-button" id="PurchaseIcon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M24 3l-.743 2h-1.929l-3.474 12h-13.239l-4.615-11h16.812l-.564 2h-13.24l2.937 7h10.428l3.432-12h4.195zm-15.5 15c-.828 0-1.5.672-1.5 1.5 0 .829.672 1.5 1.5 1.5s1.5-.671 1.5-1.5c0-.828-.672-1.5-1.5-1.5zm6.9-7-1.9 7c-.828 0-1.5.671-1.5 1.5s.672 1.5 1.5 1.5 1.5-.671 1.5-1.5c0-.828-.672-1.5-1.5-1.5z" /></svg></button>
+                            </div>
+                        </div>
+                    </element>
+                }
+            }
+        </div>
     </div>
 </div>
 
@@ -153,9 +155,11 @@
     double totalPrice = 4;
     string searchQuery = "";
 
+    string blurclass = "";
+
     List<Dish> dishes = new List<Dish>();
     List<Category> categories = new List<Category>();
-    
+
     private void myScript1(Dish dish)
     {
         Cart.AddItem(dish);
@@ -164,6 +168,7 @@
     private void myScript()
     {
         confirmation.Show();
+        blurclass = "site-blur";
     }
 
     private void CountChanged()
@@ -193,8 +198,9 @@
     private void OnPurchase()
     {
         confirmation.Hide();
-        Cart.AddPrice(totalPrice);
-        dishCount = 1;
+        //Cart.AddPrice(totalPrice);
+        //dishCount = 1;
+        blurclass = "";
     }
 
     protected override void OnInitialized()
@@ -204,7 +210,7 @@
             dishes.Add(new Dish()
                 {
                     Id = i,
-                    Name = $"Dish {i}",
+                    Name = $"Pizza {i}",
                     Description = $"Description {i}",
                     Price = i,
                     IsAvailable = true

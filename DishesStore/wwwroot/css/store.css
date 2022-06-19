@@ -1,4 +1,9 @@
-﻿ol {
+﻿.site-blur {
+    filter: blur(10px);
+    transition: 0.3s ease-out;
+}
+
+ol {
     list-style-type: none;
 }
 

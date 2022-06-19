@@ -2,6 +2,7 @@
 @using DishesStore.Data
 @using DishesStore.Db.Model
 
+<PageTitle>Cart</PageTitle>
 
 <div class="stretched">
     <div class="cart-container">
@@ -61,43 +62,78 @@
             </div>
 
             <div class="cart-right-part">
-                <div class="content-holder">
-                    <div>
-                        <h4 class="delivery-title">Delivery</h4>
-                        <div style="display: flex; justify-content: space-between;">
-                            <div class="switch-field">
-                                <input type="radio" id="radio-one" name="switch-one" value="Pickup" checked @onchange="ChangeState" />
-                                <label for="radio-one">PickUp</label>
-                                <input type="radio" id="radio-two" name="switch-one" value="Delivery: $9.99" @onchange="ChangeState" />
-                                <label for="radio-two">Delivery: $9.99</label>
+                <div>
+                    <div class="content-holder">
+                        <div>
+                            <h4 class="delivery-title">Delivery</h4>
+                            <div style="display: flex; justify-content: space-between;">
+                                <div class="switch-field">
+                                    <input type="radio" id="radio-one" name="switch-one" value="Pickup" checked @onclick="@((args)=>PickDelivery("PickUp"))" />
+                                    <label for="radio-one">PickUp</label>
+                                    <input type="radio" id="radio-two" name="switch-one" value="Delivery: $9.99" @onclick="@((args)=>PickDelivery("Delivery"))" />
+                                    <label for="radio-two">Delivery: $9.99</label>
+                                </div>
                             </div>
-                        </div>
-                        <span class="delivery-description">We'll deliver it in shortest terms!</span>
-                        <hr class="delivery-division" />
-                        <div class="delivery-additional">
-                            <div class="dish-cart-preview dish-cart-preview-title">
-                                <div>Item</div>
-                                <div>Price</div>
-                            </div>
-                            @foreach (var item in Cart.Dishes)
+                            @if (Cart.Dishes.Count > 0)
                             {
-                                <div class="dish-cart-preview">
-                                    <div>@item.Name</div>
-                                    <div class="dish-cart-preview-price">$@item.Price</div>
+                                <div style="height: 100%; display: flex; flex-direction: column; justify-content: space-between;">
+                                    <div>
+                                        @if (IsDeliveryChoosed)
+                                        {
+                                            <span class="delivery-description">We'll deliver it in shortest terms!</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="delivery-description">Take your order at the nearest pickup point!</span>
+                                        }
+                                        <hr class="delivery-division" />
+
+                                        <div class="delivery-additional">
+                                            <div class="dish-cart-preview dish-cart-preview-title">
+                                                <div>Item</div>
+                                                <div>Price</div>
+                                            </div>
+                                            @foreach (var item in Cart.Dishes)
+                                            {
+                                                <div class="dish-cart-preview">
+                                                    <div>@item.Name</div>
+                                                    <div class="dish-cart-preview-price">$@(Math.Round(item.Price,2))</div>
+                                                </div>
+                                            }
+
+                                            @if (IsDeliveryChoosed)
+                                            {
+                                                <div class="dish-cart-preview">
+                                                    <div>Delivery</div>
+                                                    <div class="dish-cart-preview-price">$9.99</div>
+                                                </div>
+                                            }
+                                        </div>
+                                        <hr class="delivery-division" />
+                                        <div class="dish-cart-preview dish-cart-preview-title">
+                                            <div>Total</div>
+                                            <div class="dish-cart-preview-price dish-cart-preview-price-total">$@(Math.Round(@Cart.GetPrice() + (@IsDeliveryChoosed ? 9.99 : 0), 2))</div>
+                                        </div>
+                                    </div>
+                                    <div style="justify-content:space-between; display: flex; flex-direction: column; column-gap: 10px">
+                                        <div style="margin-bottom: 12px;">
+                                            <NavLink href="/">
+                                            <button class="proceed-button">Proceed to checkout</button>
+                                            </NavLink>
+                                        </div>
+
+                                        <div>
+                                            <NavLink href="/">
+                                                <button class="proceed-button proceed-button-to-index">Continue shopping</button>
+                                            </NavLink>
+                                        </div>
+                                    </div>
                                 </div>
                             }
-                            @if (IsDeliveryChoosed)
+                            else
                             {
-                                <div class="dish-cart-preview">
-                                    <div>Delivery</div>
-                                    <div class="dish-cart-preview-price">$9.99</div>
-                                </div>
+                                <span class="delivery-description">Add your dishes to buy firstly.</span>
                             }
-                        </div>
-                        <hr class="delivery-division" />
-                        <div class="dish-cart-preview dish-cart-preview-title">
-                            <div>Total @IsDeliveryChoosed.ToString()</div>
-                            <div class="dish-cart-preview-price">$@(Math.Round(@Cart.GetPrice() + (@IsDeliveryChoosed ? 9.99 : 0), 2))</div>
                         </div>
                     </div>
                 </div>
@@ -108,7 +144,7 @@
 
 @code
 {
-    bool IsDeliveryChoosed = false;
+    bool IsDeliveryChoosed { get; set; } = false;
 
     int Id = 0;
     private void OnRemove(Dish dish)
@@ -116,9 +152,13 @@
         Cart.RemoveItem(dish);
     }
 
-    private void ChangeState(ChangeEventArgs args)
+    private void PickDelivery(string Way)
     {
-        IsDeliveryChoosed = args.Value?.ToString() != "PickUp";
-        StateHasChanged();
+        IsDeliveryChoosed = Way == "Delivery";
+    }
+
+    private void ClickCheck()
+    {
+        //IsDeliveryChoosed = !IsDeliveryChoosed;
     }
 }
