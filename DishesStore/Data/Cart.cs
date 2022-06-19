@@ -16,6 +16,12 @@ namespace DishesStore.Data
         {
             if (Dishes.Count < 10) Dishes.Add(dish);
         }
+        public static double GetPrice()
+        {
+            double TotalPrice = 0;
+            Dishes.ForEach(x => TotalPrice += x.Price);
+            return TotalPrice;
+        }
         public static void RemoveItem(Dish dish) => Dishes.Remove(dish);
     }
 }

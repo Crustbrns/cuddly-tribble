@@ -1,6 +1,7 @@
 ﻿@page "/chat"
 @using DishesStore.Data
 @using DishesStore.Db.Model
+<link href="css/conversation.css" rel="stylesheet" />
 
 <div class="stretched">
     <div class="conversation-container">
@@ -23,7 +24,7 @@
                                 <div class="conversation-message-username">@item.UserName says:</div>
                             </div>
                             <div style="float: left;">
-                            <div class="conversation-message-body">@item.Body</div>
+                                <div class="conversation-message-body">@item.Body</div>
                             </div>
                         </div>
                     }
@@ -52,7 +53,7 @@
                         maxlength="160" />*@
                     @*<textarea type="text" class="conversation-input-message" placeholder="Express your feelings with other people." />*@
                 </div>
-                <div >
+                <div>
                     <button class="conversation-submit-button" @onclick="ClickSubmit">➜</button>
                 </div>
             </div>

@@ -42,7 +42,7 @@
                                             </div>
                                         </div>
                                         <div>
-                                            <div class="cart-info-part" >
+                                            <div class="cart-info-part">
                                                 <div class="cart-item-description">
                                                     @item.Description
                                                 </div>
@@ -65,8 +65,39 @@
                     <div>
                         <h4 class="delivery-title">Delivery</h4>
                         <div style="display: flex; justify-content: space-between;">
-                            <div>Free</div>
-                            <div>Express</div>
+                            <div class="switch-field">
+                                <input type="radio" id="radio-one" name="switch-one" value="Pickup" checked @onchange="ChangeState" />
+                                <label for="radio-one">PickUp</label>
+                                <input type="radio" id="radio-two" name="switch-one" value="Delivery: $9.99" @onchange="ChangeState" />
+                                <label for="radio-two">Delivery: $9.99</label>
+                            </div>
+                        </div>
+                        <span class="delivery-description">We'll deliver it in shortest terms!</span>
+                        <hr class="delivery-division" />
+                        <div class="delivery-additional">
+                            <div class="dish-cart-preview dish-cart-preview-title">
+                                <div>Item</div>
+                                <div>Price</div>
+                            </div>
+                            @foreach (var item in Cart.Dishes)
+                            {
+                                <div class="dish-cart-preview">
+                                    <div>@item.Name</div>
+                                    <div class="dish-cart-preview-price">$@item.Price</div>
+                                </div>
+                            }
+                            @if (IsDeliveryChoosed)
+                            {
+                                <div class="dish-cart-preview">
+                                    <div>Delivery</div>
+                                    <div class="dish-cart-preview-price">$9.99</div>
+                                </div>
+                            }
+                        </div>
+                        <hr class="delivery-division" />
+                        <div class="dish-cart-preview dish-cart-preview-title">
+                            <div>Total @IsDeliveryChoosed.ToString()</div>
+                            <div class="dish-cart-preview-price">$@(Math.Round(@Cart.GetPrice() + (@IsDeliveryChoosed ? 9.99 : 0), 2))</div>
                         </div>
                     </div>
                 </div>
@@ -77,9 +108,17 @@
 
 @code
 {
+    bool IsDeliveryChoosed = false;
+
     int Id = 0;
     private void OnRemove(Dish dish)
     {
         Cart.RemoveItem(dish);
+    }
+
+    private void ChangeState(ChangeEventArgs args)
+    {
+        IsDeliveryChoosed = args.Value?.ToString() != "PickUp";
+        StateHasChanged();
     }
 }

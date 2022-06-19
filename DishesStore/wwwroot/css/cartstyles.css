@@ -53,6 +53,7 @@
     font-family: 'Circe-R';
     font-size: 20px;
     color: #585757;
+    margin-bottom: 10px;
 }
 
 .cart-warn-title {
@@ -123,3 +124,94 @@
         color: #e76554;
         transition: 0.3s ease;
     }
+
+.switch-field {
+    display: flex;
+    margin-bottom: 12px;
+    padding: 3px;
+    background-color: #f7f7f7;
+    border-radius: 12px;
+    font-family: 'Circe-B';
+    border: 2px solid #e8e8e8;
+}
+
+    .switch-field input {
+        position: absolute !important;
+        clip: rect(0, 0, 0, 0);
+        height: 1px;
+        width: 1px;
+        border: 0;
+        overflow: hidden;
+        background-color: #f7f7f7;
+        transition: all 0.3s ease;
+    }
+
+    .switch-field label {
+        background-color: transparent;
+        font-size: 18px;
+        line-height: 1;
+        text-align: center;
+        padding: 10px 20px;
+        margin-right: -1px;
+        /*border: 1px solid rgba(0, 0, 0, 0.2);*/
+        transition: all 0.3s ease;
+        color: #797979;
+        font-weight: bold;
+    }
+
+        .switch-field label:hover {
+            cursor: pointer;
+        }
+
+    .switch-field input:checked + label {
+        background-color: #ffffff;
+        color: #1c1c1c;
+        box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1)
+    }
+
+    .switch-field label:first-of-type {
+        border-radius: 8px;
+    }
+
+    .switch-field label:last-of-type {
+        border-radius: 8px;
+    }
+
+.delivery-description {
+    color: #969696;
+    font-size: 15px;
+    font-family: 'Circe-R';
+}
+
+.delivery-division {
+    margin-top: 24px;
+    /*border: 1px dashed black;
+    overflow: hidden;
+    height: 14px;*/
+    background-image: linear-gradient(to right, rgba(255,255,255,1) 45%, rgba(255,255,255,0) 0%);
+    background-position: bottom;
+    background-size: 10px 1px;
+    background-repeat: repeat-x;
+}
+
+.dish-cart-preview {
+    display: flex;
+    justify-content: space-between;
+    color: #969696;
+    margin-bottom: 6px;
+    font-size: 14px;
+    font-family: 'Circe-R';
+}
+.dish-cart-preview-title {
+    color: #585757;
+    font-size: 20px;
+    margin: 18px 0 18px 0;
+}
+
+.dish-cart-preview-price {
+    font-family: 'Circe-B';
+}
+
+.delivery-additional{
+    margin-bottom: 18px;
+}
