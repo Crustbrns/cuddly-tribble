@@ -1,5 +1,7 @@
 ﻿@inherits LayoutComponentBase
 
+@using Blazored.Toast.Configuration
+
 <link href="css/header.css" rel="stylesheet" />
 
 <PageTitle>DishesStore</PageTitle>
@@ -61,3 +63,10 @@
         </div>
     </main>
 </div>
+
+<BlazoredToasts Position="ToastPosition.BottomRight"
+                Timeout="10"
+                IconType="IconType.FontAwesome"
+                SuccessClass="success-toast-override"
+                SuccessIcon="fa fa-thumbs-up"
+                ErrorIcon="fa fa-bug" />

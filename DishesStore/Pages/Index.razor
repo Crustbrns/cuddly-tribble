@@ -2,6 +2,10 @@
 @using DishesStore.Data
 @using DishesStore.Db.Model
 
+@inject IToastService toastService
+
+<link href="_content/Blazored.Toast/blazored-toast.css" rel="stylesheet" />
+
 <PageTitle>Catalogue</PageTitle>
 
 <div class="@blurclass">
@@ -25,7 +29,7 @@
                                     @foreach (var item in @categories)
                                     {
                                         <li class="store-categories-element">
-                                            <input class="store-categories-element-input" type='radio' value='@id' name='radio' id='radio@(id)'/>
+                                            <input class="store-categories-element-input" type='radio' value='@id' name='radio' id='radio@(id)' />
                                             <label class="category" for='radio@(id)'>@item.Name</label>
                                         </li>
 
@@ -149,20 +153,28 @@
 </Confirmation>
 
 @code {
-    string name = "2";
-    int dishCount = 1;
-    double dishPrice = 4;
-    double totalPrice = 4;
-    string searchQuery = "";
+    private string name = "2";
+    private int dishCount = 1;
+    private double dishPrice = 4;
+    private double totalPrice = 4;
+    private string searchQuery = "";
 
-    string blurclass = "";
+    private string blurclass = "";
 
-    List<Dish> dishes = new List<Dish>();
-    List<Category> categories = new List<Category>();
+    private List<Dish> dishes = new List<Dish>();
+    private List<Category> categories = new List<Category>();
+
+    private ToastParameters _toastParameters;
 
     private void myScript1(Dish dish)
     {
         Cart.AddItem(dish);
+
+        
+        _toastParameters = new ToastParameters();
+        //toastService.ShowToast<MyToast>(_toastParameters);
+        //_toastParameters.Add(nameof(MyToast.Message), "MyToast message");
+        //toastService.ShowInfo($"{dish.Name} successfully added to your Cart.");
     }
 
     private void myScript()

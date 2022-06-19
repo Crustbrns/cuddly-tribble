@@ -19,5 +19,7 @@
             this.Body = Body;
             this.UserName = "Anonymous";
         }
+
+        public string GetTime() => $"{Time.Day.ToString()} {Time.ToString("MMMM")} {Time.Year}, {Time.ToString("HH: mm: ss")}";
     }
 }

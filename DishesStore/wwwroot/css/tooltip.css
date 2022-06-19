@@ -1,15 +1,14 @@
 ﻿.tooltip-wrapper {
     position: relative;
     display: inline-block;
-    border-bottom: 1px dotted black;
-    cursor: help;
 }
 
 span {
     visibility: hidden;
     position: absolute;
-    width: 120px;
-    bottom: 100%;
+    width: 144px;
+    bottom: 64%;
+    opacity: 0.95;
     left: 50%;
     margin-left: -60px;
     background-color: #363636;
@@ -17,7 +16,7 @@ span {
     text-align: center;
     padding: 5px 10px;
     border-radius: 6px;
-    font-size: 12px;
+    font-size: 11px;
     z-index: 1;
 }
 
