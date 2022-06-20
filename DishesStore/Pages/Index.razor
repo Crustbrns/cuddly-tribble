@@ -25,11 +25,15 @@
                         <div class="">
                             <ul class="store-categories">
                                 @{
+                                    <li class="store-categories-element">
+                                        <input class="store-categories-element-input" type='radio' value='0' name='radio' id='radio0' @onclick="@((args)=>ChangeCategory(null))" checked />
+                                        <label class="category" for='radio0'>All</label>
+                                    </li>
                                     int id = 1;
                                     @foreach (var item in @categories)
                                     {
                                         <li class="store-categories-element">
-                                            <input class="store-categories-element-input" type='radio' value='@id' name='radio' id='radio@(id)' />
+                                            <input class="store-categories-element-input" type='radio' value='@id' name='radio' id='radio@(id)' @onclick="@((args)=>ChangeCategory(item))" />
                                             <label class="category" for='radio@(id)'>@item.Name</label>
                                         </li>
 
@@ -47,13 +51,16 @@
 
     <div class="stretched">
         <div class="assortment-container">
-            @if (@dishes.Count == 0 || (@searchQuery != string.Empty && @dishes.Where(x => x.Name.ToLower().Contains(searchQuery)).ToList().Count == 0))
+            @if (@dishes.Count == 0 || (@searchQuery != string.Empty && @dishes.Where(x => x.Name.ToLower().Contains(searchQuery.ToLower())).ToList().Count == 0) || (CurrentCategory.Name != "All" && @dishes.Where(x => x.Category.Name == CurrentCategory.Name).ToList().Count == 0))
             {
                 <div class="assortment-container-stretched">Sorry! Nothing has been found by your query!</div>
             }
             else
             {
-                @foreach (var item in searchQuery == string.Empty ? @dishes : @dishes.Where(x => x.Name.ToLower().Contains(searchQuery)))
+                @foreach (var item in CurrentCategory.Name == "All" ?
+               (searchQuery == string.Empty ? @dishes : @dishes.Where(x => x.Name.ToLower().Contains(searchQuery.ToLower()))).ToList() :
+               (searchQuery == string.Empty ? @dishes.Where(x => x.Category.Name == CurrentCategory.Name).ToList() :
+               @dishes.Where(x => x.Name.ToLower().Contains(searchQuery.ToLower()))).ToList().Where(x => x.Category.Name == CurrentCategory.Name).ToList())
                 {
                     <element @onclick="myScript" class="card">
                         <div>
@@ -161,6 +168,8 @@
 
     private string blurclass = "";
 
+    private Category CurrentCategory = new Category() { Name = "All" };
+
     private List<Dish> dishes = new List<Dish>();
     private List<Category> categories = new List<Category>();
 
@@ -170,7 +179,7 @@
     {
         Cart.AddItem(dish);
 
-        
+
         _toastParameters = new ToastParameters();
         //toastService.ShowToast<MyToast>(_toastParameters);
         //_toastParameters.Add(nameof(MyToast.Message), "MyToast message");
@@ -215,8 +224,21 @@
         blurclass = "";
     }
 
+    private void ChangeCategory(Category category)
+    {
+        CurrentCategory = category == null ? new Category() { Name = "All" } : category;
+    }
+
     protected override void OnInitialized()
     {
+        categories = new List<Category>() {
+            new Category() { Name = "Vegan" },
+            new Category() { Name = "Vegetables" },
+            new Category() { Name = "Meat" },
+            new Category() { Name = "Low Carb" },
+            new Category() { Name = "Snack" },
+            new Category() { Name = "For Kids" }
+        };
         for (int i = 0; i < 20; i++)
         {
             dishes.Add(new Dish()
@@ -225,18 +247,11 @@
                     Name = $"Pizza {i}",
                     Description = $"Description {i}",
                     Price = i,
-                    IsAvailable = true
+                    IsAvailable = true,
+                    //Category = new Category() { Name = "Vegan" }
+                    Category = categories.ElementAt(new Random().Next(0, categories.Count))
                 });
         }
-        categories = new List<Category>() {
-            new Category() { Name = "All" },
-            new Category() { Name = "Vegan" },
-            new Category() { Name = "Vegetables" },
-            new Category() { Name = "Meat" },
-            new Category() { Name = "Low Carb" },
-            new Category() { Name = "Snack" },
-            new Category() { Name = "For Kids" }
-        };
         base.OnInitialized();
     }
 }
