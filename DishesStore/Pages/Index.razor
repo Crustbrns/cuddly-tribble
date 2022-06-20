@@ -62,7 +62,7 @@
                (searchQuery == string.Empty ? @dishes.Where(x => x.Category.Name == CurrentCategory.Name).ToList() :
                @dishes.Where(x => x.Name.ToLower().Contains(searchQuery.ToLower()))).ToList().Where(x => x.Category.Name == CurrentCategory.Name).ToList())
                 {
-                    <element @onclick="myScript" class="card">
+                    <element @onclick="((args)=>myScript(item))" class="card">
                         <div>
                             <img class="card-img" src="https://mercatopizzakurier.ch/wp-content/uploads/2019/10/1459955-free-png-pepperoni-pizza-png-images-transparent-free-png-images-pizza-850_834.png">
                         </div>
@@ -77,7 +77,7 @@
                             <div class="purchase-segment">
                                 <div class="card-price">$@item.Price</div>
                                 @*<button id="@item.Id" @onclick="myScript1" @onclick:stopPropagation="true" @onclick:preventDefault="true"><svg class="purchase-button" id="PurchaseIcon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M24 3l-.743 2h-1.929l-3.474 12h-13.239l-4.615-11h16.812l-.564 2h-13.24l2.937 7h10.428l3.432-12h4.195zm-15.5 15c-.828 0-1.5.672-1.5 1.5 0 .829.672 1.5 1.5 1.5s1.5-.671 1.5-1.5c0-.828-.672-1.5-1.5-1.5zm6.9-7-1.9 7c-.828 0-1.5.671-1.5 1.5s.672 1.5 1.5 1.5 1.5-.671 1.5-1.5c0-.828-.672-1.5-1.5-1.5z" /></svg></button>*@
-                                <button @onclick="@((args)=>myScript1(@item))" @onclick:stopPropagation="true" @onclick:preventDefault="true"><svg class="purchase-button" id="PurchaseIcon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M24 3l-.743 2h-1.929l-3.474 12h-13.239l-4.615-11h16.812l-.564 2h-13.24l2.937 7h10.428l3.432-12h4.195zm-15.5 15c-.828 0-1.5.672-1.5 1.5 0 .829.672 1.5 1.5 1.5s1.5-.671 1.5-1.5c0-.828-.672-1.5-1.5-1.5zm6.9-7-1.9 7c-.828 0-1.5.671-1.5 1.5s.672 1.5 1.5 1.5 1.5-.671 1.5-1.5c0-.828-.672-1.5-1.5-1.5z" /></svg></button>
+                                <button @onclick="@((args)=>FastPurchase(@item))" @onclick:stopPropagation="true" @onclick:preventDefault="true"><svg class="purchase-button" id="PurchaseIcon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M24 3l-.743 2h-1.929l-3.474 12h-13.239l-4.615-11h16.812l-.564 2h-13.24l2.937 7h10.428l3.432-12h4.195zm-15.5 15c-.828 0-1.5.672-1.5 1.5 0 .829.672 1.5 1.5 1.5s1.5-.671 1.5-1.5c0-.828-.672-1.5-1.5-1.5zm6.9-7-1.9 7c-.828 0-1.5.671-1.5 1.5s.672 1.5 1.5 1.5 1.5-.671 1.5-1.5c0-.828-.672-1.5-1.5-1.5z" /></svg></button>
                             </div>
                         </div>
                     </element>
@@ -105,8 +105,8 @@
                         <button class="cross-btn" @onclick="OnPurchase">&#9932;</button>
                     </div>
                 </div>
-                <div class="display-item-card-title">Dish 1</div>
-                <div class="display-item-card-description">Dish description dish description dish description dish description dish description dish description</div>
+                <div class="display-item-card-title">@DishOnScreen.dish.Name</div>
+                <div class="display-item-card-description">@DishOnScreen.dish.Description description dish description dish description dish description dish description dish description</div>
 
                 <div>
                     <div>
@@ -121,7 +121,7 @@
                                 </div>
                                 <div style="display:flex">
                                     <div class="input-modal">
-                                        <span>@dishCount</span>
+                                        <span>@DishOnScreen.count</span>
                                     </div>
                                     <div class="btns-container">
                                         <div>
@@ -139,10 +139,10 @@
                                         Price
                                     </div>
                                     <div class="modal-item-price">
-                                        @dishPrice usd.
+                                        @DishOnScreen.dish.Price usd.
                                     </div>
                                     <div class="modal-item-totalprice">
-                                        Total: <span style="font-family: 'Circe-B'">@totalPrice usd.</span>
+                                        Total: <span style="font-family: 'Circe-B'">@(DishOnScreen.dish.Price * DishOnScreen.count) usd.</span>
                                     </div>
                                 </div>
                             </div>
@@ -160,13 +160,10 @@
 </Confirmation>
 
 @code {
-    private string name = "2";
-    private int dishCount = 1;
-    private double dishPrice = 4;
-    private double totalPrice = 4;
     private string searchQuery = "";
-
     private string blurclass = "";
+
+    private DishToOrder DishOnScreen = new DishToOrder();
 
     private Category CurrentCategory = new Category() { Name = "All" };
 
@@ -175,9 +172,11 @@
 
     private ToastParameters _toastParameters;
 
-    private void myScript1(Dish dish)
+    private Confirmation confirmation;
+
+    private void FastPurchase(Dish dish)
     {
-        Cart.AddItem(dish);
+        Cart.AddItem(dish, 1);
 
 
         _toastParameters = new ToastParameters();
@@ -186,48 +185,25 @@
         //toastService.ShowInfo($"{dish.Name} successfully added to your Cart.");
     }
 
-    private void myScript()
+    private void myScript(Dish dish)
     {
+        DishOnScreen.dish = dish;
+        DishOnScreen.count = 1;
         confirmation.Show();
         blurclass = "site-blur";
     }
 
-    private void CountChanged()
-    {
-
-    }
-
-    private void CountIncrease()
-    {
-        dishCount += (dishCount == 10 ? 0 : 1);
-        totalPrice = dishCount * dishPrice;
-    }
-
-    private void CountDecrease()
-    {
-        dishCount -= (dishCount == 1 ? 0 : 1);
-        totalPrice = dishCount * dishPrice;
-    }
-
-    private void CheckboxChanged(object? truth, string filter)
-    {
-        name = "5";
-    }
-
-    Confirmation confirmation;
+    private void CountIncrease() => DishOnScreen.count += (DishOnScreen.count == 10 ? 0 : 1);
+    private void CountDecrease() => DishOnScreen.count -= (DishOnScreen.count == 1 ? 0 : 1);
 
     private void OnPurchase()
     {
         confirmation.Hide();
-        //Cart.AddPrice(totalPrice);
-        //dishCount = 1;
+        Cart.AddItem(DishOnScreen.dish, DishOnScreen.count);
         blurclass = "";
     }
 
-    private void ChangeCategory(Category category)
-    {
-        CurrentCategory = category == null ? new Category() { Name = "All" } : category;
-    }
+    private void ChangeCategory(Category category) => CurrentCategory = category == null ? new Category() { Name = "All" } : category;
 
     protected override void OnInitialized()
     {

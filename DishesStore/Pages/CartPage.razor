@@ -31,21 +31,26 @@
                                     <div class="cart-item-additional-info">
                                         <div>
                                             <div class="cart-info-part">
-                                                <div>
-                                                    <span class="cart-item-title">@item.Name</span>
+                                                <div style="display: flex;">
+                                                    <span class="cart-item-title">@item.dish.Name</span>
+                                                    <span class="cart-item-title" style="margin: 0 10px; color: #828a9a; font-family: 'Circe-EB'">·</span>
+                                                    <span class="cart-item-title" style="color: #828a9a; font-weight: 100; font-size: 16px; padding-top: 3px; font-family: 'Circe-R'">@item.dish.Category.Name.ToLower()</span>
                                                 </div>
                                                 <div>
-                                                    <span class="cart-item-total-price">$@item.Price</span>
+                                                    <span class="cart-item-total-price">$@(item.dish.Price * item.count)</span>
+
                                                 </div>
                                             </div>
                                             <div class="cart-item-price">
-                                                $@item.Price apiece
+                                                $@item.dish.Price apiece
+                                                <span class="cart-item-price-count-division">x</span>
+                                                <span class="cart-item-price-count">@item.count</span>
                                             </div>
                                         </div>
                                         <div>
                                             <div class="cart-info-part">
                                                 <div class="cart-item-description">
-                                                    @item.Description
+                                                    @item.dish.Description
                                                 </div>
                                                 <div>
                                                     <button class="cart-remove-button" @onclick="@((args)=>OnRemove(@item))">Remove</button>
@@ -96,8 +101,19 @@
                                             @foreach (var item in Cart.Dishes)
                                             {
                                                 <div class="dish-cart-preview">
-                                                    <div>@item.Name</div>
-                                                    <div class="dish-cart-preview-price">$@(Math.Round(item.Price,2))</div>
+                                                    <div>
+                                                        @item.dish.Name
+                                                        @if (@item.count > 1)
+                                                        {
+                                                            <span style="font-family:'Circe-EB'; margin: 0 4px;">·</span>
+                                                            <span>(</span>
+
+                                                            @item.count
+
+                                                            <span> copies)</span>
+                                                        }
+                                                    </div>
+                                                    <div class="dish-cart-preview-price">$@(Math.Round(item.dish.Price * item.count,2))</div>
                                                 </div>
                                             }
 
@@ -118,7 +134,7 @@
                                     <div style="justify-content:space-between; display: flex; flex-direction: column; column-gap: 10px">
                                         <div style="margin-bottom: 12px;">
                                             <NavLink href="/">
-                                            <button class="proceed-button">Proceed to checkout</button>
+                                                <button class="proceed-button">Proceed to checkout</button>
                                             </NavLink>
                                         </div>
 
@@ -147,7 +163,7 @@
     bool IsDeliveryChoosed { get; set; } = false;
 
     int Id = 0;
-    private void OnRemove(Dish dish)
+    private void OnRemove(DishToOrder dish)
     {
         Cart.RemoveItem(dish);
     }

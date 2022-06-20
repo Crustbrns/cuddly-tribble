@@ -113,6 +113,19 @@
     color: #828282;
 }
 
+.cart-item-price-count {
+    font-family: 'Circe-R';
+    font-size: 16px;
+    color: #828282;
+}
+
+.cart-item-price-count-division {
+    font-family: 'Circe-R';
+    margin: 0 4px;
+    font-size: 16px;
+    color: #828282;
+}
+
 .cart-remove-button {
     font-family: 'Circe-R';
     font-size: 16px;
