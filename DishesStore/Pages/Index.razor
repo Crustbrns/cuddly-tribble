@@ -1,6 +1,7 @@
 ﻿@page "/"
 @using DishesStore.Additional.Toast
 @using DishesStore.Data
+@using DishesStore.Db.Context
 @using DishesStore.Db.Model
 
 @inject IToastService toastService
@@ -31,7 +32,7 @@
                                         <label class="category" for='radio0'>All</label>
                                     </li>
                                     int id = 1;
-                                    @foreach (var item in @categories)
+                                    @foreach (var item in @DbService.Categories)
                                     {
                                         <li class="store-categories-element">
                                             <input class="store-categories-element-input" type='radio' value='@id' name='radio' id='radio@(id)' @onclick="@((args)=>ChangeCategory(item))" />
@@ -237,27 +238,28 @@
 
     protected override void OnInitialized()
     {
-        categories = new List<Category>() {
-            new Category() { Name = "Vegan" },
-            new Category() { Name = "Vegetables" },
-            new Category() { Name = "Meat" },
-            new Category() { Name = "Low Carb" },
-            new Category() { Name = "Snack" },
-            new Category() { Name = "For Kids" }
-        };
-        for (int i = 0; i < 20; i++)
-        {
-            dishes.Add(new Dish()
-                {
-                    Id = i,
-                    Name = $"Pizza {i}",
-                    Description = $"Description {i}",
-                    Price = i,
-                    IsAvailable = true,
-                    //Category = new Category() { Name = "Vegan" }
-                    Category = categories.ElementAt(new Random().Next(0, categories.Count))
-                });
-        }
+        DbService.AddCategory("Vegan");
+        categories = new List<Category>();
+        //categories = new List<Category>() {
+        //    new Category() { Name = "Vegan" },
+        //    new Category() { Name = "Vegetables" },
+        //    new Category() { Name = "Meat" },
+        //    new Category() { Name = "Low Carb" },
+        //    new Category() { Name = "Snack" },
+        //    new Category() { Name = "For Kids" }
+        //};
+        //for (int i = 0; i < 20; i++)
+        //{
+        //    dishes.Add(new Dish()
+        //        {
+        //            Id = i,
+        //            Name = $"Pizza {i}",
+        //            Description = $"Description {i}",
+        //            Price = i,
+        //            //Category = new Category() { Name = "Vegan" }
+        //            Category = categories.ElementAt(new Random().Next(0, categories.Count))
+        //        });
+        //}
         base.OnInitialized();
     }
 }
