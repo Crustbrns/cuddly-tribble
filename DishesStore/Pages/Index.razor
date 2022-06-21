@@ -69,7 +69,7 @@
                             <img class="card-img" src="https://mercatopizzakurier.ch/wp-content/uploads/2019/10/1459955-free-png-pepperoni-pizza-png-images-transparent-free-png-images-pizza-850_834.png">
                         </div>
                         <div>
-                            <div class="card-title">@item.Name</div>
+                            <div class="card-title">@item.Name @if (item.Category.Name == "Vegan") { <span style="color: #68c25a;">🌱</span>}</div>
                             <div class="card-calorie">Calorieness</div>
                             <div class="values-container">
                                 <div class="checkbox-value checkbox-active">250 kcal</div>
@@ -107,7 +107,7 @@
                         <button class="cross-btn" @onclick="OnPurchase">&#9932;</button>
                     </div>
                 </div>
-                <div class="display-item-card-title">@DishOnScreen.dish.Name</div>
+                <div class="display-item-card-title">@DishOnScreen.dish.Name @if (DishOnScreen.dish.Category.Name == "Vegan") { <span style="color: #68c25a;">🌱</span>}</div>
                 <div class="display-item-card-description">@DishOnScreen.dish.Description description dish description dish description dish description dish description dish description</div>
 
                 <div>

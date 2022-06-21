@@ -19,7 +19,8 @@
                         @if (@Cart.Dishes.Count == 0)
                         {
                             <div class="cart-warn-title">
-                                There's <span style="color: #e4002b">nothing</span> yet. Add your first dish before you can order it!
+                                <div>There's <span style="color: #e4002b">nothing</span> yet. Add your first dish before you can order it!</div>
+                                <div>Also you can acquire a lot of juicy' dakimakuras <a href="https://dakimashop.pp.ua/">here</a> 👈</div>
                             </div>
                         }
                         else
@@ -35,7 +36,7 @@
                                         <div>
                                             <div class="cart-info-part">
                                                 <div style="display: flex;">
-                                                    <span class="cart-item-title">@item.dish.Name</span>
+                                                    <span class="cart-item-title">@item.dish.Name @if (item.dish.Category.Name == "Vegan") { <span style="color: #68c25a;">🌱</span>}</span>
                                                     <span class="cart-item-title" style="margin: 0 10px; color: #828a9a; font-family: 'Circe-EB'">·</span>
                                                     <span class="cart-item-title" style="color: #828a9a; font-weight: 100; font-size: 16px; padding-top: 3px; font-family: 'Circe-R'">@item.dish.Category.Name.ToLower()</span>
                                                 </div>
