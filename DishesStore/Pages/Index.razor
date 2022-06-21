@@ -1,8 +1,10 @@
 ﻿@page "/"
+@using DishesStore.Additional
 @using DishesStore.Data
 @using DishesStore.Db.Model
 
 @inject IToastService toastService
+@inject IJSRuntime JSRuntime;
 
 <link href="_content/Blazored.Toast/blazored-toast.css" rel="stylesheet" />
 
@@ -176,13 +178,24 @@
 
     private void FastPurchase(Dish dish)
     {
+        _toastParameters = new ToastParameters();
+        if (Cart.CheckAvailability())
+        {
+            _toastParameters.Add(nameof(Toast.Title), "Item has added to your Cart");
+            _toastParameters.Add(nameof(Toast.PizzaName), dish.Name);
+            _toastParameters.Add(nameof(Toast.PizzaCount), 1);
+            _toastParameters.Add(nameof(Toast.Description), "Added to your cart");
+            toastService.ShowToast<Toast>(_toastParameters, new ToastInstanceSettings(5, false));
+        }
+        else
+        {
+            _toastParameters.Add(nameof(ToastError.Title), "No space left in your Cart.");
+            _toastParameters.Add(nameof(ToastError.Description), "Remove some dishes and try again!");
+            toastService.ShowToast<ToastError>(_toastParameters, new ToastInstanceSettings(5, false));
+        }
+
         Cart.AddItem(dish, 1);
 
-
-        _toastParameters = new ToastParameters();
-        //toastService.ShowToast<MyToast>(_toastParameters);
-        //_toastParameters.Add(nameof(MyToast.Message), "MyToast message");
-        //toastService.ShowInfo($"{dish.Name} successfully added to your Cart.");
     }
 
     private void myScript(Dish dish)
@@ -199,7 +212,25 @@
     private void OnPurchase()
     {
         confirmation.Hide();
+
+        _toastParameters = new ToastParameters();
+        if (Cart.CheckAvailability())
+        {
+            _toastParameters.Add(nameof(Toast.Title), "Item has added to your Cart");
+            _toastParameters.Add(nameof(Toast.PizzaName), DishOnScreen.dish.Name);
+            _toastParameters.Add(nameof(Toast.PizzaCount), DishOnScreen.count);
+            _toastParameters.Add(nameof(Toast.Description), "Added to your cart");
+            toastService.ShowToast<Toast>(_toastParameters, new ToastInstanceSettings(5, false));
+        }
+        else
+        {
+            _toastParameters.Add(nameof(ToastError.Title), "No space left in your Cart.");
+            _toastParameters.Add(nameof(ToastError.Description), "Remove some dishes and try again!");
+            toastService.ShowToast<ToastError>(_toastParameters, new ToastInstanceSettings(5, false));
+        }
+
         Cart.AddItem(DishOnScreen.dish, DishOnScreen.count);
+
         blurclass = "";
     }
 

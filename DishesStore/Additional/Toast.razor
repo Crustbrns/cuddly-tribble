@@ -1,0 +1,18 @@
+﻿
+<link href="css/toast.css" rel="stylesheet" />
+
+<div class="toast-holder">
+    <div class="toast-title">
+        <h6><span style="color: #2c9f45">✔ </span>@Title</h6>
+    </div>
+    <div class="toast-additional">
+        @PizzaName x count @PizzaCount — @Description.
+    </div>
+</div>
+
+@code {
+    [Parameter] public string Title { get; set; }
+    [Parameter] public string Description { get; set; }
+    [Parameter] public string PizzaName { get; set; }
+    [Parameter] public int PizzaCount { get; set; }
+}

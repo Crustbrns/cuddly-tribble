@@ -1,0 +1,16 @@
+﻿
+<link href="css/toast.css" rel="stylesheet" />
+
+<div class="toast-holder">
+    <div class="toast-title">
+        <h6><span style="color: #fbb034">⚠️ </span>@Title</h6>
+    </div>
+    <div class="toast-additional">
+        @Description
+    </div>
+</div>
+
+@code {
+    [Parameter] public string Title { get; set; }
+    [Parameter] public string Description { get; set; }
+}

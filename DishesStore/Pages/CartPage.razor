@@ -1,6 +1,9 @@
 ﻿@page "/cart"
+@using DishesStore.Additional
 @using DishesStore.Data
 @using DishesStore.Db.Model
+
+@inject IToastService toastServiceCart
 
 <PageTitle>Cart</PageTitle>
 
@@ -160,12 +163,21 @@
 
 @code
 {
-    bool IsDeliveryChoosed { get; set; } = false;
+    private bool IsDeliveryChoosed { get; set; } = false;
+    
+    private ToastParameters _toastParameters;
 
     int Id = 0;
     private void OnRemove(DishToOrder dish)
     {
         Cart.RemoveItem(dish);
+        
+        _toastParameters = new ToastParameters();
+        _toastParameters.Add(nameof(Toast.Title), "Item has removed from your Cart");
+        _toastParameters.Add(nameof(Toast.PizzaName), dish.dish.Name);
+        _toastParameters.Add(nameof(Toast.PizzaCount), dish.count);
+        _toastParameters.Add(nameof(Toast.Description), "Removed from your cart");
+        toastServiceCart.ShowToast<Toast>(_toastParameters, new ToastInstanceSettings(5, false));
     }
 
     private void PickDelivery(string Way)

@@ -14,8 +14,10 @@ namespace DishesStore.Data
         public static void AddPrice(double price) => Price += price;
         public static void AddItem(Dish dishToOrder, int countToOrder)
         {
-            if (Dishes.Count < 10) Dishes.Add(new DishToOrder() { dish = dishToOrder, count = countToOrder });
+            if (CheckAvailability()) Dishes.Add(new DishToOrder() { dish = dishToOrder, count = countToOrder });
         }
+        public static bool CheckAvailability() => Dishes.Count < 10;
+
         public static double GetPrice()
         {
             double TotalPrice = 0;
