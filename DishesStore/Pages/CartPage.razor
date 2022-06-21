@@ -1,5 +1,5 @@
 ﻿@page "/cart"
-@using DishesStore.Additional
+@using DishesStore.Additional.Toast
 @using DishesStore.Data
 @using DishesStore.Db.Model
 
@@ -166,9 +166,8 @@
 {
     private bool IsDeliveryChoosed { get; set; } = false;
     
-    private ToastParameters _toastParameters;
+    private ToastParameters? _toastParameters;
 
-    int Id = 0;
     private void OnRemove(DishToOrder dish)
     {
         Cart.RemoveItem(dish);

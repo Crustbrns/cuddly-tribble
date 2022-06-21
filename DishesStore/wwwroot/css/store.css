@@ -135,6 +135,7 @@ ol {
     padding: 30px;
     margin: 0 0.5% 4% 0.5%;
     transition: 0.3s ease;
+    cursor: pointer;
 }
 
     .card:hover {

@@ -1,10 +1,9 @@
 ﻿@page "/"
-@using DishesStore.Additional
+@using DishesStore.Additional.Toast
 @using DishesStore.Data
 @using DishesStore.Db.Model
 
 @inject IToastService toastService
-@inject IJSRuntime JSRuntime;
 
 <link href="_content/Blazored.Toast/blazored-toast.css" rel="stylesheet" />
 
@@ -172,7 +171,7 @@
     private List<Dish> dishes = new List<Dish>();
     private List<Category> categories = new List<Category>();
 
-    private ToastParameters _toastParameters;
+    private ToastParameters? _toastParameters;
 
     private Confirmation confirmation;
 

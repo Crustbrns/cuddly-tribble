@@ -1,0 +1,92 @@
+﻿
+.auth-stretched {
+    margin: 40px auto 0 auto;
+    background-color: #f1f3f4;
+    width: 100%;
+}
+
+.auth-container {
+    display: flex;
+    margin: 0 auto 0 auto;
+    justify-content: space-between;
+    background-color: #f1f3f4;
+    display: flex;
+    padding: 0 440px;
+    width: 100%;
+    max-width: 1920px;
+    flex-wrap: wrap;
+}
+
+.auth-section {
+    margin: 50px auto 180px auto;
+    width: 440px;
+    border-radius: 15px;
+}
+
+.auth-holder {
+    background-color: white;
+    width: 100%;
+    margin-top: 70px;
+    padding: 0 40px;
+    border-radius: 15px;
+    box-shadow: 0 0 10px 4px rgba(0,0,0,0.035);
+    padding-bottom: 20px;
+}
+
+.auth-title {
+    font-family: 'Circe-EB';
+    padding-top: 40px;
+    font-size: 26px;
+    color: #03253a;
+}
+
+.auth-subtitle {
+    font-family: 'Circe-L';
+    /*margin-top: 40px;*/
+    font-size: 16px;
+    color: #a3abb1;
+}
+
+.auth-fields{
+    margin-top: 40px;
+}
+
+.auth-field {
+    width: 100%;
+    border-radius: 16px;
+    padding: 18px 24px;
+    color: #03253a;
+    border: 2px solid #a3abb1;
+    color: #3e5262;
+}
+
+.enter-button-field {
+    margin-top: 20px;
+    width: 100%;
+    border-radius: 16px;
+    padding: 18px 24px;
+    background-color: #03253a;
+    color: whitesmoke;
+    margin-bottom: 20px;
+    transition: 0.3s ease;
+}
+
+    .enter-button-field:hover {
+        transform: scale(0.97);
+        transition: 0.3s ease;
+        background-color: #000b11;
+    }
+
+    .auth-create-request {
+        margin-top: 40px;
+    }
+
+.change-button {
+    color: #212439;
+    transition: 0.3s ease;
+}
+
+    .change-button:hover {
+        color: #7552cc;
+        transition: 0.3s ease;
+    }

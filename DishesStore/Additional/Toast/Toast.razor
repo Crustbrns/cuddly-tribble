@@ -11,8 +11,8 @@
 </div>
 
 @code {
-    [Parameter] public string Title { get; set; }
-    [Parameter] public string Description { get; set; }
-    [Parameter] public string PizzaName { get; set; }
+    [Parameter] public string? Title { get; set; } = null;
+    [Parameter] public string? Description { get; set; } = null;
+    [Parameter] public string? PizzaName { get; set; } = null;
     [Parameter] public int PizzaCount { get; set; }
 }

@@ -1,0 +1,84 @@
+﻿@page "/auth"
+@using DishesStore.Db.Model.Auth.Registration
+
+@inject NavigationManager NavigationManager
+
+<PageTitle>Spicy Auth</PageTitle>
+
+
+<div class="auth-stretched">
+    <div class="auth-container">
+        <div class="auth-section">
+            <div class="auth-holder">
+                @if (IsAuthenticating)
+                {
+                    <div class="auth-title">
+                        Welcome Back..
+                    </div>
+                    <div class="auth-subtitle">
+                        Please enter your email and password
+                    </div>
+
+                    <div class="auth-fields">
+                        <div>
+                            <input class="auth-field" @bind-value="props.Login" type="text" placeholder="Login" name="username" required>
+                        </div>
+
+                        <div style="margin-top: 10px">
+                            <input class="auth-field" @bind-value="props.Pass" type="password" placeholder="Password" name="password" required>
+                        </div>
+
+                        <div>
+                            <button class="enter-button-field" @onclick="Registration">Sign In</button>
+                        </div>
+                        <div class="auth-subtitle auth-create-request">
+                            Don't have an account yet? <button class="change-button" @onclick="ChangeAuthMode">Create account</button>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="auth-title">
+                        Create your account
+                    </div>
+                    <div class="auth-subtitle">
+                        Please enter your email, login and password
+                    </div>
+
+                    <div class="auth-fields">
+                        <div>
+                            <input class="auth-field" @bind-value="props.Mail" type="email" placeholder="Mail" name="usermail" required>
+                        </div>
+
+                        <div style="margin-top: 10px">
+                            <input class="auth-field" @bind-value="props.Login" type="text" placeholder="Login" name="username" required>
+                        </div>
+
+                        <div style="margin-top: 10px">
+                            <input class="auth-field" @bind-value="props.Pass" type="password" placeholder="Password" name="password" required>
+                        </div>
+
+                        <div>
+                            <button class="enter-button-field" @onclick="Registration">Sign Up</button>
+                        </div>
+                        <div class="auth-subtitle auth-create-request">
+                            Already have an account? <button class="change-button" @onclick="ChangeAuthMode">Login into your account</button>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@code {
+    private bool IsAuthenticating = true;
+    private RegProps props = new RegProps();
+
+    private void Registration()
+    {
+         NavigationManager.NavigateTo("/profile", true);
+    }
+    private void ChangeAuthMode() => IsAuthenticating = !IsAuthenticating;
+}
