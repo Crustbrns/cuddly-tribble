@@ -17,17 +17,27 @@ namespace DishesStore.Db.Context
                 db.SaveChanges();
             }
         }
-
         public static void DbUpdate()
         {
             using (SpicyDbContext db = new SpicyDbContext())
             {
                 Dishes = db.Dishes.ToList();
                 Categories = db.Categories.ToList();
-                //Users = db.Users.ToList();
+                Users = db.Users.ToList();
             }
         }
 
+        public static Category TryGetCategory(int CategoryId)
+        {
+            if (DbService.CheckCategoryExistence(CategoryId))
+            {
+                using (SpicyDbContext db = new SpicyDbContext())
+                {
+                    return db.Categories.First(x => x.Id == CategoryId);
+                }
+            }
+            return new Category();
+        }
         public static void AddCategory(string CategoryName)
         {
             if (!CheckCategoryExistence(CategoryName))
@@ -40,14 +50,21 @@ namespace DishesStore.Db.Context
                 DbUpdate();
             }
         }
-
-        public static void EditCategory(int CategoryId, string NewCategoryName)
+        public static void EditCategory(string CategoryName, string NewCategoryName)
+        {
+            using (SpicyDbContext db = new SpicyDbContext())
+            {
+                db.Categories.First(x => x.Name == CategoryName).Name = NewCategoryName;
+                db.SaveChanges();
+            }
+            DbUpdate();
+        }
+        public static void TryEditCategory(int CategoryId, string NewCategoryName)
         {
             if (!CheckCategoryExistence(CategoryId))
             {
                 using (SpicyDbContext db = new SpicyDbContext())
                 {
-
                     db.Categories.First(x => x.Id == CategoryId).Name = NewCategoryName;
                     db.SaveChanges();
                 }
@@ -55,18 +72,44 @@ namespace DishesStore.Db.Context
             }
         }
 
-        private static bool CheckCategoryExistence(string CategoryName)
+        public static bool IsCategoryInUse(string CategoryName)
         {
-            using (SpicyDbContext spicyDbContext = new SpicyDbContext())
+            using (SpicyDbContext db = new SpicyDbContext())
             {
-                return spicyDbContext.Categories.Any(x => x.Name == CategoryName);
+                return db.Dishes.Any(x => x.Category.Name == CategoryName);
+            }
+
+        }
+        public static bool IsCategoryInUse(int CategoryId)
+        {
+            using (SpicyDbContext db = new SpicyDbContext())
+            {
+                return db.Dishes.Any(x => x.Category.Id == CategoryId);
+            }
+
+        }
+        public static void DeleteCategoryById(int CategoryId)
+        {
+            using (SpicyDbContext db = new SpicyDbContext())
+            {
+                db.Categories.Remove(db.Categories.Where(x => x.Id == CategoryId).First());
+                db.SaveChanges();
+            }
+            DbUpdate();
+        }
+
+        public static bool CheckCategoryExistence(string CategoryName)
+        {
+            using (SpicyDbContext db = new SpicyDbContext())
+            {
+                return db.Categories.Any(x => x.Name == CategoryName);
             }
         }
-        private static bool CheckCategoryExistence(int CategoryId)
+        public static bool CheckCategoryExistence(int CategoryId)
         {
-            using (SpicyDbContext spicyDbContext = new SpicyDbContext())
+            using (SpicyDbContext db = new SpicyDbContext())
             {
-                return spicyDbContext.Categories.Any(x => x.Id == CategoryId);
+                return db.Categories.Any(x => x.Id == CategoryId);
             }
         }
 
@@ -135,7 +178,7 @@ namespace DishesStore.Db.Context
         {
             using (SpicyDbContext db = new SpicyDbContext())
             {
-                return db.Users.First(x=>x.Login == Login).PassHash == Pass;
+                return db.Users.First(x => x.Login == Login).PassHash == Pass;
             }
         }
 

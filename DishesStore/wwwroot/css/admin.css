@@ -23,3 +23,36 @@
         transition: 0.3s ease;
         background-color: #dcdfe0;
     }
+
+
+.admin-display-container {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 40px;
+}
+
+.select-admin {
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+    border: 1px solid #03253a;
+    border-radius: 4px;
+    width: 20%;
+    padding: 4px 10px;
+    margin-bottom: 20px;
+    transition: 0.3s ease;
+}
+
+button:disabled,
+button[disabled] {
+    background-color: #cccccc;
+    color: #666666;
+}
+
+
+    button:disabled,
+    button[disabled]:hover {
+        background-color: #cccccc;
+        color: #666666;
+        transform: scale(1);
+    }

@@ -1,5 +1,7 @@
 ﻿@using DishesStore.Additional.Admin
 @using DishesStore.Data
+@using DishesStore.Db.Context
+@using DishesStore.Db.Model
 
 @inject IToastService toastService
 @inject NavigationManager NavManager;
@@ -23,25 +25,137 @@
 </div>
 
 <AdminPanelComponent @ref="popupWindow" OnPurchase="Submit">
-    @switch (StateId)
-    {
-        case 0:
-            break;
-    }
+    <div>
+        <div class="admin-display-container">
+            <div style="display: flex; justify-content: end; width: 100%">
+                <div>
+                    <button class="cross-btn" @onclick="CloseAll">&#9932;</button>
+                </div>
+            </div>
+            <div style="margin-top: 40px;">
+                <div>
+                    <h6 style="font-family: 'Circe-R'">@PanelState.States[StateId].Item2</h6>
+                </div>
+
+                @switch (StateId)
+                {
+                    case 0:
+                        <div style="margin-top: 10px">
+                            <input class="auth-field" @bind-value="category.Name" type="text" placeholder="Dish Category Name" required>
+                        </div>
+                        break;
+
+                    case 1:
+                        <select class="select-admin" @bind="@oldcategory.Name">
+                            @foreach (var item in DbService.Categories)
+                            {
+                                <option value="@item.Name">@item.Name</option>
+                            }
+                        </select>
+
+                        <div style="margin-top: 10px">
+                            <input class="auth-field" @bind-value="category.Name" type="text" placeholder="Category Name replace to" required>
+                        </div>
+                        break;
+
+                    case 2:
+                        if (DbService.Categories.Count == 0)
+                        {
+                            IsButtonDisabled = true;
+                            <div style="color: #e4002b; font-family: 'Circe-R'">
+                                There is no active categories. Try add new one.
+                            </div>
+                        }
+                        else
+                        {
+                            <select class="select-admin" @bind="@oldcategory.Id">
+                                @foreach (var item in DbService.Categories)
+                                {
+                                    <option value="@item.Id">@item.Name</option>
+                                }
+                            </select>
+                        }
+
+                        break;
+                }
+
+                <div>
+                    <button class="enter-button-field" @onclick="TryExecute" disabled="@IsButtonDisabled">Try Execute</button>
+                </div>
+
+                @if (ExecuteResponse != null)
+                {
+                    if (ExecuteResponse.Item1)
+                    {
+                        <div>
+                            <span style="color: #00c16e; font-family: 'Circe-R'">@ExecuteResponse.Item2</span>
+                        </div>
+                    }
+                    else
+                    {
+                        <div>
+                            <span style="color: #e4002b; font-family: 'Circe-R'">@ExecuteResponse.Item2</span>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
 </AdminPanelComponent>
 
 @code {
     AdminPanelComponent popupWindow;
 
+    Category category = new Category();
+    Category oldcategory = new Category() { Id = -1 };
+
     private int StateId = 0;
+    private bool IsButtonDisabled = false;
+
+    private Tuple<bool, string> ExecuteResponse = null;
 
     private void Show(int id)
     {
         popupWindow.Show();
+        StateId = id;
+    }
+
+    private void TryExecute()
+    {
+        switch (StateId)
+        {
+            case 0:
+                ExecuteResponse = Validate.CheckCategoryAdd(category.Name);
+                if (ExecuteResponse.Item1)
+                {
+                    DbService.AddCategory(category.Name);
+                }
+                break;
+
+            case 1:
+                ExecuteResponse = Validate.CheckCategoryEdit(oldcategory.Name, category.Name);
+                if (ExecuteResponse.Item1)
+                {
+                    DbService.EditCategory(oldcategory.Name, category.Name);
+                }
+                break;
+
+            case 2:
+                ExecuteResponse = Validate.CheckCategoryDelete(oldcategory.Id);
+                if (ExecuteResponse.Item1)
+                {
+                    DbService.DeleteCategoryById(oldcategory.Id);
+                }
+                break;
+        }
     }
 
     private void CloseAll()
     {
+        category = new Category();
+        oldcategory = new Category() { Id = -1 };
+        ExecuteResponse = null;
+        IsButtonDisabled = false;
         popupWindow.Hide();
     }
 
