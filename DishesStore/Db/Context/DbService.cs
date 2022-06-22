@@ -118,5 +118,26 @@ namespace DishesStore.Db.Context
                 return (db.Users.FirstOrDefault(x => x.Login == Login)?.PassHash == Pass);
             }
         }
+
+        public static bool IsUserExists(string Login, string Pass)
+        {
+            return IsUserLoginValid(Login) ? IsUserPassValid(Login, Pass) : false;
+        }
+
+        private static bool IsUserLoginValid(string Login)
+        {
+            using (SpicyDbContext db = new SpicyDbContext())
+            {
+                return db.Users.Any(x => x.Login.ToLower() == Login.ToLower());
+            }
+        }
+        private static bool IsUserPassValid(string Login, string Pass)
+        {
+            using (SpicyDbContext db = new SpicyDbContext())
+            {
+                return db.Users.First(x=>x.Login == Login).PassHash == Pass;
+            }
+        }
+
     }
 }

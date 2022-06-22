@@ -24,16 +24,22 @@
 
                     <div class="auth-fields">
                         <div>
-                            <input class="auth-field" @bind-value="props.Login" type="text" placeholder="Login" name="username" required>
+                            <input class="auth-field" @bind-value="authprops.Login" type="text" placeholder="Login" name="username" required>
                         </div>
 
                         <div style="margin-top: 10px">
-                            <input class="auth-field" @bind-value="props.Pass" type="password" placeholder="Password" name="password" required>
+                            <input class="auth-field" @bind-value="authprops.Pass" type="password" placeholder="Password" name="password" required>
                         </div>
-
+                        
                         <div>
                             <button class="enter-button-field" @onclick="Registration">Sign In</button>
                         </div>
+
+                        @if (authprops.CheckForErrors())
+                        {
+                            <div style="color: #e4002b; font-family: 'Circe-R'">* @authprops.DisplayMessage()</div>
+                        }
+
                         <div class="auth-subtitle auth-create-request">
                             Don't have an account yet? <button class="change-button" @onclick="ChangeAuthMode">Create account</button>
                         </div>
@@ -95,13 +101,16 @@
     {
         if (IsAuthenticating)
         {
-            if (DbService.TryLoginUser(authprops.Login, authprops.Pass))
+            var response = Validate.CheckSigninProps(authprops.Login, authprops.Pass);
+            authprops.SetMessage(response.Item1, response.Item2);
+
+            if (response.Item1)
             {
+                //DbService.TryLoginUser(authprops.Login, authprops.Pass)
                 NavigationManager.NavigateTo("/profile", true);
             }
             else
             {
-                NavigationManager.NavigateTo("/", true);
             }
         }
         else

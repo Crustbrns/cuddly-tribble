@@ -37,6 +37,20 @@ namespace DishesStore.Data
 
             return Tuple.Create(true, "Validation successful");
         }
+        
+        public static Tuple<bool, string> CheckSigninProps(string Login, string Pass)
+        {
+            if (string.IsNullOrWhiteSpace(Login))
+                return Tuple.Create(false, "Incorrect login.");
+
+            if (string.IsNullOrWhiteSpace(Pass))
+                return Tuple.Create(false, "Incorrect password.");
+
+            if (!DbService.IsUserExists(Login, Pass))
+                return Tuple.Create(false, "Login or password isn't correct.");
+
+            return Tuple.Create(true, "Validation successful");
+        }
 
     }
 }

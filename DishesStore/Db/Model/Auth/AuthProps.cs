@@ -9,7 +9,7 @@
         
         public AuthProps()
         {
-            Message = new Tuple<bool, string>(false, string.Empty);
+            Message = new Tuple<bool, string>(true, string.Empty);
         }
 
         public void SetMessage(bool IsError, string Message) => this.Message = Tuple.Create(IsError, Message);

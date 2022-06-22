@@ -1,0 +1,25 @@
+﻿@if (isDisplaying)
+{
+    <div class="modal-backdrop show-item-display" @onclick="Hide"></div>
+
+    <div class="modal fade show" id="elementDisplay" tabindex="-1" role="dialog"
+     aria-labelledby="elementDisplay" aria-hidden="true" style="display:block">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content modal-item-stylized">
+                <div class="modal-body">
+                    @ChildContent
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    private bool isDisplaying { get; set; } = false;
+
+    [Parameter] public RenderFragment ChildContent { get; set; }
+    [Parameter] public EventCallback OnPurchase { get; set; }
+
+    public void Hide() => isDisplaying = false;
+    public void Show() => isDisplaying = true;
+}

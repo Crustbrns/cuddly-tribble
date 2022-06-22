@@ -9,6 +9,7 @@
         public Message(string Body, string UserName)
         {
             this.Time = DateTime.Now;
+            this.Time.AddHours(3);
             this.Body = Body;
             this.UserName = UserName;
         }
@@ -16,6 +17,7 @@
         public Message(string Body)
         {
             this.Time = DateTime.Now;
+            this.Time.AddHours(3);
             this.Body = Body;
             this.UserName = "Anonymous";
         }

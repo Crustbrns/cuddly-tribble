@@ -1,5 +1,52 @@
-﻿<h3>AdminPanel</h3>
+﻿@using DishesStore.Additional.Admin
+@using DishesStore.Data
+
+@inject IToastService toastService
+@inject NavigationManager NavManager;
+
+@page "/admin"
+
+<PageTitle>Admin Panel</PageTitle>
+
+<div class="auth-stretched">
+    <div class="auth-container">
+        <div class="auth-section">
+            <div class="auth-holder">
+                <div class="admin-title">Admin panel</div>
+                @foreach (var item in @PanelState.States)
+                {
+                    <button class="button-field" @onclick="(() => Show(item.Item1))">@item.Item2</button>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<AdminPanelComponent @ref="popupWindow" OnPurchase="Submit">
+    @switch (StateId)
+    {
+        case 0:
+            break;
+    }
+</AdminPanelComponent>
 
 @code {
+    AdminPanelComponent popupWindow;
 
+    private int StateId = 0;
+
+    private void Show(int id)
+    {
+        popupWindow.Show();
+    }
+
+    private void CloseAll()
+    {
+        popupWindow.Hide();
+    }
+
+    private void Submit()
+    {
+
+    }
 }

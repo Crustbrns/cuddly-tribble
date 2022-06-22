@@ -1,0 +1,25 @@
+﻿
+.admin-title {
+    text-align: center;
+    padding: 30px 0 20px 0;
+    font-family: 'Circe-B';
+    font-size: 28px;
+}
+
+.button-field {
+    margin-top: 4px;
+    width: 100%;
+    border-radius: 16px;
+    padding: 18px 14px;
+    background-color: #f1f3f4;
+    color: #03253a;
+    font-family: 'Circe-R';
+    margin-bottom: 20px;
+    transition: 0.3s ease;
+}
+
+    .button-field:hover {
+        transform: scale(0.97);
+        transition: 0.3s ease;
+        background-color: #dcdfe0;
+    }
