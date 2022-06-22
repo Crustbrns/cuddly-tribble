@@ -70,30 +70,52 @@ namespace DishesStore.Db.Context
             }
         }
 
-        public static void TryAddNewUser(string UserMail, string UserLogin, string UserPass)
+        public static Tuple<bool, string> TryAddNewUser(string UserMail, string UserLogin, string UserPass)
         {
-            if (CheckMailAvailability(UserMail) && CheckLoginAvailability(UserLogin))
+            if (!CheckLoginAvailability(UserLogin))
+                return Tuple.Create(false, "Something went wrong. Login has been already taken.");
+
+            if (!CheckMailAvailability(UserMail))
+                return Tuple.Create(false, "Something went wrong. Mail has been already taken.");
+
+            using (SpicyDbContext db = new SpicyDbContext())
             {
-                using (SpicyDbContext db = new SpicyDbContext())
-                {
-                    db.Users.Add(new User() { Mail = UserMail, Login = UserLogin, PassHash = UserPass });
-                    db.SaveChanges();
-                }
-                DbUpdate();
+                db.Users.Add(new User() { Mail = UserMail, Login = UserLogin, PassHash = UserPass });
+                db.SaveChanges();
             }
+            DbUpdate();
+
+            return Tuple.Create(true, "Account created.");
         }
-        private static bool CheckMailAvailability(string Mail)
+        public static void AddNewUser(string UserMail, string UserLogin, string UserPass)
         {
             using (SpicyDbContext db = new SpicyDbContext())
             {
-                return db.Users.Any(x => x.Mail == Mail);
+                db.Users.Add(new User() { Mail = UserMail, Login = UserLogin, PassHash = UserPass });
+                db.SaveChanges();
             }
+            DbUpdate();
         }
-        private static bool CheckLoginAvailability(string Login)
+        public static bool CheckMailAvailability(string Mail)
         {
             using (SpicyDbContext db = new SpicyDbContext())
             {
-                return db.Users.Any(x => x.Login == Login);
+                return !db.Users.Any(x => x.Mail == Mail);
+            }
+        }
+        public static bool CheckLoginAvailability(string Login)
+        {
+            using (SpicyDbContext db = new SpicyDbContext())
+            {
+                return !db.Users.Any(x => x.Login == Login);
+            }
+        }
+
+        public static bool TryLoginUser(string Login, string Pass)
+        {
+            using (SpicyDbContext db = new SpicyDbContext())
+            {
+                return (db.Users.FirstOrDefault(x => x.Login == Login)?.PassHash == Pass);
             }
         }
     }

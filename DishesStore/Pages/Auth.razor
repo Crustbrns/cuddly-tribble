@@ -1,4 +1,7 @@
 ﻿@page "/auth"
+@using DishesStore.Data
+@using DishesStore.Db.Context
+@using DishesStore.Db.Model.Auth
 @using DishesStore.Db.Model.Auth.Registration
 
 @inject NavigationManager NavigationManager
@@ -58,9 +61,19 @@
                             <input class="auth-field" @bind-value="props.Pass" type="password" placeholder="Password" name="password" required>
                         </div>
 
+                        <div style="margin-top: 10px">
+                            <input class="auth-field" @bind-value="props.ConfirmPass" type="password" placeholder="Confirm Password" name="confirmpassword" required>
+                        </div>
+
                         <div>
                             <button class="enter-button-field" @onclick="Registration">Sign Up</button>
                         </div>
+
+                        @if (props.CheckForErrors())
+                        {
+                            <div style="color: #e4002b; font-family: 'Circe-R'">* @props.DisplayMessage()</div>
+                        }
+
                         <div class="auth-subtitle auth-create-request">
                             Already have an account? <button class="change-button" @onclick="ChangeAuthMode">Login into your account</button>
                         </div>
@@ -74,11 +87,43 @@
 
 @code {
     private bool IsAuthenticating = true;
+
     private RegProps props = new RegProps();
+    private AuthProps authprops = new AuthProps();
 
     private void Registration()
     {
-         NavigationManager.NavigateTo("/profile", true);
+        if (IsAuthenticating)
+        {
+            if (DbService.TryLoginUser(authprops.Login, authprops.Pass))
+            {
+                NavigationManager.NavigateTo("/profile", true);
+            }
+            else
+            {
+                NavigationManager.NavigateTo("/", true);
+            }
+        }
+        else
+        {
+            var response = Validate.CheckSignupProps(props.Mail, props.Login, props.Pass, props.ConfirmPass);
+            props.SetMessage(response.Item1, response.Item2);
+
+            if (response.Item1)
+            {
+                DbService.AddNewUser(props.Mail, props.Login, props.Pass);
+                NavigationManager.NavigateTo("/profile", true); ;
+            }
+            else
+            {
+            }
+        }
     }
-    private void ChangeAuthMode() => IsAuthenticating = !IsAuthenticating;
+
+    private void ChangeAuthMode()
+    {
+        IsAuthenticating = !IsAuthenticating;
+        props = new RegProps();
+        authprops = new AuthProps();
+    }
 }
