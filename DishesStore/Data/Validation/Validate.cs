@@ -66,12 +66,12 @@ namespace DishesStore.Data
             return Tuple.Create(true, "Category has been successfully added");
         }
         
-        public static Tuple<bool, string> CheckCategoryEdit(string OldCategoryName, string NewCategoryName)
+        public static Tuple<bool, string> CheckCategoryEdit(int CategoryId, string NewCategoryName)
         {
             if (string.IsNullOrWhiteSpace(NewCategoryName))
                 return Tuple.Create(false, "Incorrect New Category Name");
             
-            if (OldCategoryName.Equals(NewCategoryName))
+            if (DbService.TryGetCategory(CategoryId).Name.Equals(NewCategoryName))
                 return Tuple.Create(false, "Category Names match each other");
 
             if (NewCategoryName.Length < 4)
@@ -85,8 +85,8 @@ namespace DishesStore.Data
         
         public static Tuple<bool, string> CheckCategoryDelete(int CategoryId)
         {
-            if (!DbService.CheckCategoryExistence(CategoryId))
-                return Tuple.Create(false, "Category doesn't exist yet.");
+            //if (!DbService.CheckCategoryExistence(CategoryId))
+            //    return Tuple.Create(false, "Category doesn't exist yet.");
 
             if (DbService.IsCategoryInUse(CategoryId))
                 return Tuple.Create(false, "Category in use.");

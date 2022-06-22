@@ -18,7 +18,7 @@
     private bool isDisplaying { get; set; } = false;
 
     [Parameter] public RenderFragment ChildContent { get; set; }
-    [Parameter] public EventCallback OnPurchase { get; set; }
+    [Parameter] public EventCallback OnClose { get; set; }
 
     public void Hide() => isDisplaying = false;
     public void Show() => isDisplaying = true;

@@ -24,7 +24,7 @@
     </div>
 </div>
 
-<AdminPanelComponent @ref="popupWindow" OnPurchase="Submit">
+<AdminPanelComponent @ref="popupWindow" OnClose="TryExecute">
     <div>
         <div class="admin-display-container">
             <div style="display: flex; justify-content: end; width: 100%">
@@ -133,7 +133,7 @@
                 break;
 
             case 1:
-                ExecuteResponse = Validate.CheckCategoryEdit(oldcategory.Name, category.Name);
+                ExecuteResponse = Validate.CheckCategoryEdit(oldcategory.Id, category.Name);
                 if (ExecuteResponse.Item1)
                 {
                     DbService.EditCategory(oldcategory.Name, category.Name);
@@ -141,26 +141,27 @@
                 break;
 
             case 2:
-                ExecuteResponse = Validate.CheckCategoryDelete(oldcategory.Id);
+                ExecuteResponse = Validate.CheckCategoryDelete(oldcategory.Id + 1);
                 if (ExecuteResponse.Item1)
                 {
                     DbService.DeleteCategoryById(oldcategory.Id);
                 }
                 break;
         }
+        CloseAll();
     }
 
     private void CloseAll()
+    {
+        ClearData();
+        popupWindow.Hide();
+    }
+
+    private void ClearData()
     {
         category = new Category();
         oldcategory = new Category() { Id = -1 };
         ExecuteResponse = null;
         IsButtonDisabled = false;
-        popupWindow.Hide();
-    }
-
-    private void Submit()
-    {
-
     }
 }

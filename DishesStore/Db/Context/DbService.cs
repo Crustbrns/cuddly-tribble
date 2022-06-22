@@ -71,6 +71,15 @@ namespace DishesStore.Db.Context
                 DbUpdate();
             }
         }
+        public static void DeleteCategoryById(int CategoryId)
+        {
+            using (SpicyDbContext db = new SpicyDbContext())
+            {
+                db.Categories.Remove(db.Categories.Where(x => x.Id == CategoryId).First());
+                db.SaveChanges();
+            }
+            DbUpdate();
+        }
 
         public static bool IsCategoryInUse(string CategoryName)
         {
@@ -88,16 +97,7 @@ namespace DishesStore.Db.Context
             }
 
         }
-        public static void DeleteCategoryById(int CategoryId)
-        {
-            using (SpicyDbContext db = new SpicyDbContext())
-            {
-                db.Categories.Remove(db.Categories.Where(x => x.Id == CategoryId).First());
-                db.SaveChanges();
-            }
-            DbUpdate();
-        }
-
+        
         public static bool CheckCategoryExistence(string CategoryName)
         {
             using (SpicyDbContext db = new SpicyDbContext())
