@@ -1,12 +1,14 @@
 ﻿@page "/profile"
-
-<h3>Profile</h3>
+@using DishesStore.Db.Context
+@using DishesStore.Db.Model.Auth
 
 <div class="auth-stretched">
-    <div class="auth-container">
-        <div class="auth-section">
+    <div class="auth-container" style="padding: 0;">
+        <div class="auth-section" style="width: auto; min-width: 440px">
             <div class="auth-holder">
-
+                <div class="hello-holder">
+                    <span class="hello-title">Hello, @DbService.GetUserData(Root.userId)?.Login! 😋</span>
+                </div>
             </div>
         </div>
     </div>

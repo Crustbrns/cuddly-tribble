@@ -31,13 +31,19 @@ namespace DishesStore.Data
 
             if (!DbService.CheckLoginAvailability(Login))
                 return Tuple.Create(false, "Login has been already taken, try another one or login if it's yours");
+            
+            if (Login.Length < PassProps.LoginMinLength)
+                return Tuple.Create(false, $"Login is too short. It must be great than or equal {PassProps.LoginMinLength}");
+            
+            if (Login.Length > PassProps.LoginMaxLength)
+                return Tuple.Create(false, $"Login is too large. It must be less than or equal {PassProps.LoginMaxLength}");
 
             if (!DbService.CheckMailAvailability(Mail))
                 return Tuple.Create(false, "Something went wrong. Mail has been already registered");
 
             return Tuple.Create(true, "Validation successful");
         }
-        
+
         public static Tuple<bool, string> CheckSigninProps(string Login, string Pass)
         {
             if (string.IsNullOrWhiteSpace(Login))
@@ -100,5 +106,28 @@ namespace DishesStore.Data
             return Tuple.Create(true, "Category has been removed");
         }
 
+
+        public static Tuple<bool, string> CheckDishAdding(string DishName, double DishPrice, string DishDescription, int CategoryId)
+        {
+            if (!DbService.CheckCategoryExistence(CategoryId))
+                return Tuple.Create(false, "Category doesn't exist");
+
+            if (DbService.IsDishExist(DishName))
+                return Tuple.Create(false, "Dish Name has been already taken.");
+            
+            if (DishPrice < PassProps.DishPriceMin)
+                return Tuple.Create(false, $"Dish Price must be great than or equal ${PassProps.DishPriceMin}");
+            
+            if (DishPrice > PassProps.DishPriceMax)
+                return Tuple.Create(false, $"Dish Price must be less than or equal ${PassProps.DishPriceMax}");
+
+            if(DishDescription == string.Empty)
+                return Tuple.Create(false, "Dish Description is empty");
+            
+            if(DishDescription.Length > PassProps.DishDescriptionMaxLength)
+                return Tuple.Create(false, $"Dish Description must be less than or equal {PassProps.DishDescriptionMaxLength}");
+
+            return Tuple.Create(true, "Dish has been created");
+        }
     }
 }

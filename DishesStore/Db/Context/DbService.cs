@@ -1,5 +1,6 @@
 ﻿
 using DishesStore.Db.Model;
+using DishesStore.Db.Model.Auth;
 
 namespace DishesStore.Db.Context
 {
@@ -34,20 +35,17 @@ namespace DishesStore.Db.Context
                 return db.Categories.FirstOrDefault(x => x.Id == CategoryId);
             }
         }
-        public async static void AddCategory(string CategoryName)
+        public static void AddCategory(string CategoryName)
         {
-            await Task.Run(() =>
+            if (!CheckCategoryExistence(CategoryName))
             {
-                if (!CheckCategoryExistence(CategoryName))
+                using (SpicyDbContext db = new SpicyDbContext())
                 {
-                    using (SpicyDbContext db = new SpicyDbContext())
-                    {
-                        db.Categories.Add(new Category { Name = CategoryName });
-                        db.SaveChanges();
-                    }
-                    DbUpdate();
+                    db.Categories.Add(new Category { Name = CategoryName });
+                    db.SaveChanges();
                 }
-            });
+                DbUpdate();
+            }
         }
         public static void EditCategory(string CategoryName, string NewCategoryName)
         {
@@ -73,17 +71,14 @@ namespace DishesStore.Db.Context
                 }
             });
         }
-        public async static void DeleteCategoryById(int CategoryId)
+        public static void DeleteCategoryById(int CategoryId)
         {
-            await Task.Run(() =>
+            using (SpicyDbContext db = new SpicyDbContext())
             {
-                using (SpicyDbContext db = new SpicyDbContext())
-                {
-                    db.Categories.Remove(db.Categories.Where(x => x.Id == CategoryId).First());
-                    db.SaveChanges();
-                }
-                DbUpdate();
-            });
+                db.Categories.Remove(db.Categories.Where(x => x.Id == CategoryId).First());
+                db.SaveChanges();
+            }
+            DbUpdate();
         }
 
         public static bool IsCategoryInUse(string CategoryName)
@@ -102,6 +97,58 @@ namespace DishesStore.Db.Context
             }
 
         }
+
+        public static void SetUserRoot(string Login, string Pass)
+        {
+            using (SpicyDbContext db = new SpicyDbContext())
+            {
+                Root.userId = db.Users.First(x => x.Login == Login && x.PassHash == Pass).Id;
+            }
+        }
+        public static User GetUserData(int UserId)
+        {
+            using (SpicyDbContext db = new SpicyDbContext())
+            {
+                if (DbService.IsUserExistsById(UserId))
+                {
+                    return db.Users.First(x => x.Id == UserId);
+                }
+            }
+            return null;
+        }
+        public static int ReturnUserId(string Login, string Pass)
+        {
+            using (SpicyDbContext db = new SpicyDbContext())
+            {
+                return db.Users.First(x => x.Login == Login && x.PassHash == Pass).Id;
+            }
+        }
+        public static void AddDish(string DishName, double DishPrice, string DishDescription, int CategoryId)
+        {
+            using (SpicyDbContext db = new SpicyDbContext())
+            {
+                db.Dishes.Add(new Dish()
+                {
+                    Name = DishName,
+                    Price = Math.Round(DishPrice, 2),
+                    Description = DishDescription,
+                    Category = db.Categories.First(x => x.Id == CategoryId)
+                });
+                db.SaveChanges();
+            }
+            DbService.DbUpdate();
+        }
+
+
+        public static bool IsDishExist(string Name)
+        {
+            using (SpicyDbContext db = new SpicyDbContext())
+            {
+                return db.Dishes.Any(x => x.Name == Name);
+            }
+        }
+
+
 
         public static bool CheckCategoryExistence(string CategoryName)
         {
@@ -170,6 +217,13 @@ namespace DishesStore.Db.Context
         public static bool IsUserExists(string Login, string Pass)
         {
             return IsUserLoginValid(Login) ? IsUserPassValid(Login, Pass) : false;
+        }
+        public static bool IsUserExistsById(int UserId)
+        {
+            using (SpicyDbContext db = new SpicyDbContext())
+            {
+                return db.Users.Any(x => x.Id == UserId);
+            }
         }
 
         private static bool IsUserLoginValid(string Login)

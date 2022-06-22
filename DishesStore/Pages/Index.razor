@@ -6,7 +6,7 @@
 
 @inject IToastService toastService
 
-<link href="_content/Blazored.Toast/blazored-toast.css" rel="stylesheet" />
+<link href="_content/Blazored.Toast/bcontenttoast.css" rel="stylesheet" />
 
 <PageTitle>Catalogue</PageTitle>
 
@@ -28,18 +28,15 @@
                             <ul class="store-categories">
                                 @{
                                     <li class="store-categories-element">
-                                        <input class="store-categories-element-input" type='radio' value='0' name='radio' id='radio0' @onclick="@((args)=>ChangeCategory(null))" checked />
-                                        <label class="category" for='radio0'>All</label>
+                                        <input class="store-categories-element-input" type='radio' value='0' name='radio' id='-1' @onclick="@((args)=>ChangeCategory(-1))" checked />
+                                        <label class="category" for='-1'>All</label>
                                     </li>
-                                    int id = 1;
                                     @foreach (var item in @DbService.Categories)
                                     {
                                         <li class="store-categories-element">
-                                            <input class="store-categories-element-input" type='radio' value='@id' name='radio' id='radio@(id)' @onclick="@((args)=>ChangeCategory(item))" />
-                                            <label class="category" for='radio@(id)'>@item.Name</label>
+                                            <input class="store-categories-element-input" type='radio' value='@item.Id' name='radio' id='@item.Id' @onclick="@((args)=>ChangeCategory(item.Id))" />
+                                            <label class="category" for='@item.Id'>@item.Name</label>
                                         </li>
-
-                                        id++;
                                     }
                                 }
                             </ul>
@@ -53,23 +50,26 @@
 
     <div class="stretched">
         <div class="assortment-container">
-            @if (@dishes.Count == 0 || (@searchQuery != string.Empty && @dishes.Where(x => x.Name.ToLower().Contains(searchQuery.ToLower())).ToList().Count == 0) || (CurrentCategory.Name != "All" && @dishes.Where(x => x.Category.Name == CurrentCategory.Name).ToList().Count == 0))
+            @if (@DbService.Dishes.Count == 0 || (@searchQuery != string.Empty && @DbService.Dishes.Where(x => x.Name.ToLower().Contains(searchQuery.ToLower())).ToList().Count == 0) || (CurrentCategory.Name != "All" && @DbService.Dishes.Where(x => x.Category.Id == CurrentCategory.Id).ToList().Count == 0))
             {
                 <div class="assortment-container-stretched">Sorry! Nothing has been found by your query!</div>
             }
             else
             {
                 @foreach (var item in CurrentCategory.Name == "All" ?
-               (searchQuery == string.Empty ? @dishes : @dishes.Where(x => x.Name.ToLower().Contains(searchQuery.ToLower()))).ToList() :
-               (searchQuery == string.Empty ? @dishes.Where(x => x.Category.Name == CurrentCategory.Name).ToList() :
-               @dishes.Where(x => x.Name.ToLower().Contains(searchQuery.ToLower()))).ToList().Where(x => x.Category.Name == CurrentCategory.Name).ToList())
+               (searchQuery == string.Empty ? @DbService.Dishes : @DbService.Dishes.Where(x => x.Name.ToLower().Contains(searchQuery.ToLower()))).ToList() :
+               (searchQuery == string.Empty ? @DbService.Dishes.Where(x => x.Category.Id == CurrentCategory.Id).ToList() :
+               @DbService.Dishes.Where(x => x.Name.ToLower().Contains(searchQuery.ToLower()))).ToList().Where(x => x.Category.Id == CurrentCategory.Id).ToList())
                 {
                     <element @onclick="((args)=>myScript(item))" class="card">
                         <div>
                             <img class="card-img" src="https://mercatopizzakurier.ch/wp-content/uploads/2019/10/1459955-free-png-pepperoni-pizza-png-images-transparent-free-png-images-pizza-850_834.png">
                         </div>
                         <div>
-                            <div class="card-title">@item.Name @if (item.Category.Name == "Vegan") { <span style="color: #68c25a;">🌱</span>}</div>
+                            <div class="card-title">@item.Name @if (item.Category.Name == "Vegan")
+                                {
+                                    <span style="color: #68c25a;">🌱</span>
+                                }</div>
                             <div class="card-calorie">Calorieness</div>
                             <div class="values-container">
                                 <div class="checkbox-value checkbox-active">250 kcal</div>
@@ -96,61 +96,68 @@
                 <img class="img-popup" src="https://mercatopizzakurier.ch/wp-content/uploads/2019/10/1459955-free-png-pepperoni-pizza-png-images-transparent-free-png-images-pizza-850_834.png" />
             </div>
 
-            <div class="additional-display-holder">
-                <div class="additional-section">
-                    <div class="display-item-values-container">
-                        <div class="display-item-checkbox-value display-item-checkbox-active">250 kcal</div>
-                        <div class="display-item-checkbox-value">400 kcal</div>
-                        <div class="display-item-checkbox-value">600 kcal</div>
+            <div class="additional-display-holder" style="display: flex; flex-direction: column; justify-content: space-between">
+                <div>
+                    <div class="additional-section">
+                        <div class="display-item-values-container">
+                            <div class="display-item-checkbox-value display-item-checkbox-active">250 kcal</div>
+                            <div class="display-item-checkbox-value">400 kcal</div>
+                            <div class="display-item-checkbox-value">600 kcal</div>
+                        </div>
+                        <div>
+                            <button class="cross-btn" @onclick="Hide">&#9932;</button>
+                        </div>
                     </div>
-                    <div>
-                        <button class="cross-btn" @onclick="OnPurchase">&#9932;</button>
-                    </div>
+                    <div class="display-item-card-title">@DishOnScreen.dish.Name @if (DishOnScreen.dish.Category.Name == "Vegan")
+                        {
+                            <span style="color: #68c25a;">🌱</span>
+                        }</div>
+                    <div class="display-item-card-description" style="word-wrap: break-word;">@DishOnScreen.dish.Description</div>
                 </div>
-                <div class="display-item-card-title">@DishOnScreen.dish.Name @if (DishOnScreen.dish.Category.Name == "Vegan") { <span style="color: #68c25a;">🌱</span>}</div>
-                <div class="display-item-card-description">@DishOnScreen.dish.Description description dish description dish description dish description dish description dish description</div>
 
                 <div>
                     <div>
-                        proteins carbohydrates fats.
-                    </div>
+                        <div>
+                            @*proteins carbohydrates fats.*@
+                        </div>
 
-                    <div>
-                        <div class="display-item-lower-container">
-                            <div>
-                                <div class="amount-label">
-                                    Amount
-                                </div>
-                                <div style="display:flex">
-                                    <div class="input-modal">
-                                        <span>@DishOnScreen.count</span>
-                                    </div>
-                                    <div class="btns-container">
-                                        <div>
-                                            <button class="modal-button-count btn-green" @onclick="CountIncrease">+</button>
-                                        </div>
-                                        <div>
-                                            <button class="modal-button-count btn-red" @onclick="CountDecrease">-</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="modal-section">
-                                    <div class="modal-item-price-label">
-                                        Price
-                                    </div>
-                                    <div class="modal-item-price">
-                                        @DishOnScreen.dish.Price usd.
-                                    </div>
-                                    <div class="modal-item-totalprice">
-                                        Total: <span style="font-family: 'Circe-B'">@(DishOnScreen.dish.Price * DishOnScreen.count) usd.</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="modal-section modal-section-last">
+                        <div>
+                            <div class="display-item-lower-container">
                                 <div>
-                                    <button @onclick="OnPurchase" type="button" class="btn btn-purchase">Purchase</button>
+                                    <div class="amount-label">
+                                        Amount
+                                    </div>
+                                    <div style="display:flex">
+                                        <div class="input-modal">
+                                            <span>@DishOnScreen.count</span>
+                                        </div>
+                                        <div class="btns-container">
+                                            <div>
+                                                <button class="modal-button-count btn-green" @onclick="CountIncrease">+</button>
+                                            </div>
+                                            <div>
+                                                <button class="modal-button-count btn-red" @onclick="CountDecrease">-</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="modal-section">
+                                        <div class="modal-item-price-label">
+                                            Price
+                                        </div>
+                                        <div class="modal-item-price">
+                                            @DishOnScreen.dish.Price usd.
+                                        </div>
+                                        <div class="modal-item-totalprice">
+                                            Total: <span style="font-family: 'Circe-B'">@(DishOnScreen.dish.Price * DishOnScreen.count) usd.</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-section modal-section-last">
+                                    <div>
+                                        <button @onclick="OnPurchase" type="button" class="btn btn-purchase">Purchase</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -209,6 +216,12 @@
     private void CountIncrease() => DishOnScreen.count += (DishOnScreen.count == 10 ? 0 : 1);
     private void CountDecrease() => DishOnScreen.count -= (DishOnScreen.count == 1 ? 0 : 1);
 
+    private void Hide()
+    {
+        confirmation.Hide();
+        blurclass = "";
+    }
+
     private void OnPurchase()
     {
         confirmation.Hide();
@@ -234,10 +247,11 @@
         blurclass = "";
     }
 
-    private void ChangeCategory(Category category) => CurrentCategory = category == null ? new Category() { Name = "All" } : category;
+    private void ChangeCategory(int categoryId) => CurrentCategory = categoryId == -1 ? new Category() { Name = "All" } : DbService.Categories.First(x => x.Id == categoryId);
 
     protected override void OnInitialized()
     {
+        CurrentCategory = new Category() { Name = "All" };
         //DbService.AddCategory("Vegan");
         //DbService.TryAddNewUser("crustbrns@gmail.com", "Crustbrns", "11111111");
         //categories = new List<Category>();

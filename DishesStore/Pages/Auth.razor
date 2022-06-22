@@ -107,6 +107,8 @@
             if (response.Item1)
             {
                 //DbService.TryLoginUser(authprops.Login, authprops.Pass)
+                Root.Access = true;
+                Root.userId = DbService.ReturnUserId(authprops.Login, authprops.Pass);
                 NavigationManager.NavigateTo("/profile", true);
             }
             else
@@ -121,6 +123,8 @@
             if (response.Item1)
             {
                 DbService.AddNewUser(props.Mail, props.Login, props.Pass);
+                Root.Access = true;
+                Root.userId = DbService.ReturnUserId(props.Login, props.Pass);
                 NavigationManager.NavigateTo("/profile", true); ;
             }
             else

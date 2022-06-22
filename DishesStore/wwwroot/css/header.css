@@ -54,6 +54,23 @@ button {
         transform: scale(0.96);
     }
 
+
+    .registration-button-noactive {
+        font-family: 'Circe-B';
+        padding: 11.5px 40px;
+        background-color: white;
+        color: #0b2a3d;
+        font-size: 20px;
+        border-radius: 10px;
+        margin: 10px 0px 0px 10px;
+        letter-spacing: 1px;
+        transition: 0.3s ease;
+    }
+        .registration-button.noactive:hover {
+            transition: 0.3s ease;
+            transform: scale(1);
+        }
+
 .logo {
     padding-top: 8px;
     font-family: Circe-B;
