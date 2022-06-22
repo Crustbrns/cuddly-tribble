@@ -29,26 +29,25 @@ namespace DishesStore.Db.Context
 
         public static Category TryGetCategory(int CategoryId)
         {
-            if (DbService.CheckCategoryExistence(CategoryId))
+            using (SpicyDbContext db = new SpicyDbContext())
             {
-                using (SpicyDbContext db = new SpicyDbContext())
-                {
-                    return db.Categories.First(x => x.Id == CategoryId);
-                }
+                return db.Categories.FirstOrDefault(x => x.Id == CategoryId);
             }
-            return new Category();
         }
-        public static void AddCategory(string CategoryName)
+        public async static void AddCategory(string CategoryName)
         {
-            if (!CheckCategoryExistence(CategoryName))
+            await Task.Run(() =>
             {
-                using (SpicyDbContext db = new SpicyDbContext())
+                if (!CheckCategoryExistence(CategoryName))
                 {
-                    db.Categories.Add(new Category { Name = CategoryName });
-                    db.SaveChanges();
+                    using (SpicyDbContext db = new SpicyDbContext())
+                    {
+                        db.Categories.Add(new Category { Name = CategoryName });
+                        db.SaveChanges();
+                    }
+                    DbUpdate();
                 }
-                DbUpdate();
-            }
+            });
         }
         public static void EditCategory(string CategoryName, string NewCategoryName)
         {
@@ -59,26 +58,32 @@ namespace DishesStore.Db.Context
             }
             DbUpdate();
         }
-        public static void TryEditCategory(int CategoryId, string NewCategoryName)
+        public async static void TryEditCategory(int CategoryId, string NewCategoryName)
         {
-            if (!CheckCategoryExistence(CategoryId))
+            await Task.Run(() =>
+            {
+                if (CheckCategoryExistence(CategoryId))
+                {
+                    using (SpicyDbContext db = new SpicyDbContext())
+                    {
+                        db.Categories.First(x => x.Id == CategoryId).Name = NewCategoryName;
+                        db.SaveChanges();
+                    }
+                    DbUpdate();
+                }
+            });
+        }
+        public async static void DeleteCategoryById(int CategoryId)
+        {
+            await Task.Run(() =>
             {
                 using (SpicyDbContext db = new SpicyDbContext())
                 {
-                    db.Categories.First(x => x.Id == CategoryId).Name = NewCategoryName;
+                    db.Categories.Remove(db.Categories.Where(x => x.Id == CategoryId).First());
                     db.SaveChanges();
                 }
                 DbUpdate();
-            }
-        }
-        public static void DeleteCategoryById(int CategoryId)
-        {
-            using (SpicyDbContext db = new SpicyDbContext())
-            {
-                db.Categories.Remove(db.Categories.Where(x => x.Id == CategoryId).First());
-                db.SaveChanges();
-            }
-            DbUpdate();
+            });
         }
 
         public static bool IsCategoryInUse(string CategoryName)
@@ -97,7 +102,7 @@ namespace DishesStore.Db.Context
             }
 
         }
-        
+
         public static bool CheckCategoryExistence(string CategoryName)
         {
             using (SpicyDbContext db = new SpicyDbContext())
@@ -181,6 +186,5 @@ namespace DishesStore.Db.Context
                 return db.Users.First(x => x.Login == Login).PassHash == Pass;
             }
         }
-
     }
 }

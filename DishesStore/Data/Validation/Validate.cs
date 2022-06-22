@@ -62,6 +62,9 @@ namespace DishesStore.Data
 
             if (DbService.CheckCategoryExistence(CategoryName))
                 return Tuple.Create(false, "Category has been already created");
+            
+            if (DbService.Categories.Count >= 11)
+                return Tuple.Create(false, "Categories' limit count. Remove some categories and try again");
 
             return Tuple.Create(true, "Category has been successfully added");
         }
@@ -70,7 +73,10 @@ namespace DishesStore.Data
         {
             if (string.IsNullOrWhiteSpace(NewCategoryName))
                 return Tuple.Create(false, "Incorrect New Category Name");
-            
+
+            if (DbService.TryGetCategory(CategoryId) == null)
+                return Tuple.Create(false, "Category doesn't exist");
+
             if (DbService.TryGetCategory(CategoryId).Name.Equals(NewCategoryName))
                 return Tuple.Create(false, "Category Names match each other");
 

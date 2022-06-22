@@ -1,5 +1,6 @@
 ﻿@using DishesStore.Additional.Admin
 @using DishesStore.Data
+@using DishesStore.Data.Validation.Model
 @using DishesStore.Db.Context
 @using DishesStore.Db.Model
 
@@ -34,7 +35,7 @@
             </div>
             <div style="margin-top: 40px;">
                 <div>
-                    <h6 style="font-family: 'Circe-R'">@PanelState.States[StateId].Item2</h6>
+                    <h6 style="font-family: 'Circe-B'; text-align: center; font-size: 34px">@PanelState.States[StateId].Item2</h6>
                 </div>
 
                 @switch (StateId)
@@ -43,19 +44,50 @@
                         <div style="margin-top: 10px">
                             <input class="auth-field" @bind-value="category.Name" type="text" placeholder="Dish Category Name" required>
                         </div>
+
+                        <div>
+                            <button class="enter-button-field" @onclick="TryExecute" disabled="@IsButtonDisabled">Try Execute</button>
+                        </div>
+
                         break;
 
                     case 1:
-                        <select class="select-admin" @bind="@oldcategory.Name">
-                            @foreach (var item in DbService.Categories)
-                            {
-                                <option value="@item.Name">@item.Name</option>
-                            }
-                        </select>
+                        if (DbService.Categories.Count == 0)
+                        {
+                            IsButtonDisabled = true;
+                            <div style="color: #e4002b; font-family: 'Circe-R'">
+                                There is no active categories. Try add new one.
+                            </div>
+                        }
+                        else
+                        {
+                            <select class="select-admin" @bind="@oldcategory.Id">
+                                @foreach (var item in DbService.Categories)
+                                {
+                                    <option value="@item.Id">@item.Name</option>
+                                }
+                            </select>
+                            
+                            <div style="margin-top: 8px; width: 100%">
+                                <div style="margin: 0 20px -13px 20px; text-align: start; z-index: 100; position: relative">
+                                    <span style="background-color: white; color: #a3abb1; font-family: 'Circe-R'">New Category Name</span>
+                                </div>
+                                <div style="z-index: 0;  position: relative">
+                                    <input class="auth-field" style="padding: 10px 24px" @bind-value="category.Name" type="text" placeholder="Category Name replace to" required>
+                                </div>
+                            </div>
 
-                        <div style="margin-top: 10px">
-                            <input class="auth-field" @bind-value="category.Name" type="text" placeholder="Category Name replace to" required>
-                        </div>
+                            @*<div style="margin-top: 10px">
+                                    <input class="auth-field" style="padding: 10px 24px" @bind-value="category.Name" type="text" placeholder="Category Name replace to" required>
+
+                                </div>*@
+
+                            <div>
+                                <button class="enter-button-field" @onclick="TryExecute" disabled="@IsButtonDisabled">Try Execute</button>
+                            </div>
+                        }
+
+
                         break;
 
                     case 2:
@@ -74,14 +106,110 @@
                                     <option value="@item.Id">@item.Name</option>
                                 }
                             </select>
+
+                            <div>
+                                <button class="enter-button-field" @onclick="TryExecute" disabled="@IsButtonDisabled">Try Execute</button>
+                            </div>
                         }
-
                         break;
-                }
 
-                <div>
-                    <button class="enter-button-field" @onclick="TryExecute" disabled="@IsButtonDisabled">Try Execute</button>
-                </div>
+                    case 3:
+                        <div style="width: 100%; display: flex; justify-content: space-between; background-color: #f5f5f5; border-radius: 15px; padding: 30px">
+                            <div style="display: flex; flex-direction: column; justify-content: start; width: 56%;">
+                                <div style="width:100%;  background-color: white; border-radius: 15px; padding: 17px 30px 30px 30px; box-shadow: 0 0 30px 10px rgba(0,0,0,0.1);">
+                                    <div style="width: 100%">
+                                        <div style="margin: 0 20px -13px 20px; text-align: start; z-index: 100; position: relative">
+                                            <span style="background-color: white; color: #a3abb1; font-family: 'Circe-R'">Dish Title</span>
+                                        </div>
+                                        <div style="z-index: 0;  position: relative">
+                                            <textarea class="auth-field" style="padding: 10px 24px; resize: none" rows="1"
+                                              @bind-value:event="oninput"
+                                              @bind-value="dish.Name"
+                                              @onkeydown="@CheckName"
+                                              maxlength="@PassProps.DishNameMaxLength" />
+                                        </div>
+                                    </div>
+
+                                    <div style="margin-top: 8px; width: 100%">
+                                        <div style="margin: 0 20px -13px 20px; text-align: start; z-index: 100; position: relative">
+                                            <span style="background-color: white; color: #a3abb1; font-family: 'Circe-R'">Dish Price</span>
+                                        </div>
+                                        <div style="z-index: 0;  position: relative">
+                                            <input class="auth-field" style="padding: 10px 24px" min="1" max="200" @onkeydown="@CheckPrice" @bind-value="dish.Price" @bind-value:event="oninput" type="number" placeholder="Dish Price" required>
+                                        </div>
+                                    </div>
+
+                                    <div style="margin-top: 8px; width: 100%">
+                                        <div style="margin: 0 20px -13px 20px; text-align: start; z-index: 100; position: relative">
+                                            <span style="background-color: white; color: #a3abb1; font-family: 'Circe-R'">Dish Category</span>
+                                        </div>
+                                        <div style="z-index: 0;  position: relative">
+                                            <select class="select-admin" style="width: 100%;padding: 10px 24px;  margin-bottom: 0; font-family: 'Circe-R'; border-radius: 16px; border: 2px solid #a3abb1;" @bind="@category.Id">
+                                                @foreach (var item in DbService.Categories)
+                                                {
+                                                    <option value="@item.Id">@item.Name</option>
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div style="margin-top: 8px; margin-bottom: 0; width: 100%">
+                                        <div style="margin: 0 20px -13px 20px; text-align: start; z-index: 100; position: relative">
+                                            <span style="background-color: white; color: #a3abb1; font-family: 'Circe-R'">Dish Image</span>
+                                        </div>
+                                        <div style="z-index: 0;  position: relative">
+                                            <input class="auth-field" style="padding: 10px 24px;" @bind-value="ImageUrl" @bind-value:event="oninput" required>
+                                        </div>
+                                    </div>
+
+                                    <div style="margin-top: 20px; width: 100%">
+                                        <div style="margin: 0 20px -13px 0; text-align: end; z-index: 100; position: relative">
+                                            <span style="background-color: white; color: #a3abb1; font-family: 'Circe-R'">Dish Description</span>
+                                        </div>
+                                        <div style="z-index: 0;  position: relative">
+                                            <textarea class="conversation-input-message" style="margin-top: 0; padding: 10px; border-radius: 16px; border: 2px solid #a3abb1;" rows="6"
+                                              @bind-value:event="oninput"
+                                              @bind-value="dish.Description"
+                                              maxlength="255" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card" style="width: 40%; height: 526px; box-shadow: 0 0 30px 10px rgba(0,0,0,0.1); display: flex; flex-direction: column; justify-content: space-between;">
+                                <div style="height: 40%; object-fit:contain;">
+                                    <img class="card-img" src=@(ImageUrl == string.Empty? "images/pizza-missing.png" : ImageUrl)>
+                                </div>
+                                <div>
+                                    <div class="card-title">@(dish.Name == string.Empty?"Dish Name":dish.Name)</div>
+                                    <div class="card-calorie">Calorieness</div>
+                                    <div class="values-container">
+                                        <div class="checkbox-value checkbox-active">250 kcal</div>
+                                        <div class="checkbox-value">400 kcal</div>
+                                        <div class="checkbox-value">600 kcal</div>
+                                    </div>
+                                    <div class="purchase-segment">
+                                        <div class="card-price">$@(dish.Price > 200 ? 200 : dish.Price < 1 ? 1 : dish.Price)</div>
+                                        <svg class="purchase-button" id="PurchaseIcon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M24 3l-.743 2h-1.929l-3.474 12h-13.239l-4.615-11h16.812l-.564 2h-13.24l2.937 7h10.428l3.432-12h4.195zm-15.5 15c-.828 0-1.5.672-1.5 1.5 0 .829.672 1.5 1.5 1.5s1.5-.671 1.5-1.5c0-.828-.672-1.5-1.5-1.5zm6.9-7-1.9 7c-.828 0-1.5.671-1.5 1.5s.672 1.5 1.5 1.5 1.5-.671 1.5-1.5c0-.828-.672-1.5-1.5-1.5z" /></svg>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <button class="enter-button-field" style="margin: 30px 0 0px 0;" @onclick="TryExecute" disabled="@IsButtonDisabled">Try Execute</button>
+                        </div>
+                        break;
+
+                    case 4:
+                        break;
+
+                    case 5:
+                        break;
+
+                    case 6:
+                        break;
+
+                }
 
                 @if (ExecuteResponse != null)
                 {
@@ -107,10 +235,13 @@
     AdminPanelComponent popupWindow;
 
     Category category = new Category();
-    Category oldcategory = new Category() { Id = -1 };
+    Category oldcategory = new Category() { Id = 0 };
+
+    Dish dish = new Dish() { Name = "", Price = 4, Category = new Category(), Description = "" };
 
     private int StateId = 0;
     private bool IsButtonDisabled = false;
+    private string ImageUrl = string.Empty;
 
     private Tuple<bool, string> ExecuteResponse = null;
 
@@ -120,35 +251,64 @@
         StateId = id;
     }
 
+    private void CheckPrice(KeyboardEventArgs e)
+    {
+        if (dish.Price > 200) dish.Price = 200;
+        if (dish.Price < 1) dish.Price = 1;
+        if (dish.Name.Length > 4) dish.Name.Remove(4);
+    }
+    private void CheckName(KeyboardEventArgs e)
+    {
+        if (dish.Name.Length > PassProps.DishNameMaxLength) dish.Name.Remove(PassProps.DishNameMaxLength);
+    }
+
     private void TryExecute()
     {
-        switch (StateId)
+        try
         {
-            case 0:
-                ExecuteResponse = Validate.CheckCategoryAdd(category.Name);
-                if (ExecuteResponse.Item1)
-                {
-                    DbService.AddCategory(category.Name);
-                }
-                break;
+            switch (StateId)
+            {
+                case 0:
+                    ExecuteResponse = Validate.CheckCategoryAdd(category.Name);
+                    if (ExecuteResponse.Item1)
+                    {
+                        DbService.AddCategory(category.Name);
+                    }
+                    CloseAll();
+                    break;
 
-            case 1:
-                ExecuteResponse = Validate.CheckCategoryEdit(oldcategory.Id, category.Name);
-                if (ExecuteResponse.Item1)
-                {
-                    DbService.EditCategory(oldcategory.Name, category.Name);
-                }
-                break;
+                case 1:
+                    ExecuteResponse = Validate.CheckCategoryEdit(oldcategory.Id, category.Name);
+                    if (ExecuteResponse.Item1)
+                    {
+                        DbService.TryEditCategory(oldcategory.Id, category.Name);
+                    }
+                    CloseAll();
+                    break;
 
-            case 2:
-                ExecuteResponse = Validate.CheckCategoryDelete(oldcategory.Id + 1);
-                if (ExecuteResponse.Item1)
-                {
-                    DbService.DeleteCategoryById(oldcategory.Id);
-                }
-                break;
+                case 2:
+                    Task.Run(() =>
+                    {
+                        ExecuteResponse = Validate.CheckCategoryDelete(oldcategory.Id);
+                        if (ExecuteResponse.Item1)
+                        {
+                            DbService.DeleteCategoryById(oldcategory.Id);
+                        }
+                    });
+                    CloseAll();
+                    break;
+
+                case 3:
+                    //ExecuteResponse = Validate.CheckCategoryDelete(oldcategory.Id);
+                    //if (ExecuteResponse.Item1)
+                    //{
+                    //    DbService.DeleteCategoryById(oldcategory.Id);
+                    //}
+                    //break;
+                    break;
+            }
         }
-        CloseAll();
+        catch (Exception ex) { };
     }
 
     private void CloseAll()
@@ -161,7 +321,14 @@
     {
         category = new Category();
         oldcategory = new Category() { Id = -1 };
+        dish = new Dish() { Name = "", Price = 4, Category = new Category() { Id = -1 }, Description = "" };
         ExecuteResponse = null;
         IsButtonDisabled = false;
+    }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        ClearData();
     }
 }
