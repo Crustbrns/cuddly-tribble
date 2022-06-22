@@ -99,6 +99,8 @@ namespace DishesStore.Data
         {
             //if (!DbService.CheckCategoryExistence(CategoryId))
             //    return Tuple.Create(false, "Category doesn't exist yet.");
+            if(!DbService.Categories.Any(x=>x.Id == CategoryId))
+                return Tuple.Create(false, "Category doesn't exist.");
 
             if (DbService.IsCategoryInUse(CategoryId))
                 return Tuple.Create(false, "Category in use.");
@@ -115,12 +117,6 @@ namespace DishesStore.Data
             if (DbService.IsDishExist(DishName))
                 return Tuple.Create(false, "Dish Name has been already taken.");
             
-            if (DishPrice < PassProps.DishPriceMin)
-                return Tuple.Create(false, $"Dish Price must be great than or equal ${PassProps.DishPriceMin}");
-            
-            if (DishPrice > PassProps.DishPriceMax)
-                return Tuple.Create(false, $"Dish Price must be less than or equal ${PassProps.DishPriceMax}");
-
             if(DishDescription == string.Empty)
                 return Tuple.Create(false, "Dish Description is empty");
             
@@ -128,6 +124,13 @@ namespace DishesStore.Data
                 return Tuple.Create(false, $"Dish Description must be less than or equal {PassProps.DishDescriptionMaxLength}");
 
             return Tuple.Create(true, "Dish has been created");
+        }
+        public static Tuple<bool, string> CheckDishRemove(int DishId)
+        {
+            if (!DbService.Dishes.Any(x=>x.Id == DishId))
+                return Tuple.Create(false, "Dish doesn't exist.");
+            
+            return Tuple.Create(true, "Dish has been removed");
         }
     }
 }

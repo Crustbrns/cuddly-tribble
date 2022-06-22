@@ -102,7 +102,11 @@ namespace DishesStore.Db.Context
         {
             using (SpicyDbContext db = new SpicyDbContext())
             {
-                Root.userId = db.Users.First(x => x.Login == Login && x.PassHash == Pass).Id;
+                var User = db.Users.First(x => x.Login == Login);
+                if (BCrypt.Net.BCrypt.Verify(Pass, User.PassHash))
+                {
+                    Root.userId = db.Users.First(x => x.Login == Login).Id;
+                }
             }
         }
         public static User GetUserData(int UserId)
@@ -120,17 +124,24 @@ namespace DishesStore.Db.Context
         {
             using (SpicyDbContext db = new SpicyDbContext())
             {
-                return db.Users.First(x => x.Login == Login && x.PassHash == Pass).Id;
+                var user = db.Users.First(x => x.Login == Login);
+                if (BCrypt.Net.BCrypt.Verify(Pass, user.PassHash))
+                {
+                    return db.Users.First(x => x.Login == Login && x.PassHash == Pass).Id;
+                }
+                return -1;
             }
         }
         public static void AddDish(string DishName, double DishPrice, string DishDescription, int CategoryId)
         {
             using (SpicyDbContext db = new SpicyDbContext())
             {
+                var Price = DishPrice < 1 ? 1 : DishPrice > 200 ? 200 : DishPrice;
+
                 db.Dishes.Add(new Dish()
                 {
                     Name = DishName,
-                    Price = Math.Round(DishPrice, 2),
+                    Price = Math.Round(Price, 2),
                     Description = DishDescription,
                     Category = db.Categories.First(x => x.Id == CategoryId)
                 });
@@ -138,8 +149,23 @@ namespace DishesStore.Db.Context
             }
             DbService.DbUpdate();
         }
+        public static void RemoveDish(int DishId)
+        {
+            using (SpicyDbContext db = new SpicyDbContext())
+            {
+                db.Dishes.Remove(db.Dishes.First(x => x.Id == DishId));
+                db.SaveChanges();
+            }
+            DbService.DbUpdate();
+        }
 
-
+        public static Dish GetDishData(int DishId)
+        {
+            using (SpicyDbContext db = new SpicyDbContext())
+            {
+                return db.Dishes.First(x => x.Id == DishId);
+            }
+        }
         public static bool IsDishExist(string Name)
         {
             using (SpicyDbContext db = new SpicyDbContext())
@@ -147,8 +173,6 @@ namespace DishesStore.Db.Context
                 return db.Dishes.Any(x => x.Name == Name);
             }
         }
-
-
 
         public static bool CheckCategoryExistence(string CategoryName)
         {
@@ -186,7 +210,12 @@ namespace DishesStore.Db.Context
         {
             using (SpicyDbContext db = new SpicyDbContext())
             {
-                db.Users.Add(new User() { Mail = UserMail, Login = UserLogin, PassHash = UserPass });
+                db.Users.Add(new User()
+                {
+                    Mail = UserMail,
+                    Login = UserLogin,
+                    PassHash = BCrypt.Net.BCrypt.HashPassword(UserPass, BCrypt.Net.BCrypt.GenerateSalt())
+                });
                 db.SaveChanges();
             }
             DbUpdate();
@@ -210,7 +239,7 @@ namespace DishesStore.Db.Context
         {
             using (SpicyDbContext db = new SpicyDbContext())
             {
-                return (db.Users.FirstOrDefault(x => x.Login == Login)?.PassHash == Pass);
+                return BCrypt.Net.BCrypt.Verify(Pass, (db.Users.FirstOrDefault(x => x.Login == Login)?.PassHash));
             }
         }
 
@@ -237,7 +266,7 @@ namespace DishesStore.Db.Context
         {
             using (SpicyDbContext db = new SpicyDbContext())
             {
-                return db.Users.First(x => x.Login == Login).PassHash == Pass;
+                return BCrypt.Net.BCrypt.Verify(Pass, db.Users.First(x => x.Login == Login).PassHash);
             }
         }
     }
