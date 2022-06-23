@@ -2,12 +2,14 @@
 @using DishesStore.Db.Context
 @using DishesStore.Db.Model.Auth
 
+@inject Blazored.LocalStorage.ILocalStorageService oLocalStore;
+
 <div class="auth-stretched">
     <div class="auth-container" style="padding: 0;">
         <div class="auth-section" style="width: auto; min-width: 440px">
             <div class="auth-holder">
                 <div class="hello-holder">
-                    <span class="hello-title">Hello, @DbService.GetUserData(Root.userId)?.Login! 😋</span>
+                    <span class="hello-title">Hello, @UserLogin! 😋</span>
                 </div>
             </div>
         </div>
@@ -15,5 +17,39 @@
 </div>
 
 @code {
+    string UserLogin = "";
 
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            string UserSession = await oLocalStore.GetItemAsync<string>("UserSession");
+            string UserName = await oLocalStore.GetItemAsync<string>("UserName");
+
+            if (UserSession != null)
+            {
+                var User = DbService.Users.Where(x => x.SessionHash == UserSession).First();
+                if (UserName == null)
+                {
+                    SaveToLocalStorage(User.Login);
+                }
+                UserLogin = User.Login;
+                StateHasChanged();
+            }
+            else
+            {
+                ClearSession();
+            }
+        }
+    }
+
+    public async void ClearSession()
+    {
+        await oLocalStore.ClearAsync();
+    }
+
+    public void SaveToLocalStorage(string UserNameToSave)
+    {
+        oLocalStore.SetItemAsync("UserName", UserNameToSave);
+    }
 }

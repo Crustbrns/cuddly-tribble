@@ -6,6 +6,7 @@
         public string Login { get; set; } = null!;
         public string Mail { get; set; } = null!;
         public string PassHash { get; set; } = null!;
+        public string SessionHash { get; set; } = null!;
         public bool AdminRole { get; set; }
     }
 }

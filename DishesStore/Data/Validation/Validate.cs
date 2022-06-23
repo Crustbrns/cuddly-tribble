@@ -111,6 +111,12 @@ namespace DishesStore.Data
 
         public static Tuple<bool, string> CheckDishAdding(string DishName, double DishPrice, string DishDescription, int CategoryId)
         {
+            if (DishName.Length < PassProps.DishNameMinLength)
+                return Tuple.Create(false, "Dish name is too short");
+
+            if (DishName.Length > PassProps.DishNameMaxLength)
+                return Tuple.Create(false, "Dish name is too long");
+
             if (!DbService.CheckCategoryExistence(CategoryId))
                 return Tuple.Create(false, "Category doesn't exist");
 
@@ -125,6 +131,33 @@ namespace DishesStore.Data
 
             return Tuple.Create(true, "Dish has been created");
         }
+
+        public static Tuple<bool, string> CheckDishEditing(int DishId, string DishName, double DishPrice, string DishDescription, int CategoryId)
+        {
+            if (!DbService.Dishes.Any(x=>x.Id == DishId))
+                return Tuple.Create(false, "Dish Id is incorrect");
+
+            if (DishName.Length < PassProps.DishNameMinLength)
+                return Tuple.Create(false, "Dish name is too short");
+            
+            if (DishName.Length > PassProps.DishNameMaxLength)
+                return Tuple.Create(false, "Dish name is too long");
+            
+            if (!DbService.CheckCategoryExistence(CategoryId))
+                return Tuple.Create(false, "Category doesn't exist");
+
+            if (DbService.IsDishExist(DishName))
+                return Tuple.Create(false, "Dish Name has been already taken.");
+            
+            if(DishDescription == string.Empty)
+                return Tuple.Create(false, "Dish Description is empty");
+            
+            if(DishDescription.Length > PassProps.DishDescriptionMaxLength)
+                return Tuple.Create(false, $"Dish Description must be less than or equal {PassProps.DishDescriptionMaxLength}");
+
+            return Tuple.Create(true, "Dish has been edited");
+        }
+
         public static Tuple<bool, string> CheckDishRemove(int DishId)
         {
             if (!DbService.Dishes.Any(x=>x.Id == DishId))

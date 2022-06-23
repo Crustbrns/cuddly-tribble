@@ -2,7 +2,11 @@
 @using DishesStore.Additional
 @using DishesStore.Additional.ToolTip
 @using DishesStore.Data
+@using DishesStore.Db.Context
 @using DishesStore.Db.Model
+
+@inject NavigationManager NavigationManager
+@inject Blazored.LocalStorage.ILocalStorageService oLocalStore;
 
 <PageTitle>Chat</PageTitle>
 
@@ -12,7 +16,7 @@
             <div class="conversation-holder">
                 @{
                     string lasttime = string.Empty;
-                    @foreach (var item in @Dialog.messages)
+                    @foreach (var item in @DbService.Messages)
                     {
                         @if (@item.Time.ToString("HH:mm") != lasttime)
                         {
@@ -89,8 +93,21 @@
     {
         if (MessageBody.Trim() != string.Empty && !MessageBody.Contains("⠀"))
         {
-            Dialog.AddMessage(new Message(MessageBody.ToString()));
+            DbService.AddNewMessage(UserName == null ? "Anonymous" : UserName, MessageBody.ToString());
             MessageBody = "";
+        }
+    }
+
+    private string UserName = string.Empty;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            var UserSession = await oLocalStore.GetItemAsync<string>("UserSession");
+            var UserLogin = await oLocalStore.GetItemAsync<string>("UserName");
+
+            UserName = UserLogin;
         }
     }
 
@@ -106,4 +123,4 @@
             }
         }
     }
-        }
+}

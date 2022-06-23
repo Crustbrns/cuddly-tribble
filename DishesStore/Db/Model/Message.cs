@@ -2,6 +2,7 @@
 {
     public class Message
     {
+        public int Id { get; set; }
         public DateTime Time { get; set; }
         public string Body { get; set; }
         public string UserName { get; set; }
@@ -20,6 +21,10 @@
             this.Time = this.Time.AddHours(3);
             this.Body = Body;
             this.UserName = "Anonymous";
+        }
+
+        public Message()
+        {
         }
 
         public string GetTime() => $"{Time.Day.ToString()} {Time.ToString("MMMM")} {Time.Year}, {Time.ToString("HH: mm: ss")}";

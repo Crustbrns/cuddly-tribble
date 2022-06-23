@@ -2,7 +2,7 @@
 {
     public static class PassProps
     {
-        public static readonly int LoginMinLength = 6;
+        public static readonly int LoginMinLength = 5;
         public static readonly int LoginMaxLength = 15;
 
         public static readonly int PassMinLength = 8;

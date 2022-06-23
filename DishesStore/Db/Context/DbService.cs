@@ -9,6 +9,7 @@ namespace DishesStore.Db.Context
         public static List<Dish> Dishes { get; set; } = new List<Dish>();
         public static List<Category> Categories { get; set; } = new List<Category>();
         public static List<User> Users { get; set; } = new List<User>();
+        public static List<Message> Messages { get; set; } = new List<Message>();
 
         public static void DbInit()
         {
@@ -25,6 +26,7 @@ namespace DishesStore.Db.Context
                 Dishes = db.Dishes.ToList();
                 Categories = db.Categories.ToList();
                 Users = db.Users.ToList();
+                Messages = db.Messages.ToList();
             }
         }
 
@@ -132,7 +134,7 @@ namespace DishesStore.Db.Context
                 return -1;
             }
         }
-        public static void AddDish(string DishName, double DishPrice, string DishDescription, int CategoryId)
+        public static void AddDish(string DishName, double DishPrice, string DishImageUrl, string DishDescription, int CategoryId)
         {
             using (SpicyDbContext db = new SpicyDbContext())
             {
@@ -143,6 +145,7 @@ namespace DishesStore.Db.Context
                     Name = DishName,
                     Price = Math.Round(Price, 2),
                     Description = DishDescription,
+                    ImageUrl = DishImageUrl,
                     Category = db.Categories.First(x => x.Id == CategoryId)
                 });
                 db.SaveChanges();
@@ -214,7 +217,8 @@ namespace DishesStore.Db.Context
                 {
                     Mail = UserMail,
                     Login = UserLogin,
-                    PassHash = BCrypt.Net.BCrypt.HashPassword(UserPass, BCrypt.Net.BCrypt.GenerateSalt())
+                    PassHash = BCrypt.Net.BCrypt.HashPassword(UserPass, BCrypt.Net.BCrypt.GenerateSalt()),
+                    SessionHash = string.Empty
                 });
                 db.SaveChanges();
             }
@@ -268,6 +272,33 @@ namespace DishesStore.Db.Context
             {
                 return BCrypt.Net.BCrypt.Verify(Pass, db.Users.First(x => x.Login == Login).PassHash);
             }
+        }
+        public static void ChangeUserSession(string userLogin, string SessionHash)
+        {
+            using (SpicyDbContext db = new SpicyDbContext())
+            {
+                db.Users.First(x => x.Login == userLogin.ToLower()).SessionHash = SessionHash;
+                db.SaveChanges();
+            }
+            DbUpdate();
+        }
+
+        public static void AddNewMessage(string UserLogin, string MessageBody)
+        {
+            using (SpicyDbContext db = new SpicyDbContext())
+            {
+                var Time = DateTime.Now;
+                Time = Time.AddHours(3);
+
+                db.Messages.Add(new Message()
+                {
+                    UserName = UserLogin,
+                    Body = MessageBody,
+                    Time = Time
+                });
+                db.SaveChanges();
+            }
+            DbUpdate();
         }
     }
 }

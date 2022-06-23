@@ -61,15 +61,18 @@
                (searchQuery == string.Empty ? @DbService.Dishes.Where(x => x.Category.Id == CurrentCategory.Id).ToList() :
                @DbService.Dishes.Where(x => x.Name.ToLower().Contains(searchQuery.ToLower()))).ToList().Where(x => x.Category.Id == CurrentCategory.Id).ToList())
                 {
-                    <element @onclick="((args)=>myScript(item))" class="card">
-                        <div>
-                            <img class="card-img" src="https://mercatopizzakurier.ch/wp-content/uploads/2019/10/1459955-free-png-pepperoni-pizza-png-images-transparent-free-png-images-pizza-850_834.png">
+                    <element @onclick="((args)=>myScript(item))" class="card" style="display: flex; flex-direction: column; justify-content: space-between">
+                        <div style="height: 40%; object-fit:contain;">
+                            <img class="card-img" src=@(item.ImageUrl == string.Empty? "images/pizza-missing.png" : item.ImageUrl)>
                         </div>
+                        @*<img class="card-img" src="@item.ImageUrl">*@
                         <div>
-                            <div class="card-title">@item.Name @if (item.Category.Name == "Vegan")
+                            <div class="card-title">
+                                @item.Name @if (item.Category.Name != null && item.Category.Name == "Vegan")
                                 {
                                     <span style="color: #68c25a;">🌱</span>
-                                }</div>
+                                }
+                            </div>
                             <div class="card-calorie">Calorieness</div>
                             <div class="values-container">
                                 <div class="checkbox-value checkbox-active">250 kcal</div>
@@ -93,7 +96,7 @@
     <div>
         <div class="item-display-container">
             <div class="img-display-holder">
-                <img class="img-popup" src="https://mercatopizzakurier.ch/wp-content/uploads/2019/10/1459955-free-png-pepperoni-pizza-png-images-transparent-free-png-images-pizza-850_834.png" />
+                <img class="img-popup" src=@(DishOnScreen.dish.ImageUrl == string.Empty ? "images/pizza-missing.png" : DishOnScreen.dish.ImageUrl) />
             </div>
 
             <div class="additional-display-holder" style="display: flex; flex-direction: column; justify-content: space-between">
@@ -108,10 +111,12 @@
                             <button class="cross-btn" @onclick="Hide">&#9932;</button>
                         </div>
                     </div>
-                    <div class="display-item-card-title">@DishOnScreen.dish.Name @if (DishOnScreen.dish.Category.Name == "Vegan")
+                    <div class="display-item-card-title">
+                        @DishOnScreen.dish.Name @if (DishOnScreen.dish.Category.Name == "Vegan")
                         {
                             <span style="color: #68c25a;">🌱</span>
-                        }</div>
+                        }
+                    </div>
                     <div class="display-item-card-description" style="word-wrap: break-word;">@DishOnScreen.dish.Description</div>
                 </div>
 
@@ -185,6 +190,8 @@
 
     private void FastPurchase(Dish dish)
     {
+        Cart.AddItem(dish, 1);
+        
         _toastParameters = new ToastParameters();
         if (Cart.CheckAvailability())
         {
@@ -200,9 +207,6 @@
             _toastParameters.Add(nameof(ToastError.Description), "Remove some dishes and try again!");
             toastService.ShowToast<ToastError>(_toastParameters, new ToastInstanceSettings(5, false));
         }
-
-        Cart.AddItem(dish, 1);
-
     }
 
     private void myScript(Dish dish)
@@ -226,6 +230,8 @@
     {
         confirmation.Hide();
 
+        Cart.AddItem(DishOnScreen.dish, DishOnScreen.count);
+        
         _toastParameters = new ToastParameters();
         if (Cart.CheckAvailability())
         {
@@ -242,39 +248,9 @@
             toastService.ShowToast<ToastError>(_toastParameters, new ToastInstanceSettings(5, false));
         }
 
-        Cart.AddItem(DishOnScreen.dish, DishOnScreen.count);
-
         blurclass = "";
     }
 
     private void ChangeCategory(int categoryId) => CurrentCategory = categoryId == -1 ? new Category() { Name = "All" } : DbService.Categories.First(x => x.Id == categoryId);
-
-    protected override void OnInitialized()
-    {
-        CurrentCategory = new Category() { Name = "All" };
-        //DbService.AddCategory("Vegan");
-        //DbService.TryAddNewUser("crustbrns@gmail.com", "Crustbrns", "11111111");
-        //categories = new List<Category>();
-        //categories = new List<Category>() {
-        //    new Category() { Name = "Vegan" },
-        //    new Category() { Name = "Vegetables" },
-        //    new Category() { Name = "Meat" },
-        //    new Category() { Name = "Low Carb" },
-        //    new Category() { Name = "Snack" },
-        //    new Category() { Name = "For Kids" }
-        //};
-        //for (int i = 0; i < 20; i++)
-        //{
-        //    dishes.Add(new Dish()
-        //        {
-        //            Id = i,
-        //            Name = $"Pizza {i}",
-        //            Description = $"Description {i}",
-        //            Price = i,
-        //            //Category = new Category() { Name = "Vegan" }
-        //            Category = categories.ElementAt(new Random().Next(0, categories.Count))
-        //        });
-        //}
-        base.OnInitialized();
-    }
+    
 }

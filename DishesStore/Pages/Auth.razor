@@ -5,6 +5,7 @@
 @using DishesStore.Db.Model.Auth.Registration
 
 @inject NavigationManager NavigationManager
+@inject Blazored.LocalStorage.ILocalStorageService oLocalStore;
 
 <PageTitle>Spicy Auth</PageTitle>
 
@@ -30,7 +31,7 @@
                         <div style="margin-top: 10px">
                             <input class="auth-field" @bind-value="authprops.Pass" type="password" placeholder="Password" name="password" required>
                         </div>
-                        
+
                         <div>
                             <button class="enter-button-field" @onclick="Registration">Sign In</button>
                         </div>
@@ -101,14 +102,15 @@
     {
         if (IsAuthenticating)
         {
-            var response = Validate.CheckSigninProps(authprops.Login, authprops.Pass);
+            var response = Validate.CheckSigninProps(authprops.Login.ToLower(), authprops.Pass);
             authprops.SetMessage(response.Item1, response.Item2);
 
             if (response.Item1)
             {
-                //DbService.TryLoginUser(authprops.Login, authprops.Pass)
-                Root.Access = true;
-                Root.userId = DbService.ReturnUserId(authprops.Login, authprops.Pass);
+                var SessionHash = BCrypt.Net.BCrypt.HashPassword($"{authprops.Login.ToLower()}{authprops.Pass}", BCrypt.Net.BCrypt.GenerateSalt());
+                DbService.ChangeUserSession(authprops.Login.ToLower(), SessionHash);
+                SaveSession(SessionHash, authprops.Login);
+
                 NavigationManager.NavigateTo("/profile", true);
             }
             else
@@ -117,15 +119,19 @@
         }
         else
         {
-            var response = Validate.CheckSignupProps(props.Mail, props.Login, props.Pass, props.ConfirmPass);
+            var response = Validate.CheckSignupProps(props.Mail.ToLower(), props.Login.ToLower(), props.Pass, props.ConfirmPass);
             props.SetMessage(response.Item1, response.Item2);
 
             if (response.Item1)
             {
-                DbService.AddNewUser(props.Mail, props.Login, props.Pass);
-                Root.Access = true;
-                Root.userId = DbService.ReturnUserId(props.Login, props.Pass);
-                NavigationManager.NavigateTo("/profile", true); ;
+                DbService.AddNewUser(props.Mail.ToLower(), props.Login.ToLower(), props.Pass);
+
+                var SessionHash = BCrypt.Net.BCrypt.HashPassword($"{props.Login.ToLower()}{props.Pass}", BCrypt.Net.BCrypt.GenerateSalt());
+                DbService.ChangeUserSession(props.Login.ToLower(), SessionHash);
+
+                SaveSession(SessionHash, props.Login);
+
+                NavigationManager.NavigateTo("/profile", true);
             }
             else
             {
@@ -138,5 +144,55 @@
         IsAuthenticating = !IsAuthenticating;
         props = new RegProps();
         authprops = new AuthProps();
+    }
+
+    private string UserName = string.Empty;
+    private string UserSession = string.Empty;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            var UserSession = await oLocalStore.GetItemAsync<string>("UserSession");
+
+            if (DbService.Users.Any(x => x.SessionHash == UserSession))
+            {
+                NavigationManager.NavigateTo("/profile");
+            }
+        }
+    }
+
+    public void SaveSession(string UserSessionToSave, string UserNameToSave)
+    {
+        oLocalStore.SetItemAsStringAsync("UserSession", UserSessionToSave);
+        oLocalStore.SetItemAsStringAsync("UserName", UserNameToSave);
+    }
+
+    public async void ClearSession()
+    {
+        await oLocalStore.ClearAsync();
+        SaveSession(string.Empty, string.Empty);
+    }
+
+    public async void TryConnect()
+    {
+        string UserSession = await oLocalStore.GetItemAsync<string>("UserSession");
+        string UserName = await oLocalStore.GetItemAsync<string>("UserName");
+
+        if (UserSession != null && UserName != null)
+        {
+            //try
+            //{
+
+            //}
+            //catch (Exception)
+            //{
+            //    ClearSession();
+            //}
+        }
+        else
+        {
+            //ClearSession();
+        }
     }
 }
