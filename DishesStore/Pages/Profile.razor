@@ -2,6 +2,7 @@
 @using DishesStore.Db.Context
 @using DishesStore.Db.Model.Auth
 
+@inject NavigationManager NavigationManager
 @inject Blazored.LocalStorage.ILocalStorageService oLocalStore;
 
 <div class="auth-stretched">
@@ -10,6 +11,10 @@
             <div class="auth-holder">
                 <div class="hello-holder">
                     <span class="hello-title">Hello, @UserLogin! 😋</span>
+                </div>
+
+                <div>
+                    <button class="enter-button-field" @onclick="Logout">Log out</button>
                 </div>
             </div>
         </div>
@@ -39,6 +44,7 @@
             else
             {
                 ClearSession();
+                NavigationManager.NavigateTo("/");
             }
         }
     }
@@ -51,5 +57,11 @@
     public void SaveToLocalStorage(string UserNameToSave)
     {
         oLocalStore.SetItemAsync("UserName", UserNameToSave);
+    }
+
+    public void Logout()
+    {
+        ClearSession();
+        NavigationManager.NavigateTo("/");
     }
 }

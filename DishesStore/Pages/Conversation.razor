@@ -13,10 +13,12 @@
 <div class="stretched">
     <div class="conversation-container">
         <div class="conversation-section">
-            <div class="conversation-holder">
+            <div class="conversation-holder" style="flex-direction: column-reverse">
                 @{
                     string lasttime = string.Empty;
-                    @foreach (var item in @DbService.Messages)
+                    var Messages = @DbService.Messages;
+
+                    foreach (var item in Messages.ToList())
                     {
                         @if (@item.Time.ToString("HH:mm") != lasttime)
                         {
@@ -105,6 +107,12 @@
         if (firstRender)
         {
             var UserSession = await oLocalStore.GetItemAsync<string>("UserSession");
+
+            if(!DbService.Users.Any(x=>x.SessionHash == UserSession))
+            {
+                await oLocalStore.ClearAsync();
+            }
+
             var UserLogin = await oLocalStore.GetItemAsync<string>("UserName");
 
             UserName = UserLogin;

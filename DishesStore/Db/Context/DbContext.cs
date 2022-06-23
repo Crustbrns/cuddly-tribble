@@ -10,6 +10,8 @@ namespace DishesStore.Db.Context
         public DbSet<Dish> Dishes { get; set; } = null!;
         public DbSet<User> Users { get; set; } = null!;
         public DbSet<Message> Messages { get; set; } = null!;
+        public DbSet<UserCheck> UserChecks { get; set; } = null!;
+        public DbSet<CartItem> CartItems { get; set; } = null!;
 
         public SpicyDbContext()
         {

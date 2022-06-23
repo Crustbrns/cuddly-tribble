@@ -4,6 +4,8 @@
 @using DishesStore.Db.Context
 @using DishesStore.Db.Model
 
+@inject NavigationManager NavigationManager
+@inject Blazored.LocalStorage.ILocalStorageService oLocalStore;
 @inject IToastService toastService
 
 <link href="_content/Blazored.Toast/bcontenttoast.css" rel="stylesheet" />
@@ -61,7 +63,7 @@
                (searchQuery == string.Empty ? @DbService.Dishes.Where(x => x.Category.Id == CurrentCategory.Id).ToList() :
                @DbService.Dishes.Where(x => x.Name.ToLower().Contains(searchQuery.ToLower()))).ToList().Where(x => x.Category.Id == CurrentCategory.Id).ToList())
                 {
-                    <element @onclick="((args)=>myScript(item))" class="card" style="display: flex; flex-direction: column; justify-content: space-between">
+                    <element @onclick="((args)=>ShowAdditionalPurchase(item))" class="card" style="display: flex; flex-direction: column; justify-content: space-between">
                         <div style="height: 40%; object-fit:contain;">
                             <img class="card-img" src=@(item.ImageUrl == string.Empty? "images/pizza-missing.png" : item.ImageUrl)>
                         </div>
@@ -190,31 +192,46 @@
 
     private void FastPurchase(Dish dish)
     {
-        Cart.AddItem(dish, 1);
-        
-        _toastParameters = new ToastParameters();
-        if (Cart.CheckAvailability())
+        if (UserSession == null || DbService.Users.Where(x=>x.SessionHash == UserSession).ToList().Count == 0)
         {
-            _toastParameters.Add(nameof(Toast.Title), "Item has added to your Cart");
-            _toastParameters.Add(nameof(Toast.PizzaName), dish.Name);
-            _toastParameters.Add(nameof(Toast.PizzaCount), 1);
-            _toastParameters.Add(nameof(Toast.Description), "Added to your cart");
-            toastService.ShowToast<Toast>(_toastParameters, new ToastInstanceSettings(5, false));
+            NavigationManager.NavigateTo("/auth");
         }
         else
         {
-            _toastParameters.Add(nameof(ToastError.Title), "No space left in your Cart.");
-            _toastParameters.Add(nameof(ToastError.Description), "Remove some dishes and try again!");
-            toastService.ShowToast<ToastError>(_toastParameters, new ToastInstanceSettings(5, false));
+            Cart.AddItem(dish, 1);
+
+            _toastParameters = new ToastParameters();
+            if (Cart.CheckAvailability())
+            {
+                _toastParameters.Add(nameof(Toast.Title), "Item has added to your Cart");
+                _toastParameters.Add(nameof(Toast.PizzaName), dish.Name);
+                _toastParameters.Add(nameof(Toast.PizzaCount), 1);
+                _toastParameters.Add(nameof(Toast.Description), "Added to your cart");
+                toastService.ShowToast<Toast>(_toastParameters, new ToastInstanceSettings(5, false));
+            }
+            else
+            {
+                _toastParameters.Add(nameof(ToastError.Title), "No space left in your Cart.");
+                _toastParameters.Add(nameof(ToastError.Description), "Remove some dishes and try again!");
+                toastService.ShowToast<ToastError>(_toastParameters, new ToastInstanceSettings(5, false));
+            }
+
         }
     }
 
-    private void myScript(Dish dish)
+    private void ShowAdditionalPurchase(Dish dish)
     {
-        DishOnScreen.dish = dish;
-        DishOnScreen.count = 1;
-        confirmation.Show();
-        blurclass = "site-blur";
+        if (UserSession == null || DbService.Users.Where(x => x.SessionHash == UserSession).ToList().Count == 0)
+        {
+            NavigationManager.NavigateTo("/auth");
+        }
+        else
+        {
+            DishOnScreen.dish = dish;
+            DishOnScreen.count = 1;
+            confirmation.Show();
+            blurclass = "site-blur";
+        }
     }
 
     private void CountIncrease() => DishOnScreen.count += (DishOnScreen.count == 10 ? 0 : 1);
@@ -231,7 +248,7 @@
         confirmation.Hide();
 
         Cart.AddItem(DishOnScreen.dish, DishOnScreen.count);
-        
+
         _toastParameters = new ToastParameters();
         if (Cart.CheckAvailability())
         {
@@ -252,5 +269,16 @@
     }
 
     private void ChangeCategory(int categoryId) => CurrentCategory = categoryId == -1 ? new Category() { Name = "All" } : DbService.Categories.First(x => x.Id == categoryId);
-    
+
+    private string UserName = string.Empty;
+    private string UserSession = string.Empty;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            UserSession = await oLocalStore.GetItemAsync<string>("UserSession");
+
+        }
+    }
 }

@@ -10,6 +10,8 @@ namespace DishesStore.Db.Context
         public static List<Category> Categories { get; set; } = new List<Category>();
         public static List<User> Users { get; set; } = new List<User>();
         public static List<Message> Messages { get; set; } = new List<Message>();
+        public static List<UserCheck> UserChecks { get; set; } = new List<UserCheck>();
+        public static List<CartItem> CartItems { get; set; } = new List<CartItem>();
 
         public static void DbInit()
         {
@@ -27,6 +29,8 @@ namespace DishesStore.Db.Context
                 Categories = db.Categories.ToList();
                 Users = db.Users.ToList();
                 Messages = db.Messages.ToList();
+                UserChecks = db.UserChecks.ToList();
+                CartItems = db.CartItems.ToList();
             }
         }
 
@@ -218,7 +222,8 @@ namespace DishesStore.Db.Context
                     Mail = UserMail,
                     Login = UserLogin,
                     PassHash = BCrypt.Net.BCrypt.HashPassword(UserPass, BCrypt.Net.BCrypt.GenerateSalt()),
-                    SessionHash = string.Empty
+                    SessionHash = string.Empty,
+                    AdminRole = true
                 });
                 db.SaveChanges();
             }
@@ -283,22 +288,25 @@ namespace DishesStore.Db.Context
             DbUpdate();
         }
 
-        public static void AddNewMessage(string UserLogin, string MessageBody)
+        public static async void AddNewMessage(string UserLogin, string MessageBody)
         {
-            using (SpicyDbContext db = new SpicyDbContext())
+            await Task.Run(() =>
             {
-                var Time = DateTime.Now;
-                Time = Time.AddHours(3);
-
-                db.Messages.Add(new Message()
+                using (SpicyDbContext db = new SpicyDbContext())
                 {
-                    UserName = UserLogin,
-                    Body = MessageBody,
-                    Time = Time
-                });
-                db.SaveChanges();
-            }
-            DbUpdate();
+                    var Time = DateTime.Now;
+                    Time = Time.AddHours(3);
+
+                    db.Messages.Add(new Message()
+                    {
+                        UserName = UserLogin,
+                        Body = MessageBody,
+                        Time = Time
+                    });
+                    db.SaveChanges();
+                }
+                DbUpdate();
+            });
         }
     }
 }

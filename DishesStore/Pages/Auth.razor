@@ -100,42 +100,49 @@
 
     private void Registration()
     {
-        if (IsAuthenticating)
+        try
         {
-            var response = Validate.CheckSigninProps(authprops.Login.ToLower(), authprops.Pass);
-            authprops.SetMessage(response.Item1, response.Item2);
-
-            if (response.Item1)
+            if (IsAuthenticating)
             {
-                var SessionHash = BCrypt.Net.BCrypt.HashPassword($"{authprops.Login.ToLower()}{authprops.Pass}", BCrypt.Net.BCrypt.GenerateSalt());
-                DbService.ChangeUserSession(authprops.Login.ToLower(), SessionHash);
-                SaveSession(SessionHash, authprops.Login);
+                var response = Validate.CheckSigninProps(authprops.Login.ToLower(), authprops.Pass);
+                authprops.SetMessage(response.Item1, response.Item2);
 
-                NavigationManager.NavigateTo("/profile", true);
+                if (response.Item1)
+                {
+                    var SessionHash = BCrypt.Net.BCrypt.HashPassword($"{authprops.Login.ToLower()}{authprops.Pass}", BCrypt.Net.BCrypt.GenerateSalt());
+                    DbService.ChangeUserSession(authprops.Login.ToLower(), SessionHash);
+                    SaveSession(SessionHash, authprops.Login);
+
+                    NavigationManager.NavigateTo("/profile", true);
+                }
+                else
+                {
+                }
             }
             else
             {
+                var response = Validate.CheckSignupProps(props.Mail.ToLower(), props.Login.ToLower(), props.Pass, props.ConfirmPass);
+                props.SetMessage(response.Item1, response.Item2);
+
+                if (response.Item1)
+                {
+                    DbService.AddNewUser(props.Mail.ToLower(), props.Login.ToLower(), props.Pass);
+
+                    var SessionHash = BCrypt.Net.BCrypt.HashPassword($"{props.Login.ToLower()}{props.Pass}", BCrypt.Net.BCrypt.GenerateSalt());
+                    DbService.ChangeUserSession(props.Login.ToLower(), SessionHash);
+
+                    SaveSession(SessionHash, props.Login);
+
+                    NavigationManager.NavigateTo("/profile", true);
+                }
+                else
+                {
+                }
             }
         }
-        else
+        catch (Exception)
         {
-            var response = Validate.CheckSignupProps(props.Mail.ToLower(), props.Login.ToLower(), props.Pass, props.ConfirmPass);
-            props.SetMessage(response.Item1, response.Item2);
-
-            if (response.Item1)
-            {
-                DbService.AddNewUser(props.Mail.ToLower(), props.Login.ToLower(), props.Pass);
-
-                var SessionHash = BCrypt.Net.BCrypt.HashPassword($"{props.Login.ToLower()}{props.Pass}", BCrypt.Net.BCrypt.GenerateSalt());
-                DbService.ChangeUserSession(props.Login.ToLower(), SessionHash);
-
-                SaveSession(SessionHash, props.Login);
-
-                NavigationManager.NavigateTo("/profile", true);
-            }
-            else
-            {
-            }
+            
         }
     }
 
