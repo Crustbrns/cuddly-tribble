@@ -24,28 +24,25 @@
 @code {
     string UserLogin = "";
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    protected override async void OnInitialized()
     {
-        if (firstRender)
-        {
-            string UserSession = await oLocalStore.GetItemAsync<string>("UserSession");
-            string UserName = await oLocalStore.GetItemAsync<string>("UserName");
+        string UserSession = await oLocalStore.GetItemAsync<string>("UserSession");
+        string UserName = await oLocalStore.GetItemAsync<string>("UserName");
 
-            if (UserSession != null)
+        if (UserSession != null)
+        {
+            var User = DbService.Users.Where(x => x.SessionHash == UserSession).First();
+            if (UserName == null)
             {
-                var User = DbService.Users.Where(x => x.SessionHash == UserSession).First();
-                if (UserName == null)
-                {
-                    SaveToLocalStorage(User.Login);
-                }
-                UserLogin = User.Login;
-                StateHasChanged();
+                SaveToLocalStorage(User.Login);
             }
-            else
-            {
-                ClearSession();
-                NavigationManager.NavigateTo("/");
-            }
+            UserLogin = User.Login;
+            StateHasChanged();
+        }
+        else
+        {
+            ClearSession();
+            NavigationManager.NavigateTo("/");
         }
     }
 

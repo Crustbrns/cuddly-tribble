@@ -1,9 +1,13 @@
 ﻿@page "/cart"
 @using DishesStore.Additional.Toast
 @using DishesStore.Data
+@using DishesStore.Db.Context
 @using DishesStore.Db.Model
 
 @inject IToastService toastServiceCart
+@inject NavigationManager NavigationManager
+@inject Blazored.LocalStorage.ILocalStorageService oLocalStore;
+
 
 <PageTitle>Cart</PageTitle>
 
@@ -16,7 +20,7 @@
                         <h4 class="cart-title">Cart</h4><hr />
                     </div>
                     <div>
-                        @if (@Cart.Dishes.Count == 0)
+                        @if (!@DbService.CartItems.Any(x => x.UserId == UserId))
                         {
                             <div class="cart-warn-title">
                                 <div>There's <span style="color: #e4002b">nothing</span> yet. Add your first dish before you can order it!</div>
@@ -25,39 +29,41 @@
                         }
                         else
                         {
-
-                            @foreach (var item in @Cart.Dishes)
+                            @foreach (var item in @DbService.CartItems.Where(x => x.UserId == UserId))
                             {
                                 <div class="cart-item">
                                     <div style="width: 20%">
-                                        <img class="cart-item-image" src="https://mercatopizzakurier.ch/wp-content/uploads/2019/10/1459955-free-png-pepperoni-pizza-png-images-transparent-free-png-images-pizza-850_834.png">
+                                        <img class="cart-item-image" src=@(DbService.Dishes.First(x=>x.Id == item.DishId).ImageUrl == string.Empty ? "images/pizza-missing.png" : DbService.Dishes.First(x=>x.Id == item.DishId).ImageUrl)>
                                     </div>
                                     <div class="cart-item-additional-info">
                                         <div>
                                             <div class="cart-info-part">
                                                 <div style="display: flex;">
-                                                    <span class="cart-item-title">@item.dish.Name @if (item.dish.Category.Name == "Vegan") { <span style="color: #68c25a;">🌱</span>}</span>
+                                                    <span class="cart-item-title">@DbService.Dishes.First(x=>x.Id == item.DishId).Name @if (DbService.Dishes.First(x => x.Id == item.DishId).Category.Name == "Vegan")
+                                                        {
+                                                            <span style="color: #68c25a;">🌱</span>
+                                                        }</span>
                                                     <span class="cart-item-title" style="margin: 0 10px; color: #828a9a; font-family: 'Circe-EB'">·</span>
-                                                    <span class="cart-item-title" style="color: #828a9a; font-weight: 100; font-size: 16px; padding-top: 3px; font-family: 'Circe-R'">@item.dish.Category.Name.ToLower()</span>
+                                                    <span class="cart-item-title" style="color: #828a9a; font-weight: 100; font-size: 16px; padding-top: 3px; font-family: 'Circe-R'">@DbService.Dishes.First(x=>x.Id == item.DishId).Category.Name.ToLower()</span>
                                                 </div>
                                                 <div>
-                                                    <span class="cart-item-total-price">$@(item.dish.Price * item.count)</span>
+                                                    <span class="cart-item-total-price">$@(DbService.Dishes.First(x=>x.Id == item.DishId).Price * item.Count)</span>
 
                                                 </div>
                                             </div>
                                             <div class="cart-item-price">
-                                                $@item.dish.Price apiece
+                                                $@DbService.Dishes.First(x=>x.Id == item.DishId).Price apiece
                                                 <span class="cart-item-price-count-division">x</span>
-                                                <span class="cart-item-price-count">@item.count</span>
+                                                <span class="cart-item-price-count">@item.Count</span>
                                             </div>
                                         </div>
                                         <div>
                                             <div class="cart-info-part">
                                                 <div class="cart-item-description">
-                                                    @item.dish.Description
+                                                    @DbService.Dishes.First(x=>x.Id == item.DishId).Description
                                                 </div>
                                                 <div>
-                                                    <button class="cart-remove-button" @onclick="@((args)=>OnRemove(@item))">Remove</button>
+                                                    <button class="cart-remove-button" @onclick="@((args)=>OnRemove(item.Id))">Remove</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -83,7 +89,7 @@
                                     <label for="radio-two">Delivery: $9.99</label>
                                 </div>
                             </div>
-                            @if (Cart.Dishes.Count > 0)
+                            @if (DbService.CartItems.Where(x => x.UserId == UserId).ToList().Count > 0)
                             {
                                 <div style="height: 100%; display: flex; flex-direction: column; justify-content: space-between;">
                                     <div>
@@ -102,22 +108,22 @@
                                                 <div>Item</div>
                                                 <div>Price</div>
                                             </div>
-                                            @foreach (var item in Cart.Dishes)
+                                            @foreach (var item in DbService.CartItems.Where(x => x.UserId == UserId).ToList())
                                             {
                                                 <div class="dish-cart-preview">
                                                     <div>
-                                                        @item.dish.Name
-                                                        @if (@item.count > 1)
+                                                        @DbService.Dishes.First(x=>x.Id == item.DishId).Name
+                                                        @if (@item.Count > 1)
                                                         {
                                                             <span style="font-family:'Circe-EB'; margin: 0 4px;">·</span>
                                                             <span>(</span>
 
-                                                            @item.count
+                                                            @item.Count
 
                                                             <span> copies)</span>
                                                         }
                                                     </div>
-                                                    <div class="dish-cart-preview-price">$@(Math.Round(item.dish.Price * item.count,2))</div>
+                                                    <div class="dish-cart-preview-price">$@(Math.Round(DbService.Dishes.First(x=>x.Id == item.DishId).Price * item.Count,2))</div>
                                                 </div>
                                             }
 
@@ -165,19 +171,19 @@
 @code
 {
     private bool IsDeliveryChoosed { get; set; } = false;
-    
     private ToastParameters? _toastParameters;
 
-    private void OnRemove(DishToOrder dish)
+    private void OnRemove(int cartItemId)
     {
-        Cart.RemoveItem(dish);
-        
+        var cartItem = DbService.CartItems.First(x => x.Id == cartItemId);
         _toastParameters = new ToastParameters();
         _toastParameters.Add(nameof(Toast.Title), "Item has removed from your Cart");
-        _toastParameters.Add(nameof(Toast.PizzaName), dish.dish.Name);
-        _toastParameters.Add(nameof(Toast.PizzaCount), dish.count);
+        _toastParameters.Add(nameof(Toast.PizzaName), DbService.Dishes.First(x=>x.Id == cartItem.DishId).Name);
+        _toastParameters.Add(nameof(Toast.PizzaCount), cartItem.Count);
         _toastParameters.Add(nameof(Toast.Description), "Removed from your cart");
         toastServiceCart.ShowToast<Toast>(_toastParameters, new ToastInstanceSettings(5, false));
+
+        DbService.RemoveCartItem(cartItemId);
     }
 
     private void PickDelivery(string Way)
@@ -189,4 +195,42 @@
     {
         //IsDeliveryChoosed = !IsDeliveryChoosed;
     }
+
+    int UserId;
+
+    protected override async void OnInitialized()
+    {
+        var UserSession = await oLocalStore.GetItemAsync<string>("UserSession");
+
+        if (!DbService.Users.Any(x => x.SessionHash == UserSession))
+        {
+            NavigationManager.NavigateTo("/auth");
+        }
+        else
+        {
+            UserId = DbService.Users.First(x => x.SessionHash == UserSession).Id;
+        }
+        NavigationManager.NavigateTo("/");
+        StateHasChanged();
+    }
+
+    //protected override async Task OnAfterRenderAsync(bool firstRender)
+    //{
+    //    if (firstRender)
+    //    {
+    //        var UserSession = await oLocalStore.GetItemAsync<string>("UserSession");
+
+    //        if (!DbService.Users.Any(x => x.SessionHash == UserSession))
+    //        {
+    //            NavigationManager.NavigateTo("/auth");
+    //        }
+    //        else
+    //        {
+    //            UserId = DbService.Users.First(x => x.SessionHash == UserSession).Id;
+    //        }
+
+    //        StateHasChanged();
+    //        NavigationManager.NavigateTo("/");
+    //    }
+    //}
 }

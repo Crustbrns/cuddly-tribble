@@ -16,9 +16,7 @@
             <div class="conversation-holder" style="flex-direction: column-reverse">
                 @{
                     string lasttime = string.Empty;
-                    var Messages = @DbService.Messages;
-
-                    foreach (var item in Messages.ToList())
+                    foreach (var item in @Dialog.messages)
                     {
                         @if (@item.Time.ToString("HH:mm") != lasttime)
                         {
@@ -95,12 +93,13 @@
     {
         if (MessageBody.Trim() != string.Empty && !MessageBody.Contains("⠀"))
         {
-            DbService.AddNewMessage(UserName == null ? "Anonymous" : UserName, MessageBody.ToString());
+            Dialog.AddMessage(new Message(MessageBody.ToString(), UserLogin == null ? "Anonymous" : UserLogin));
+            //DbService.AddNewMessage(UserName == null ? "Anonymous" : UserName, MessageBody.ToString());
             MessageBody = "";
         }
     }
 
-    private string UserName = string.Empty;
+    private string UserLogin = string.Empty;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -108,14 +107,14 @@
         {
             var UserSession = await oLocalStore.GetItemAsync<string>("UserSession");
 
-            if(!DbService.Users.Any(x=>x.SessionHash == UserSession))
+            if (!DbService.Users.Any(x => x.SessionHash == UserSession))
             {
                 await oLocalStore.ClearAsync();
             }
 
-            var UserLogin = await oLocalStore.GetItemAsync<string>("UserName");
+            var UserLoginStorage = await oLocalStore.GetItemAsync<string>("UserName");
 
-            UserName = UserLogin;
+            UserLogin = UserLoginStorage;
         }
     }
 

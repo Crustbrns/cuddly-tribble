@@ -223,7 +223,7 @@ namespace DishesStore.Db.Context
                     Login = UserLogin,
                     PassHash = BCrypt.Net.BCrypt.HashPassword(UserPass, BCrypt.Net.BCrypt.GenerateSalt()),
                     SessionHash = string.Empty,
-                    AdminRole = true
+                    AdminRole = false
                 });
                 db.SaveChanges();
             }
@@ -307,6 +307,36 @@ namespace DishesStore.Db.Context
                 }
                 DbUpdate();
             });
+        }
+        public static async void AddNewCartItem(int userId, int dishId, int Count)
+        {
+            if (CartItems.Where(x => x.UserId == userId).ToList().Count < 15)
+            {
+                using (SpicyDbContext db = new SpicyDbContext())
+                {
+                    db.CartItems.Add(new CartItem()
+                    {
+                        UserId = userId,
+                        DishId = dishId,
+                        Count = Count
+                    });
+                    db.SaveChanges();
+                }
+                DbUpdate();
+            }
+        }
+        public static void RemoveCartItem(int CartItemId)
+        {
+            try
+            {
+                using (SpicyDbContext db = new SpicyDbContext())
+                {
+                    db.CartItems.Remove(db.CartItems.First(x => x.Id == CartItemId));
+                    db.SaveChanges();
+                }
+                DbUpdate();
+            }
+            catch (Exception) { }
         }
     }
 }
