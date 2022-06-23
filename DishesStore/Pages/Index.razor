@@ -287,20 +287,24 @@
 
     protected override async void OnInitialized()
     {
-        UserSession = await oLocalStore.GetItemAsync<string>("UserSession");
-
-        if (UserSession == null)
+        try
         {
-            await oLocalStore.ClearAsync();
-        }
-        else
-        {
-            UserId = DbService.Users.Where(x => x.SessionHash == UserSession).First().Id;
-        }
+            UserSession = await oLocalStore.GetItemAsync<string>("UserSession");
 
-        NavigationManager.NavigateTo("/");
+            if (UserSession == null)
+            {
+                await oLocalStore.ClearAsync();
+            }
+            else
+            {
+                UserId = DbService.Users.Where(x => x.SessionHash == UserSession).First().Id;
+            }
 
-        StateHasChanged();
+            NavigationManager.NavigateTo("/");
+
+            StateHasChanged();
+        }
+        catch (Exception) { }
     }
 
     

@@ -204,13 +204,13 @@
 
         if (!DbService.Users.Any(x => x.SessionHash == UserSession))
         {
-            NavigationManager.NavigateTo("/auth");
+            //NavigationManager.NavigateTo("/auth");
         }
         else
         {
             UserId = DbService.Users.First(x => x.SessionHash == UserSession).Id;
         }
-        NavigationManager.NavigateTo("/");
+        //NavigationManager.NavigateTo("/");
         StateHasChanged();
     }
 
