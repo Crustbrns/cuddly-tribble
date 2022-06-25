@@ -1,0 +1,20 @@
+  <nav class="blue darken-4">
+    <div class="nav-wrapper">
+      <a href="/" class="brand-logo">Logo</a>
+      <ul id="nav-mobile" class="right hide-on-med-and-down">
+
+        {{#if IsStore}}
+        <li class="active"><a href="/">Home</a></li>
+        {{else}}
+        <li><a href="/">Home</a></li>
+        {{/if}}
+
+        {{#if IsLogin}}
+        <li class="active"><a href="/Login">Login</a></li>
+        {{else}}
+        <li><a href="/Login">Login</a></li>
+        {{/if}}
+
+      </ul>
+    </div>
+  </nav>
