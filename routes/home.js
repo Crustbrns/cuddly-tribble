@@ -1,15 +1,18 @@
 const {Router} = require('express')
 const Product = require('../models/Product')
+const User = require('../models/User')
 const router = Router()
 
 router.get('/', async (req, res) => {
 
-    const products = await Product.find({})
+    const products = await Product.find({}).lean()
+    const users = await User.find({}).lean()
 
     res.render('index', {
         title:'Store',
         IsStore: true,
-        products
+        products,
+        users
     })
 })
 
@@ -18,6 +21,7 @@ router.get('/admin', (req, res) => {
         title: 'Adminpanel'
     })
 })
+
 
 router.get('/login', (req, res) => {
     res.render('login', {
@@ -40,6 +44,18 @@ router.post('/createproduct', async (req, res) =>{
 
     await product.save()
     res.render('/')
+})
+
+router.post('/createuser', async (req, res) =>{
+    const user = new User({
+        login: req.body.login,
+        email: req.body.email,
+        password: req.body.password,
+        adminroot: true
+    })
+
+    await user.save()
+    res.redirect('/')
 })
 
 module.exports = router

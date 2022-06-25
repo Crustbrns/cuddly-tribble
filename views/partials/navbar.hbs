@@ -1,4 +1,4 @@
-  <nav class="blue darken-4">
+  {{!-- <nav class="blue darken-4">
     <div class="nav-wrapper">
       <a href="/" class="brand-logo">Logo</a>
       <ul id="nav-mobile" class="right hide-on-med-and-down">
@@ -10,11 +10,131 @@
         {{/if}}
 
         {{#if IsLogin}}
-        <li class="active"><a href="/Login">Login</a></li>
+        <li class="active"><a href="/admin">Login</a></li>
         {{else}}
-        <li><a href="/Login">Login</a></li>
+        <li><a href="/admin">Login</a></li>
         {{/if}}
 
       </ul>
     </div>
-  </nav>
+  </nav> --}}
+
+  <nav id="top">
+<div class="container d-flex h-100">
+<div id="us_menu_mobile_button" class="us-menu-mobile d-lg-none h-100">
+<img src="catalog/view/theme/oct_ultrastore/img/burger.svg" class="us-navbar-toggler" alt="">
+</div>
+<div id="dropdown_menu_info" class="us-top-mobile-item us-top-mobile-item-info d-lg-none dropdown h-100" onclick="initOctMap();">
+<img src="catalog/view/theme/oct_ultrastore/img/mobile-info.svg" class="us-navbar-info" alt="">
+<div id="us_info_mobile" class="nav-dropdown-menu">
+<div class="modal-header">
+<div class="modal-title">Информация</div>
+<button id="us_info_mobile_close" type="button" class="us-close">
+<span aria-hidden="true" class="us-modal-close-icon us-modal-close-left"></span>
+<span aria-hidden="true" class="us-modal-close-icon us-modal-close-right"></span>
+</button>
+</div>
+<div class="nav-dropdown-menu-content">
+<ul class="list-unstyled mobile-information-box">
+<li class="mobile-info-title"><strong>Информация</strong></li>
+<li class="oct-menu-information-li"><a href="/blog" class="oct-menu-a">Блог</a></li>
+</ul>
+<ul class="list-unstyled mobile-shedule-box">
+<li class="mobile-info-title"><strong>Время работы:</strong></li>
+</ul>
+<ul class="list-unstyled mobile-phones-box">
+<li class="mobile-info-title"><strong>Телефоны:</strong></li>
+<li><a href="tel:+380634201777
+" class="phoneclick">+38(063) 420 1 777
+</a></li>
+<li><a href="tel:+380984201777" class="phoneclick">+38(098) 420 1 777</a></li>
+</ul>
+<ul class="list-unstyled mobile-information-box">
+<li class="mobile-info-title"><strong>Почта:</strong></li>
+<li><a href="mailto:info@coffeeshop.ua">info@coffeeshop.ua</a></li>
+</ul>
+<ul class="list-unstyled mobile-information-box mobile-messengers-box">
+<li class="mobile-info-title"><strong>Мессенджеры:</strong></li>
+<li><a rel="nofollow" href="https://t.me/khcoffeeshop" target="_blank" class="us-fixed-contact-item d-flex align-items-center"><span class="us-fixed-contact-item-icon us-fixed-contact-telegram d-flex align-items-center justify-content-center"><i class="fab fa-telegram"></i></span><span>Telegram</span></a></li>
+<li><a rel="nofollow" href="viber://add?number=380634201777" target="_blank" class="us-fixed-contact-item d-flex align-items-center us-fixed-contact-viber-mobile"><span class="us-fixed-contact-item-icon us-fixed-contact-viber d-flex align-items-center justify-content-center"><i class="fab fa-viber"></i></span><span>Viber</span></a></li>
+</ul>
+<ul class="list-unstyled">
+<li class="mobile-info-title"><strong>Наш адрес:</strong></li>
+<li class="mobile-info-address">Украина, г.Харьков, ул.Чигирина 3</li>
+</ul>
+<div class="us_mobile_menu_info-map not_in mb-4"></div>
+<script>
+					function initOctMap() {
+						octShowMap('', '.us_mobile_menu_info-map');
+					}
+				    </script>
+</div>
+</div>
+</div>
+<div id="top-left" class="mr-auto d-flex align-items-center">
+<div class="dropdown h-100">
+<a class="btn top-address btn-link dropdown-toggle d-flex align-items-center h-100" href="javascript:;" role="button" id="dropdownMenuAddress" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-map-marker-alt"></i> <span>Наш адрес</span> <i class="fas fa-chevron-down"></i></a>
+<ul class="dropdown-menu nav-dropdown-menu address-dropdown-menu" aria-labelledby="dropdownMenuAddress">
+<li class="dropdown-item us-dropdown-item">Украина, г.Харьков, ул.Чигирина 3</li>
+</ul>
+</div>
+<div class="dropdown h-100">
+<a class="btn btn-shedule btn-link dropdown-toggle d-flex align-items-center h-100" href="javascript:;" role="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="far fa-clock"></i> <span>Время работы</span> <i class="fas fa-chevron-down"></i></a>
+<ul class="dropdown-menu nav-dropdown-menu shedule-dropdown-menu" aria-labelledby="dropdownMenu1">
+<li class="dropdown-item us-dropdown-item">Пн-Пт с 11:00 до 15:00
+</li>
+<li class="dropdown-item us-dropdown-item">Сб, Вс с 11:00 до 13:00</li>
+</ul>
+</div>
+<ul id="topltop" class="top-info-ul">
+<li><a href="https://coffeeshop.ua/o-nas" class="btn-link btn-block h-100 hidden-xs">О НАС</a></li>
+<li><a href="https://coffeeshop.ua/oplata-i-distavka" class="btn-link btn-block h-100 hidden-xs">ОПЛАТА И ДОСТАВКА</a></li>
+<li><a href="https://coffeeshop.ua/blog" class="btn-link btn-block h-100 hidden-xs">БЛОГ</a></li>
+<li><a href="https://coffeeshop.ua/contacts" class="btn-link btn-block h-100 hidden-xs">КОНТАКТЫ</a></li>
+</ul>
+</div>
+<div id="top-links" class="nav ml-auto d-flex">
+<div class="pull-left">
+<div id="form-language">
+<div class="btn-group">
+<button class="btn btn-link dropdown-toggle" data-toggle="dropdown">
+<img src="catalog/language/ru-ru/ru-ru.png" alt="Russian" title="Russian">
+<span class="hidden-xs hidden-sm hidden-md">Язык</span>&nbsp;<i class="fa fa-caret-down"></i></button>
+<ul class="dropdown-menu">
+<li>
+<button class="btn btn-link btn-block language-select" onclick="window.location = 'http://coffeeshop.ua/seed-shop/indika'"><img src="catalog/language/ru-ru/ru-ru.png" alt="Russian" title="Russian"> Russian</button>
+</li>
+<li>
+<button class="btn btn-link btn-block language-select" onclick="window.location = 'http://coffeeshop.ua/ua/seed-shop/indika'"><img src="catalog/language/uk-ua/uk-ua.png" alt="Українська" title="Українська"> Українська</button>
+</li>
+<li>
+<button class="btn btn-link btn-block language-select" onclick="window.location = 'http://coffeeshop.ua/en/seed-shop/indika'"><img src="catalog/language/en-gb/en-gb.png" alt="English" title="English"> English</button>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="dropdown" id="us-account-dropdown">
+<a href="javascript:;" onclick="octPopupLogin();" title="Личный кабинет" class="btn btn-user btn-link btn-block h-100" role="button" aria-haspopup="true"><img src="catalog/view/theme/oct_ultrastore/img/user-mobile.svg" class="us-navbar-account" alt=""><i class="far fa-user"></i> <span class="hidden-xs">Личный кабинет</span></a>
+</div>
+</div>
+<a href="https://coffeeshop.ua/index.php?route=account/wishlist" rel="nofollow" class="us-mobile-top-btn us-mobile-top-btn-wishlist d-lg-none h-100">
+<span class="us-mobile-top-btn-item">
+<img src="catalog/view/theme/oct_ultrastore/img/wishlist-mobile.svg" alt="">
+<span class="mobile-header-index oct-wishlist-quantity">0</span>
+</span>
+</a>
+<a href="https://coffeeshop.ua/index.php?route=product/compare" rel="nofollow" class="us-mobile-top-btn us-mobile-top-btn-compare d-lg-none h-100">
+<span class="us-mobile-top-btn-item">
+<img src="catalog/view/theme/oct_ultrastore/img/compare-mobile.svg" alt="">
+<span class="mobile-header-index oct-compare-quantity">0</span>
+</span>
+</a>
+<a href="javascript:;" onclick="octPopupCart()" id="us_cart_mobile" class="us-mobile-top-btn us-mobile-top-btn-cart d-lg-none h-100">
+<span class="us-mobile-top-btn-item">
+<img src="catalog/view/theme/oct_ultrastore/img/cart-mobile.svg" alt="">
+<span id="mobile_cart_index" class="mobile-header-index">0</span>
+</span>
+</a>
+</div>
+</nav>

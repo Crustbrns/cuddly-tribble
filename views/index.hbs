@@ -1,11 +1,23 @@
 <h2>Index page</h2>
 
-{{#if products.length}}
+{{!-- {{#if products.length}}
 
     {{#each products}}
-        <span>title</span>
+        <span>{{title}}</span>
     {{/each}}
 
 {{else}}
 <p>No products!</p>
+{{/if}} --}}
+
+{{#if users.length}}
+<ul>
+    {{#each users}}
+        <li><span>{{this.login.text}}</span></li>
+        <li><span>{{email}}</span></li>
+        <li><span>{{password}}</span></li>
+    {{/each}}
+</ul>
+{{else}}
+<p>No users!</p>
 {{/if}}
