@@ -20,6 +20,11 @@ router.get('/admin', (req, res) => {
     res.render('admin', {
         title: 'Adminpanel'
     })
+
+    if(adminroot=false)
+    {
+        res.redirect('/')
+    }
 })
 
 

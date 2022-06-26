@@ -1,25 +1,53 @@
-  {{!-- <nav class="blue darken-4">
-    <div class="nav-wrapper">
-      <a href="/" class="brand-logo">Logo</a>
-      <ul id="nav-mobile" class="right hide-on-med-and-down">
+  {{!-- <nav class="blue darken-4" >
+    <div class="nav-wrapper" style="background-color: #272727;">
+      <ul id="nav-mobile" class="center hide-on-med-and-down">
 
         {{#if IsStore}}
-        <li class="active"><a href="/">Home</a></li>
+        <li class="active"><a href="/">Cofeeshop</a></li>
         {{else}}
-        <li><a href="/">Home</a></li>
+        <li><a href="/">Cofeeshop</a></li>
         {{/if}}
 
+        <div style="margin-left: 20%">
+            {{#if IsLogin}}
+            <li class="active"><a href="/">О НАС</a></li>
+            {{else}}
+            <li><a href="/">О НАС</a></li>
+            {{/if}}
+
+            {{#if IsLogin}}
+            <li class="active"><a href="/">ОПЛАТА И ДОСТАВКА</a></li>
+            {{else}}
+            <li><a href="/">ОПЛАТА И ДОСТАВКА</a></li>
+            {{/if}}
+
+            {{#if IsLogin}}
+            <li class="active"><a href="/">БЛОГ</a></li>
+            {{else}}
+            <li><a href="/">БЛОГ</a></li>
+            {{/if}}
+
+            {{#if IsLogin}}
+            <li class="active"><a href="/">КОНТАКТЫ</a></li>
+            {{else}}
+            <li><a href="/">КОНТАКТЫ</a></li>
+            {{/if}}
+        </div>
+
+      </ul>
+      <ul id="nav-mobile" class="right hide-on-med-and-down">
+
         {{#if IsLogin}}
-        <li class="active"><a href="/admin">Login</a></li>
+        <li class="active"><a href="/login">Личный кабинет</a></li>
         {{else}}
-        <li><a href="/admin">Login</a></li>
+        <li><a href="/login">Личный кабинет</a></li>
         {{/if}}
 
       </ul>
     </div>
   </nav> --}}
 
-  <nav id="top">
+<nav id="top">
 <div class="container d-flex h-100">
 <div id="us_menu_mobile_button" class="us-menu-mobile d-lg-none h-100">
 <img src="catalog/view/theme/oct_ultrastore/img/burger.svg" class="us-navbar-toggler" alt="">
@@ -42,22 +70,7 @@
 <ul class="list-unstyled mobile-shedule-box">
 <li class="mobile-info-title"><strong>Время работы:</strong></li>
 </ul>
-<ul class="list-unstyled mobile-phones-box">
-<li class="mobile-info-title"><strong>Телефоны:</strong></li>
-<li><a href="tel:+380634201777
-" class="phoneclick">+38(063) 420 1 777
-</a></li>
-<li><a href="tel:+380984201777" class="phoneclick">+38(098) 420 1 777</a></li>
-</ul>
-<ul class="list-unstyled mobile-information-box">
-<li class="mobile-info-title"><strong>Почта:</strong></li>
-<li><a href="mailto:info@coffeeshop.ua">info@coffeeshop.ua</a></li>
-</ul>
-<ul class="list-unstyled mobile-information-box mobile-messengers-box">
-<li class="mobile-info-title"><strong>Мессенджеры:</strong></li>
-<li><a rel="nofollow" href="https://t.me/khcoffeeshop" target="_blank" class="us-fixed-contact-item d-flex align-items-center"><span class="us-fixed-contact-item-icon us-fixed-contact-telegram d-flex align-items-center justify-content-center"><i class="fab fa-telegram"></i></span><span>Telegram</span></a></li>
-<li><a rel="nofollow" href="viber://add?number=380634201777" target="_blank" class="us-fixed-contact-item d-flex align-items-center us-fixed-contact-viber-mobile"><span class="us-fixed-contact-item-icon us-fixed-contact-viber d-flex align-items-center justify-content-center"><i class="fab fa-viber"></i></span><span>Viber</span></a></li>
-</ul>
+
 <ul class="list-unstyled">
 <li class="mobile-info-title"><strong>Наш адрес:</strong></li>
 <li class="mobile-info-address">Украина, г.Харьков, ул.Чигирина 3</li>
@@ -73,49 +86,28 @@
 </div>
 <div id="top-left" class="mr-auto d-flex align-items-center">
 <div class="dropdown h-100">
-<a class="btn top-address btn-link dropdown-toggle d-flex align-items-center h-100" href="javascript:;" role="button" id="dropdownMenuAddress" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-map-marker-alt"></i> <span>Наш адрес</span> <i class="fas fa-chevron-down"></i></a>
-<ul class="dropdown-menu nav-dropdown-menu address-dropdown-menu" aria-labelledby="dropdownMenuAddress">
-<li class="dropdown-item us-dropdown-item">Украина, г.Харьков, ул.Чигирина 3</li>
-</ul>
+<a class="btn top-address btn-link dropdown-toggle d-flex align-items-center h-100" href="/" role="button" id="dropdownMenuAddress" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <span>Наш адрес</span> </a>
 </div>
 <div class="dropdown h-100">
-<a class="btn btn-shedule btn-link dropdown-toggle d-flex align-items-center h-100" href="javascript:;" role="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="far fa-clock"></i> <span>Время работы</span> <i class="fas fa-chevron-down"></i></a>
-<ul class="dropdown-menu nav-dropdown-menu shedule-dropdown-menu" aria-labelledby="dropdownMenu1">
-<li class="dropdown-item us-dropdown-item">Пн-Пт с 11:00 до 15:00
-</li>
-<li class="dropdown-item us-dropdown-item">Сб, Вс с 11:00 до 13:00</li>
-</ul>
-</div>
+<a class="btn btn-shedule btn-link dropdown-toggle d-flex align-items-center h-100" href="/" role="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <span>Время работы</span> </a>
+</div>  
 <ul id="topltop" class="top-info-ul">
-<li><a href="https://coffeeshop.ua/o-nas" class="btn-link btn-block h-100 hidden-xs">О НАС</a></li>
-<li><a href="https://coffeeshop.ua/oplata-i-distavka" class="btn-link btn-block h-100 hidden-xs">ОПЛАТА И ДОСТАВКА</a></li>
-<li><a href="https://coffeeshop.ua/blog" class="btn-link btn-block h-100 hidden-xs">БЛОГ</a></li>
-<li><a href="https://coffeeshop.ua/contacts" class="btn-link btn-block h-100 hidden-xs">КОНТАКТЫ</a></li>
+<div style="display: flex; justify-content: space-between; width: 140%; padding: 15px 0 3px 0">
+<li><a href="/" class="btn-link btn-block h-100 hidden-xs">О НАС</a></li>
+<li><a href="/" class="btn-link btn-block h-100 hidden-xs">ОПЛАТА И ДОСТАВКА</a></li>
+<li><a href="/" class="btn-link btn-block h-100 hidden-xs">БЛОГ</a></li>
+<li><a href="/" class="btn-link btn-block h-100 hidden-xs">КОНТАКТЫ</a></li>
+</div>
 </ul>
 </div>
 <div id="top-links" class="nav ml-auto d-flex">
 <div class="pull-left">
 <div id="form-language">
-<div class="btn-group">
-<button class="btn btn-link dropdown-toggle" data-toggle="dropdown">
-<img src="catalog/language/ru-ru/ru-ru.png" alt="Russian" title="Russian">
-<span class="hidden-xs hidden-sm hidden-md">Язык</span>&nbsp;<i class="fa fa-caret-down"></i></button>
-<ul class="dropdown-menu">
-<li>
-<button class="btn btn-link btn-block language-select" onclick="window.location = 'http://coffeeshop.ua/seed-shop/indika'"><img src="catalog/language/ru-ru/ru-ru.png" alt="Russian" title="Russian"> Russian</button>
-</li>
-<li>
-<button class="btn btn-link btn-block language-select" onclick="window.location = 'http://coffeeshop.ua/ua/seed-shop/indika'"><img src="catalog/language/uk-ua/uk-ua.png" alt="Українська" title="Українська"> Українська</button>
-</li>
-<li>
-<button class="btn btn-link btn-block language-select" onclick="window.location = 'http://coffeeshop.ua/en/seed-shop/indika'"><img src="catalog/language/en-gb/en-gb.png" alt="English" title="English"> English</button>
-</li>
-</ul>
-</div>
+
 </div>
 </div>
 <div class="dropdown" id="us-account-dropdown">
-<a href="javascript:;" onclick="octPopupLogin();" title="Личный кабинет" class="btn btn-user btn-link btn-block h-100" role="button" aria-haspopup="true"><img src="catalog/view/theme/oct_ultrastore/img/user-mobile.svg" class="us-navbar-account" alt=""><i class="far fa-user"></i> <span class="hidden-xs">Личный кабинет</span></a>
+<a style="padding: 13px 0 3px 0" href="/login" onclick="octPopupLogin();" title="Личный кабинет" class="btn btn-user btn-link btn-block h-100" role="button" aria-haspopup="true"><img src="catalog/view/theme/oct_ultrastore/img/user-mobile.svg" class="us-navbar-account" alt=""><i class="far fa-user"></i> <span class="hidden-xs">Личный кабинет</span></a>
 </div>
 </div>
 <a href="https://coffeeshop.ua/index.php?route=account/wishlist" rel="nofollow" class="us-mobile-top-btn us-mobile-top-btn-wishlist d-lg-none h-100">

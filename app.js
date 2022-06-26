@@ -1,5 +1,6 @@
 const express =  require('express')
 const config = require('config') 
+const path = require('path')
 const mongoose = require('mongoose')
 const expresshandlebars = require('express-handlebars')
 const homeRoute = require('./routes/home')
@@ -15,6 +16,7 @@ app.set('view engine', 'hbs')
 app.set('views', 'views')
 
 app.use(express.urlencoded({extended: true}))
+app.use(express.static(path.join(__dirname, 'public')))
 
 app.use(homeRoute)
 
