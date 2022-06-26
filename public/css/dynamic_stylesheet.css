@@ -1,0 +1,273 @@
+#back-top,
+#us_fixed_contact_button,
+.us-fixed-contact-pulsation,
+.us-module-item:hover .us-module-cart-btn,
+.us-module-btn:hover,
+.us-module-btn-green,
+.us-footer-form-top-buttton,
+.oct-fixed-bar-link:hover,
+.oct-fixed-bar-quantity,
+.pagination li.active span,
+.pagination li a:hover,
+.us-product-btn-active,
+.us-product-btn:hover,
+.us-product-quantity-btn:hover,
+.us-categories-wall-item:hover hr,
+.compare-wishlist-btn:hover,
+.image-additional-box .slick-arrow:hover,
+#us_livesearch_close,
+.us-product-option .radio label.selected,
+.simplecheckout-cart-buttons .button,
+.simplecheckout-button-right .button,
+#simplecheckout_button_login,
+.us-news-stickers-date,
+.mobile-header-index,
+.us-form-check-group-acc input[type=radio]:checked+label:after,
+#us_info_mobile .dropdown-menu button.active-item:after {
+    background: #24a255
+}
+
+nav .dropdown-menu button:hover,
+.user-dropdown-menu .us-dropdown-item:hover,
+.us-categories-wall-top-link:hover .us-categories-wall-title,
+.us-module-item:hover .us-module-title a,
+.us-module-buttons-link:hover i,
+.us-reviews-block:hover .us-reviews-block-title,
+.subcat-item:hover .subcat-item-title,
+.us-breadcrumb-item:last-child,
+.us-category-appearance-btn.active,
+.us-category-appearance-btn:hover,
+.us-product-advantages-item:hover .us-product-advantages-icon i,
+.us-breadcrumb-item a:hover,
+.us-column-link:hover,
+.us-blog-search-btn:hover,
+.us-blog-post-info-item i,
+.us-news-block:hover .us-news-block-title,
+.us-product-tags,
+.us-product-tags a,
+.us-categories-wall-link:hover,
+.us-manufacturer-title,
+.us-account-link.active,
+.us-account-link:hover,
+.us-footer-phone-btn[aria-expanded=true],
+.header-dropdown-menu a:hover {
+    color: #24a255
+}
+
+.us-carousel-brands-box,
+.us-product-nav-item-active a:after,
+.us-product-nav-item a:hover:after,
+.us-page-main-title:after,
+.compare-wishlist-btn:hover,
+.us-form-check-group-acc input[type=radio]:checked+label:before,
+#us_info_mobile .dropdown-menu button.active-item::before {
+    border-color: #24a255
+}
+
+body {
+    background-color: #fff
+}
+
+#top {
+    background: #272727
+}
+
+.btn-link {
+    color: #fff
+}
+
+.btn-link:hover,
+.btn-link:focus {
+    color: #e5e5e5
+}
+
+.us-phone-link,
+.us-cart-link,
+.us-phone-link:hover,
+.us-cart-link:hover {
+    color: #24a255
+}
+
+.top-phone-btn,
+.us-cart-text {
+    color: #333
+}
+
+.menu-row {
+    background-color: #24a255
+}
+
+.oct-ultra-menu {
+    background: #24a255
+}
+
+#oct-menu-box:hover .oct-ultra-menu {
+    background-color: #4a5663
+}
+
+.oct-ultra-menu {
+    color: #fff
+}
+
+.oct-menu-li {
+    background: #fff
+}
+
+.oct-menu-li:hover {
+    background: #f7f7f7
+}
+
+.oct-menu-li>a,
+.oct-menu-li>div>a {
+    color: #333
+}
+
+.oct-menu-li:hover>a,
+.oct-menu-li:hover>div>a {
+    color: #24a255
+}
+
+.menu-row {
+    color: #e5e5e5
+}
+
+.oct-mm-link:hover>a,
+.oct-mm-simple-link:hover>a {
+    background: #24a255
+}
+
+.oct-mm-parent-title,
+.oct-mm-child a {
+    color: #333
+}
+
+.oct-mm-child a:hover,
+.oct-mm-parent-link:hover .oct-mm-parent-title {
+    color: #24a255
+}
+
+footer {
+    background-color: #272727
+}
+
+.us-footer-subscribe-text-text,
+footer,
+.us-footer-text,
+.us-footer-form-bottom label,
+.us-footer-bottom-credits {
+    color: #fff
+}
+
+.us-footer-link,
+.us-footer-phone-btn,
+.us-footer-mail {
+    color: #fff
+}
+
+.us-footer-link:hover,
+.us-footer-phone-btn:hover,
+.us-footer-mail:hover {
+    color: #24a255
+}
+
+.us-footer-form-top-input {
+    background: #656c73
+}
+
+.us-categories-box {
+    background: #f2f2f2
+}
+
+.us-categories-item {
+    color: #000;
+    margin: 10px 0 10px 20px
+}
+
+.us-categories-item.active>span a,
+.us-categories-item a:hover {
+    color: #24a255
+}
+
+.modal-header {
+    background: #24a255
+}
+
+.modal-title {
+    color: #fff
+}
+
+button.us-close {
+    background: rgba(153, 226, 45, .82)
+}
+
+button.us-close:hover {
+    background: #24a255
+}
+
+.us-modal-close-icon {
+    border-color: #fff
+}
+
+@media screen and (max-width:991px) {
+    #top {
+        background: #000
+    }
+}
+
+@media screen and (max-width:991px) {
+    .us-menu-mobile {
+        background: #24a255
+    }
+}
+
+@media screen and (max-width:992px) {
+    #currency {
+        display: none
+    }
+}
+
+.us-product-advantages-item {
+    border: 1px solid #24a255;
+    border-radius: 3px !important
+}
+
+a.us-product-advantages-link {
+    color: #24a255
+}
+
+p.us-product-advantages-text {
+    color: #000
+}
+
+.us-product-advantages-icon i {
+    color: #077a34
+}
+
+div#oct-infobar {
+    padding: 8px 0 !important
+}
+
+button {
+    background-color: #24a255;
+    color: #fff;
+    border-radius: 5px;
+    padding: 5px;
+    border-color: #fff
+}
+
+.button-group button {
+    background-color: #24a255;
+    color: #fff;
+    border-radius: 5px;
+    padding: 5px;
+    border-color: #fff
+}
+
+.product-thumb.transition .caption h4 {
+    font-size: 17px;
+    color: #000
+}
+
+.collapse-value button.btn.btn-block {
+    color: #000
+}

@@ -1,0 +1,27 @@
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+  }
+
+  main {
+    flex: 1 0 auto;
+  }
+
+  a{
+    text-decoration: none;
+    color: black;
+  }
+
+  .card-store{
+    width: 30%;
+    background-color: tomato;
+    margin: 1% 1.5% 1% 1.5%;
+    height: 200px;
+  }
+
+  .card__btn_purchase{
+    background-color: #11823d;
+    border-radius: 15px;
+    width: 100%;
+  }
