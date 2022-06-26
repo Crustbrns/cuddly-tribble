@@ -1,5 +1,5 @@
-const express =  require('express')
-const config = require('config') 
+const express = require('express')
+const config = require('config')
 const path = require('path')
 const mongoose = require('mongoose')
 const expresshandlebars = require('express-handlebars')
@@ -16,7 +16,7 @@ app.engine('hbs', hbs.engine)
 app.set('view engine', 'hbs')
 app.set('views', 'views')
 
-app.use(express.urlencoded({extended: true}))
+app.use(express.urlencoded({ extended: true }))
 app.use(express.static(path.join(__dirname, 'public')))
 
 app.use(homeRoute)
@@ -26,15 +26,15 @@ app.use(authRoute)
 
 const PORT = config.get('port') || 3000
 
-async function start(){
-    try{
-        await mongoose.connect(config.get('connectionString'),{
+async function start() {
+    try {
+        await mongoose.connect(config.get('connectionString'), {
             useNewUrlParser: true,
             useUnifiedTopology: true,
         })
-        app.listen(PORT, () => console.log('App has been started on port', PORT))        
+        app.listen(PORT, () => console.log('App has been started on port', PORT))
     }
-    catch (e){
+    catch (e) {
         console.log('Server caught error', e.message)
         process.exit(1)
     }

@@ -1,4 +1,4 @@
-const {Router} = require('express')
+const { Router } = require('express')
 const Product = require('../models/Product')
 const User = require('../models/User')
 const router = Router()
@@ -9,7 +9,7 @@ router.get('/', async (req, res) => {
     const users = await User.find({}).lean()
 
     res.render('index', {
-        title:'Store',
+        title: 'Store',
         IsStore: true,
         products,
         users
@@ -21,8 +21,7 @@ router.get('/admin', (req, res) => {
         title: 'Adminpanel'
     })
 
-    if(adminroot=false)
-    {
+    if (adminroot = false) {
         res.redirect('/')
     }
 })
@@ -42,7 +41,7 @@ router.get('/register', (req, res) => {
     })
 })
 
-router.post('/createproduct', async (req, res) =>{
+router.post('/createproduct', async (req, res) => {
     const product = new Product({
         title: req.body.title
     })
@@ -51,7 +50,7 @@ router.post('/createproduct', async (req, res) =>{
     res.render('/')
 })
 
-router.post('/createuser', async (req, res) =>{
+router.post('/createuser', async (req, res) => {
     const user = new User({
         login: req.body.login,
         email: req.body.email,
