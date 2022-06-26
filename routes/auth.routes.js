@@ -7,7 +7,7 @@ const bcrypt = require('bcryptjs')
 const router = Router()
 
 // /api/auth/register
-router.post('/register',
+router.post('/auth/register',
     [
         check('login', 'Incorrect login').isLength({min: 5, max: 18}),
         check('email', 'Incorrect mail').isEmail(),
@@ -20,11 +20,18 @@ router.post('/register',
         if(!errors.isEmpty()){
             return res.status(400).json({
                 errors : errors.array(),
-                message: 'Incorrect data'
+                message: 'Registration Errors'
+            }).redirect('/')
+        }
+        else if(req.body.password != req.body.confirmpassword)
+        {
+            return res.status(400).json({
+                errors : errors.array(),
+                message: 'Passwords must be the same'
             })
         }
 
-        const {email, password} = req.body
+        const {email, login, password} = req.body
 
         const emailExistence = await User.findOne({email})
         if(emailExistence){
@@ -42,14 +49,16 @@ router.post('/register',
         await user.save()
 
         res.status(201).json({ message: 'User has been created' })
+        // res.redirect('/')
     }
     catch(e){
-        res.status(500).json({ message: 'Something went wrong, try again' })
+        res.status(500).json({ message: 'Something went wrong, try again' }).redirect('/')
+        // res.redirect('/')
     }
 })
 
 // /api/auth/login
-router.post('/login',
+router.post('/auth/login',
     [
         check('login', 'Enter login').exists(),
         check('password', 'Enter password').exists()

@@ -4,6 +4,7 @@ const path = require('path')
 const mongoose = require('mongoose')
 const expresshandlebars = require('express-handlebars')
 const homeRoute = require('./routes/home')
+const authRoute = require('./routes/auth.routes')
 
 const app = express()
 const hbs = expresshandlebars.create({
@@ -19,8 +20,9 @@ app.use(express.urlencoded({extended: true}))
 app.use(express.static(path.join(__dirname, 'public')))
 
 app.use(homeRoute)
+app.use(authRoute)
 
-app.use('/api/auth', require('./routes/auth.routes'))
+// app.use('/api/auth', require('./routes/auth.routes'))
 
 const PORT = config.get('port') || 3000
 
