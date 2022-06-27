@@ -37,7 +37,7 @@
         </div>
       </div>
       <div id="cart" class="col-lg-4 us-cart-box d-flex align-items-center justify-content-end">
-        <button type="button" class="us-cart-img" onclick="octPopupCart()">
+        <button type="button" class="us-cart-img cart-icon-purchase" onclick="octPopupCart()">
           <img src="images/cart-icon.svg" alt="cart-icon">
           <span class="header-cart-index">0</span>
         </button>
@@ -251,7 +251,8 @@
           </ul>
         </div>
         <div class="panel ocfilter panel-default" id="ocfilter">
-          <div class="panel-heading" style="padding: 20px; font-weight: 500; background-color: #f2f2f2; margin: 20px 0">Фильтр товаров</div>
+          <div class="panel-heading" style="padding: 20px; font-weight: 500; background-color: #f2f2f2; margin: 20px 0">
+            Фильтр товаров</div>
           <div class="d-none" id="ocfilter-button">
             <button class="btn btn-primary disabled"
               data-loading-text="<i class='fa fa-refresh fa-spin'></i> Загрузка.."></button>
@@ -1382,74 +1383,93 @@
 
     <div style=" width: 75%;  display: flex; flex-wrap: wrap;">
       {{#if users.length}}
-        {{#each users}}
-        <div class="card-store">
-          <span>{{login}}</span>
-          <span>{{email}}</span>
-          <span>{{password}}</span>
-
-          <div>
-            <button class="card__btn_purchase">Купить</button>
-          </div>
+      {{#each users}}
+      <div class="card-store">
+        <div>
+          <img class="card-image"
+            src="https://coffeeshop.ua/image/cache/webp/catalog/photo/seed-shop/Monster%20Cannabis/afghan-kush-feminised-228x228.webp">
         </div>
-        {{/each}}
-
-         {{#each users}}
-        <div class="card-store">
+        <div class="card-name">
           <span>{{login}}</span>
-          <span>{{email}}</span>
-          <span>{{password}}</span>
         </div>
-        {{/each}}
-
-         {{#each users}}
-        <div class="card-store">
-          <span>{{login}}</span>
-          <span>{{email}}</span>
-          <span>{{password}}</span>
+        <div class="card-rating">
+          <span class="us-module-rating-star"></span>
+          <span class="us-module-rating-star"></span>
+          <span class="us-module-rating-star"></span>
+          <span class="us-module-rating-star"></span>
+          <span class="us-module-rating-star"></span>
         </div>
-        {{/each}}
-
-         {{#each users}}
-        <div class="card-store">
-          <span>{{login}}</span>
-          <span>{{email}}</span>
-          <span>{{password}}</span>
-        </div>
-        {{/each}}
-
-         {{#each users}}
-        <div class="card-store">
-          <span>{{login}}</span>
-          <span>{{email}}</span>
-          <span>{{password}}</span>
-        </div>
-        {{/each}}
-
-         {{#each users}}
-        <div class="card-store">
-          <span>{{login}}</span>
-          <span>{{email}}</span>
-          <span>{{password}}</span>
-        </div>
-        {{/each}}
-
-         {{#each users}}
-        <div class="card-store">
-          <span>{{login}}</span>
-          <span>{{email}}</span>
-          <span>{{password}}</span>
-        </div>
-        {{/each}}
-
-         {{#each users}}
-        <div class="card-store">
-          <span>{{login}}</span>
-          <span>{{email}}</span>
-          <span>{{password}}</span>
-        </div>
-        {{/each}}
         
+        <div class="card-description">
+        <span>{{email}}</span>
+        </div>
+
+        <div class="card-price-no-discount">
+          <span>{{password}}грн.</span>
+        </div>
+
+        <div>
+          <button class="card__btn_purchase">КУПИТЬ</button>
+        </div>
+      </div>
+      {{/each}}
+
+      {{#each users}}
+      <div class="card-store">
+        <span>{{login}}</span>
+        <span>{{email}}</span>
+        <span>{{password}}</span>
+      </div>
+      {{/each}}
+
+      {{#each users}}
+      <div class="card-store">
+        <span>{{login}}</span>
+        <span>{{email}}</span>
+        <span>{{password}}</span>
+      </div>
+      {{/each}}
+
+      {{#each users}}
+      <div class="card-store">
+        <span>{{login}}</span>
+        <span>{{email}}</span>
+        <span>{{password}}</span>
+      </div>
+      {{/each}}
+
+      {{#each users}}
+      <div class="card-store">
+        <span>{{login}}</span>
+        <span>{{email}}</span>
+        <span>{{password}}</span>
+      </div>
+      {{/each}}
+
+      {{#each users}}
+      <div class="card-store">
+        <span>{{login}}</span>
+        <span>{{email}}</span>
+        <span>{{password}}</span>
+      </div>
+      {{/each}}
+
+      {{#each users}}
+      <div class="card-store">
+        <span>{{login}}</span>
+        <span>{{email}}</span>
+        <span>{{password}}</span>
+      </div>
+      {{/each}}
+
+      {{#each users}}
+      <div class="card-store">
+        <span>{{login}}</span>
+        <span>{{email}}</span>
+        <span>{{password}}</span>
+      </div>
+      {{/each}}
+
       {{else}}
       <p>No users!</p>
       {{/if}}
