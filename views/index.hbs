@@ -70,8 +70,9 @@
 
 <div id="us_fixed_contact_button" class="d-flex align-items-center justify-content-center">
   <div class="us-fixed-contact-pulsation"></div>
-  <div class="us-fixed-contact-icon d-flex align-items-center justify-content-center" style="animation: rotation 1.5s linear infinite;"><i
-      class="far fa-comment-dots"></i><i class="fas fa-times d-none"></i></div>
+  <div class="us-fixed-contact-icon d-flex align-items-center justify-content-center"
+    style="animation: rotation 1.5s linear infinite;"><i class="far fa-comment-dots"></i><i
+      class="fas fa-times d-none"></i></div>
   <div class="us-fixed-contact-dropdown d-flex flex-column align-items-start">
     <a rel="nofollow" href="https://t.me/khcoffeeshop" target="_blank"
       class="us-fixed-contact-item d-flex align-items-center"><span
@@ -1421,17 +1422,16 @@
     </div>
 
     <div style=" width: 75%;  display: flex; flex-wrap: wrap; margin-left: 12px">
-      {{#if users.length}}
+      {{#if products.length}}
 
-      {{#each users}}
+      {{#each products}}
 
-      <div class="card-store" onClick="window.open('/product/{{login}}','_blank');">
+      <div class="card-store" onClick="window.open('/product/{{_id}}','_blank');">
         <div>
-          <img class="card-image"
-            src="https://coffeeshop.ua/image/cache/webp/catalog/photo/seed-shop/Monster%20Cannabis/afghan-kush-feminised-228x228.webp">
+          <img class="card-image" src="{{ImageUrl}}">
         </div>
         <div class="card-name">
-          <span>{{login}}</span>
+          <span>{{Title}}</span>
         </div>
         <div class="card-rating">
           <span class="us-module-rating-star"></span>
@@ -1442,11 +1442,10 @@
         </div>
 
         <div class="card-description">
-          <span>{{email}}</span>
+          <span>{{Description}}</span>
         </div>
-
         <div class="card-price-no-discount">
-          <span>{{password}}грн.</span>
+          <span>{{Price}} грн.</span>
         </div>
 
         <div>
@@ -1456,11 +1455,10 @@
       {{/each}}
 
       {{else}}
-      <p>No users!</p>
+      <p>No products!</p>
       {{/if}}
     </div>
 
 
   </div>
-
 </div>

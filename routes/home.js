@@ -1,4 +1,5 @@
 const { Router } = require('express')
+const { ObjectId } = require('mongodb')
 const Product = require('../models/Product')
 const User = require('../models/User')
 const router = Router()
@@ -6,13 +7,13 @@ const router = Router()
 router.get('/', async (req, res) => {
 
     const products = await Product.find({}).lean()
-    const users = await User.find({}).lean()
+
+    console.log(products)
 
     res.render('index', {
         title: 'Store',
         IsStore: true,
-        products,
-        users
+        products
     })
 })
 
@@ -41,25 +42,62 @@ router.get('/register', (req, res) => {
     })
 })
 
-router.get('/product/:productname', (req, res) => {
+router.get('/product/:productid', async (req, res) => {
     
-    var productName = req.params.productname
-    const product = Product.findOne({title:productName}, function(err,obj) { console.log(obj); })
+    // var productId = req.params.productid
+
+    // console.log(req.params.productid);
+
+    const products = await Product.find({}).lean()
+
+    var product = await Product.findById(req.params.productid).lean()
+
+    console.log(product)
+
+    // Product.findById(req.params.productid).lean().then(result=>{
+    //     res.render('product', {
+    //         title: 'prod',
+    //         product: result,
+    //         products
+    //     })
+    // })
+    // .catch(err=>{
+    //     console.log(err)
+    //     res.status(500).json({
+    //         error:err
+    //     })
+    // })
+    // const {prodtitle} = productobj
+    // const producttitle = productId['title']
+
+    // console.log(producttitle);
+    // console.log(productobj.lean().Description);
 
     res.render('product', {
-        title: '',
+        title: product.Title,
         IsLogin: true,
         product
     })
 })
 
 router.post('/createproduct', async (req, res) => {
+    var isHit = req.body.IsHit == true;
+    var isInStock = req.body.IsInStock == true;
+
     const product = new Product({
-        title: req.body.title
+        Title: req.body.Title,
+        Price: req.body.Price,
+        Discount: req.body.Discount,
+        ImageUrl: req.body.Imageuri,
+        Description: req.body.Description,
+        Type: req.body.Type,
+        Genetics: req.body.Genetics,
+        IsHit: isHit,
+        IsInStock: isInStock
     })
 
     await product.save()
-    res.render('/')
+    res.redirect('/')
 })
 
 router.post('/createuser', async (req, res) => {
