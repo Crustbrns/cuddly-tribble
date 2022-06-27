@@ -109,7 +109,7 @@
 
 <div class="container" style="margin-bottom: 50px">
 
-  <code>Home > SEED shop > <span style="color: green">Индика</span><br></code>
+  <code style="color: gray; ">Home > SEED shop > <span style="color: green">Индика</span><br></code>
 
   <span style="font-weight: 400; font-size: 30px; margin-top: 20px"><b>Индика</b></span>
   <hr>
@@ -1426,30 +1426,35 @@
 
       {{#each products}}
 
-      <div class="card-store" onClick="window.open('/product/{{_id}}','_blank');">
+      <div class="card-store" onClick="window.open('/product/{{_id}}','_blank');" style="display:flex; flex-direction: column; justify-content: space-between">
         <div>
-          <img class="card-image" src="{{ImageUrl}}">
-        </div>
-        <div class="card-name">
-          <span>{{Title}}</span>
-        </div>
-        <div class="card-rating">
-          <span class="us-module-rating-star"></span>
-          <span class="us-module-rating-star"></span>
-          <span class="us-module-rating-star"></span>
-          <span class="us-module-rating-star"></span>
-          <span class="us-module-rating-star"></span>
+          <div>
+            <img class="card-image" src="{{ImageUrl}}">
+          </div>
+          <div class="card-name">
+            <span>{{Title}}</span>
+          </div>
+          <div class="card-rating">
+            <span class="us-module-rating-star"></span>
+            <span class="us-module-rating-star"></span>
+            <span class="us-module-rating-star"></span>
+            <span class="us-module-rating-star"></span>
+            <span class="us-module-rating-star"></span>
+          </div>
+
+          <div class="card-description">
+            <span>{{Description}}</span>
+          </div>
         </div>
 
-        <div class="card-description">
-          <span>{{Description}}</span>
-        </div>
-        <div class="card-price-no-discount">
-          <span>{{Price}} грн.</span>
-        </div>
-
         <div>
-          <button class="card__btn_purchase">КУПИТЬ</button>
+          <div class="card-price-no-discount">
+            <span>{{Price}} грн.</span>
+          </div>
+
+          <div>
+            <button class="card__btn_purchase">КУПИТЬ</button>
+          </div>
         </div>
       </div>
       {{/each}}

@@ -43,35 +43,9 @@ router.get('/register', (req, res) => {
 })
 
 router.get('/product/:productid', async (req, res) => {
-    
-    // var productId = req.params.productid
-
-    // console.log(req.params.productid);
-
-    const products = await Product.find({}).lean()
-
     var product = await Product.findById(req.params.productid).lean()
 
     console.log(product)
-
-    // Product.findById(req.params.productid).lean().then(result=>{
-    //     res.render('product', {
-    //         title: 'prod',
-    //         product: result,
-    //         products
-    //     })
-    // })
-    // .catch(err=>{
-    //     console.log(err)
-    //     res.status(500).json({
-    //         error:err
-    //     })
-    // })
-    // const {prodtitle} = productobj
-    // const producttitle = productId['title']
-
-    // console.log(producttitle);
-    // console.log(productobj.lean().Description);
 
     res.render('product', {
         title: product.Title,
@@ -84,8 +58,9 @@ router.post('/createproduct', async (req, res) => {
     var isHit = req.body.IsHit == true;
     var isInStock = req.body.IsInStock == true;
 
+    console.log(req.body.ProdTitle)
     const product = new Product({
-        Title: req.body.Title,
+        Title: req.body.ProdTitle,
         Price: req.body.Price,
         Discount: req.body.Discount,
         ImageUrl: req.body.Imageuri,

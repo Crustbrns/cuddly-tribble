@@ -246,3 +246,22 @@ a {
     transition: ease;
 	}
 }
+
+.us-main-shop-title {
+  color: #30363d;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 33px;
+  margin-bottom: 30px;
+  position: relative;
+}
+
+.us-price-new {
+  color: #fff;
+  font-size: 18px;
+  font-weight: 700;
+  padding: 4px 12px;
+  background-color: #eb5757;
+  margin-right: 20px;
+  letter-spacing: .3px;
+}
