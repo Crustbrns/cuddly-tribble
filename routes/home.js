@@ -41,6 +41,18 @@ router.get('/register', (req, res) => {
     })
 })
 
+router.get('/product/:productname', (req, res) => {
+    
+    var productName = req.params.productname
+    const product = Product.findOne({title:productName}, function(err,obj) { console.log(obj); })
+
+    res.render('product', {
+        title: '',
+        IsLogin: true,
+        product
+    })
+})
+
 router.post('/createproduct', async (req, res) => {
     const product = new Product({
         title: req.body.title

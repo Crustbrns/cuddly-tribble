@@ -30,7 +30,8 @@
           <input type="text" id="input_search" name="search" value="" placeholder="Поиск" class="input-lg header-input"
             autocomplete="off" style="width: 322px;">
           <button type="button" id="oct-search-button" class="btn" ;
-            style="height: 27px; width: 40px; padding-right: 34px; padding-bottom: 30px">🔍</button>
+            style="height: 27px; width: 40px; padding-right: 28px; padding-bottom: 30px; border-radius: 0"><i
+              class="fa-solid fa-magnifying-glass"></i></button>
           <div id="us_livesearch_close" onclick="clearLiveSearch();" class="d-lg-none"><i class="fas fa-times"></i>
           </div>
           <div id="us_livesearch"></div>
@@ -64,6 +65,44 @@
       <a>HEAD SHOP</a>
       <a>HEMP SHOP</a>
     </div>
+  </div>
+</div>
+
+<div id="us_fixed_contact_button" class="d-flex align-items-center justify-content-center">
+  <div class="us-fixed-contact-pulsation"></div>
+  <div class="us-fixed-contact-icon d-flex align-items-center justify-content-center" style="animation: rotation 1.5s linear infinite;"><i
+      class="far fa-comment-dots"></i><i class="fas fa-times d-none"></i></div>
+  <div class="us-fixed-contact-dropdown d-flex flex-column align-items-start">
+    <a rel="nofollow" href="https://t.me/khcoffeeshop" target="_blank"
+      class="us-fixed-contact-item d-flex align-items-center"><span
+        class="us-fixed-contact-item-icon us-fixed-contact-telegram d-flex align-items-center justify-content-center"><i
+          class="fab fa-telegram"></i></span><span>Telegram</span></a>
+    <a rel="nofollow" href="https://api.whatsapp.com/send?phone=+380634201777" target="_blank"
+      class="us-fixed-contact-item d-flex align-items-center"><span
+        class="us-fixed-contact-item-icon us-fixed-contact-whatsapp d-flex align-items-center justify-content-center"><i
+          class="fab fa-whatsapp"></i></span><span>WhatsApp</span></a>
+    <a rel="nofollow" id="uptocall-mini" href="javascript:;" onclick="octPopupCallPhone()"
+      class="us-fixed-contact-item d-flex align-items-center"><span
+        class="us-fixed-contact-item-icon us-fixed-contact-call d-flex align-items-center justify-content-center"><i
+          class="fas fa-phone"></i></span><span>Заказать звонок</span></a>
+  </div>
+</div>
+
+<div class="oct-fixed-bar fixed-left">
+  <div class="oct-fixed-bar-item oct-fixed-bar-wishlist">
+    <a href="https://coffeeshop.ua/index.php?route=account/wishlist" class="oct-fixed-bar-link"
+      title="Список желаний"><i class="fas fa-heart"></i><br>
+      <span class="oct-fixed-bar-quantity oct-wishlist-quantity">0</span></a>
+  </div>
+  <div class="oct-fixed-bar-item oct-fixed-bar-compare">
+    <a href="https://coffeeshop.ua/index.php?route=product/compare" class="oct-fixed-bar-link"
+      title="Список сравнения"><i class="fas fa-chart-bar"></i><br>
+      <span class="oct-fixed-bar-quantity oct-compare-quantity">0</span></a>
+  </div>
+  <div class="oct-fixed-bar-item oct-fixed-bar-cart">
+    <a href="javascript:;" onclick="octPopupCart()" class="oct-fixed-bar-link" title="Корзина">
+      <i class="fas fa-shopping-cart"></i><br>
+      <span id="oct-cart-quantity" class="oct-fixed-bar-quantity">0</span></a>
   </div>
 </div>
 
@@ -1381,10 +1420,12 @@
 
     </div>
 
-    <div style=" width: 75%;  display: flex; flex-wrap: wrap;">
+    <div style=" width: 75%;  display: flex; flex-wrap: wrap; margin-left: 12px">
       {{#if users.length}}
+
       {{#each users}}
-      <div class="card-store">
+
+      <div class="card-store" onClick="window.open('/product/{{login}}','_blank');">
         <div>
           <img class="card-image"
             src="https://coffeeshop.ua/image/cache/webp/catalog/photo/seed-shop/Monster%20Cannabis/afghan-kush-feminised-228x228.webp">
@@ -1399,9 +1440,9 @@
           <span class="us-module-rating-star"></span>
           <span class="us-module-rating-star"></span>
         </div>
-        
+
         <div class="card-description">
-        <span>{{email}}</span>
+          <span>{{email}}</span>
         </div>
 
         <div class="card-price-no-discount">
@@ -1411,62 +1452,6 @@
         <div>
           <button class="card__btn_purchase">КУПИТЬ</button>
         </div>
-      </div>
-      {{/each}}
-
-      {{#each users}}
-      <div class="card-store">
-        <span>{{login}}</span>
-        <span>{{email}}</span>
-        <span>{{password}}</span>
-      </div>
-      {{/each}}
-
-      {{#each users}}
-      <div class="card-store">
-        <span>{{login}}</span>
-        <span>{{email}}</span>
-        <span>{{password}}</span>
-      </div>
-      {{/each}}
-
-      {{#each users}}
-      <div class="card-store">
-        <span>{{login}}</span>
-        <span>{{email}}</span>
-        <span>{{password}}</span>
-      </div>
-      {{/each}}
-
-      {{#each users}}
-      <div class="card-store">
-        <span>{{login}}</span>
-        <span>{{email}}</span>
-        <span>{{password}}</span>
-      </div>
-      {{/each}}
-
-      {{#each users}}
-      <div class="card-store">
-        <span>{{login}}</span>
-        <span>{{email}}</span>
-        <span>{{password}}</span>
-      </div>
-      {{/each}}
-
-      {{#each users}}
-      <div class="card-store">
-        <span>{{login}}</span>
-        <span>{{email}}</span>
-        <span>{{password}}</span>
-      </div>
-      {{/each}}
-
-      {{#each users}}
-      <div class="card-store">
-        <span>{{login}}</span>
-        <span>{{email}}</span>
-        <span>{{password}}</span>
       </div>
       {{/each}}
 
