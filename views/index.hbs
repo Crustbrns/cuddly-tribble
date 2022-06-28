@@ -109,7 +109,8 @@
 
 <div class="container" style="margin-bottom: 50px">
 
-  <code style="color: gray; ">Home > SEED shop > <span style="color: green">Индика</span><br></code>
+  <code
+    style="color: gray; "><a href="/">Home</a> > <a href="/">SEED shop</a> > <a href="/"><span style="color: green">Индика</span></a><br></code>
 
   <span style="font-weight: 400; font-size: 30px; margin-top: 20px"><b>Индика</b></span>
   <hr>
@@ -1426,34 +1427,54 @@
 
       {{#each products}}
 
-      <div class="card-store" onClick="window.open('/product/{{_id}}','_blank');" style="display:flex; flex-direction: column; justify-content: space-between">
-        <div>
-          <div>
-            <img class="card-image" src="{{ImageUrl}}">
-          </div>
-          <div class="card-name">
-            <span>{{Title}}</span>
-          </div>
-          <div class="card-rating">
-            <span class="us-module-rating-star"></span>
-            <span class="us-module-rating-star"></span>
-            <span class="us-module-rating-star"></span>
-            <span class="us-module-rating-star"></span>
-            <span class="us-module-rating-star"></span>
-          </div>
+      <div class="card-store" onClick="window.open('/product/{{_id}}','_blank');"
+        style="display:flex; flex-direction: column; justify-content: space-between">
 
-          <div class="card-description">
-            <span>{{Description}}</span>
-          </div>
+        <div class="us-module-stickers">
+
+          {{#comparison product.discount 0}}
+          <div class="us-module-stickers-sticker us-module-stickers-sticker-discount">-{{product.discount}}%</div>
+          {{/comparison}}
+
+          {{#if product.isHit}}
+          <div class="us-module-stickers-sticker us-module-stickers-sticker-stickers_bestseller">ХИТ</div>
+          {{/if}}
+
+          {{#comparison product.discount 0}}
+          <div class="us-module-stickers-sticker us-module-stickers-sticker-stickers_special">АКЦИЯ</div>
+          {{/comparison}}
+
         </div>
 
-        <div>
-          <div class="card-price-no-discount">
-            <span>{{Price}} грн.</span>
+        <div style="padding: 0 20px 20px 20px">
+          <div>
+            <div>
+              <img class="card-image" src="{{ImageUrl}}">
+            </div>
+            <div class="card-name">
+              <span>{{Title}}</span>
+            </div>
+            <div class="card-rating">
+              <span class="us-module-rating-star"></span>
+              <span class="us-module-rating-star"></span>
+              <span class="us-module-rating-star"></span>
+              <span class="us-module-rating-star"></span>
+              <span class="us-module-rating-star"></span>
+            </div>
+
+            <div class="card-description">
+              <span>{{Description}}</span>
+            </div>
           </div>
 
           <div>
-            <button class="card__btn_purchase">КУПИТЬ</button>
+            <div class="card-price-no-discount">
+              <span>{{Price}} грн.</span>
+            </div>
+
+            <div>
+              <button class="card__btn_purchase">КУПИТЬ</button>
+            </div>
           </div>
         </div>
       </div>

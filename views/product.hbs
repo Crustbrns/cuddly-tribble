@@ -75,7 +75,7 @@
     <div>
         <div style="margin-bottom: 20px">
             <code
-                style="color: gray; "><a href="/">Home</a> > SEED shop > <span style="color: green">{{product.Title}}</span><br></code>
+                style="color: gray; "><a href="/">Home</a> > <a href="/">SEED shop</a> > <span style="color: green">{{product.Title}}</span><br></code>
         </div>
         <span class="us-main-shop-title">{{product.Title}}</span>
         <hr>
@@ -85,14 +85,23 @@
             <img style="width:100%; height: auto" src="{{product.ImageUrl}}">
         </div>
         <div style="width: 60%">
-            <div>
-                <span>
-                    <h3>{{product.Title}}</h3>
-                </span>
+            <div style="display: flex">
+                {{#if product.IsHit}}
+                <i class="fa fa-bolt" style="padding-top: 10px; margin-right: 10px; color: #ffb900" aria-hidden="true"></i><span><h3>{{product.Title}}</h3></span>
+                {{else}}
+                <span><h3>{{product.Title}}</h3></span>
+                {{/if}}
             </div>
             <div style="display: flex; margin-top: 12px">
+                {{#if product.IsInStock}}
                 <div class="us-price-new"><span data-value="150.0000" class="autocalc-product-special">{{product.Price}}
                         грн.</span></div>
+                {{else}}
+                <div class="us-price-new" style="background-color: gray"><span data-value="150.0000"
+                        class="autocalc-product-special">{{product.Price}}
+                        грн</span></div>
+                <h5 style="color: #a5a9ab; padding-top: 4px">Нет в наличии</h5>
+                {{/if}}
             </div>
             <div style="margin-top: 40px">
                 <span data-value="150.0000" class="autocalc-product-special">{{product.Description}}</span>
@@ -109,16 +118,20 @@
             </div>
             <div style="margin-top: 40px">
                 {{#if product.IsHit}}
-                <span data-value="150.0000" class="autocalc-product-special">Продукт <span style="color:#0abf53">является</span> хитом</span>
+                <span data-value="150.0000" class="autocalc-product-special">Продукт <span
+                        style="color:#7fbb00">является</span> хитом</span>
                 {{else}}
-                <span data-value="150.0000" class="autocalc-product-special">Продукт <span style="color:#e4002b">не является</span> хитом</span>
+                <span data-value="150.0000" class="autocalc-product-special">Продукт <span style="color:#e4002b">не
+                        является</span> хитом</span>
                 {{/if}}
             </div>
             <div style="margin-top: 0px">
                 {{#if product.IsInStock}}
-                <span data-value="150.0000" class="autocalc-product-special">Продукт <span style="color:#0abf53">есть</span> в наличии</span>
+                <span data-value="150.0000" class="autocalc-product-special">Продукт <span
+                        style="color:#7fbb00;">есть</span> в наличии</span>
                 {{else}}
-                <span data-value="150.0000" class="autocalc-product-special">Продукта <span style="color:#e4002b">нет</span> в наличии</span>
+                <span data-value="150.0000" class="autocalc-product-special">Продукта <span
+                        style="color:#e4002b">нет</span> в наличии</span>
                 {{/if}}
             </div>
         </div>

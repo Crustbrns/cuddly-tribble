@@ -11,7 +11,7 @@ router.get('/', async (req, res) => {
     console.log(products)
 
     res.render('index', {
-        title: 'Store',
+        title: 'Лучший магазин семян марихуаны Coffeeshop.ua в Украине.',
         IsStore: true,
         products
     })

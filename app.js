@@ -9,7 +9,13 @@ const authRoute = require('./routes/auth.routes')
 const app = express()
 const hbs = expresshandlebars.create({
     defaultLayout: 'main',
-    extname: 'hbs'
+    extname: 'hbs',
+
+    helpers: {
+        comparison: function(a, b, options){
+            return (a > b) ? options.fn(this) : options.inverse(this);
+        }
+    }
 })
 
 app.engine('hbs', hbs.engine)

@@ -25,7 +25,7 @@ a {
   margin: 1% 1.5% 1% 1.5%;
   /* height: 200px; */
   box-shadow: 0px 0px 14px 6px rgba(0, 0, 0, 0.02);
-  padding: 20px;
+  padding: 20px 0 0 0;
   border: 1px solid whitesmoke;
   transition: 0.3s ease;
 }
@@ -264,4 +264,44 @@ a {
   background-color: #eb5757;
   margin-right: 20px;
   letter-spacing: .3px;
+}
+
+.us-module-stickers {
+  position: absolute;
+  z-index: 10;
+}
+
+.us-module-stickers-sticker-discount {
+  background-color: #eb5757;
+  max-width: 44px;
+}
+
+.us-module-stickers-sticker {
+  color: #fff;
+  font-size: 10px;
+  line-height: 18px;
+  padding: 0 10px;
+  margin-bottom: 13px;
+}
+
+.us-module-stickers-sticker-stickers_bestseller {
+  color: rgb(255, 255, 255);
+  background: rgb(235, 80, 20);
+}
+.us-module-stickers-sticker-stickers_special {
+  color: rgb(255, 255, 255);
+  background: rgb(0, 120, 255);
+}
+
+.us-module-item {
+  background: #fff;
+  box-shadow: 0 1px 5px rgb(0 0 0 / 3%);
+  border-radius: 1px;
+  padding-top: 43px;
+  padding-bottom: 15px;
+  text-align: center;
+  position: relative;
+  margin-bottom: 30px;
+  transition: box-shadow .15s ease .05s;
+  height: calc(100% - 30px);
 }
