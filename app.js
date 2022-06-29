@@ -24,11 +24,10 @@ app.set('views', 'views')
 
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static(path.join(__dirname, 'public')))
+app.use(express.json())
 
 app.use(homeRoute)
-app.use(authRoute)
-
-// app.use('/api/auth', require('./routes/auth.routes'))
+app.use('/auth', authRoute)
 
 const PORT = config.get('port') || 3000
 

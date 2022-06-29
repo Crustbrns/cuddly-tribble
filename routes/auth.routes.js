@@ -2,9 +2,13 @@ const { Router } = require('express')
 const { check, validationResult } = require('express-validator')
 const config = require('config')
 const jwt = require('jsonwebtoken')
-const User = require('../models/User')
 const bcrypt = require('bcryptjs')
 const router = Router()
+const authcontroller = require('./authController')
+
+router.post('/registration', authcontroller.reg)
+router.post('/login', authcontroller.login)
+router.get('/users', authcontroller.getUsers)
 
 // /api/auth/register
 router.post('/auth/register',
@@ -57,7 +61,7 @@ router.post('/auth/register',
     })
 
 // /api/auth/login
-router.post('/auth/login',
+router.post('/auth/logins',
     [
         check('login', 'Enter login').exists(),
         check('password', 'Enter password').exists()
