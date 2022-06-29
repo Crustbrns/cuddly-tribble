@@ -1,63 +1,23 @@
-{{!-- <form action="/createuser" method="POST">
-
-    <h2>Admin Panel</h2>
-
-    <div class="input-field">
-        <input type="text" name="login" placeholder="User login">
-        <input type="text" name="email" placeholder="User email">
-        <input type="password" name="password" placeholder="User password">
-    </div>
-
-    <button type="submit" class="btn">Create Product</button>
-
-</form> --}}
-
-<form action="/createproduct" method="POST">
-
-    <div class="auth-stretched">
-        <div class="auth-container">
-            <div class="auth-section">
-                <div class="auth-holder">
-                    <h2 style="padding-top: 40px">Admin Panel</h2>
-                    <div class="input-field" style="margin: auto; padding-top: 20px;">
-                        <div>
-                            <input type="text" name="Title" placeholder="Product title" required>
-                        </div>
-                        <div>
-                            <input style="width: 189px" type="number" min="1" max="5000" name="Price"
-                                placeholder="Product price" required>
-                        </div>
-                        <div>
-                            <input style="width: 189px" type="number" value="0" min="0" max="100" name="Discount"
-                                placeholder="Product discount" required>
-                        </div>
-                        <div>
-                            <input type="text" name="ImageUrl" placeholder="Product image" required>
-                        </div>
-                        <div>
-                            <input type="text" name="Description" placeholder="Product description">
-                        </div>
-                        <div>
-                            <input type="text" name="Type" placeholder="Product type" required>
-                        </div>
-                        <div>
-                            <input type="text" name="Genetics" placeholder="Product genetics" required>
-                        </div>
-                        <div style="margin-top: 20px">
-                            <input type="checkbox" name="IsHit">
-                            <span>Is Product Hit?</span>
-                        </div>
-                        <div>
-                            <input type="checkbox" name="IsInStock" checked>
-                            <span>Is Product in Stock?</span>
-                        </div>
-
-                        <button type="submit" class="btn" style="margin-top: 20px">Create Product</button>
-                    </div>
+<div class="auth-stretched">
+    <div class="auth-container" style="padding: 0;">
+        <div class="auth-section" style="width: auto; min-width: 440px">
+            <div class="auth-holder" style="padding: 20px 40px; margin-top: 100px">
+                <div>
+                    <form action="/admin/create" method="GET">
+                        <button class="enter-button-field" style="margin-bottom: -12px; margin-top: 20px">Create product</button>
+                    </form>
+                </div>
+                <div>
+                    <form action="/auth/logout" method="POST">
+                        <button class="enter-button-field"style="margin-bottom: -12px">Edit product</button>
+                    </form>
+                </div>
+                <div>
+                    <form action="/auth/logout" method="POST">
+                        <button class="enter-button-field">Delete product</button>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
-
-
-</form>
+</div>

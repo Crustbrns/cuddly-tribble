@@ -6,8 +6,15 @@
                     <span class="hello-title" style="font-weight: 500">Hello, {{nickname}}! 😋</span>
                 </div>
 
-                <div>
+                {{#if usercheck}}
+                    <div>
+                        <form action="/admin" method="GET">
+                            <button class="enter-button-field" style="margin-bottom: -12px">Admin Panel</button>
+                        </form>
+                    </div>
+                {{/if}}
 
+                <div>
                     <form action="/auth/logout" method="POST">
                         <button class="enter-button-field">Log out</button>
                     </form>
