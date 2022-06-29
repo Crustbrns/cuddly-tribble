@@ -4,18 +4,13 @@ const Product = require('../models/Product')
 const User = require('../models/User')
 const router = Router()
 
-router.get('/', async (req, res) => {
+const commonController = require('./commonController')
 
-    const products = await Product.find({}).lean()
+router.get('/register', commonController.getRegisterPage)
+router.get('/login', commonController.getLoginPage)
 
-    console.log(products)
-
-    res.render('index', {
-        title: 'Лучший магазин семян марихуаны Coffeeshop.ua в Украине.',
-        IsStore: true,
-        products
-    })
-})
+router.get('/', commonController.getIndex)
+router.get('/product/:productId', commonController.getProductById)
 
 router.get('/admin', (req, res) => {
     res.render('admin', {
@@ -25,21 +20,6 @@ router.get('/admin', (req, res) => {
     if (adminroot = false) {
         res.redirect('/')
     }
-})
-
-
-router.get('/login', (req, res) => {
-    res.render('login', {
-        title: 'Auth',
-        IsLogin: true
-    })
-})
-
-router.get('/register', (req, res) => {
-    res.render('register', {
-        title: 'Register',
-        IsLogin: true
-    })
 })
 
 router.get('/product/:productid', async (req, res) => {
@@ -55,35 +35,28 @@ router.get('/product/:productid', async (req, res) => {
 })
 
 router.post('/createproduct', async (req, res) => {
-    var isHit = req.body.IsHit == true;
-    var isInStock = req.body.IsInStock == true;
+
+    const {Title, Price, Discount, ImageUrl, 
+        Description, Type, Genetics, IsHit,
+         IsInStock} = req.body
+
+    var isHit = IsHit == true;
+    var isInStock = IsInStock == true;
 
     console.log(req.body.ProdTitle)
     const product = new Product({
-        Title: req.body.ProdTitle,
-        Price: req.body.Price,
-        Discount: req.body.Discount,
-        ImageUrl: req.body.Imageuri,
-        Description: req.body.Description,
-        Type: req.body.Type,
-        Genetics: req.body.Genetics,
+        Title: Title,
+        Price: Price,
+        Discount: Discount,
+        ImageUrl: ImageUrl,
+        Description: Description,
+        Type: Type,
+        Genetics: Genetics,
         IsHit: isHit,
         IsInStock: isInStock
     })
 
     await product.save()
-    res.redirect('/')
-})
-
-router.post('/createuser', async (req, res) => {
-    const user = new User({
-        login: req.body.login,
-        email: req.body.email,
-        password: req.body.password,
-        adminroot: true
-    })
-
-    await user.save()
     res.redirect('/')
 })
 
