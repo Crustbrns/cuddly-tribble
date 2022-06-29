@@ -21,7 +21,8 @@ class authController {
         try {
             const errors = validationResult(req)
             if (!errors.isEmpty()) {
-                res.status(400).json({ message: "Registration errors found", errors })
+                return res.redirect('/register')
+                // res.status(400).json({ message: "Registration errors found", errors })
             }
 
             const { username, password, passwordConfirm } = req.body
@@ -41,11 +42,17 @@ class authController {
 
             await user.save()
 
-            return res.json({ message: "User has been successfully created" })
+            const token = generateToken(user._id, user.username, user.roles)
+            res.cookie('session_id', token)
+
+            return res.redirect('/register')
+            // return res.json({ message: "User has been successfully created" })
 
         } catch (error) {
             console.log(error)
-            res.status(400).json({ message: 'Registration error' })
+
+            return res.redirect('/register')
+            // res.status(400).json({ message: 'Registration error' })
         }
     }
 

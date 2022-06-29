@@ -24,6 +24,30 @@ class adminController {
         await product.save()
         res.redirect('/')
     }
+
+    async updateProductById(req, res) {
+        const { Title, Price, ImageUrl,
+            Description, Type, Genetics, IsHit,
+            IsInStock } = req.body
+
+        var isHit = IsHit == true;
+        var isInStock = IsInStock == true;
+
+        const product = new Product({
+            Title: Title,
+            Price: Price,
+            Discount: 0,
+            ImageUrl: ImageUrl,
+            Description: Description,
+            Type: Type,
+            Genetics: Genetics,
+            IsHit: isHit,
+            IsInStock: isInStock
+        })
+
+        await product.save()
+        res.redirect('/')
+    }
 }
 
 module.exports = new adminController()

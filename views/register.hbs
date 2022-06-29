@@ -6,18 +6,14 @@
                     Create your account
                 </div>
                 <div class="auth-subtitle">
-                    Please enter your email, login and password
+                    Please enter your login and password
                 </div>
 
-                <form action="/auth/register" method="POST">
+                <form action="/auth/registration" method="POST">
 
                     <div class="auth-fields">
-                        <div>
-                            <input class="auth-field" type="email" placeholder="Mail" name="email" required>
-                        </div>
-
                         <div style="margin-top: 10px">
-                            <input class="auth-field" type="text" placeholder="Login" name="login" required>
+                            <input class="auth-field" type="text" placeholder="Login" name="username" required>
                         </div>
 
                         <div style="margin-top: 10px">
@@ -26,7 +22,7 @@
 
                         <div style="margin-top: 10px">
                             <input class="auth-field" type="password" placeholder="Confirm Password"
-                                name="confirmpassword" required>
+                                name="passwordConfirm" required>
                         </div>
 
                         <div>

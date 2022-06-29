@@ -3,7 +3,6 @@ const jwt = require('jsonwebtoken')
 const User = require('../../models/User')
 const Product = require('../../models/Product')
 
-
 const secret = config.get('jwtSecret') || 3000
 
 class commonController {
@@ -104,7 +103,6 @@ class commonController {
     }
 
     async getAdminPage(req, res) {
-
         try {
             const token = req.cookies.session_id
 
@@ -165,6 +163,89 @@ class commonController {
                 if (hasAccess) {
                     res.render('admincreate', {
                         title: 'Adminpanel - Create'
+                    })
+                }
+                else {
+                    res.redirect('/login')
+                }
+            }
+            else {
+                res.redirect('/login')
+            }
+        }
+        catch (error) {
+            console.log(error)
+            res.redirect('/')
+        }
+    }
+
+    async getAdminUpdatePage(req, res) {
+
+        try {
+            const token = req.cookies.session_id
+            const products = await Product.find({}).lean()
+
+            const decodedData = jwt.verify(token, secret)
+            let username = decodedData.username
+
+            const usercheck = await User.findOne({ username })
+
+            if (usercheck) {
+                const required_role = "ADMIN"
+
+                let hasAccess = false
+                usercheck.role.forEach(x => {
+                    if (required_role == x) {
+                        hasAccess = true
+                    }
+                })
+
+                if (hasAccess) {
+                    res.render('adminedit', {
+                        title: 'Adminpanel - Update',
+                        products
+                    })
+                }
+                else {
+                    res.redirect('/login')
+                }
+            }
+            else {
+                res.redirect('/login')
+            }
+        }
+        catch (error) {
+            console.log(error)
+            res.redirect('/')
+        }
+    }
+
+    async getAdminUpdateProductPage(req, res) {
+        try {
+            const token = req.cookies.session_id
+
+            const { productId } = req.params
+            var product = await Product.findById(productId).lean()
+
+            const decodedData = jwt.verify(token, secret)
+            let username = decodedData.username
+
+            const usercheck = await User.findOne({ username })
+
+            if (usercheck) {
+                const required_role = "ADMIN"
+
+                let hasAccess = false
+                usercheck.role.forEach(x => {
+                    if (required_role == x) {
+                        hasAccess = true
+                    }
+                })
+
+                if (hasAccess) {
+                    res.render('editproduct', {
+                        title: product.Title + ' - Update',
+                        product
                     })
                 }
                 else {
