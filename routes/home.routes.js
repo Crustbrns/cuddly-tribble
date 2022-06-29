@@ -7,6 +7,7 @@ const commonController = require('./controllers/commonController')
 router.get('/register', commonController.getRegisterPage)
 router.get('/login', commonController.getLoginPage)
 router.get('/profile', commonController.getProfilePage)
+router.get('/admin', commonController.getAdminPage)
 
 router.get('/', commonController.getIndex)
 router.get('/product/:productId', commonController.getProductById)

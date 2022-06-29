@@ -1,3 +1,4 @@
+const Product = require('../../models/Product')
 
 class adminController {
     async createProduct(req, res) {
@@ -22,16 +23,6 @@ class adminController {
 
         await product.save()
         res.redirect('/')
-    }
-
-    async getAdminPage(req, res) {
-        res.render('admin', {
-            title: 'Adminpanel'
-        })
-    
-        // if (adminroot = false) {
-        //     res.redirect('/')
-        // }
     }
 }
 
