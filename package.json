@@ -16,6 +16,7 @@
     "@handlebars/allow-prototype-access": "^1.0.5",
     "bcryptjs": "^2.4.3",
     "config": "^3.3.7",
+    "cookie-parser": "^1.4.6",
     "express": "^4.18.1",
     "express-handlebars": "^6.0.6",
     "express-validator": "^6.14.2",

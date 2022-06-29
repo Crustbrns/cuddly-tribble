@@ -1,10 +1,12 @@
-const express = require('express')
-const config = require('config')
 const path = require('path')
+const config = require('config')
+const express = require('express')
 const mongoose = require('mongoose')
-const expresshandlebars = require('express-handlebars')
-const homeRoute = require('./routes/home')
+const cookieParser = require('cookie-parser')
+const homeRoute = require('./routes/home.routes')
+const adminRoute = require('./routes/admin.routes')
 const authRoute = require('./routes/auth.routes')
+const expresshandlebars = require('express-handlebars')
 
 const app = express()
 const hbs = expresshandlebars.create({
@@ -22,12 +24,15 @@ app.engine('hbs', hbs.engine)
 app.set('view engine', 'hbs')
 app.set('views', 'views')
 
+app.use(cookieParser())
+
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(express.json())
 
 app.use(homeRoute)
 app.use('/auth', authRoute)
+app.use('/admin', adminRoute)
 
 const PORT = config.get('port') || 3000
 

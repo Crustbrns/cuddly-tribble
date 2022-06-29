@@ -1,4 +1,4 @@
-const Product = require('../models/Product')
+const Product = require('../../models/Product')
 
 class commonController {
     async getRegisterPage(req, res) {
@@ -9,10 +9,28 @@ class commonController {
     }
 
     async getLoginPage(req, res) {
-        res.render('login', {
-            title: 'Auth',
-            IsLogin: true
-        })
+        const token = req.cookies.session_id
+        if(token){
+            res.redirect('profile')
+        }
+        else{
+            res.render('login', {
+                title: 'Auth',
+                IsLogin: true
+            })
+        }
+
+    }
+
+    async getProfilePage(req, res) {
+        const token = req.cookies.session_id
+        
+        if(token){
+            res.render('profile', {
+                title: 'Лучший магазин семян марихуаны Coffeeshop.ua в Украине.',
+                IsStore: true
+            })
+        }
     }
 
     async getIndex(req, res) {

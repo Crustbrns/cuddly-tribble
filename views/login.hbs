@@ -10,17 +10,22 @@
                 </div>
 
                 <div class="auth-fields">
-                    <div>
-                        <input class="auth-field" type="text" placeholder="Login" name="username" required>
-                    </div>
 
-                    <div style="margin-top: 10px">
-                        <input class="auth-field" type="password" placeholder="Password" name="password" required>
-                    </div>
+                    <form action="/auth/login" method="POST">
 
-                    <div>
-                        <button class="enter-button-field">Sign In</button>
-                    </div>
+                        <div>
+                            <input class="auth-field" type="text" placeholder="login" name="username" required>
+                        </div>
+
+                        <div style="margin-top: 10px">
+                            <input class="auth-field" type="password" placeholder="Password" name="password" required>
+                        </div>
+
+                        <div>
+                            <button class="enter-button-field">Sign In</button>
+                        </div>
+
+                    </form>
 
                     <div class="auth-subtitle auth-create-request">
                         Don't have an account yet? <a href="/register">Create account</a>

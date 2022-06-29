@@ -1,14 +1,15 @@
-const User = require('../models/User')
-const Role = require('../models/Role')
+const User = require('../../models/User')
+const Role = require('../../models/Role')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 
 const { validationResult } = require('express-validator')
 const { jwtSecret } = require('config')
 
-const generateToken = (id, roles) => {
+const generateToken = (id, username, roles) => {
     const payload = {
         id,
+        username,
         roles,
     }
 
@@ -56,19 +57,34 @@ class authController {
             if (user) {
                 const IsPassMatches = bcrypt.compare(password, user.password)
                 if (!IsPassMatches) {
-                    return res.status(400).json({ message: 'User\'s password or login isn\'t correct' })
+                    return res.redirect('/login')
+                    // return res.status(400).json({ message: 'User\'s password or login isn\'t correct' })
                 }
             }
             else {
-                return res.status(400).json({ message: 'User\'s password or login isn\'t correct' })
+                return res.redirect('/login')
+                // return res.status(400).json({ message: 'User\'s password or login isn\'t correct' })
             }
 
-            const token = generateToken(user._id, user.roles)
+            const token = generateToken(user._id, user.username, user.roles)
+            res.cookie('session_id', token)
 
+            return res.redirect('/')
             return res.json({token})
         } catch (error) {
-            console.log(e)
-            res.status(400).json({ message: 'Login error' })
+            console.log(error)
+            return res.redirect('/login')
+            // res.status(400).json({ message: 'Login error' })
+        }
+    }
+
+    async logout(req, res) {
+        try {
+            res.clearCookie("session_id")
+            return res.redirect('/login')
+        } catch (error) {
+            return res.redirect('/profile')
+            // res.status(400).json({ message: 'Login error' })
         }
     }
 
