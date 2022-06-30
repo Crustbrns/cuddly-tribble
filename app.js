@@ -34,7 +34,7 @@ app.use(homeRoute)
 app.use('/auth', authRoute)
 app.use('/admin', adminRoute)
 
-const PORT = config.get('port') || 3000
+const PORT = process.env.PORT || config.get('port')
 
 async function start() {
     try {
