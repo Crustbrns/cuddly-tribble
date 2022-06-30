@@ -245,7 +245,8 @@ class commonController {
                 if (hasAccess) {
                     res.render('editproduct', {
                         title: product.Title + ' - Update',
-                        product
+                        product,
+                        productId
                     })
                 }
                 else {

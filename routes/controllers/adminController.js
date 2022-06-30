@@ -22,7 +22,7 @@ class adminController {
         })
 
         await product.save()
-        res.redirect('/')
+        res.redirect('/admin')
     }
 
     async updateProductById(req, res) {
@@ -33,7 +33,12 @@ class adminController {
         var isHit = IsHit == true;
         var isInStock = IsInStock == true;
 
-        const product = new Product({
+        const { productId } = req.params
+
+        console.log(Title)
+        console.log(productId)
+
+        await Product.replaceOne({ _id: productId }, {
             Title: Title,
             Price: Price,
             Discount: 0,
@@ -45,8 +50,7 @@ class adminController {
             IsInStock: isInStock
         })
 
-        await product.save()
-        res.redirect('/')
+        res.redirect('/admin')
     }
 }
 
