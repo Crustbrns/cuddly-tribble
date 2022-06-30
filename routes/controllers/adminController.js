@@ -2,7 +2,7 @@ const Product = require('../../models/Product')
 
 class adminController {
     async createProduct(req, res) {
-        const { Title, Price, Discount, ImageUrl,
+        const { Title, Price, ImageUrl,
             Description, Type, Genetics, IsHit,
             IsInStock } = req.body
 
@@ -12,7 +12,7 @@ class adminController {
         const product = new Product({
             Title: Title,
             Price: Price,
-            Discount: Discount,
+            Discount: 0,
             ImageUrl: ImageUrl,
             Description: Description,
             Type: Type,
@@ -49,6 +49,14 @@ class adminController {
             IsHit: isHit,
             IsInStock: isInStock
         })
+
+        res.redirect('/admin')
+    }
+    
+    async deleteProductById(req, res) {
+        const { productId } = req.params
+
+        await Product.findOneAndDelete({_id: productId})
 
         res.redirect('/admin')
     }

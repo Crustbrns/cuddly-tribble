@@ -43,7 +43,7 @@ class authController {
             await user.save()
 
             const token = generateToken(user._id, user.username, user.roles)
-            res.cookie('session_id', token)
+            res.cookie('session_id', token, {maxAge: new Date(Date.now() + 900000)})
 
             return res.redirect('/register')
             // return res.json({ message: "User has been successfully created" })
@@ -74,7 +74,7 @@ class authController {
             }
 
             const token = generateToken(user._id, user.username, user.roles)
-            res.cookie('session_id', token)
+            res.cookie('session_id', token, {maxAge: new Date(Date.now() + 900000)})
 
             return res.redirect('/')
             return res.json({token})

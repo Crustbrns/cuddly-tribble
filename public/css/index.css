@@ -305,3 +305,13 @@ a {
   transition: box-shadow .15s ease .05s;
   height: calc(100% - 30px);
 }
+
+.deletelink{
+  color: black;
+  transition: 0.3s ease;
+}
+
+.deletelink:hover{
+    color: #e4002b;
+    transition: 0.3s ease;
+}
