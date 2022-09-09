@@ -1,27 +1,5 @@
 .content {
-    animation: moveAcross 2s ease;
-}
-
-.content:nth-child(1) { animation-duration: .5s }
-.content:nth-child(2) { animation-duration: 1s }
-.content:nth-child(3) { animation-duration: 1.5s }
-.content:nth-child(4) { animation-duration: 2s }
-
-.button{
-    padding: 16px 8px;
-    border-radius: 4px;
-    background-color: whitesmoke;
-    color: black;
-    font-size: 72px;
-    margin-top: 16px;
-    cursor: pointer;
-    transition: .2s ease;
-    user-select: none;
-}
-
-.button:hover{
-    background-color: rgb(182, 189, 208);
-    transition: .2s ease;
+    animation: moveAcross ease;
 }
 
 @keyframes moveAcross {
@@ -35,3 +13,10 @@
         transform: scale(1);
     }
 }
+
+.content:nth-child(1) { animation-duration: 0.5s }
+.content:nth-child(2) { animation-duration: 1s }
+.content:nth-child(3) { animation-duration: 1.5s }
+.content:nth-child(4) { animation-duration: 2s }
+.content:nth-child(5) { animation-duration: 2.5s }
+.content:nth-child(6) { animation-duration: 3s }
