@@ -16,6 +16,7 @@ function App() {
             <Route path="/people" element={<People />} />
             <Route path="/goods" element={<Goods />} />
             <Route path="/createperson" element={<CreatePerson />} />
+            <Route path="/creategoods" element={<CreatePerson />} />
           </Routes>
         </header>
       </div>

@@ -44,10 +44,10 @@ async function createPerson(){
 }
 async function createGoods(){
     const item = new Goods({
-        title: 'Wildfire',
-        description: 'Wildfire is a volatile, flammable liquid which can burn for a long time once set on fire. It is created by the Alchemists\' Guild, who refer to it as the substance and keep its recipe a close-guarded secret. Wildfire has a green flame when it burns. Wildfire is said to be a close cousin to dragonflame.',
-        price: '240',
-        url: 'https://awoiaf.westeros.org/images/d/de/Gregory_Szucs_Vat_of_WildfireII.png'
+        title: 'Various foods',
+        description: 'Food is any substance consumed to provide nutritional support for an organism. Food is usually of plant, animal, or fungal origin, and contains essential nutrients, such as carbohydrates, fats, proteins, vitamins, or minerals. The substance is ingested by an organism and assimilated by the organism\'s cells to provide energy, maintain life, or stimulate growth. Different species of animals have different feeding behaviours that satisfy the needs of their unique metabolisms, often evolved to fill a specific ecological niche within specific geographical contexts.',
+        price: '510',
+        url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/Foods_%28cropped%29.jpg/1024px-Foods_%28cropped%29.jpg'
     });
 
     console.log('Item created');

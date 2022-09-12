@@ -1,10 +1,15 @@
+.content__container{
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+}
+
 .content {
     /* border: 1px solid white; */
     border-radius: 15px;
     padding: 20px;
     /* width: 600px; */
     /* background-image: none; */
-    background-size: cover;
     position: relative;
     z-index: 1;
     transition: .2s ease;
@@ -17,6 +22,10 @@
     min-width: 0;
     user-select: none;
     font-size: 18px;
+    background-size: cover;
+    resize: both;
+    margin: 5px;
+    animation: fade ease;
 }
 
 #desc{
@@ -69,3 +78,22 @@
     font-family: 'Closer-M' !important;
     font-size: 28px;
 }
+
+@keyframes fade {
+    0% {
+        opacity: 0;
+        transform: scale(.1);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.content:nth-child(1) { animation-duration: 0.5s }
+.content:nth-child(2) { animation-duration: 1s }
+.content:nth-child(3) { animation-duration: 1.5s }
+.content:nth-child(4) { animation-duration: 2s }
+.content:nth-child(5) { animation-duration: 2.5s }
+.content:nth-child(6) { animation-duration: 3s }
