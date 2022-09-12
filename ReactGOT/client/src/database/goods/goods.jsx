@@ -1,4 +1,3 @@
-import { getOptionGroupUnstyledUtilityClass } from '@mui/base';
 import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Link, NavLink } from 'react-router-dom';
 import classes from './goods.module.css';
@@ -54,6 +53,7 @@ const Goods = function () {
         <div className='flex'>
             <div onClick={clearGoods} className={'button'}>Clear</div>
             <Link to="/" className={'button'}>Back to home</Link>
+            
         </div>
     </div>
 }
