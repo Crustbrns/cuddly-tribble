@@ -1,6 +1,9 @@
 .content {
     animation: moveAcross ease;
 }
+.content__container{
+    padding-bottom: 50px;
+}
 
 @keyframes moveAcross {
     0% {

@@ -1,0 +1,10 @@
+.get__navs{
+    flex-wrap: wrap;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 5px 10px;
+}
+
+.get__navs>div{
+}

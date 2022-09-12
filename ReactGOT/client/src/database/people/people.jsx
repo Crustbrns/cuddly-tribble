@@ -19,7 +19,7 @@ function PeopleFetch(props) {
         setPeople([]);
     }
 
-    if(!people){
+    if (!people) {
         return <div>
             <div>Loading...</div>
         </div>
@@ -32,11 +32,13 @@ function PeopleFetch(props) {
     }
 
     return <div className='flex_content'>
-        {people?.map((character) => {
-            return <div className={classes.content + ' ' + classes.content_active} key={character.id}>
-                <h2>{character.name} {character.surname} · {character.family}</h2>
-            </div>
-        })}
+        <div className={classes.content__container}>
+            {people?.map((character) => {
+                return <div className={classes.content + ' ' + classes.content_active} key={character.id}>
+                    <h2>{character.name} {character.surname} · {character.family}</h2>
+                </div>
+            })}
+        </div>
         <div className='flex'>
             <div onClick={clearPeople} className={'button'}>Clear</div>
             <Link to="/" className={'button'}>Back to home</Link>

@@ -1,7 +1,7 @@
 import './App.css';
 import React from 'react'
-import People from './database/people'
-import Navigation from './components/navigation'
+import People from './database/people/people'
+import Navigation from './components/navigation/navigation'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import CreatePerson from './components/createPerson/createPerson';
 
@@ -13,7 +13,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Navigation />} />
             <Route path="/people" element={<People />} />
-            <Route path="/create" element={<CreatePerson />} />
+            <Route path="/createperson" element={<CreatePerson />} />
           </Routes>
         </header>
       </div>
