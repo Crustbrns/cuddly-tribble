@@ -1,5 +1,8 @@
 .content {
     animation: moveAcross ease;
+    font-size: 14px;
+    font-family: 'e-Ukraine-UL';
+    font-weight: 100;
 }
 .content__container{
     padding-bottom: 50px;
@@ -9,6 +12,10 @@
     0% {
         opacity: 0;
         transform: scale(.1);
+    }
+
+    60% {
+        transform: scale(1.05);
     }
 
     100% {

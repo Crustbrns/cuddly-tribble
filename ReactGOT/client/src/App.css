@@ -95,3 +95,23 @@ a{
   font-family: 'Closer-R';
   src: url(../public/fonts/Closer-R.otf);
 }
+
+@font-face {
+  font-family: 'e-Ukraine-UL';
+  src: url(../public/fonts/e-Ukraine-UL.otf);
+}
+
+@font-face {
+  font-family: 'e-Ukraine-L';
+  src: url(../public/fonts/e-Ukraine-L.otf);
+}
+
+@font-face {
+  font-family: 'e-Ukraine-R';
+  src: url(../public/fonts/e-Ukraine-R.otf);
+}
+
+@font-face {
+  font-family: 'e-Ukraine-M';
+  src: url(../public/fonts/e-Ukraine-M.otf);
+}

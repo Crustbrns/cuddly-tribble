@@ -40,17 +40,19 @@ const Goods = function () {
     }
 
     function calcTime(index) {
-        return `${(index + 1) * 0.5}s`;
+        return `${((index + 1) * 0.15) * 1.1}s`;
     }
 
     return <div className='flex_content'>
         <div className={classes.content__container}>
             {goods?.map((item, index) => {
-                return <div className={classes.content} style={{ animationDuration: `${calcTime(index)}` }} key={item._id}>
-                    <span className={classes.content__general}>{item.title} · <span className={classes.item_price}>${item.price}</span></span>
-                    <span id={classes.desc}> {cropText(item.description)}</span>
-                    <div className={classes.img}><img className={classes.item_img} src={item.url} /></div>
-                </div>
+                return <Link to={"/goods/" + item._id} end>
+                    <div className={classes.content} style={{ animationDuration: `${calcTime(index)}` }} key={item._id}>
+                        <span className={classes.content__general}>{item.title} · <span className={classes.item_price}>${item.price}</span></span>
+                        <span id={classes.desc}> {cropText(item.description)}</span>
+                        <div className={classes.img}><img className={classes.item_img} src={item.url} /></div>
+                    </div>
+                </Link>
             })}
         </div>
         <div className='flex'>

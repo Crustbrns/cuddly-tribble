@@ -20,7 +20,7 @@ function PeopleFetch(props) {
     }
 
     function calcTime(index) {
-        return `${(index + 1) * 0.2}s`;
+        return `${((index + 1) * 0.1)*1.1}s`;
     }
 
     if (!people) {

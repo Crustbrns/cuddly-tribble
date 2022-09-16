@@ -7,7 +7,7 @@ const PORT = process.env.PORT || 3001;
 
 const ConnectString = "mongodb+srv://crustbrns:gAzAt0Hx6mVrxiDQ@cluster0.yml35q2.mongodb.net/?retryWrites=true&w=majority";
 
-app.post('/createpeople', async (req, res) =>{
+app.post('/createpeople', async (req, res) => {
     const person = new Person({
         name: req.body.name,
         surname: req.body.surname,
@@ -32,7 +32,14 @@ app.get("/goods", async (req, res) => {
     res.json({ goods: items });
 });
 
-async function createPerson(){
+app.get("/goods/:_id", async (req, res) => {
+    const item = await Goods.findById(req.params._id);
+    // let itempackage = JSON.stringify(item);
+    res.json({ item: item });
+    
+})
+
+async function createPerson() {
     const person = new Person({
         name: 'Tyrion',
         surname: 'Lannister',
@@ -42,7 +49,7 @@ async function createPerson(){
     console.log('Person created');
     await person.save()
 }
-async function createGoods(){
+async function createGoods() {
     const item = new Goods({
         title: 'Various foods',
         description: 'Food is any substance consumed to provide nutritional support for an organism. Food is usually of plant, animal, or fungal origin, and contains essential nutrients, such as carbohydrates, fats, proteins, vitamins, or minerals. The substance is ingested by an organism and assimilated by the organism\'s cells to provide energy, maintain life, or stimulate growth. Different species of animals have different feeding behaviours that satisfy the needs of their unique metabolisms, often evolved to fill a specific ecological niche within specific geographical contexts.',

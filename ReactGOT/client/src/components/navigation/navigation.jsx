@@ -22,7 +22,7 @@ const Navigation = function () {
                     <div className='button'>Create person</div>
                 </Link>
                 <Link to="/creategoods" end>
-                    <div className='button'>Create person</div>
+                    <div className='button'>Create goods</div>
                 </Link>
             </div>
 
