@@ -39,11 +39,14 @@ const Goods = function () {
         else return text;
     }
 
+    function calcTime(index) {
+        return `${(index + 1) * 0.5}s`;
+    }
 
     return <div className='flex_content'>
         <div className={classes.content__container}>
-            {goods?.map((item) => {
-                return <div className={classes.content} key={item._id}>
+            {goods?.map((item, index) => {
+                return <div className={classes.content} style={{ animationDuration: `${calcTime(index)}` }} key={item._id}>
                     <span className={classes.content__general}>{item.title} · <span className={classes.item_price}>${item.price}</span></span>
                     <span id={classes.desc}> {cropText(item.description)}</span>
                     <div className={classes.img}><img className={classes.item_img} src={item.url} /></div>

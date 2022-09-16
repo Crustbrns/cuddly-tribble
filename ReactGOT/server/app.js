@@ -63,7 +63,7 @@ async function start() {
 
         // app.listen(PORT, () => console.log('App has been started on port', PORT))
         // createPerson();
-        createGoods();
+        // createGoods();
 
         app.listen(PORT, () => {
             console.log(`Server is working now on port ${PORT}`);

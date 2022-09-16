@@ -19,6 +19,10 @@ function PeopleFetch(props) {
         setPeople([]);
     }
 
+    function calcTime(index) {
+        return `${(index + 1) * 0.2}s`;
+    }
+
     if (!people) {
         return <div>
             <div>Loading...</div>
@@ -33,8 +37,8 @@ function PeopleFetch(props) {
 
     return <div className='flex_content'>
         <div className={classes.content__container}>
-            {people?.map((character) => {
-                return <div className={classes.content + ' ' + classes.content_active} key={character.id}>
+            {people?.map((character, index) => {
+                return <div className={classes.content + ' ' + classes.content_active} style={{ animationDuration: `${calcTime(index)}` }} key={character._id}>
                     <h2>{character.name} {character.surname} · {character.family}</h2>
                 </div>
             })}
