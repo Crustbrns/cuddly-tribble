@@ -53,7 +53,6 @@ const Goods = function () {
         <div className='flex'>
             <div onClick={clearGoods} className={'button'}>Clear</div>
             <Link to="/" className={'button'}>Back to home</Link>
-            
         </div>
     </div>
 }
