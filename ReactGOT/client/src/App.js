@@ -13,12 +13,13 @@ function App() {
       <div className="App">
         <header className="App-header">
           <Routes>
-            <Route path="/" element={<Navigation />} />
-            <Route path="/people" element={<People />} />
-            <Route path="/goods" element={<Goods />} />
             <Route path="/goods/:_id" element={<Item />} />
             <Route path="/createperson" element={<CreatePerson />} />
             <Route path="/creategoods" element={<CreatePerson />} />
+
+            <Route path="/" element={<Navigation />} />
+            <Route path="/people" element={<People />} />
+            <Route path="/goods" element={<Goods />} />
           </Routes>
         </header>
       </div>

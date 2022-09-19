@@ -3,9 +3,17 @@
     font-size: 14px;
     font-family: 'e-Ukraine-UL';
     font-weight: 100;
+    transition: .1s ease;
 }
-.content__container{
+
+.content__container {
     padding-bottom: 50px;
+}
+
+.content:hover {
+    background-color: red;
+    transition: .1s ease;
+    cursor: pointer;
 }
 
 @keyframes moveAcross {
