@@ -1,12 +1,8 @@
-function red() {
-    let first_sign = document.getElementById("select_st").selectedOptions[0].value;
-    let second_sign = document.getElementById("select_nd").selectedOptions[0].value;
-    let random = Math.random() * 100;
-    console.log(first_sign);
-    // alert('asd');
-    document.getElementById("text-output").textContent = `Совместимость между ${first_sign} и ${second_sign} равна ${Math.floor(random)}%`;
+let res = document.getElementsByClassName('chess-field');
+
+for (let i = 0; i < 8; i++) {
+    for (let j = 0; j < 8; j++) {
+        res[i * 8 + j].style.backgroundColor = i % 2 ?
+            (j % 2 ? '#F0DAB5' : '#B58763') : (j % 2 ? '#B58763' : '#F0DAB5');
+    }
 }
-
-// document.getElementById("meowBtn").onclick = red();
-
-// $("meowBtn").bind("click", red());
