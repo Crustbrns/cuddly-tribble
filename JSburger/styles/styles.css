@@ -16,7 +16,7 @@
     margin: auto;
 }
 
-.chess {
+#chess {
     position: relative;
     background-color: #732221;
     padding: 10px;
