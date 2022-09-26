@@ -1,8 +1,3 @@
-window.onload = () => {
-    createField();
-    paintField();
-};
-
 function paintField() {
     let res = document.getElementsByClassName('chess-field');
 
@@ -13,6 +8,7 @@ function paintField() {
         }
     }
 }
+
 function createField() {
     let field = document.getElementById('chess');
 
@@ -23,3 +19,8 @@ function createField() {
         console.log('asd');
     }
 }
+
+window.onload = () => {
+    createField();
+    paintField();
+};
