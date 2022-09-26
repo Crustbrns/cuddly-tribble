@@ -21,11 +21,10 @@ const Navigation = function () {
                 <Link to="/createperson" end>
                     <div className='button'>Create person</div>
                 </Link>
-                <Link to="/creategoods" end>
-                    <div className='button'>Create goods</div>
+                <Link to="/tictactoe" end>
+                    <div className='button'>Tictactoe</div>
                 </Link>
             </div>
-
         </div >
     )
 }

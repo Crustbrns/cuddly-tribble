@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import CreatePerson from './components/createPerson/createPerson';
 import Goods from './database/goods/goods';
 import Item from './database/goods/item/item';
+import TicTacToe from './components/tictactoe/tictactoe';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
             <Route path="/" element={<Navigation />} />
             <Route path="/people" element={<People />} />
             <Route path="/goods" element={<Goods />} />
+            <Route path="/tictactoe" element={<TicTacToe />} />
           </Routes>
         </header>
       </div>
