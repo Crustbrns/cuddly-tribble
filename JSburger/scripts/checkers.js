@@ -13,10 +13,17 @@ const Game = {
     AvailableMoves: [],
     HistoryMoves: []
 }
+const TempMove = {
+    startPos: null,
+    finalPos: null
+}
+const Letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
+const Numbers = ['8', '7', '6', '5', '4', '3', '2', '1'];
 
 class Move {
-    constructor(moveNum, startPos, finalPos) {
+    constructor(moveNum, color, startPos, finalPos) {
         this.moveNum = moveNum;
+        this.color = color;
         this.startPos = startPos;
         this.finalPos = finalPos;
     }
@@ -212,12 +219,14 @@ function drag(dragevent) {
         // dragevent.dataTransfer.effectAllowed = "copy";
         dragevent.dataTransfer.dropEffect = "copy";
         setDragCursor(false);
+        TempMove.startPos = dragevent.target.parentElement.id;
         console.log('drag start');
     }
     else if (Game.CurrentPlayer == Players.Two && dragevent.target.classList.contains('black')) {
         calcDistinctMoves(dragevent.target.parentElement.id, 'black');
         dragevent.dataTransfer.setData('div', dragevent.target.id);
         setDragCursor(false);
+        TempMove.startPos = dragevent.target.parentElement.id;
         console.log('drag start');
     }
 }
@@ -236,18 +245,47 @@ function setDragging(color, truth) {
     }
 }
 
+function ClearTempMove() {
+    TempMove.startPos = null;
+    TempMove.finalPos = null;
+}
+
 function addInHistory() {
     let color = Game.CurrentPlayer == Players.One ? 'black' : 'white';
-    Game.HistoryMoves.push(new Move(Game.CurrentMove, color, 'qwe'));
+    Game.HistoryMoves.push(new Move(Game.CurrentMove, color, TempMove.startPos, TempMove.finalPos));
+    ClearTempMove();
     displayHistory();
 }
 
 function displayHistory() {
-    let log = document.getElementById('log-container');
-    let smth = document.createElement('index');
     let move = Game.HistoryMoves.slice(-1);
-    smth.textContent = `${move[0].moveNum}, ${move[0].startPos}`;
-    log.appendChild(smth);
+    let log = document.getElementById('log-container');
+
+    let container = document.createElement('div');
+    container.className = 'move-container';
+
+    let color = document.createElement('div');
+    color.className = 'color';
+    color.textContent = move[0].color;
+
+    let index = document.createElement('index');
+    index.textContent = move[0].moveNum;
+
+    let tempmove = document.createElement('div');
+    tempmove.className = 'move';
+    tempmove.textContent = `${convertToNum(move[0].startPos)} > ${convertToNum(move[0].finalPos)}`;
+
+    container.appendChild(index);
+    container.appendChild(color);
+    container.appendChild(tempmove);
+
+    log.appendChild(container);
+}
+
+function convertToNum(index) {
+    let num = Numbers[Math.floor(index / 8)];
+    let lit = Letters[Math.floor(index % 8)];
+    return `${lit}${num}`
 }
 
 function updateTitle() {
@@ -271,6 +309,7 @@ function drop(dropevent) {
             console.log(data);
             ChangePlayer();
             updateTitle();
+            TempMove.finalPos = field.id;
             addInHistory();
         }
 

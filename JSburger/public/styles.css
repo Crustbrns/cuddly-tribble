@@ -57,19 +57,36 @@ body {
     overflow-y: scroll;
 }
 
-#log-container>index {
+index {
     display: flex;
     justify-content: center;
-    border-right: 2px solid #404040;
+    border-right: 1px solid #404040;
     background: #302e2c;
     line-height: 2.07em;
     color: #6b6b6b;
+    width: 35px;
+}
+
+.color {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #6b6b6b;
+    padding: 0 10px;
+}
+
+.move{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* color: #6b6b6b; */
+    padding: 0 10px;
 }
 
 #title {
     text-align: center;
     margin: 0 auto;
-    margin: 10px 0 7px 0;
+    margin: 10px 0 10px 0;
 }
 
 .chess-field {
@@ -121,7 +138,9 @@ body {
     border-radius: 100px;
 }
 
-.number {}
+.move-container {
+    display: flex;
+}
 
 @media screen and (max-width: 1300px) {
     .container {
