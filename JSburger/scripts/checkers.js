@@ -2,26 +2,86 @@ const Players = {
     One: 1,
     Two: 2
 }
-
 const Game = {
     CurrentPlayer: Players.One
 }
+let availablemoves = [];
+
 
 function InitGame() {
     setDragging('black', false);
     setDragging('white', true);
 }
-
 function ChangePlayer() {
     Game.CurrentPlayer = Game.CurrentPlayer == Players.One ? Players.Two : Players.One;
     if (Game.CurrentPlayer == Players.One) {
         setDragging('black', false);
         setDragging('white', true);
+        // calcMoves('white');
     }
     else {
         setDragging('black', true);
         setDragging('white', false);
+        // calcMoves('black');
     }
+}
+
+function calcMoves(color) {
+    let elements = document.getElementsByClassName(color);
+    for (const item of elements) {
+        console.log(`${item.id} ${item.parentElement.id}`);
+    }
+}
+
+function calcDistinctMoves(i, color) {
+    let fields = Array.from(document.getElementsByClassName('chess-field'));
+    availablemoves = [];
+
+    if (fields.find(x => x.id == parseInt(i) - 9) != undefined
+        && fields.find(x => x.id == parseInt(i) - 9).style.backgroundColor != 'rgb(240, 218, 181)') {
+
+        if (color == 'white' && fields.find(x => x.id == parseInt(i) - 9).children.length != 0) {
+            availablemoves.push(fields.find(x => x.id == parseInt(i) - 9));
+        }
+        else if (color == 'black') {
+            availablemoves.push(fields.find(x => x.id == parseInt(i) - 9));
+        }
+    }
+
+    if (fields.find(x => x.id == parseInt(i) - 7) != undefined
+        && fields.find(x => x.id == parseInt(i) - 7).style.backgroundColor != 'rgb(240, 218, 181)') {
+
+            if (color == 'white' && fields.find(x => x.id == parseInt(i) - 7).children.length != 0) {
+                availablemoves.push(fields.find(x => x.id == parseInt(i) - 7));
+            }
+            else if (color == 'black') {
+                availablemoves.push(fields.find(x => x.id == parseInt(i) - 7));
+            }
+    }
+    
+    if (fields.find(x => x.id == parseInt(i) + 7) != undefined
+        && fields.find(x => x.id == parseInt(i) + 7).style.backgroundColor != 'rgb(240, 218, 181)') {
+
+        if (color == 'black' && fields.find(x => x.id == parseInt(i) + 7).children.length != 0) {
+            availablemoves.push(fields.find(x => x.id == parseInt(i) + 7));
+        }
+        else if (color == 'white') {
+            availablemoves.push(fields.find(x => x.id == parseInt(i) + 7));
+        }
+    }
+
+    if (fields.find(x => x.id == parseInt(i) + 9) != undefined
+        && fields.find(x => x.id == parseInt(i) + 9).style.backgroundColor != 'rgb(240, 218, 181)') {
+
+        if (color == 'black' && fields.find(x => x.id == parseInt(i) + 9).children.length != 0) {
+            availablemoves.push(fields.find(x => x.id == parseInt(i) + 9));
+        }
+        else if (color == 'white') {
+            availablemoves.push(fields.find(x => x.id == parseInt(i) + 9));
+        }
+    }
+
+    console.log(availablemoves);
 }
 
 function paintField() {
@@ -117,11 +177,15 @@ function drag(dragevent) {
     console.log(`Current player: ${Game.CurrentPlayer}`);
 
     if (Game.CurrentPlayer == Players.One && dragevent.target.classList.contains('white')) {
+        calcDistinctMoves(dragevent.target.parentElement.id, 'white');
         dragevent.dataTransfer.setData('div', dragevent.target.id);
+        // dragevent.dataTransfer.effectAllowed = "copy";
+        dragevent.dataTransfer.dropEffect = "copy";
         setDragCursor(true);
         console.log('drag start');
     }
     else if (Game.CurrentPlayer == Players.Two && dragevent.target.classList.contains('black')) {
+        calcDistinctMoves(dragevent.target.parentElement.id, 'black');
         dragevent.dataTransfer.setData('div', dragevent.target.id);
         setDragCursor(true);
         console.log('drag start');
@@ -144,16 +208,19 @@ function setDragging(color, truth) {
 
 function drop(dropevent) {
     dropevent.preventDefault();
-    if (!dropevent.target.classList.contains('checker') &&
-        dropevent.target.children.length == 0) {
-        var data = dropevent.dataTransfer.getData('div');
-        dropevent.target.appendChild(document.getElementById(data));
-        console.log(data);
-        ChangePlayer();
-    }
+    if (availablemoves.includes(dropevent.target)) {
 
-    // ev.target.appendChild(document.getElementById(data));
-    console.log('drag dropped');
+        if (!dropevent.target.classList.contains('checker') &&
+            dropevent.target.children.length == 0) {
+            var data = dropevent.dataTransfer.getData('div');
+            dropevent.target.appendChild(document.getElementById(data));
+            console.log(data);
+            ChangePlayer();
+        }
+
+        // ev.target.appendChild(document.getElementById(data));
+        console.log('drag dropped');
+    }
     setDragCursor(false);
 }
 
