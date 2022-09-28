@@ -61,10 +61,11 @@
     cursor: grabbing !important;
 }
 
-@media screen and (max-width: 580px) {
+@media screen and (max-width: 780px) {
     .chess-field {
         aspect-ratio: 1 / 1;
-        width: 12.5%;
+        width: 10%;
+        padding: 1.25%;
         height: auto;
         border-radius: 2px;
     }

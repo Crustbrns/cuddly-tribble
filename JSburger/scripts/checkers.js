@@ -18,9 +18,8 @@ function createField() {
         tile.id = i;
         // tile.ondrop = "drop(event)";
         // tile.ondragover = "allowDrop(event)";
-        tile.addEventListener('drop', function() {drop(event), false});
-        tile.addEventListener('dragover', function() {allowDrop(event), false});
-
+        tile.addEventListener('drop', function () { drop(event) });
+        tile.addEventListener('dragover', function () { allowDrop(event) });
         field.appendChild(tile);
     }
 }
@@ -28,17 +27,20 @@ function createField() {
 function fillField() {
     let fields = document.getElementsByClassName('chess-field');
 
+    let index = 0;
     for (let i = 0; i < 8; i++) {
         for (let j = 0; j < 8; j++) {
             if ((i * 8 + j < 24) || (i * 8 + j > 39)) {
                 if (i % 2) {
                     if (j % 2 == false) {
-                        fields[i * 8 + j].appendChild(setChecker(i));
+                        fields[i * 8 + j].appendChild(setChecker(i, index));
+                        index++;
                     }
                 }
                 else {
                     if (j % 2) {
-                        fields[i * 8 + j].appendChild(setChecker(i));
+                        fields[i * 8 + j].appendChild(setChecker(i, index));
+                        index++;
                     }
                 }
             }
@@ -46,12 +48,13 @@ function fillField() {
     }
 }
 
-function setChecker(index) {
+function setChecker(index, checkerindex) {
     let checker = document.createElement("div");
     checker.className = 'checker';
     checker.draggable = true;
+    checker.id = `ch${checkerindex}`;
     // checker.ondragstart = 'drag(event)';
-    checker.addEventListener('dragstart', function() {drag(event), false});
+    checker.addEventListener('dragstart', function () { drag(event), false });
 
     if (index > 2) {
         checker.classList.add('black');
