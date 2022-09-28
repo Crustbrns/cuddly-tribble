@@ -1,3 +1,29 @@
+const Players = {
+    One: 1,
+    Two: 2
+}
+
+const Game = {
+    CurrentPlayer: Players.One
+}
+
+function InitGame() {
+    setDragging('black', false);
+    setDragging('white', true);
+}
+
+function ChangePlayer() {
+    Game.CurrentPlayer = Game.CurrentPlayer == Players.One ? Players.Two : Players.One;
+    if (Game.CurrentPlayer == Players.One) {
+        setDragging('black', false);
+        setDragging('white', true);
+    }
+    else {
+        setDragging('black', true);
+        setDragging('white', false);
+    }
+}
+
 function paintField() {
     let res = document.getElementsByClassName('chess-field');
 
@@ -8,7 +34,6 @@ function paintField() {
         }
     }
 }
-
 function createField() {
     let field = document.getElementById('chess');
 
@@ -16,14 +41,29 @@ function createField() {
         let tile = document.createElement("div");
         tile.className = 'chess-field';
         tile.id = i;
-        // tile.ondrop = "drop(event)";
-        // tile.ondragover = "allowDrop(event)";
-        tile.addEventListener('drop', function () { drop(event) });
-        tile.addEventListener('dragover', function () { allowDrop(event) });
         field.appendChild(tile);
     }
 }
+function setDraggable() {
+    let res = document.getElementsByClassName('chess-field');
 
+    for (let i = 0; i < 8; i++) {
+        for (let j = 0; j < 8; j++) {
+            if (i % 2) {
+                if (j % 2 == false) {
+                    res[i * 8 + j].addEventListener('drop', function () { drop(event) });
+                    res[i * 8 + j].addEventListener('dragover', function () { allowDrop(event) });
+                }
+            }
+            else {
+                if (j % 2) {
+                    res[i * 8 + j].addEventListener('drop', function () { drop(event) });
+                    res[i * 8 + j].addEventListener('dragover', function () { allowDrop(event) });
+                }
+            }
+        }
+    }
+}
 function fillField() {
     let fields = document.getElementsByClassName('chess-field');
 
@@ -47,7 +87,6 @@ function fillField() {
         }
     }
 }
-
 function setChecker(index, checkerindex) {
     let checker = document.createElement("div");
     checker.className = 'checker';
@@ -66,8 +105,8 @@ function setChecker(index, checkerindex) {
 }
 
 const setDragCursor = value => {
-    const html = document.getElementsByTagName('html').item(0);
-    html.classList.toggle('grabbing', value);
+    const body = document.getElementsByTagName('body').item(0);
+    body.classList.toggle('grabbing', value);
 }
 
 function allowDrop(dragevent) {
@@ -75,17 +114,44 @@ function allowDrop(dragevent) {
 }
 
 function drag(dragevent) {
-    dragevent.dataTransfer.setData('div', dragevent.target.id);
-    dragevent.target.style.backgroundColor = 'red';
-    setDragCursor(true);
-    console.log('drag start');
+    console.log(`Current player: ${Game.CurrentPlayer}`);
+
+    if (Game.CurrentPlayer == Players.One && dragevent.target.classList.contains('white')) {
+        dragevent.dataTransfer.setData('div', dragevent.target.id);
+        setDragCursor(true);
+        console.log('drag start');
+    }
+    else if (Game.CurrentPlayer == Players.Two && dragevent.target.classList.contains('black')) {
+        dragevent.dataTransfer.setData('div', dragevent.target.id);
+        setDragCursor(true);
+        console.log('drag start');
+    }
+}
+
+function setDragging(color, truth) {
+    let elements = document.getElementsByClassName(color);
+    for (const item of elements) {
+        item.draggable = truth;
+        if (truth == false) {
+            item.removeEventListener('dragstart', function () { drag(event), false });
+            item.classList.remove('isdraggable');
+        } else {
+            item.addEventListener('dragstart', function () { drag(event), false });
+            item.classList.add('isdraggable');
+        }
+    }
 }
 
 function drop(dropevent) {
     dropevent.preventDefault();
-    var data = dropevent.dataTransfer.getData('div');
-    dropevent.target.appendChild(document.getElementById(data));
-    console.log(data);
+    if (!dropevent.target.classList.contains('checker') &&
+        dropevent.target.children.length == 0) {
+        var data = dropevent.dataTransfer.getData('div');
+        dropevent.target.appendChild(document.getElementById(data));
+        console.log(data);
+        ChangePlayer();
+    }
+
     // ev.target.appendChild(document.getElementById(data));
     console.log('drag dropped');
     setDragCursor(false);
@@ -94,5 +160,7 @@ function drop(dropevent) {
 window.onload = () => {
     createField();
     paintField();
+    setDraggable();
     fillField();
+    InitGame();
 };
