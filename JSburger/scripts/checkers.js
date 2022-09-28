@@ -9,7 +9,17 @@ const Players = {
 }
 const Game = {
     CurrentPlayer: Players.One,
-    AvailableMoves: []
+    CurrentMove: 0,
+    AvailableMoves: [],
+    HistoryMoves: []
+}
+
+class Move {
+    constructor(moveNum, startPos, finalPos) {
+        this.moveNum = moveNum;
+        this.startPos = startPos;
+        this.finalPos = finalPos;
+    }
 }
 
 function InitGame() {
@@ -26,6 +36,7 @@ function ChangePlayer() {
     else {
         setDragging('black', true);
         setDragging('white', false);
+        Game.CurrentMove++;
         // calcMoves('black');
     }
 }
@@ -194,19 +205,19 @@ function allowDrop(dragevent) {
 
 function drag(dragevent) {
     console.log(`Current player: ${Game.CurrentPlayer}`);
-
+    removeGraphMoves();
     if (Game.CurrentPlayer == Players.One && dragevent.target.classList.contains('white')) {
         calcDistinctMoves(dragevent.target.parentElement.id, 'white');
         dragevent.dataTransfer.setData('div', dragevent.target.id);
         // dragevent.dataTransfer.effectAllowed = "copy";
         dragevent.dataTransfer.dropEffect = "copy";
-        setDragCursor(true);
+        setDragCursor(false);
         console.log('drag start');
     }
     else if (Game.CurrentPlayer == Players.Two && dragevent.target.classList.contains('black')) {
         calcDistinctMoves(dragevent.target.parentElement.id, 'black');
         dragevent.dataTransfer.setData('div', dragevent.target.id);
-        setDragCursor(true);
+        setDragCursor(false);
         console.log('drag start');
     }
 }
@@ -225,13 +236,32 @@ function setDragging(color, truth) {
     }
 }
 
+function addInHistory() {
+    let color = Game.CurrentPlayer == Players.One ? 'black' : 'white';
+    Game.HistoryMoves.push(new Move(Game.CurrentMove, color, 'qwe'));
+    displayHistory();
+}
+
+function displayHistory() {
+    let log = document.getElementById('log-container');
+    let smth = document.createElement('index');
+    let move = Game.HistoryMoves.slice(-1);
+    smth.textContent = `${move[0].moveNum}, ${move[0].startPos}`;
+    log.appendChild(smth);
+}
+
+function updateTitle() {
+    let title = document.getElementById('title');
+    title.textContent = `Ход: ${Game.CurrentPlayer == Players.One ? 'Белые' : 'Черные'}`;
+}
+
 function drop(dropevent) {
     dropevent.preventDefault();
 
     let field = null;
     if (Game.AvailableMoves.includes(dropevent.target)) field = dropevent.target;
     else if (Game.AvailableMoves.includes(dropevent.target.parentElement)) field = dropevent.target.parentElement;
-    
+
     removeGraphMoves();
     if (field != null) {
         if (!field.classList.contains('checker') &&
@@ -240,6 +270,8 @@ function drop(dropevent) {
             field.appendChild(document.getElementById(data));
             console.log(data);
             ChangePlayer();
+            updateTitle();
+            addInHistory();
         }
 
         // ev.target.appendChild(document.getElementById(data));
@@ -255,4 +287,5 @@ window.onload = () => {
     setDraggable();
     fillField();
     InitGame();
+    updateTitle();
 };

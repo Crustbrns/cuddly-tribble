@@ -1,3 +1,8 @@
+@font-face {
+    font-family: 'e-Ukraine-L';
+    src: url('./e-Ukraine-Light.otf');
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -37,10 +42,34 @@ body {
     width: 240px;
     margin-left: 20px;
     background-color: #262421;
-    padding: 10px;
+    color: rgb(253, 247, 247) !important;
+    padding: 10px 0;
     margin-right: auto;
     height: 792px;
     border-radius: 10px;
+    color: #BEC5C9;
+    font-size: 15px;
+    font-family: 'e-Ukraine-L';
+    flex-direction: column;
+}
+
+#log-container {
+    overflow-y: scroll;
+}
+
+#log-container>index {
+    display: flex;
+    justify-content: center;
+    border-right: 2px solid #404040;
+    background: #302e2c;
+    line-height: 2.07em;
+    color: #6b6b6b;
+}
+
+#title {
+    text-align: center;
+    margin: 0 auto;
+    margin: 10px 0 7px 0;
 }
 
 .chess-field {
@@ -123,4 +152,22 @@ body {
     #chess {
         border-radius: 0;
     }
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+    padding: 5px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: #262421;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    background: #312f2b;
+
 }
