@@ -23,15 +23,31 @@
     border-radius: 8px;
     display: flex;
     flex-wrap: wrap;
-    width: 560px;
+    width: 792px;
     margin: auto;
 }
 
 .chess-field {
-    width: 70px;
-    height: 70px;
+    width: 63px;
+    height: 63px;
+    padding: 18px;
     border-radius: 4px;
     /* border: 1px solid black; */
+}
+
+.checker{
+    border-radius: 100px;
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.white{
+    background-color: rgb(253, 247, 247);
+}
+
+.black{
+    background-color: rgb(75, 72, 72);
 }
 
 @media screen and (max-width: 580px) {
