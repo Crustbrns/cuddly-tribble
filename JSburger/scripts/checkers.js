@@ -16,6 +16,10 @@ function createField() {
         let tile = document.createElement("div");
         tile.className = 'chess-field';
         tile.id = i;
+        // tile.ondrop = "drop(event)";
+        // tile.ondragover = "allowDrop(event)";
+        tile.addEventListener('drop', function() {drop(event), false});
+        tile.addEventListener('dragover', function() {allowDrop(event), false});
 
         field.appendChild(tile);
     }
@@ -45,6 +49,9 @@ function fillField() {
 function setChecker(index) {
     let checker = document.createElement("div");
     checker.className = 'checker';
+    checker.draggable = true;
+    // checker.ondragstart = 'drag(event)';
+    checker.addEventListener('dragstart', function() {drag(event), false});
 
     if (index > 2) {
         checker.classList.add('black');
@@ -53,6 +60,32 @@ function setChecker(index) {
         checker.classList.add('white');
     }
     return checker;
+}
+
+const setDragCursor = value => {
+    const html = document.getElementsByTagName('html').item(0);
+    html.classList.toggle('grabbing', value);
+}
+
+function allowDrop(dragevent) {
+    dragevent.preventDefault();
+}
+
+function drag(dragevent) {
+    dragevent.dataTransfer.setData('div', dragevent.target.id);
+    dragevent.target.style.backgroundColor = 'red';
+    setDragCursor(true);
+    console.log('drag start');
+}
+
+function drop(dropevent) {
+    dropevent.preventDefault();
+    var data = dropevent.dataTransfer.getData('div');
+    dropevent.target.appendChild(document.getElementById(data));
+    console.log(data);
+    // ev.target.appendChild(document.getElementById(data));
+    console.log('drag dropped');
+    setDragCursor(false);
 }
 
 window.onload = () => {
