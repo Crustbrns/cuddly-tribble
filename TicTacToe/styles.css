@@ -1,0 +1,76 @@
+.container {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    margin: auto;
+    flex-direction: column;
+}
+
+#tictactoe {
+    position: relative;
+    background-color: #282724;
+    padding: 10px;
+    border-radius: 8px;
+    display: flex;
+    flex-wrap: wrap;
+    width: 540px;
+    margin: auto auto auto auto;
+}
+
+.tile {
+    width: 135px;
+    height: 135px;
+    padding: 22.5px;
+    border-radius: 4px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    /* border: 1px solid black; */
+    transition: .2s ease;
+    font-family: 'e-Ukraine-L';
+    font-size: 34px;
+    font-weight: bolder;
+}
+
+.tile:hover{
+    transition: .2s ease;
+    filter: brightness(90%);
+    cursor: pointer;
+}
+
+#title{
+    margin: auto;
+    margin-top: 0;
+    font-family: 'e-Ukraine-L';
+}
+
+@media screen and (max-width: 560px) {
+    .tile {
+        aspect-ratio: 1 / 1;
+        width: 30%;
+        padding: 1.515%;
+        height: auto;
+        border-radius: 2px;
+    }
+
+    #tictactoe {
+        border-radius: 0;
+        justify-content: center;
+        align-items: center;
+    }
+
+    body {
+        overflow-y: scroll;
+    }
+}
+
+@font-face {
+    font-family: 'e-Ukraine-L';
+    src: url('./e-Ukraine-Light.otf');
+}
