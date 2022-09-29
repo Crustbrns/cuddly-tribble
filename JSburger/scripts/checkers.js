@@ -111,6 +111,7 @@ function calcDistinctMoves(i, color) {
         if (!item.children.length != 0) {
             item.appendChild(movement);
         }
+        // item.addEventListe   ner('mouseover', function () { item.style.backgroundColor = 'red' });
     }
 }
 
@@ -190,7 +191,8 @@ function setChecker(index, checkerindex) {
     checker.draggable = true;
     checker.id = `ch${checkerindex}`;
     // checker.ondragstart = 'drag(event)';
-    checker.addEventListener('dragstart', function () { drag(event), false });
+    checker.addEventListener('dragstart', function () { drag(event), false });;
+    checker.addEventListener('mousedown', function () { MouseMove(true) });
 
     if (index > 2) {
         checker.classList.add('black');
@@ -210,9 +212,36 @@ function allowDrop(dragevent) {
     dragevent.preventDefault();
 }
 
+function getElements(ev) {
+    let elements = document.getElementsByClassName('field-active');
+    for (let item of elements) {
+        item.classList.remove('field-active');
+    }
+    let elemBelow = document.elementsFromPoint(ev.clientX, ev.clientY);
+    let elemNeeded = elemBelow.find(x => x.className == 'chess-field' && x.children[0] != null && x.children[0].className == 'movement');
+    if (elemNeeded != null && !elemNeeded.classList.contains('field-active')) elemNeeded.classList.add('field-active');
+    // console.log();
+}
+
+function MouseMove(toggle) {
+    if (toggle) {
+        document.addEventListener('mouseover', function (event) {
+            getElements(event);
+        })
+    }
+    else {
+        document.removeEventListener('mouseover', function (event) {
+            getElements(event);
+        })
+    }
+    
+}
+
 function drag(dragevent) {
     console.log(`Current player: ${Game.CurrentPlayer}`);
+    MouseMove(true);
     removeGraphMoves();
+
     if (Game.CurrentPlayer == Players.One && dragevent.target.classList.contains('white')) {
         calcDistinctMoves(dragevent.target.parentElement.id, 'white');
         dragevent.dataTransfer.setData('div', dragevent.target.id);
@@ -294,6 +323,7 @@ function updateTitle() {
 }
 
 function drop(dropevent) {
+    MouseMove(false);
     dropevent.preventDefault();
 
     let field = null;
@@ -316,7 +346,6 @@ function drop(dropevent) {
         // ev.target.appendChild(document.getElementById(data));
         console.log('drag dropped');
     }
-
     setDragCursor(false);
 }
 

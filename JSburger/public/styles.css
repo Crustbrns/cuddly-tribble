@@ -75,7 +75,7 @@ index {
     padding: 0 10px;
 }
 
-.move{
+.move {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -125,17 +125,26 @@ index {
     background-color: rgb(75, 72, 72);
 }
 
-.grabbing * {
+.grabbing {
     cursor: grabbing !important;
 }
 
 .movement {
     position: relative;
-    width: 65%;
-    height: 65%;
+    width: 45%;
+    height: 45%;
     background-color: #646F41;
     /* padding: 20px; */
     border-radius: 100px;
+}
+
+/* .chess-field:has(.movement):hover{
+    background-color: #646F41 !important;
+} */
+
+.field-active {
+    background-color: #646F41 !important;
+    cursor: pointer;
 }
 
 .move-container {
