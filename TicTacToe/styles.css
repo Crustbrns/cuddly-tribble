@@ -20,7 +20,7 @@
     display: flex;
     flex-wrap: wrap;
     width: 540px;
-    margin: auto auto auto auto;
+    margin: 30px auto;
 }
 
 .tile {
@@ -38,16 +38,32 @@
     font-weight: bolder;
 }
 
-.tile:hover{
+.tile:hover {
     transition: .2s ease;
     filter: brightness(90%);
     cursor: pointer;
 }
 
-#title{
+#title {
+    margin: auto;
+    margin-bottom: 0;
+    font-family: 'e-Ukraine-L';
+}
+
+#restart {
     margin: auto;
     margin-top: 0;
-    font-family: 'e-Ukraine-L';
+    font-weight: bold;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+}
+
+#restart:hover {
+    /* transform: scale(1.1);
+    transform: .2s ease; */
+    cursor: pointer;
+    animation-name: rotate;
+    animation-timing-function: ease;
 }
 
 @media screen and (max-width: 560px) {
@@ -73,4 +89,18 @@
 @font-face {
     font-family: 'e-Ukraine-L';
     src: url('./e-Ukraine-Light.otf');
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0);
+    }
+
+    90% {
+        transform: rotate(-350deg);
+    }
+
+    100% {
+        transform: rotate(-360deg);
+    }
 }

@@ -6,7 +6,8 @@ const Player = {
 
 const Game = {
     CurrentPlayer: Player.One,
-    GameOver: false
+    GameOver: false,
+    Winner: null
 }
 
 function ChangePlayer() {
@@ -14,20 +15,56 @@ function ChangePlayer() {
 }
 
 function PlayTile(ev) {
-    if(!Game.GameOver){
+    if (!Game.GameOver) {
         if (ev.path[0].textContent == '') {
             ev.path[0].textContent = Game.CurrentPlayer == Player.One ? 'X' : 'O';
             ChangePlayer();
+            checkWin();
             DisplayTitle();
         }
     }
 }
 
-function DisplayTitle(){
+function DisplayTitle() {
     let title = document.getElementById('title');
     title.textContent = 'asd';
-    if(!Game.GameOver){
+    if (!Game.GameOver) {
         title.textContent = Game.CurrentPlayer == Player.One ? 'Ход: Крестики' : 'Ход: Нолики';
+    }
+    else {
+        title.textContent = `Победитель: ${Game.Winner}`;
+    }
+}
+
+function checkWin() {
+    let res = document.getElementsByClassName('tile');
+
+    if (res[0].textContent != '' && res[0].textContent == res[1].textContent && res[0].textContent == res[2].textContent) DisplayWin(res[0].textContent);
+    else if (res[3].textContent != '' && res[3].textContent == res[4].textContent && res[3].textContent == res[5].textContent) DisplayWin(res[3].textContent);
+    else if (res[6].textContent != '' && res[6].textContent == res[7].textContent && res[6].textContent == res[8].textContent) DisplayWin(res[6].textContent);
+
+    else if (res[0].textContent != '' && res[0].textContent == res[3].textContent && res[0].textContent == res[6].textContent) DisplayWin(res[0].textContent);
+    else if (res[1].textContent != '' && res[1].textContent == res[4].textContent && res[1].textContent == res[7].textContent) DisplayWin(res[1].textContent);
+    else if (res[2].textContent != '' && res[2].textContent == res[5].textContent && res[2].textContent == res[8].textContent) DisplayWin(res[2].textContent);
+
+    else if (res[0].textContent != '' && res[0].textContent == res[4].textContent && res[0].textContent == res[8].textContent) DisplayWin(res[0].textContent);
+    else if (res[6].textContent != '' && res[6].textContent == res[4].textContent && res[6].textContent == res[2].textContent) DisplayWin(res[6].textContent);
+
+    else if (res[0].textContent != '' && res[1].textContent != '' && res[2].textContent != '' && res[3].textContent != ''
+        && res[4].textContent != '' && res[5].textContent != '' && res[6].textContent != '' && res[7].textContent != ''
+        && res[8].textContent != '') DisplayWin('tie');
+}
+
+function DisplayWin(winner) {
+    Game.GameOver = true;
+    if (winner == 'X') {
+        Game.Winner = 'Крестики';
+    }
+    else if (winner == 'O') {
+        Game.Winner = 'Нолики';
+    }
+    else {
+        Game.Winner = 'Ничья';
     }
 }
 
@@ -53,8 +90,22 @@ function createField() {
     }
 }
 
+function startNewGame(){
+    Game.CurrentPlayer = Player.One;
+    Game.GameOver = false;
+    Game.Winner = null;
+
+    let tiles = document.getElementsByClassName('tile');
+    for (const item of tiles) {
+        item.textContent = '';
+    }
+
+    DisplayTitle();
+}
+
 
 window.onload = () => {
     createField();
     paintField();
+    DisplayTitle();
 }
