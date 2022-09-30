@@ -11,7 +11,8 @@ const Game = {
     CurrentPlayer: Players.One,
     CurrentMove: 0,
     AvailableMoves: [],
-    HistoryMoves: []
+    HistoryMoves: [],
+    RequiredToBeat: false
 }
 const TempMove = {
     startPos: null,
@@ -121,7 +122,6 @@ function removeGraphMoves() {
         res[0].parentNode.removeChild(res[0]);
     }
 }
-
 function paintField() {
     let res = document.getElementsByClassName('chess-field');
 
@@ -207,7 +207,6 @@ const setDragCursor = value => {
     const body = document.getElementsByTagName('body').item(0);
     body.classList.toggle('grabbing', value);
 }
-
 function allowDrop(dragevent) {
     dragevent.preventDefault();
 }
@@ -222,7 +221,6 @@ function getElements(ev) {
     if (elemNeeded != null && !elemNeeded.classList.contains('field-active')) elemNeeded.classList.add('field-active');
     // console.log();
 }
-
 function MouseMove(toggle) {
     if (toggle) {
         document.addEventListener('mouseover', function (event) {
@@ -243,13 +241,17 @@ function drag(dragevent) {
     removeGraphMoves();
 
     if (Game.CurrentPlayer == Players.One && dragevent.target.classList.contains('white')) {
-        calcDistinctMoves(dragevent.target.parentElement.id, 'white');
-        dragevent.dataTransfer.setData('div', dragevent.target.id);
-        // dragevent.dataTransfer.effectAllowed = "copy";
-        dragevent.dataTransfer.dropEffect = "copy";
-        setDragCursor(false);
-        TempMove.startPos = dragevent.target.parentElement.id;
-        console.log('drag start');
+        if (Game.AvailableMoves.length) {
+        }
+        else {
+            calcDistinctMoves(dragevent.target.parentElement.id, 'white');
+            dragevent.dataTransfer.setData('div', dragevent.target.id);
+            // dragevent.dataTransfer.effectAllowed = "copy";
+            dragevent.dataTransfer.dropEffect = "copy";
+            setDragCursor(false);
+            TempMove.startPos = dragevent.target.parentElement.id;
+            console.log('drag start');
+        }
     }
     else if (Game.CurrentPlayer == Players.Two && dragevent.target.classList.contains('black')) {
         calcDistinctMoves(dragevent.target.parentElement.id, 'black');
@@ -259,11 +261,9 @@ function drag(dragevent) {
         console.log('drag start');
     }
 }
-
 function dragend(dragevent) {
     removeGraphMoves();
 }
-
 function setDragging(color, truth) {
     let elements = document.getElementsByClassName(color);
     for (const item of elements) {
@@ -284,14 +284,12 @@ function ClearTempMove() {
     TempMove.startPos = null;
     TempMove.finalPos = null;
 }
-
 function addInHistory() {
     let color = Game.CurrentPlayer == Players.One ? 'black' : 'white';
     Game.HistoryMoves.push(new Move(Game.CurrentMove, color, TempMove.startPos, TempMove.finalPos));
     ClearTempMove();
     displayHistory();
 }
-
 function displayHistory() {
     let move = Game.HistoryMoves.slice(-1);
     let log = document.getElementById('log-container');
@@ -316,18 +314,15 @@ function displayHistory() {
 
     log.appendChild(container);
 }
-
 function convertToNum(index) {
     let num = Numbers[Math.floor(index / 8)];
     let lit = Letters[Math.floor(index % 8)];
     return `${lit}${num}`
 }
-
 function updateTitle() {
     let title = document.getElementById('title');
     title.textContent = `Ход: ${Game.CurrentPlayer == Players.One ? 'Белые' : 'Черные'}`;
 }
-
 function drop(dropevent) {
     MouseMove(false);
     dropevent.preventDefault();
@@ -344,6 +339,7 @@ function drop(dropevent) {
             field.appendChild(document.getElementById(data));
             console.log(data);
             ChangePlayer();
+            checkBeatMoves();
             updateTitle();
             TempMove.finalPos = field.id;
             addInHistory();
@@ -355,165 +351,70 @@ function drop(dropevent) {
     setDragCursor(false);
 }
 
+function checkBeatMoves() {
+    let color = Game.CurrentPlayer == Players.One ? 'white' : 'black'
+    let checkers = Array.from(document.getElementsByClassName(color));
+    let enemies = Array.from(document.getElementsByClassName(color == 'white' ? 'black' : 'white'));
+    let fields = Array.from(document.getElementsByClassName('chess-field'));
+    console.log(color);
+    let beatMoves = [];
+    Game.RequiredToBeat = false;
 
-var EventUtil = {
-    addHandler: function (element, type, handler) {
-        if (element.addEventListener) {
-            element.addEventListener(type, handler, false);
-        } else if (element.attachEvent) {
-            element.attachEvent("on" + type, handler);
-        } else {
-            element["on" + type] = handler;
+    for (const item of checkers) {
+        let upperleft = enemies.find(x => x.parentElement.id == parseInt(item.parentElement.id) - 9);
+        if (upperleft != undefined) {
+            console.log(upperleft);
+            if (upperleft.classList.contains('checker') && !upperleft.classList.contains(color)) {
+                let field = fields.find(x => x.id == parseInt(upperleft.parentElement.id) - 9);
+                // console.log(field);
+                if (field != undefined && field.children.length == 0) {
+                    // console.log('can beat');
+                    // Game.RequiredToBeat = true;
+                    beatMoves.add(field);
+                }
+            }
         }
-    },
-    removeHandler: function (element, type, handler) {
-        if (element.removeEventListener) {
-            element.removeEventListener(type, handler, false);
-        } else if (element.detachEvent) {
-            element.detachEvent("on" + type, handler);
-        } else {
-            element["on" + type] = null;
-        }
-    },
-    getCurrentTarget: function (e) {
-        if (e.toElement) {
-            return e.toElement;
-        } else if (e.currentTarget) {
-            return e.currentTarget;
-        } else if (e.srcElement) {
-            return e.srcElement;
-        } else {
-            return null;
-        }
-    },
-    preventDefault: function (e) {
-        e.preventDefault ? e.preventDefault() : e.returnValue = false;
-    },
-
-    getMousePosition: function (e) {
-        var posx = 0,
-            posy = 0;
-        if (!e) {
-            e = window.event;
-        }
-
-        if (e.pageX || e.pageY) {
-            posx = e.pageX;
-            posy = e.pageY;
-        }
-        else if (e.clientX || e.clientY) {
-            posx = e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
-            posy = e.clientY + document.body.scrollTop + document.documentElement.scrollTop;
-        }
-
-        return {
-            x: posx,
-            y: posy
-        };
     }
 
-};
+    if (beatMoves.length > 0) {
+        Game.RequiredToBeat = true;
+        Game.AvailableMoves = beatMoves;
 
+    }
 
+    // if (fields.find(x => x.id == parseInt(i) - 7) != undefined
+    //     && fields.find(x => x.id == parseInt(i) - 7).style.backgroundColor != 'rgb(240, 218, 181)') {
 
-var dm = document.getElementById('Dragme'),
+    //     if (color == 'white' && fields.find(x => x.id == parseInt(i) - 7).children.length != 0) {
+    //         Game.AvailableMoves.push(fields.find(x => x.id == parseInt(i) - 7));
+    //     }
+    //     else if (color == 'black') {
+    //         Game.AvailableMoves.push(fields.find(x => x.id == parseInt(i) - 7));
+    //     }
+    // }
 
-    effect = 'move',
+    // if (fields.find(x => x.id == parseInt(i) + 7) != undefined
+    //     && fields.find(x => x.id == parseInt(i) + 7).style.backgroundColor != 'rgb(240, 218, 181)') {
 
-    format = 'Text';
+    //     if (color == 'black' && fields.find(x => x.id == parseInt(i) + 7).children.length != 0) {
+    //         Game.AvailableMoves.push(fields.find(x => x.id == parseInt(i) + 7));
+    //     }
+    //     else if (color == 'white') {
+    //         Game.AvailableMoves.push(fields.find(x => x.id == parseInt(i) + 7));
+    //     }
+    // }
 
-EventUtil.addHandler(dm, 'dragstart', function (e) {
+    // if (fields.find(x => x.id == parseInt(i) + 9) != undefined
+    //     && fields.find(x => x.id == parseInt(i) + 9).style.backgroundColor != 'rgb(240, 218, 181)') {
 
-    e.dataTransfer.setData(format, 'Dragme');
-
-
-    e.dataTransfer.effectAllowed = effect;
-
-
-    var target = EventUtil.getCurrentTarget(e);
-    target.style.backgroundColor = 'blue';
-    target.style.cursor = 'move';
-
-    return true;
-});
-
-
-EventUtil.addHandler(dm, 'drag', function (e) {
-    return true;
-});
-
-
-EventUtil.addHandler(dm, 'dragend', function (e) {
-
-    var target = EventUtil.getCurrentTarget(e);
-    target.style.backgroundColor = '';
-    target.style.cursor = 'default';
-    return true;
-});
-
-
-var dz = document.getElementById('Dropzone');
-
-
-EventUtil.addHandler(dz, 'dragenter', function (e) {
-
-    var target = EventUtil.getCurrentTarget(e);
-    target.style.backgroundColor = 'orange';
-
-    return false;
-});
-
-
-EventUtil.addHandler(dz, 'dragover', function (e) {
-
-    EventUtil.preventDefault(e);
-
-    e.dataTransfer.dropEffect = effect;
-
-    return false;
-});
-
-
-EventUtil.addHandler(dz, 'dragleave', function (e) {
-
-    var target = EventUtil.getCurrentTarget(e);
-    target.style.backgroundColor = '';
-
-    return false;
-});
-
-
-EventUtil.addHandler(dz, 'drop', function (e) {
-    EventUtil.preventDefault(e);
-
-
-    var currentTarget = EventUtil.getCurrentTarget(e),
-
-        DragMeId = e.dataTransfer.getData(format),
-
-        DragMe = document.getElementById(DragMeId);
-
-
-    currentTarget.appendChild(DragMe);
-
-    var target = EventUtil.getCurrentTarget(e);
-    target.style.backgroundColor = '';
-
-    return false;
-});
-
-
-
-
-
-
-
-
-
-
-
-
-
+    //     if (color == 'black' && fields.find(x => x.id == parseInt(i) + 9).children.length != 0) {
+    //         Game.AvailableMoves.push(fields.find(x => x.id == parseInt(i) + 9));
+    //     }
+    //     else if (color == 'white') {
+    //         Game.AvailableMoves.push(fields.find(x => x.id == parseInt(i) + 9));
+    //     }
+    // }
+}
 
 window.onload = () => {
     createField();
