@@ -234,7 +234,7 @@ function MouseMove(toggle) {
             getElements(event);
         })
     }
-    
+
 }
 
 function drag(dragevent) {
@@ -260,15 +260,21 @@ function drag(dragevent) {
     }
 }
 
+function dragend(dragevent) {
+    removeGraphMoves();
+}
+
 function setDragging(color, truth) {
     let elements = document.getElementsByClassName(color);
     for (const item of elements) {
         item.draggable = truth;
         if (truth == false) {
             item.removeEventListener('dragstart', function () { drag(event), false });
+            item.removeEventListener('dragend', function () { dragend(event), false });
             item.classList.remove('isdraggable');
         } else {
             item.addEventListener('dragstart', function () { drag(event), false });
+            item.addEventListener('dragend', function () { dragend(event), false });
             item.classList.add('isdraggable');
         }
     }
@@ -348,6 +354,166 @@ function drop(dropevent) {
     }
     setDragCursor(false);
 }
+
+
+var EventUtil = {
+    addHandler: function (element, type, handler) {
+        if (element.addEventListener) {
+            element.addEventListener(type, handler, false);
+        } else if (element.attachEvent) {
+            element.attachEvent("on" + type, handler);
+        } else {
+            element["on" + type] = handler;
+        }
+    },
+    removeHandler: function (element, type, handler) {
+        if (element.removeEventListener) {
+            element.removeEventListener(type, handler, false);
+        } else if (element.detachEvent) {
+            element.detachEvent("on" + type, handler);
+        } else {
+            element["on" + type] = null;
+        }
+    },
+    getCurrentTarget: function (e) {
+        if (e.toElement) {
+            return e.toElement;
+        } else if (e.currentTarget) {
+            return e.currentTarget;
+        } else if (e.srcElement) {
+            return e.srcElement;
+        } else {
+            return null;
+        }
+    },
+    preventDefault: function (e) {
+        e.preventDefault ? e.preventDefault() : e.returnValue = false;
+    },
+
+    getMousePosition: function (e) {
+        var posx = 0,
+            posy = 0;
+        if (!e) {
+            e = window.event;
+        }
+
+        if (e.pageX || e.pageY) {
+            posx = e.pageX;
+            posy = e.pageY;
+        }
+        else if (e.clientX || e.clientY) {
+            posx = e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
+            posy = e.clientY + document.body.scrollTop + document.documentElement.scrollTop;
+        }
+
+        return {
+            x: posx,
+            y: posy
+        };
+    }
+
+};
+
+
+
+var dm = document.getElementById('Dragme'),
+
+    effect = 'move',
+
+    format = 'Text';
+
+EventUtil.addHandler(dm, 'dragstart', function (e) {
+
+    e.dataTransfer.setData(format, 'Dragme');
+
+
+    e.dataTransfer.effectAllowed = effect;
+
+
+    var target = EventUtil.getCurrentTarget(e);
+    target.style.backgroundColor = 'blue';
+    target.style.cursor = 'move';
+
+    return true;
+});
+
+
+EventUtil.addHandler(dm, 'drag', function (e) {
+    return true;
+});
+
+
+EventUtil.addHandler(dm, 'dragend', function (e) {
+
+    var target = EventUtil.getCurrentTarget(e);
+    target.style.backgroundColor = '';
+    target.style.cursor = 'default';
+    return true;
+});
+
+
+var dz = document.getElementById('Dropzone');
+
+
+EventUtil.addHandler(dz, 'dragenter', function (e) {
+
+    var target = EventUtil.getCurrentTarget(e);
+    target.style.backgroundColor = 'orange';
+
+    return false;
+});
+
+
+EventUtil.addHandler(dz, 'dragover', function (e) {
+
+    EventUtil.preventDefault(e);
+
+    e.dataTransfer.dropEffect = effect;
+
+    return false;
+});
+
+
+EventUtil.addHandler(dz, 'dragleave', function (e) {
+
+    var target = EventUtil.getCurrentTarget(e);
+    target.style.backgroundColor = '';
+
+    return false;
+});
+
+
+EventUtil.addHandler(dz, 'drop', function (e) {
+    EventUtil.preventDefault(e);
+
+
+    var currentTarget = EventUtil.getCurrentTarget(e),
+
+        DragMeId = e.dataTransfer.getData(format),
+
+        DragMe = document.getElementById(DragMeId);
+
+
+    currentTarget.appendChild(DragMe);
+
+    var target = EventUtil.getCurrentTarget(e);
+    target.style.backgroundColor = '';
+
+    return false;
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 window.onload = () => {
     createField();
