@@ -113,15 +113,12 @@ function calcDistinctMoves(i, color) {
         }
     }
 
-    console.log(Game.AvailableMoves);
-
     for (const item of Game.AvailableMoves) {
         let movement = document.createElement('div');
         movement.className = 'movement';
         if (!item.children.length != 0) {
             item.appendChild(movement);
         }
-        // item.addEventListe   ner('mouseover', function () { item.style.backgroundColor = 'red' });
     }
 }
 
@@ -239,7 +236,6 @@ function MouseMove(toggle) {
 }
 
 function drag(dragevent) {
-    console.log(`Current player: ${Game.CurrentPlayer}`);
     MouseMove(true);
     removeGraphMoves();
 
@@ -259,7 +255,6 @@ function drag(dragevent) {
             dragevent.dataTransfer.dropEffect = "copy";
             setDragCursor(false);
             TempMove.startPos = dragevent.target.parentElement.id;
-            console.log('drag start');
         }
     }
     else if (Game.CurrentPlayer == Players.Two && dragevent.target.classList.contains('black')) {
@@ -277,7 +272,6 @@ function drag(dragevent) {
             dragevent.dataTransfer.setData('div', dragevent.target.id);
             setDragCursor(false);
             TempMove.startPos = dragevent.target.parentElement.id;
-            console.log('drag start');
         }
     }
 }
@@ -372,14 +366,10 @@ function drop(dropevent) {
         if (!field.classList.contains('checker') &&
             field.children.length == 0) {
 
-            if (Game.RequiredToBeat) {
-                let enemyfield = document.getElementById(Game.AvailableCheckers.find(x => x.fielddestination == field).enemychecker.id);
-                enemyfield.remove();
-            }
+            tryKillChecker(field);
 
             var data = dropevent.dataTransfer.getData('div');
             field.appendChild(document.getElementById(data));
-            console.log(data);
             ChangePlayer();
             updateTitle();
             TempMove.finalPos = field.id;
@@ -399,19 +389,53 @@ function checkBeatMoves() {
     let enemies = Array.from(document.getElementsByClassName(color == 'white' ? 'black' : 'white'));
     let fields = Array.from(document.getElementsByClassName('chess-field'));
     let availablecheckers = [];
-    console.log(color);
     let beatMoves = [];
     Game.RequiredToBeat = false;
 
     for (const item of checkers) {
         let upperleft = enemies.find(x => x.parentElement.id == parseInt(item.parentElement.id) - 9);
         if (upperleft != undefined) {
-            console.log(upperleft);
             if (upperleft.classList.contains('checker') && !upperleft.classList.contains(color)) {
                 let field = fields.find(x => x.id == parseInt(upperleft.parentElement.id) - 9);
-                if (field != undefined && field.children.length == 0) {
+                if (field != undefined && field.children.length == 0 && field.style.backgroundColor != 'rgb(240, 218, 181)') {
                     beatMoves.push(field);
                     availablecheckers.push(new BeatMove(item, upperleft, field));
+                    console.log(availablecheckers);
+                }
+            }
+        }
+
+        let upperright = enemies.find(x => x.parentElement.id == parseInt(item.parentElement.id) - 7);
+        if (upperright != undefined) {
+            if (upperright.classList.contains('checker') && !upperright.classList.contains(color)) {
+                let field = fields.find(x => x.id == parseInt(upperright.parentElement.id) - 7);
+                if (field != undefined && field.children.length == 0 && field.style.backgroundColor != 'rgb(240, 218, 181)') {
+                    beatMoves.push(field);
+                    availablecheckers.push(new BeatMove(item, upperright, field));
+                    console.log(availablecheckers);
+                }
+            }
+        }
+        
+        let bottomleft = enemies.find(x => x.parentElement.id == parseInt(item.parentElement.id) + 7);
+        if (bottomleft != undefined) {
+            if (bottomleft.classList.contains('checker') && !bottomleft.classList.contains(color)) {
+                let field = fields.find(x => x.id == parseInt(bottomleft.parentElement.id) + 7);
+                if (field != undefined && field.children.length == 0 && field.style.backgroundColor != 'rgb(240, 218, 181)') {
+                    beatMoves.push(field);
+                    availablecheckers.push(new BeatMove(item, bottomleft, field));
+                    console.log(availablecheckers);
+                }
+            }
+        }
+        
+        let bottomright = enemies.find(x => x.parentElement.id == parseInt(item.parentElement.id) + 9);
+        if (bottomright != undefined) {
+            if (bottomright.classList.contains('checker') && !bottomright.classList.contains(color)) {
+                let field = fields.find(x => x.id == parseInt(bottomright.parentElement.id) + 9);
+                if (field != undefined && field.children.length == 0 && field.style.backgroundColor != 'rgb(240, 218, 181)') {
+                    beatMoves.push(field);
+                    availablecheckers.push(new BeatMove(item, bottomright, field));
                     console.log(availablecheckers);
                 }
             }
@@ -463,6 +487,13 @@ function checkBeatMoves() {
     //         Game.AvailableMoves.push(fields.find(x => x.id == parseInt(i) + 9));
     //     }
     // }
+}
+
+function tryKillChecker(field) {
+    if (Game.RequiredToBeat) {
+        let enemyfield = document.getElementById(Game.AvailableCheckers.find(x => x.fielddestination == field).enemychecker.id);
+        enemyfield.remove();
+    }
 }
 
 setDraggable();
