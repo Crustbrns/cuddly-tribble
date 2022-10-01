@@ -54,7 +54,9 @@ body {
 }
 
 #log-container {
-    overflow-y: scroll;
+    /* overflow-y: scroll; */
+    height: 100%;
+    background-color: #2d2d2d;
 }
 
 index {
@@ -93,7 +95,7 @@ index {
     width: 63px;
     height: 63px;
     padding: 18px;
-    border-radius: 4px;
+    /* border-radius: 4px; */
     justify-content: center;
     align-items: center;
     display: flex;
@@ -118,11 +120,11 @@ index {
 }
 
 .white {
-    background-color: rgb(253, 247, 247);
+    background-color: var(--checker-color-white-old);
 }
 
 .black {
-    background-color: rgb(75, 72, 72);
+    background-color: var(--checker-color-black-old);
 }
 
 .grabbing {
@@ -149,6 +151,17 @@ index {
 
 .move-container {
     display: flex;
+}
+
+:root {
+    --field-background-white: #513c35;
+    --field-background-black: #3F302E;
+    --field-background-white-old: #F0DAB5;
+    --field-background-black-old: #B58763;
+    --checker-color-white: #F2C175;
+    --checker-color-black: #9E563B;
+    --checker-color-white-old: rgb(253, 247, 247);
+    --checker-color-black-old: rgb(75, 72, 72);
 }
 
 @media screen and (max-width: 1300px) {

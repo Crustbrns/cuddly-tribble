@@ -70,7 +70,7 @@ function calcDistinctMoves(i, color) {
     Game.AvailableMoves = [];
 
     if (fields.find(x => x.id == parseInt(i) - 9) != undefined
-        && fields.find(x => x.id == parseInt(i) - 9).style.backgroundColor != 'rgb(240, 218, 181)') {
+        && fields.find(x => x.id == parseInt(i) - 9).style.backgroundColor != 'var(--field-background-white-old)') {
 
         if (color == 'white' && fields.find(x => x.id == parseInt(i) - 9).children.length != 0) {
             Game.AvailableMoves.push(fields.find(x => x.id == parseInt(i) - 9));
@@ -81,7 +81,7 @@ function calcDistinctMoves(i, color) {
     }
 
     if (fields.find(x => x.id == parseInt(i) - 7) != undefined
-        && fields.find(x => x.id == parseInt(i) - 7).style.backgroundColor != 'rgb(240, 218, 181)') {
+        && fields.find(x => x.id == parseInt(i) - 7).style.backgroundColor != 'var(--field-background-white-old)') {
 
         if (color == 'white' && fields.find(x => x.id == parseInt(i) - 7).children.length != 0) {
             Game.AvailableMoves.push(fields.find(x => x.id == parseInt(i) - 7));
@@ -92,7 +92,7 @@ function calcDistinctMoves(i, color) {
     }
 
     if (fields.find(x => x.id == parseInt(i) + 7) != undefined
-        && fields.find(x => x.id == parseInt(i) + 7).style.backgroundColor != 'rgb(240, 218, 181)') {
+        && fields.find(x => x.id == parseInt(i) + 7).style.backgroundColor != 'var(--field-background-white-old)') {
 
         if (color == 'black' && fields.find(x => x.id == parseInt(i) + 7).children.length != 0) {
             Game.AvailableMoves.push(fields.find(x => x.id == parseInt(i) + 7));
@@ -103,7 +103,7 @@ function calcDistinctMoves(i, color) {
     }
 
     if (fields.find(x => x.id == parseInt(i) + 9) != undefined
-        && fields.find(x => x.id == parseInt(i) + 9).style.backgroundColor != 'rgb(240, 218, 181)') {
+        && fields.find(x => x.id == parseInt(i) + 9).style.backgroundColor != 'var(--field-background-white-old)') {
 
         if (color == 'black' && fields.find(x => x.id == parseInt(i) + 9).children.length != 0) {
             Game.AvailableMoves.push(fields.find(x => x.id == parseInt(i) + 9));
@@ -341,6 +341,8 @@ function displayHistory() {
     container.appendChild(tempmove);
 
     log.appendChild(container);
+
+    log.lastChild.scrollIntoView({behavior: 'smooth'});
 }
 function convertToNum(index) {
     let num = Numbers[Math.floor(index / 8)];
@@ -376,11 +378,17 @@ function drop(dropevent) {
             addInHistory();
             checkBeatMoves();
 
+            play();
         }
 
         console.log('drag dropped');
     }
     setDragCursor(false);
+}
+
+function play(){
+    let audio = new Audio('./scripts/move-self.mp3');
+    audio.play();
 }
 
 function checkBeatMoves() {
@@ -397,7 +405,7 @@ function checkBeatMoves() {
         if (upperleft != undefined) {
             if (upperleft.classList.contains('checker') && !upperleft.classList.contains(color)) {
                 let field = fields.find(x => x.id == parseInt(upperleft.parentElement.id) - 9);
-                if (field != undefined && field.children.length == 0 && field.style.backgroundColor != 'rgb(240, 218, 181)') {
+                if (field != undefined && field.children.length == 0 && field.style.backgroundColor != 'var(--field-background-white-old)') {
                     beatMoves.push(field);
                     availablecheckers.push(new BeatMove(item, upperleft, field));
                     console.log(availablecheckers);
@@ -409,7 +417,7 @@ function checkBeatMoves() {
         if (upperright != undefined) {
             if (upperright.classList.contains('checker') && !upperright.classList.contains(color)) {
                 let field = fields.find(x => x.id == parseInt(upperright.parentElement.id) - 7);
-                if (field != undefined && field.children.length == 0 && field.style.backgroundColor != 'rgb(240, 218, 181)') {
+                if (field != undefined && field.children.length == 0 && field.style.backgroundColor != 'var(--field-background-white-old)') {
                     beatMoves.push(field);
                     availablecheckers.push(new BeatMove(item, upperright, field));
                     console.log(availablecheckers);
@@ -421,7 +429,7 @@ function checkBeatMoves() {
         if (bottomleft != undefined) {
             if (bottomleft.classList.contains('checker') && !bottomleft.classList.contains(color)) {
                 let field = fields.find(x => x.id == parseInt(bottomleft.parentElement.id) + 7);
-                if (field != undefined && field.children.length == 0 && field.style.backgroundColor != 'rgb(240, 218, 181)') {
+                if (field != undefined && field.children.length == 0 && field.style.backgroundColor != 'var(--field-background-white-old)') {
                     beatMoves.push(field);
                     availablecheckers.push(new BeatMove(item, bottomleft, field));
                     console.log(availablecheckers);
@@ -433,7 +441,7 @@ function checkBeatMoves() {
         if (bottomright != undefined) {
             if (bottomright.classList.contains('checker') && !bottomright.classList.contains(color)) {
                 let field = fields.find(x => x.id == parseInt(bottomright.parentElement.id) + 9);
-                if (field != undefined && field.children.length == 0 && field.style.backgroundColor != 'rgb(240, 218, 181)') {
+                if (field != undefined && field.children.length == 0 && field.style.backgroundColor != 'var(--field-background-white-old)') {
                     beatMoves.push(field);
                     availablecheckers.push(new BeatMove(item, bottomright, field));
                     console.log(availablecheckers);
@@ -450,43 +458,6 @@ function checkBeatMoves() {
         setDragging('black', false);
         setPartialDragging(availablecheckers, true);
     }
-
-    console.log(beatMoves);
-    console.log(Game.AvailableMoves);
-    console.log(Game.RequiredToBeat);
-
-    // if (fields.find(x => x.id == parseInt(i) - 7) != undefined
-    //     && fields.find(x => x.id == parseInt(i) - 7).style.backgroundColor != 'rgb(240, 218, 181)') {
-
-    //     if (color == 'white' && fields.find(x => x.id == parseInt(i) - 7).children.length != 0) {
-    //         Game.AvailableMoves.push(fields.find(x => x.id == parseInt(i) - 7));
-    //     }
-    //     else if (color == 'black') {
-    //         Game.AvailableMoves.push(fields.find(x => x.id == parseInt(i) - 7));
-    //     }
-    // }
-
-    // if (fields.find(x => x.id == parseInt(i) + 7) != undefined
-    //     && fields.find(x => x.id == parseInt(i) + 7).style.backgroundColor != 'rgb(240, 218, 181)') {
-
-    //     if (color == 'black' && fields.find(x => x.id == parseInt(i) + 7).children.length != 0) {
-    //         Game.AvailableMoves.push(fields.find(x => x.id == parseInt(i) + 7));
-    //     }
-    //     else if (color == 'white') {
-    //         Game.AvailableMoves.push(fields.find(x => x.id == parseInt(i) + 7));
-    //     }
-    // }
-
-    // if (fields.find(x => x.id == parseInt(i) + 9) != undefined
-    //     && fields.find(x => x.id == parseInt(i) + 9).style.backgroundColor != 'rgb(240, 218, 181)') {
-
-    //     if (color == 'black' && fields.find(x => x.id == parseInt(i) + 9).children.length != 0) {
-    //         Game.AvailableMoves.push(fields.find(x => x.id == parseInt(i) + 9));
-    //     }
-    //     else if (color == 'white') {
-    //         Game.AvailableMoves.push(fields.find(x => x.id == parseInt(i) + 9));
-    //     }
-    // }
 }
 
 function tryKillChecker(field) {
