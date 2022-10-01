@@ -145,26 +145,6 @@ function removeGraphMoves() {
         res[0].parentNode.removeChild(res[0]);
     }
 }
-function paintField() {
-    let res = document.getElementsByClassName('chess-field');
-
-    for (let i = 0; i < 8; i++) {
-        for (let j = 0; j < 8; j++) {
-            res[i * 8 + j].style.backgroundColor = i % 2 ?
-                (j % 2 ? '#F0DAB5' : '#B58763') : (j % 2 ? '#B58763' : '#F0DAB5');
-        }
-    }
-}
-function createField() {
-    let field = document.getElementById('chess');
-
-    for (let i = 0; i < 64; i++) {
-        let tile = document.createElement("div");
-        tile.className = 'chess-field';
-        tile.id = i;
-        field.appendChild(tile);
-    }
-}
 function setDraggable() {
     let res = document.getElementsByClassName('chess-field');
 
@@ -386,9 +366,17 @@ function drop(dropevent) {
     else if (Game.AvailableMoves.includes(dropevent.target.parentElement)) field = dropevent.target.parentElement;
 
     removeGraphMoves();
-    if (field != null) {
+    if ((field != null && !Game.RequiredToBeat) || (field != null && Game.RequiredToBeat
+        && Game.AvailableCheckers.find(x => x.fielddestination == field).checker.parentElement.id == TempMove.startPos)) {
+
         if (!field.classList.contains('checker') &&
             field.children.length == 0) {
+
+            if (Game.RequiredToBeat) {
+                let enemyfield = document.getElementById(Game.AvailableCheckers.find(x => x.fielddestination == field).enemychecker.id);
+                enemyfield.remove();
+            }
+
             var data = dropevent.dataTransfer.getData('div');
             field.appendChild(document.getElementById(data));
             console.log(data);
@@ -397,9 +385,9 @@ function drop(dropevent) {
             TempMove.finalPos = field.id;
             addInHistory();
             checkBeatMoves();
+
         }
 
-        // ev.target.appendChild(document.getElementById(data));
         console.log('drag dropped');
     }
     setDragCursor(false);
@@ -477,11 +465,7 @@ function checkBeatMoves() {
     // }
 }
 
-window.onload = () => {
-    createField();
-    paintField();
-    setDraggable();
-    fillField();
-    InitGame();
-    updateTitle();
-};
+setDraggable();
+fillField();
+InitGame();
+updateTitle();
