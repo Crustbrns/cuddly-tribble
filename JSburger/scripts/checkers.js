@@ -12,7 +12,8 @@ const Game = {
     CurrentMove: 0,
     AvailableMoves: [],
     HistoryMoves: [],
-    RequiredToBeat: false
+    RequiredToBeat: false,
+    AvailableCheckers: []
 }
 const TempMove = {
     startPos: null,
@@ -20,6 +21,14 @@ const TempMove = {
 }
 const Letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
 const Numbers = ['8', '7', '6', '5', '4', '3', '2', '1'];
+
+class BeatMove {
+    constructor(checker, enemychecker, fielddestination) {
+        this.checker = checker;
+        this.enemychecker = enemychecker;
+        this.fielddestination = fielddestination;
+    }
+}
 
 class Move {
     constructor(moveNum, color, startPos, finalPos) {
@@ -114,6 +123,20 @@ function calcDistinctMoves(i, color) {
         }
         // item.addEventListe   ner('mouseover', function () { item.style.backgroundColor = 'red' });
     }
+}
+
+function displayBeatMoves(target) {
+    for (const item of Game.AvailableMoves) {
+        let movement = document.createElement('div');
+        movement.className = 'movement';
+        let fdes = Game.AvailableCheckers.find(x => x.fielddestination == item);
+        console.log('asd', fdes);
+        if (!item.children.length != 0 && Game.AvailableCheckers.find(x => x.fielddestination == item).checker == target) {
+            item.appendChild(movement);
+        }
+    }
+
+    console.log(Game.AvailableMoves);
 }
 
 function removeGraphMoves() {
@@ -244,6 +267,11 @@ function drag(dragevent) {
         if (Game.RequiredToBeat) {
             console.log('available moves', Game.AvailableMoves.length);
             console.log(Game.AvailableMoves);
+            displayBeatMoves(dragevent.target);
+            dragevent.dataTransfer.setData('div', dragevent.target.id);
+            dragevent.dataTransfer.dropEffect = "copy";
+            setDragCursor(false);
+            TempMove.startPos = dragevent.target.parentElement.id;
         }
         else {
             calcDistinctMoves(dragevent.target.parentElement.id, 'white');
@@ -255,11 +283,22 @@ function drag(dragevent) {
         }
     }
     else if (Game.CurrentPlayer == Players.Two && dragevent.target.classList.contains('black')) {
-        calcDistinctMoves(dragevent.target.parentElement.id, 'black');
-        dragevent.dataTransfer.setData('div', dragevent.target.id);
-        setDragCursor(false);
-        TempMove.startPos = dragevent.target.parentElement.id;
-        console.log('drag start');
+        if (Game.RequiredToBeat) {
+            console.log('available moves', Game.AvailableMoves.length);
+            console.log(Game.AvailableMoves);
+            displayBeatMoves(dragevent.target);
+            dragevent.dataTransfer.setData('div', dragevent.target.id);
+            dragevent.dataTransfer.dropEffect = "copy";
+            setDragCursor(false);
+            TempMove.startPos = dragevent.target.parentElement.id;
+        }
+        else {
+            calcDistinctMoves(dragevent.target.parentElement.id, 'black');
+            dragevent.dataTransfer.setData('div', dragevent.target.id);
+            setDragCursor(false);
+            TempMove.startPos = dragevent.target.parentElement.id;
+            console.log('drag start');
+        }
     }
 }
 function dragend(dragevent) {
@@ -282,15 +321,15 @@ function setDragging(color, truth) {
 }
 function setPartialDragging(elements, truth) {
     for (const item of elements) {
-        item.draggable = truth;
+        item.checker.draggable = truth;
         if (truth == false) {
-            item.removeEventListener('dragstart', function () { drag(event), false });
-            item.removeEventListener('dragend', function () { dragend(event), false });
-            item.classList.remove('isdraggable');
+            item.checker.removeEventListener('dragstart', function () { drag(event), false });
+            item.checker.removeEventListener('dragend', function () { dragend(event), false });
+            item.checker.classList.remove('isdraggable');
         } else {
-            item.addEventListener('dragstart', function () { drag(event), false });
-            item.addEventListener('dragend', function () { dragend(event), false });
-            item.classList.add('isdraggable');
+            item.checker.addEventListener('dragstart', function () { drag(event), false });
+            item.checker.addEventListener('dragend', function () { dragend(event), false });
+            item.checker.classList.add('isdraggable');
         }
     }
 }
@@ -384,7 +423,8 @@ function checkBeatMoves() {
                 let field = fields.find(x => x.id == parseInt(upperleft.parentElement.id) - 9);
                 if (field != undefined && field.children.length == 0) {
                     beatMoves.push(field);
-                    availablecheckers.push(item);
+                    availablecheckers.push(new BeatMove(item, upperleft, field));
+                    console.log(availablecheckers);
                 }
             }
         }
@@ -393,6 +433,7 @@ function checkBeatMoves() {
     if (beatMoves.length > 0) {
         Game.RequiredToBeat = true;
         Game.AvailableMoves = beatMoves;
+        Game.AvailableCheckers = availablecheckers;
         setDragging('white', false);
         setDragging('black', false);
         setPartialDragging(availablecheckers, true);
