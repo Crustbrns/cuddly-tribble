@@ -241,12 +241,13 @@ function drag(dragevent) {
     removeGraphMoves();
 
     if (Game.CurrentPlayer == Players.One && dragevent.target.classList.contains('white')) {
-        if (Game.AvailableMoves.length) {
+        if (Game.RequiredToBeat) {
+            console.log('available moves', Game.AvailableMoves.length);
+            console.log(Game.AvailableMoves);
         }
         else {
             calcDistinctMoves(dragevent.target.parentElement.id, 'white');
             dragevent.dataTransfer.setData('div', dragevent.target.id);
-            // dragevent.dataTransfer.effectAllowed = "copy";
             dragevent.dataTransfer.dropEffect = "copy";
             setDragCursor(false);
             TempMove.startPos = dragevent.target.parentElement.id;
@@ -265,7 +266,21 @@ function dragend(dragevent) {
     removeGraphMoves();
 }
 function setDragging(color, truth) {
-    let elements = document.getElementsByClassName(color);
+    let elements = Array.from(document.getElementsByClassName(color));
+    for (const item of elements) {
+        item.draggable = truth;
+        if (truth == false) {
+            item.removeEventListener('dragstart', function () { drag(event), false });
+            item.removeEventListener('dragend', function () { dragend(event), false });
+            item.classList.remove('isdraggable');
+        } else {
+            item.addEventListener('dragstart', function () { drag(event), false });
+            item.addEventListener('dragend', function () { dragend(event), false });
+            item.classList.add('isdraggable');
+        }
+    }
+}
+function setPartialDragging(elements, truth) {
     for (const item of elements) {
         item.draggable = truth;
         if (truth == false) {
@@ -339,10 +354,10 @@ function drop(dropevent) {
             field.appendChild(document.getElementById(data));
             console.log(data);
             ChangePlayer();
-            checkBeatMoves();
             updateTitle();
             TempMove.finalPos = field.id;
             addInHistory();
+            checkBeatMoves();
         }
 
         // ev.target.appendChild(document.getElementById(data));
@@ -356,6 +371,7 @@ function checkBeatMoves() {
     let checkers = Array.from(document.getElementsByClassName(color));
     let enemies = Array.from(document.getElementsByClassName(color == 'white' ? 'black' : 'white'));
     let fields = Array.from(document.getElementsByClassName('chess-field'));
+    let availablecheckers = [];
     console.log(color);
     let beatMoves = [];
     Game.RequiredToBeat = false;
@@ -366,11 +382,9 @@ function checkBeatMoves() {
             console.log(upperleft);
             if (upperleft.classList.contains('checker') && !upperleft.classList.contains(color)) {
                 let field = fields.find(x => x.id == parseInt(upperleft.parentElement.id) - 9);
-                // console.log(field);
                 if (field != undefined && field.children.length == 0) {
-                    // console.log('can beat');
-                    // Game.RequiredToBeat = true;
-                    beatMoves.add(field);
+                    beatMoves.push(field);
+                    availablecheckers.push(item);
                 }
             }
         }
@@ -379,8 +393,14 @@ function checkBeatMoves() {
     if (beatMoves.length > 0) {
         Game.RequiredToBeat = true;
         Game.AvailableMoves = beatMoves;
-
+        setDragging('white', false);
+        setDragging('black', false);
+        setPartialDragging(availablecheckers, true);
     }
+
+    console.log(beatMoves);
+    console.log(Game.AvailableMoves);
+    console.log(Game.RequiredToBeat);
 
     // if (fields.find(x => x.id == parseInt(i) - 7) != undefined
     //     && fields.find(x => x.id == parseInt(i) - 7).style.backgroundColor != 'rgb(240, 218, 181)') {
