@@ -136,6 +136,13 @@ function displayBeatMoves(target) {
     console.log(Game.AvailableMoves);
 }
 
+function removeActive() {
+    let res = Array.from(document.getElementsByClassName('active'));
+    for (const item of res) {
+        item.classList.remove('active');
+    }
+}
+
 function removeGraphMoves() {
     let res = document.getElementsByClassName('movement');
     while (res.length > 0) {
@@ -235,14 +242,26 @@ function MouseMove(toggle) {
 
 }
 
+function tryAddMove(dragevent) {
+    if (Game.RequiredToBeat) {
+        console.log(Game.AvailableCheckers);
+        console.log(dragevent.target);
+        if (Game.AvailableCheckers.find(x => x.checker == dragevent.target) != undefined) {
+            dragevent.target.parentElement.classList.add('active');
+        }
+    }
+    else {
+        dragevent.target.parentElement.classList.add('active');
+    }
+}
+
 function drag(dragevent) {
     MouseMove(true);
     removeGraphMoves();
 
     if (Game.CurrentPlayer == Players.One && dragevent.target.classList.contains('white')) {
+        tryAddMove(dragevent);
         if (Game.RequiredToBeat) {
-            console.log('available moves', Game.AvailableMoves.length);
-            console.log(Game.AvailableMoves);
             displayBeatMoves(dragevent.target);
             dragevent.dataTransfer.setData('div', dragevent.target.id);
             dragevent.dataTransfer.dropEffect = "copy";
@@ -258,9 +277,8 @@ function drag(dragevent) {
         }
     }
     else if (Game.CurrentPlayer == Players.Two && dragevent.target.classList.contains('black')) {
+        tryAddMove(dragevent);
         if (Game.RequiredToBeat) {
-            console.log('available moves', Game.AvailableMoves.length);
-            console.log(Game.AvailableMoves);
             displayBeatMoves(dragevent.target);
             dragevent.dataTransfer.setData('div', dragevent.target.id);
             dragevent.dataTransfer.dropEffect = "copy";
@@ -274,9 +292,11 @@ function drag(dragevent) {
             TempMove.startPos = dragevent.target.parentElement.id;
         }
     }
+    // dragevent.preventDefault();
 }
 function dragend(dragevent) {
     removeGraphMoves();
+    removeActive();
 }
 function setDragging(color, truth) {
     let elements = Array.from(document.getElementsByClassName(color));
@@ -356,6 +376,7 @@ function updateTitle() {
 function drop(dropevent) {
     MouseMove(false);
     dropevent.preventDefault();
+    removeActive();
 
     let field = null;
     if (Game.AvailableMoves.includes(dropevent.target)) field = dropevent.target;
@@ -416,7 +437,7 @@ function checkForWin() {
         log.appendChild(resultTitle);
 
         let title = document.getElementById('title');
-        title.textContent = `Победитель — ${whitecheckers.length == 0 ? 'Черные' : 'Белые'}`;
+        title.textContent = `${whitecheckers.length == 0 ? 'Black' : 'White'} is Winner`;
     }
 }
 

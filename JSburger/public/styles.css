@@ -59,7 +59,7 @@ body {
     background-color: #2d2d2d;
 }
 
-.result-title{
+.result-title {
     margin: auto;
     padding: 10px 10px 0 10px;
 }
@@ -156,17 +156,29 @@ index {
 
 .move-container {
     display: flex;
+    transition: .1s ease;
+}
+
+.move-container:hover {
+    transition: .1s ease;
+    background-color: #424242 !important;
+    user-select: none;
+}
+
+.active {
+    background-color: #646F40 !important;
+    transition: .1s ease;
 }
 
 :root {
     --field-background-white: #513c35;
     --field-background-black: #3F302E;
-    --field-background-white-old: #F0DAB5;
-    --field-background-black-old: #B58763;
+    --field-background-white-old: #F0D9B5;
+    --field-background-black-old: #B58863;
     --checker-color-white: #F2C175;
     --checker-color-black: #9E563B;
     --checker-color-white-old: rgb(253, 247, 247);
-    --checker-color-black-old: rgb(75, 72, 72);
+    --checker-color-black-old: rgb(60, 55, 55);
 }
 
 @media screen and (max-width: 1300px) {
@@ -192,7 +204,7 @@ index {
         width: 9%;
         padding: 1.75%;
         height: auto;
-        border-radius: 2px;
+        border-radius: 0;
     }
 
     #chess {
