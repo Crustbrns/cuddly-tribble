@@ -69,6 +69,8 @@ function calcDistinctMoves(i, color) {
     let fields = Array.from(document.getElementsByClassName('chess-field'));
     Game.AvailableMoves = [];
 
+    let checker = document.getElementById(i).children[0];
+
     if (fields.find(x => x.id == parseInt(i) - 9) != undefined
         && fields.find(x => x.id == parseInt(i) - 9).style.backgroundColor != 'var(--field-background-white-old)') {
 
@@ -76,6 +78,9 @@ function calcDistinctMoves(i, color) {
             Game.AvailableMoves.push(fields.find(x => x.id == parseInt(i) - 9));
         }
         else if (color == 'black') {
+            Game.AvailableMoves.push(fields.find(x => x.id == parseInt(i) - 9));
+        }
+        else if(checker.classList.contains('crown')){
             Game.AvailableMoves.push(fields.find(x => x.id == parseInt(i) - 9));
         }
     }
@@ -89,6 +94,9 @@ function calcDistinctMoves(i, color) {
         else if (color == 'black') {
             Game.AvailableMoves.push(fields.find(x => x.id == parseInt(i) - 7));
         }
+        else if(checker.classList.contains('crown')){
+            Game.AvailableMoves.push(fields.find(x => x.id == parseInt(i) - 7));
+        }
     }
 
     if (fields.find(x => x.id == parseInt(i) + 7) != undefined
@@ -100,6 +108,9 @@ function calcDistinctMoves(i, color) {
         else if (color == 'white') {
             Game.AvailableMoves.push(fields.find(x => x.id == parseInt(i) + 7));
         }
+        else if(checker.classList.contains('crown')){
+            Game.AvailableMoves.push(fields.find(x => x.id == parseInt(i) + 7));
+        }
     }
 
     if (fields.find(x => x.id == parseInt(i) + 9) != undefined
@@ -109,6 +120,9 @@ function calcDistinctMoves(i, color) {
             Game.AvailableMoves.push(fields.find(x => x.id == parseInt(i) + 9));
         }
         else if (color == 'white') {
+            Game.AvailableMoves.push(fields.find(x => x.id == parseInt(i) + 9));
+        }
+        else if(checker.classList.contains('crown')){
             Game.AvailableMoves.push(fields.find(x => x.id == parseInt(i) + 9));
         }
     }
@@ -315,16 +329,10 @@ function setDragging(color, truth) {
 }
 
 function checkPos(checker) {
-    let color = Game.CurrentPlayer == Players.One ? 'white' : 'black'
-
-    if (color == 'white') {
-        if (checker.parentElement.id >= 56 && !checker.classList.contains('crown')) {
-            checker.classList.add('crown');
-        }
-    }
-    else if (color == 'black') {
-        if (checker.parentElement.id <= 7 && !checker.classList.contains('crown'))
-            checker.classList.add('crown');
+    if (!checker.classList.contains('crown')
+        && ((Game.CurrentPlayer == Players.One && checker.parentElement.id >= 56) ||
+            (Game.CurrentPlayer == Players.Two && checker.parentElement.id <= 7))) {
+        checker.classList.add('crown');
     }
 }
 
