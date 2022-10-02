@@ -390,6 +390,7 @@ function drop(dropevent) {
                 checkBeatMoves();
             }
 
+            checkForWin();
             play();
         }
 
@@ -401,6 +402,22 @@ function drop(dropevent) {
 function play() {
     let audio = new Audio('./scripts/move-self.mp3');
     audio.play();
+}
+
+function checkForWin() {
+    let whitecheckers = document.getElementsByClassName('white');
+    let blackcheckers = document.getElementsByClassName('black');
+
+    if (whitecheckers.length == 0 || blackcheckers.length == 0) {
+        let log = document.getElementById('log');
+        let resultTitle = document.createElement('div');
+        resultTitle.textContent = 'Game Over';
+        resultTitle.className = 'result-title';
+        log.appendChild(resultTitle);
+
+        let title = document.getElementById('title');
+        title.textContent = `Победитель — ${whitecheckers.length == 0 ? 'Черные' : 'Белые'}`;
+    }
 }
 
 function checkBeatMoves() {

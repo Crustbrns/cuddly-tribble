@@ -59,6 +59,11 @@ body {
     background-color: #2d2d2d;
 }
 
+.result-title{
+    margin: auto;
+    padding: 10px 10px 0 10px;
+}
+
 index {
     display: flex;
     justify-content: center;
@@ -88,7 +93,7 @@ index {
 #title {
     text-align: center;
     margin: 0 auto;
-    margin: 10px 0 10px 0;
+    margin: 0 0 10px 0;
 }
 
 .chess-field {
