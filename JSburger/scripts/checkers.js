@@ -313,6 +313,21 @@ function setDragging(color, truth) {
         }
     }
 }
+
+function checkPos(checker) {
+    let color = Game.CurrentPlayer == Players.One ? 'white' : 'black'
+
+    if (color == 'white') {
+        if (checker.parentElement.id >= 56 && !checker.classList.contains('crown')) {
+            checker.classList.add('crown');
+        }
+    }
+    else if (color == 'black') {
+        if (checker.parentElement.id <= 7 && !checker.classList.contains('crown'))
+            checker.classList.add('crown');
+    }
+}
+
 function setPartialDragging(elements, truth) {
     for (const item of elements) {
         item.checker.draggable = truth;
@@ -397,7 +412,7 @@ function drop(dropevent) {
             if (Game.RequiredToBeat) {
                 checkPartialBeatMoves(field.children[0]);
             }
-
+            checkPos(document.getElementById(data));
             if (Game.RequiredToBeat) {
                 updateTitle();
                 TempMove.finalPos = field.id;
@@ -410,7 +425,6 @@ function drop(dropevent) {
                 addInHistory();
                 checkBeatMoves();
             }
-
             checkForWin();
             play();
         }
