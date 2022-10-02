@@ -342,7 +342,7 @@ function displayHistory() {
 
     log.appendChild(container);
 
-    log.lastChild.scrollIntoView({behavior: 'smooth'});
+    log.lastChild.scrollIntoView({ behavior: 'smooth' });
 }
 function convertToNum(index) {
     let num = Numbers[Math.floor(index / 8)];
@@ -372,11 +372,23 @@ function drop(dropevent) {
 
             var data = dropevent.dataTransfer.getData('div');
             field.appendChild(document.getElementById(data));
-            ChangePlayer();
-            updateTitle();
-            TempMove.finalPos = field.id;
-            addInHistory();
-            checkBeatMoves();
+
+            if (Game.RequiredToBeat) {
+                checkPartialBeatMoves(field.children[0]);
+            }
+
+            if (Game.RequiredToBeat) {
+                updateTitle();
+                TempMove.finalPos = field.id;
+                addInHistory();
+            }
+            else {
+                ChangePlayer();
+                updateTitle();
+                TempMove.finalPos = field.id;
+                addInHistory();
+                checkBeatMoves();
+            }
 
             play();
         }
@@ -386,7 +398,7 @@ function drop(dropevent) {
     setDragCursor(false);
 }
 
-function play(){
+function play() {
     let audio = new Audio('./scripts/move-self.mp3');
     audio.play();
 }
@@ -424,7 +436,7 @@ function checkBeatMoves() {
                 }
             }
         }
-        
+
         let bottomleft = enemies.find(x => x.parentElement.id == parseInt(item.parentElement.id) + 7);
         if (bottomleft != undefined) {
             if (bottomleft.classList.contains('checker') && !bottomleft.classList.contains(color)) {
@@ -436,7 +448,7 @@ function checkBeatMoves() {
                 }
             }
         }
-        
+
         let bottomright = enemies.find(x => x.parentElement.id == parseInt(item.parentElement.id) + 9);
         if (bottomright != undefined) {
             if (bottomright.classList.contains('checker') && !bottomright.classList.contains(color)) {
@@ -446,6 +458,72 @@ function checkBeatMoves() {
                     availablecheckers.push(new BeatMove(item, bottomright, field));
                     console.log(availablecheckers);
                 }
+            }
+        }
+    }
+
+    if (beatMoves.length > 0) {
+        Game.RequiredToBeat = true;
+        Game.AvailableMoves = beatMoves;
+        Game.AvailableCheckers = availablecheckers;
+        setDragging('white', false);
+        setDragging('black', false);
+        setPartialDragging(availablecheckers, true);
+    }
+}
+
+function checkPartialBeatMoves(checker) {
+    let color = Game.CurrentPlayer == Players.One ? 'white' : 'black'
+    let enemies = Array.from(document.getElementsByClassName(color == 'white' ? 'black' : 'white'));
+    let fields = Array.from(document.getElementsByClassName('chess-field'));
+    let availablecheckers = [];
+    let beatMoves = [];
+    Game.RequiredToBeat = false;
+
+    let upperleft = enemies.find(x => x.parentElement.id == parseInt(checker.parentElement.id) - 9);
+    if (upperleft != undefined) {
+        if (upperleft.classList.contains('checker') && !upperleft.classList.contains(color)) {
+            let field = fields.find(x => x.id == parseInt(upperleft.parentElement.id) - 9);
+            if (field != undefined && field.children.length == 0 && field.style.backgroundColor != 'var(--field-background-white-old)') {
+                beatMoves.push(field);
+                availablecheckers.push(new BeatMove(checker, upperleft, field));
+                console.log(availablecheckers);
+            }
+        }
+    }
+
+    let upperright = enemies.find(x => x.parentElement.id == parseInt(checker.parentElement.id) - 7);
+    if (upperright != undefined) {
+        if (upperright.classList.contains('checker') && !upperright.classList.contains(color)) {
+            let field = fields.find(x => x.id == parseInt(upperright.parentElement.id) - 7);
+            if (field != undefined && field.children.length == 0 && field.style.backgroundColor != 'var(--field-background-white-old)') {
+                beatMoves.push(field);
+                availablecheckers.push(new BeatMove(checker, upperright, field));
+                console.log(availablecheckers);
+            }
+        }
+    }
+
+    let bottomleft = enemies.find(x => x.parentElement.id == parseInt(checker.parentElement.id) + 7);
+    if (bottomleft != undefined) {
+        if (bottomleft.classList.contains('checker') && !bottomleft.classList.contains(color)) {
+            let field = fields.find(x => x.id == parseInt(bottomleft.parentElement.id) + 7);
+            if (field != undefined && field.children.length == 0 && field.style.backgroundColor != 'var(--field-background-white-old)') {
+                beatMoves.push(field);
+                availablecheckers.push(new BeatMove(checker, bottomleft, field));
+                console.log(availablecheckers);
+            }
+        }
+    }
+
+    let bottomright = enemies.find(x => x.parentElement.id == parseInt(checker.parentElement.id) + 9);
+    if (bottomright != undefined) {
+        if (bottomright.classList.contains('checker') && !bottomright.classList.contains(color)) {
+            let field = fields.find(x => x.id == parseInt(bottomright.parentElement.id) + 9);
+            if (field != undefined && field.children.length == 0 && field.style.backgroundColor != 'var(--field-background-white-old)') {
+                beatMoves.push(field);
+                availablecheckers.push(new BeatMove(checker, bottomright, field));
+                console.log(availablecheckers);
             }
         }
     }

@@ -29,7 +29,7 @@ body {
     position: relative;
     background-color: #282724;
     padding: 10px;
-    border-radius: 8px;
+    border-radius: 2px;
     display: flex;
     flex-wrap: wrap;
     width: 792px;
@@ -46,7 +46,7 @@ body {
     padding: 10px 0;
     margin-right: auto;
     height: 792px;
-    border-radius: 10px;
+    border-radius: 2px;
     color: #BEC5C9;
     font-size: 15px;
     font-family: 'e-Ukraine-L';
@@ -54,7 +54,7 @@ body {
 }
 
 #log-container {
-    /* overflow-y: scroll; */
+    overflow-y: scroll;
     height: 100%;
     background-color: #2d2d2d;
 }
