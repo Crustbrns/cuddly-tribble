@@ -74,13 +74,8 @@ function calcDistinctMoves(i, color) {
     if (fields.find(x => x.id == parseInt(i) - 9) != undefined
         && fields.find(x => x.id == parseInt(i) - 9).style.backgroundColor != 'var(--field-background-white-old)') {
 
-        if (color == 'white' && fields.find(x => x.id == parseInt(i) - 9).children.length != 0) {
-            Game.AvailableMoves.push(fields.find(x => x.id == parseInt(i) - 9));
-        }
-        else if (color == 'black') {
-            Game.AvailableMoves.push(fields.find(x => x.id == parseInt(i) - 9));
-        }
-        else if(checker.classList.contains('crown')){
+        if ((color == 'white' && fields.find(x => x.id == parseInt(i) - 9).children.length != 0)
+            || color == 'black' || checker.classList.contains('crown')) {
             Game.AvailableMoves.push(fields.find(x => x.id == parseInt(i) - 9));
         }
     }
@@ -88,13 +83,8 @@ function calcDistinctMoves(i, color) {
     if (fields.find(x => x.id == parseInt(i) - 7) != undefined
         && fields.find(x => x.id == parseInt(i) - 7).style.backgroundColor != 'var(--field-background-white-old)') {
 
-        if (color == 'white' && fields.find(x => x.id == parseInt(i) - 7).children.length != 0) {
-            Game.AvailableMoves.push(fields.find(x => x.id == parseInt(i) - 7));
-        }
-        else if (color == 'black') {
-            Game.AvailableMoves.push(fields.find(x => x.id == parseInt(i) - 7));
-        }
-        else if(checker.classList.contains('crown')){
+        if ((color == 'white' && fields.find(x => x.id == parseInt(i) - 7).children.length != 0)
+            || color == 'black' || checker.classList.contains('crown')) {
             Game.AvailableMoves.push(fields.find(x => x.id == parseInt(i) - 7));
         }
     }
@@ -102,13 +92,8 @@ function calcDistinctMoves(i, color) {
     if (fields.find(x => x.id == parseInt(i) + 7) != undefined
         && fields.find(x => x.id == parseInt(i) + 7).style.backgroundColor != 'var(--field-background-white-old)') {
 
-        if (color == 'black' && fields.find(x => x.id == parseInt(i) + 7).children.length != 0) {
-            Game.AvailableMoves.push(fields.find(x => x.id == parseInt(i) + 7));
-        }
-        else if (color == 'white') {
-            Game.AvailableMoves.push(fields.find(x => x.id == parseInt(i) + 7));
-        }
-        else if(checker.classList.contains('crown')){
+        if ((color == 'black' && fields.find(x => x.id == parseInt(i) + 7).children.length != 0)
+            || color == 'white' || checker.classList.contains('crown')) {
             Game.AvailableMoves.push(fields.find(x => x.id == parseInt(i) + 7));
         }
     }
@@ -116,13 +101,8 @@ function calcDistinctMoves(i, color) {
     if (fields.find(x => x.id == parseInt(i) + 9) != undefined
         && fields.find(x => x.id == parseInt(i) + 9).style.backgroundColor != 'var(--field-background-white-old)') {
 
-        if (color == 'black' && fields.find(x => x.id == parseInt(i) + 9).children.length != 0) {
-            Game.AvailableMoves.push(fields.find(x => x.id == parseInt(i) + 9));
-        }
-        else if (color == 'white') {
-            Game.AvailableMoves.push(fields.find(x => x.id == parseInt(i) + 9));
-        }
-        else if(checker.classList.contains('crown')){
+        if ((color == 'black' && fields.find(x => x.id == parseInt(i) + 9).children.length != 0)
+            || color == 'white' || checker.classList.contains('crown')) {
             Game.AvailableMoves.push(fields.find(x => x.id == parseInt(i) + 9));
         }
     }
@@ -140,8 +120,7 @@ function displayBeatMoves(target) {
     for (const item of Game.AvailableMoves) {
         let movement = document.createElement('div');
         movement.className = 'movement';
-        let fdes = Game.AvailableCheckers.find(x => x.fielddestination == item);
-        console.log('asd', fdes);
+
         if (!item.children.length != 0 && Game.AvailableCheckers.find(x => x.fielddestination == item).checker == target) {
             item.appendChild(movement);
         }
@@ -211,7 +190,7 @@ function setChecker(index, checkerindex) {
     checker.className = 'checker';
     checker.draggable = true;
     checker.id = `ch${checkerindex}`;
-    // checker.ondragstart = 'drag(event)';
+
     checker.addEventListener('dragstart', function () { drag(event), false });;
     checker.addEventListener('mousedown', function () { MouseMove(true) });
 
@@ -306,7 +285,6 @@ function drag(dragevent) {
             TempMove.startPos = dragevent.target.parentElement.id;
         }
     }
-    // dragevent.preventDefault();
 }
 function dragend(dragevent) {
     removeGraphMoves();
@@ -436,8 +414,6 @@ function drop(dropevent) {
             checkForWin();
             play();
         }
-
-        console.log('drag dropped');
     }
     setDragCursor(false);
 }

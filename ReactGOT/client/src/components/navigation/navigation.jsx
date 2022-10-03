@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Link, NavLink } from "react-router-dom";
+import ClickComponent from '../ClickComponent/clickComponent';
 import classes from './navigation.module.css';
 
 const Navigation = function () {
@@ -18,9 +19,10 @@ const Navigation = function () {
             </div>
 
             <div className={classes.get__navs}>
-                <Link to="/createperson" end>
-                    <div className='button'>Create person</div>
-                </Link>
+                {/* <Link to="/createperson" end> */}
+                {/* <div className='button' onClick={console.log('няняняняняняяняняня')}>Create person</div> */}
+                {/* </Link> */}
+                <ClickComponent />
                 <Link to="/tictactoe" end>
                     <div className='button'>Tictactoe</div>
                 </Link>

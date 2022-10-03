@@ -19,6 +19,10 @@ app.post('/createpeople', async (req, res) => {
     await product.save();
 })
 
+app.post("/add",  async (req,res)=>{
+    console.log(req.meow);
+});
+
 app.get("/people", async (req, res) => {
     const persons = await Person.find({}).lean()
     console.log(`Request's been received for data fetch ${persons}`);
