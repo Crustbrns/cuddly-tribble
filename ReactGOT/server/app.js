@@ -20,7 +20,7 @@ app.post('/createpeople', async (req, res) => {
 })
 
 app.post("/add",  async (req,res)=>{
-    console.log(req.meow);
+    console.log(req.body.meow);
 });
 
 app.get("/people", async (req, res) => {
