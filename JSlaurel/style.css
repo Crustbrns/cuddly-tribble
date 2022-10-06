@@ -1,0 +1,136 @@
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+#create{
+    background-color: rgb(27, 126, 255);
+    padding: 10px 20px;
+    border-radius: 4px;
+    color: white;
+    transition: .2s ease;
+    user-select: none;
+    width: 200px;
+    text-align: center;
+    margin-bottom: 10px;
+    font-family: 'e-Ukraine-R';
+    font-size: 14px;
+}
+
+#create:hover{
+    background-color: rgb(95, 164, 255);
+    cursor: pointer;
+    transition: .2s ease;
+}
+
+#create-container{
+    display: flex;
+}
+
+#container{
+    display: flex;
+    width: 90%;
+    align-items: center;
+    justify-content: center;
+    margin-right: auto;
+    margin-left: auto;
+    flex-wrap: wrap;
+}
+
+#title{
+    background-color: rgb(27, 126, 255);
+    padding: 10px 20px;
+    border-radius: 4px;
+    color: white;
+    transition: .2s ease;
+    user-select: none;
+    width: 200px;
+    margin-bottom: 10px;
+    font-family: 'e-Ukraine-R';
+    font-size: 14px;
+    border: 0;
+    margin-left: 20px;
+}
+#title::placeholder{
+    color: white;
+    font-family: 'e-Ukraine-R';
+    font-size: 14px;
+}
+
+#description{
+    background-color: rgb(27, 126, 255);
+    padding: 10px 20px;
+    border-radius: 4px;
+    color: white;
+    transition: .2s ease;
+    user-select: none;
+    width: 200px;
+    margin-bottom: 10px;
+    font-family: 'e-Ukraine-R';
+    font-size: 14px;
+    border: 0;
+    margin-left: 20px;
+}
+#description::placeholder{
+    color: white;
+    font-family: 'e-Ukraine-R';
+    font-size: 14px;
+}
+
+#fileselect{
+    background-color: rgb(27, 126, 255);
+    padding: 10px 20px;
+    border-radius: 4px;
+    color: white;
+    transition: .2s ease;
+    user-select: none;
+    width: 200px;
+    margin-bottom: 10px;
+    font-family: 'e-Ukraine-R';
+    font-size: 14px;
+    border: 0;
+    margin-left: 20px;
+}
+
+.card{
+    width: 200px;
+    height: 310px;
+    border-radius: 4px;
+    background-color: rgb(237, 237, 237);
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+
+.card--image{
+    display: flex;
+    height: 200px;
+    object-fit: contain;
+    border-radius: 4px;
+}
+
+.card--title{
+    text-align: center;
+    padding: 10px;
+    font-family: 'e-Ukraine-L';
+    font-size: 14px;
+}
+
+.card--description{
+    padding: 10px;
+    font-family: 'e-Ukraine-L';
+    font-size: 14px;
+    word-break: break-all;
+    word-wrap: break-word;
+}
+
+@font-face {
+    font-family: 'e-Ukraine-R';
+    src: url('./e-Ukraine-Regular.otf');
+}
+
+@font-face {
+    font-family: 'e-Ukraine-L';
+    src: url('./e-Ukraine-Light.otf');
+}
