@@ -1,0 +1,5 @@
+{
+    "port" : 5000,
+    "jwtSecret" : "KiriSite",
+    "connectionString" : "mongodb+srv://crustbrns:12111111@cluster0.1dy81.mongodb.net/?retryWrites=true&w=majority"
+}

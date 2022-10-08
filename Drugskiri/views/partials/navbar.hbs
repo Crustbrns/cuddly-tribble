@@ -1,0 +1,143 @@
+{{!-- <nav class="blue darken-4">
+  <div class="nav-wrapper" style="background-color: #272727;">
+    <ul id="nav-mobile" class="center hide-on-med-and-down">
+
+      {{#if IsStore}}
+      <li class="active"><a href="/">Cofeeshop</a></li>
+      {{else}}
+      <li><a href="/">Cofeeshop</a></li>
+      {{/if}}
+
+      <div style="margin-left: 20%">
+        {{#if IsLogin}}
+        <li class="active"><a href="/">О НАС</a></li>
+        {{else}}
+        <li><a href="/">О НАС</a></li>
+        {{/if}}
+
+        {{#if IsLogin}}
+        <li class="active"><a href="/">ОПЛАТА И ДОСТАВКА</a></li>
+        {{else}}
+        <li><a href="/">ОПЛАТА И ДОСТАВКА</a></li>
+        {{/if}}
+
+        {{#if IsLogin}}
+        <li class="active"><a href="/">БЛОГ</a></li>
+        {{else}}
+        <li><a href="/">БЛОГ</a></li>
+        {{/if}}
+
+        {{#if IsLogin}}
+        <li class="active"><a href="/">КОНТАКТЫ</a></li>
+        {{else}}
+        <li><a href="/">КОНТАКТЫ</a></li>
+        {{/if}}
+      </div>
+
+    </ul>
+    <ul id="nav-mobile" class="right hide-on-med-and-down">
+
+      {{#if IsLogin}}
+      <li class="active"><a href="/login">Личный кабинет</a></li>
+      {{else}}
+      <li><a href="/login">Личный кабинет</a></li>
+      {{/if}}
+
+    </ul>
+  </div>
+</nav> --}}
+
+<nav id="top" style="font-size: 14px">
+  <div class="container d-flex h-100">
+    <div id="us_menu_mobile_button" class="us-menu-mobile d-lg-none h-100">
+      <img src="catalog/view/theme/oct_ultrastore/img/burger.svg" class="us-navbar-toggler" alt="">
+    </div>
+    <div id="dropdown_menu_info" class="us-top-mobile-item us-top-mobile-item-info d-lg-none dropdown h-100"
+      onclick="initOctMap();">
+      <img src="catalog/view/theme/oct_ultrastore/img/mobile-info.svg" class="us-navbar-info" alt="">
+      <div id="us_info_mobile" class="nav-dropdown-menu">
+        <div class="modal-header">
+          <div class="modal-title">Информация</div>
+          <button id="us_info_mobile_close" type="button" class="us-close">
+            <span aria-hidden="true" class="us-modal-close-icon us-modal-close-left"></span>
+            <span aria-hidden="true" class="us-modal-close-icon us-modal-close-right"></span>
+          </button>
+        </div>
+        <div class="nav-dropdown-menu-content">
+          <ul class="list-unstyled mobile-information-box">
+            <li class="mobile-info-title"><strong>Информация</strong></li>
+            <li class="oct-menu-information-li"><a href="/blog" class="oct-menu-a">Блог</a></li>
+          </ul>
+          <ul class="list-unstyled mobile-shedule-box">
+            <li class="mobile-info-title"><strong>Время работы:</strong></li>
+          </ul>
+
+          <ul class="list-unstyled">
+            <li class="mobile-info-title"><strong>Наш адрес:</strong></li>
+            <li class="mobile-info-address">Украина, г.Харьков, ул.Чигирина 3</li>
+          </ul>
+          <div class="us_mobile_menu_info-map not_in mb-4"></div>
+          <script>
+            function initOctMap() {
+              octShowMap('', '.us_mobile_menu_info-map');
+            }
+          </script>
+        </div>
+      </div>
+    </div>
+    <div id="top-left" class="mr-auto d-flex align-items-center">
+      <div class="dropdown h-100">
+        <a class="btn top-address btn-link dropdown-toggle d-flex align-items-center h-100" href="/" role="button"
+          id="dropdownMenuAddress" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <span>Наш
+            адрес</span> </a>
+      </div>
+      <div class="dropdown h-100">
+        <a class="btn btn-shedule btn-link dropdown-toggle d-flex align-items-center h-100" href="/" role="button"
+          id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <span>Время
+            работы</span> </a>
+      </div>
+      <ul id="topltop" class="top-info-ul">
+        <div style="display: flex; justify-content: space-between; width: 140%; padding: 15px 0 3px 0">
+          <li><a href="/" class="btn-link btn-block h-100 hidden-xs">О НАС</a></li>
+          <li><a href="/" class="btn-link btn-block h-100 hidden-xs">ОПЛАТА И ДОСТАВКА</a></li>
+          <li><a href="/" class="btn-link btn-block h-100 hidden-xs">БЛОГ</a></li>
+          <li><a href="/" class="btn-link btn-block h-100 hidden-xs">КОНТАКТЫ</a></li>
+        </div>
+      </ul>
+    </div>
+    <div id="top-links" class="nav ml-auto d-flex">
+      <div class="pull-left">
+        <div id="form-language">
+
+        </div>
+      </div>
+      <div class="dropdown" id="us-account-dropdown">
+        <a style="padding: 13px 0 3px 0" href="/login" onclick="octPopupLogin();" title="Личный кабинет"
+          class="btn btn-user btn-link btn-block h-100" role="button" aria-haspopup="true"><img
+            src="catalog/view/theme/oct_ultrastore/img/user-mobile.svg" class="us-navbar-account" alt=""><i
+            class="far fa-user"></i> <span class="hidden-xs">Личный кабинет</span></a>
+      </div>
+    </div>
+    <a href="https://coffeeshop.ua/index.php?route=account/wishlist" rel="nofollow"
+      class="us-mobile-top-btn us-mobile-top-btn-wishlist d-lg-none h-100">
+      <span class="us-mobile-top-btn-item">
+        <img src="catalog/view/theme/oct_ultrastore/img/wishlist-mobile.svg" alt="">
+        <span class="mobile-header-index oct-wishlist-quantity">0</span>
+      </span>
+    </a>
+    <a href="https://coffeeshop.ua/index.php?route=product/compare" rel="nofollow"
+      class="us-mobile-top-btn us-mobile-top-btn-compare d-lg-none h-100">
+      <span class="us-mobile-top-btn-item">
+        <img src="catalog/view/theme/oct_ultrastore/img/compare-mobile.svg" alt="">
+        <span class="mobile-header-index oct-compare-quantity">0</span>
+      </span>
+    </a>
+    <a href="javascript:;" onclick="octPopupCart()" id="us_cart_mobile"
+      class="us-mobile-top-btn us-mobile-top-btn-cart d-lg-none h-100">
+      <span class="us-mobile-top-btn-item">
+        <img src="catalog/view/theme/oct_ultrastore/img/cart-mobile.svg" alt="">
+        <span id="mobile_cart_index" class="mobile-header-index">0</span>
+      </span>
+    </a>
+  </div>
+</nav>

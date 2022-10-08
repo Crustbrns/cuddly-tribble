@@ -1,0 +1,1490 @@
+<header style="margin-top: 20px">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-12 col-lg-4 col-md-12 d-flex align-items-center">
+        <div class="us-phone-img">
+          <img src="images/pnone-icon.svg" alt="phone-icon">
+        </div>
+        <div class="us-phone-content" style="display: flex; flex-direction: column">
+          <a class="btn top-phone-btn dropdown-toggle" href="tel:+380634201777
+" role="button" id="us-phones-dropdown" data-toggle="dropdown" aria-haspopup="true"
+            aria-expanded="false"><span><b>+38(063) 420 1 777</b>
+            </span></a>
+          <ul class="dropdown-menu header-dropdown-menu" aria-labelledby="us-phones-dropdown">
+            <li><a href="tel:+380634201777
+" class="phoneclick"><i class="fas fa-phone-volume"></i><b> +38(063) 420 1 777 </b>
+              </a></li>
+            <li><a href="tel:+380984201777" class="phoneclick"><i class="fas fa-phone-volume"></i><b> +38(098) 420 1
+                  777</b></a></li>
+          </ul>
+          <a href="javascript:;" class="us-phone-link" style="margin-left: 14px; margin-top: -14px"
+            onclick="octPopupCallPhone()">Заказать звонок</a>
+        </div>
+      </div>
+      <div id="logo" class="col-12 col-lg-4 col-md-12 us-logo-box text-center">
+        <a href="https://coffeeshop.ua/">
+          <img src="images/seed-1624006030.jpg" title="Кращий магазин насіння марихуани Coffeeshop.ua в Україні"
+            alt="Кращий магазин насіння марихуани Coffeeshop.ua в Україні" class="us-logo-img">
+        </a>
+        <div id="search" class="input-group header-input-group">
+          <input type="text" id="input_search" name="search" value="" placeholder="Поиск" class="input-lg header-input"
+            autocomplete="off" style="width: 322px;">
+          <button type="button" id="oct-search-button" class="btn" ;
+            style="height: 27px; width: 40px; padding-right: 28px; padding-bottom: 30px; border-radius: 0"><i
+              class="fa-solid fa-magnifying-glass"></i></button>
+          <div id="us_livesearch_close" onclick="clearLiveSearch();" class="d-lg-none"><i class="fas fa-times"></i>
+          </div>
+          <div id="us_livesearch"></div>
+        </div>
+      </div>
+      <div id="cart" class="col-lg-4 us-cart-box d-flex align-items-center justify-content-end">
+        <button type="button" class="us-cart-img cart-icon-purchase" onclick="octPopupCart()">
+          <img src="images/cart-icon.svg" alt="cart-icon">
+          <span class="header-cart-index">0</span>
+        </button>
+        <div class="us-cart-content" style="display: flex; flex-direction: column;">
+          <p class="us-cart-text" style="margin-top: 5px; margin-left: 14px">
+            <b>0.00грн.</b>
+          </p>
+          <a href="https://coffeeshop.ua/index.php?route=checkout/simplecheckout" class="us-cart-link"
+            style="margin-top: -20px; margin-left: 14px">
+            Оформить заказ
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div style="background-color: #24a255; margin: 20px 0 20px 0">
+  <div style="width: 800px; margin-left: auto; margin-right: auto">
+    <div style="display: flex; justify-content: space-between; padding: 12px 0; color: #e5e5e5">
+      <a>SEED SHOP</a>
+      <a>MUSHROOMS SHOP</a>
+      <a>GROW SHOP</a>
+      <a>HEAD SHOP</a>
+      <a>HEMP SHOP</a>
+    </div>
+  </div>
+</div>
+
+<div id="us_fixed_contact_button" class="d-flex align-items-center justify-content-center">
+  <div class="us-fixed-contact-pulsation"></div>
+  <div class="us-fixed-contact-icon d-flex align-items-center justify-content-center"
+    style="animation: rotation 1.5s linear infinite;"><i class="far fa-comment-dots"></i><i
+      class="fas fa-times d-none"></i></div>
+  <div class="us-fixed-contact-dropdown d-flex flex-column align-items-start">
+    <a rel="nofollow" href="https://t.me/khcoffeeshop" target="_blank"
+      class="us-fixed-contact-item d-flex align-items-center"><span
+        class="us-fixed-contact-item-icon us-fixed-contact-telegram d-flex align-items-center justify-content-center"><i
+          class="fab fa-telegram"></i></span><span>Telegram</span></a>
+    <a rel="nofollow" href="https://api.whatsapp.com/send?phone=+380634201777" target="_blank"
+      class="us-fixed-contact-item d-flex align-items-center"><span
+        class="us-fixed-contact-item-icon us-fixed-contact-whatsapp d-flex align-items-center justify-content-center"><i
+          class="fab fa-whatsapp"></i></span><span>WhatsApp</span></a>
+    <a rel="nofollow" id="uptocall-mini" href="javascript:;" onclick="octPopupCallPhone()"
+      class="us-fixed-contact-item d-flex align-items-center"><span
+        class="us-fixed-contact-item-icon us-fixed-contact-call d-flex align-items-center justify-content-center"><i
+          class="fas fa-phone"></i></span><span>Заказать звонок</span></a>
+  </div>
+</div>
+
+<div class="oct-fixed-bar fixed-left">
+  <div class="oct-fixed-bar-item oct-fixed-bar-wishlist">
+    <a href="https://coffeeshop.ua/index.php?route=account/wishlist" class="oct-fixed-bar-link"
+      title="Список желаний"><i class="fas fa-heart"></i><br>
+      <span class="oct-fixed-bar-quantity oct-wishlist-quantity">0</span></a>
+  </div>
+  <div class="oct-fixed-bar-item oct-fixed-bar-compare">
+    <a href="https://coffeeshop.ua/index.php?route=product/compare" class="oct-fixed-bar-link"
+      title="Список сравнения"><i class="fas fa-chart-bar"></i><br>
+      <span class="oct-fixed-bar-quantity oct-compare-quantity">0</span></a>
+  </div>
+  <div class="oct-fixed-bar-item oct-fixed-bar-cart">
+    <a href="javascript:;" onclick="octPopupCart()" class="oct-fixed-bar-link" title="Корзина">
+      <i class="fas fa-shopping-cart"></i><br>
+      <span id="oct-cart-quantity" class="oct-fixed-bar-quantity">0</span></a>
+  </div>
+</div>
+
+<div class="container" style="margin-bottom: 50px">
+
+  <code
+    style="color: gray; "><a href="/">Home</a> > <a href="/">SEED shop</a> > <a href="/"><span style="color: green">Индика</span></a><br></code>
+
+  <span style="font-weight: 400; font-size: 30px; margin-top: 20px"><b>Индика</b></span>
+  <hr>
+
+  <div style="display:flex; align-items: flex-start;">
+    <div style="width: 25%">
+      <aside id="column-left" class="">
+        <div style="color: #272727; text-decoration: none; padding: 20px 20px 20px 0; background-color: #f2f2f2">
+          <ul class="us-categories-box list-unstyled us-module-column-box">
+            <li class="us-categories-item active"><span class="d-flex justify-content-between"><a
+                  href="https://coffeeshop.ua/seed-shop">SEED shop (407)</a><a href="javascript:void(0);"
+                  class="us-categories-toggle"><i class="fas fa-chevron-down"></i></a></span>
+              <ul class="us-categories-children us-categories-2 list-unstyled">
+                <li class="us-categories-item"><span class="d-flex justify-content-between"><a
+                      href="https://coffeeshop.ua/seed-shop/semena-konopli-poshtuchno">Семена поштучно (62)</a></span>
+                </li>
+                <li class="us-categories-item"><span class="d-flex justify-content-between"><a
+                      href="https://coffeeshop.ua/seed-shop/autoflower">Авто фем (156)</a></span>
+                </li>
+                <li class="us-categories-item"><span class="d-flex justify-content-between"><a
+                      href="https://coffeeshop.ua/seed-shop/feminised">Феминизированные (202)</a></span>
+                </li>
+                <li class="us-categories-item"><span class="d-flex justify-content-between"><a
+                      href="https://coffeeshop.ua/seed-shop/opt">ОПТ (21)</a></span>
+                </li>
+                <li class="us-categories-item"><span class="d-flex justify-content-between"><a
+                      href="https://coffeeshop.ua/seed-shop/sativa">Сатива (73)</a></span>
+                </li>
+                <li class="us-categories-item active"><span class="d-flex justify-content-between"><span>Индика
+                      (90)</span></span>
+                </li>
+                <li class="us-categories-item"><span class="d-flex justify-content-between"><a
+                      href="https://coffeeshop.ua/seed-shop/gibridi">Гибриды (64)</a></span>
+                </li>
+                <li class="us-categories-item"><span class="d-flex justify-content-between"><a
+                      href="https://coffeeshop.ua/seed-shop/moshhnie-sorta">Мощные сорта (371)</a></span>
+                </li>
+                <li class="us-categories-item"><span class="d-flex justify-content-between"><a
+                      href="https://coffeeshop.ua/seed-shop/urozhajnie-sorta">Урожайные сорта (368)</a></span>
+                </li>
+                <li class="us-categories-item"><span class="d-flex justify-content-between"><a
+                      href="https://coffeeshop.ua/seed-shop/semena-dlja-novichkov">Для новичков (199)</a></span>
+                </li>
+                <li class="us-categories-item"><span class="d-flex justify-content-between"><a
+                      href="https://coffeeshop.ua/seed-shop/nizkoroslie-sorta">Низкорослые сорта (57)</a></span>
+                </li>
+                <li class="us-categories-item"><span class="d-flex justify-content-between"><a
+                      href="https://coffeeshop.ua/seed-shop/medicinskie-sorta">Медицинские сорта (60)</a></span>
+                </li>
+              </ul>
+            </li>
+            <li class="us-categories-item"><span class="d-flex justify-content-between"><a
+                  href="https://coffeeshop.ua/mushrooms-shop">MUSHROOMS shop (17)</a></span>
+            </li>
+            <li class="us-categories-item"><span class="d-flex justify-content-between"><a
+                  href="https://coffeeshop.ua/grow-shop">GROW shop (140)</a><a href="javascript:void(0);"
+                  class="us-categories-toggle"><i class="fas fa-chevron-down"></i></a></span>
+              <ul class="us-categories-children us-categories-2 list-unstyled">
+                <li class="us-categories-item"><span class="d-flex justify-content-between"><a
+                      href="https://coffeeshop.ua/grow-shop/grouboksi">Гроубоксы (14)</a></span>
+                </li>
+                <li class="us-categories-item"><span class="d-flex justify-content-between"><a
+                      href="https://coffeeshop.ua/grow-shop/ventiljacija">Вентиляция (24)</a><a
+                      href="javascript:void(0);" class="us-categories-toggle"><i
+                        class="fas fa-chevron-down"></i></a></span>
+                  <ul class="us-categories-children us-categories-3 list-unstyled">
+                    <li class="us-categories-item"><a
+                        href="https://coffeeshop.ua/grow-shop/ventiljacija/ventiljatori">Вентиляторы (8)</a></li>
+                    <li class="us-categories-item"><a href="https://coffeeshop.ua/grow-shop/ventiljacija/filtry">Фильтры
+                        (7)</a></li>
+                  </ul>
+                </li>
+                <li class="us-categories-item"><span class="d-flex justify-content-between"><a
+                      href="https://coffeeshop.ua/grow-shop/udobrenija">Удобрения (25)</a></span>
+                </li>
+                <li class="us-categories-item"><span class="d-flex justify-content-between"><a
+                      href="https://coffeeshop.ua/grow-shop/osveshenie">Освещение (37)</a><a href="javascript:void(0);"
+                      class="us-categories-toggle"><i class="fas fa-chevron-down"></i></a></span>
+                  <ul class="us-categories-children us-categories-3 list-unstyled">
+                    <li class="us-categories-item"><a href="https://coffeeshop.ua/grow-shop/osveshenie/led-lampi">LED
+                        Лампы (11)</a></li>
+                    <li class="us-categories-item"><a
+                        href="https://coffeeshop.ua/grow-shop/osveshenie/natrievie-lampi">Натриевые лампы (7)</a></li>
+                    <li class="us-categories-item"><a
+                        href="https://coffeeshop.ua/grow-shop/osveshenie/komponenti-dnat">Компоненты ДНаТ (11)</a></li>
+                    <li class="us-categories-item"><a
+                        href="https://coffeeshop.ua/grow-shop/osveshenie/otrazhateli-i-cooltubes">Отражатели (2)</a>
+                    </li>
+                    <li class="us-categories-item"><a href="https://coffeeshop.ua/grow-shop/osveshenie/epra">ЭПРА
+                        (4)</a></li>
+                  </ul>
+                </li>
+                <li class="us-categories-item"><span class="d-flex justify-content-between"><a
+                      href="https://coffeeshop.ua/grow-shop/aksessuari-grow">Аксессуары для гровинга (15)</a></span>
+                </li>
+                <li class="us-categories-item"><span class="d-flex justify-content-between"><a
+                      href="https://coffeeshop.ua/grow-shop/kontrol-i-izmerenie">Контроль и измерение (13)</a></span>
+                </li>
+                <li class="us-categories-item"><span class="d-flex justify-content-between"><a
+                      href="https://coffeeshop.ua/grow-shop/gorshki-i-emkosti">Горшки и ёмкости (12)</a></span>
+                </li>
+                <li class="us-categories-item"><span class="d-flex justify-content-between"><a
+                      href="https://coffeeshop.ua/grow-shop/substrati">Субстраты (9)</a></span>
+                </li>
+                <li class="us-categories-item"><span class="d-flex justify-content-between"><a
+                      href="https://coffeeshop.ua/grow-shop/gidroponika">Гидропоника (1)</a></span>
+                </li>
+              </ul>
+            </li>
+            <li class="us-categories-item"><span class="d-flex justify-content-between"><a
+                  href="https://coffeeshop.ua/head-shop">HEAD shop (250)</a><a href="javascript:void(0);"
+                  class="us-categories-toggle"><i class="fas fa-chevron-down"></i></a></span>
+              <ul class="us-categories-children us-categories-2 list-unstyled">
+                <li class="us-categories-item"><span class="d-flex justify-content-between"><a
+                      href="https://coffeeshop.ua/head-shop/napasi">Напасы (15)</a></span>
+                </li>
+                <li class="us-categories-item"><span class="d-flex justify-content-between"><a
+                      href="https://coffeeshop.ua/head-shop/bongi">Бонги (81)</a></span>
+                </li>
+                <li class="us-categories-item"><span class="d-flex justify-content-between"><a
+                      href="https://coffeeshop.ua/head-shop/bableri">Баблеры (5)</a></span>
+                </li>
+                <li class="us-categories-item"><span class="d-flex justify-content-between"><a
+                      href="https://coffeeshop.ua/head-shop/trubki">Трубки (56)</a><a href="javascript:void(0);"
+                      class="us-categories-toggle"><i class="fas fa-chevron-down"></i></a></span>
+                  <ul class="us-categories-children us-categories-3 list-unstyled">
+                    <li class="us-categories-item"><a href="https://coffeeshop.ua/head-shop/trubki/derevo">Дерево
+                        (4)</a></li>
+                    <li class="us-categories-item"><a
+                        href="https://coffeeshop.ua/head-shop/trubki/keramicheskie-trubki">Керамика (5)</a></li>
+                    <li class="us-categories-item"><a href="https://coffeeshop.ua/head-shop/trubki/metall">Металл
+                        (17)</a></li>
+                    <li class="us-categories-item"><a href="https://coffeeshop.ua/head-shop/trubki/plastik">Пластик
+                        (2)</a></li>
+                    <li class="us-categories-item"><a href="https://coffeeshop.ua/head-shop/trubki/silikon">Силикон
+                        (10)</a></li>
+                    <li class="us-categories-item"><a href="https://coffeeshop.ua/head-shop/trubki/steklo">Стекло
+                        (18)</a></li>
+                  </ul>
+                </li>
+                <li class="us-categories-item"><span class="d-flex justify-content-between"><a
+                      href="https://coffeeshop.ua/head-shop/grinderi">Гриндеры (33)</a></span>
+                </li>
+                <li class="us-categories-item"><span class="d-flex justify-content-between"><a
+                      href="https://coffeeshop.ua/head-shop/pressa">Прессы для травы (4)</a></span>
+                </li>
+                <li class="us-categories-item"><span class="d-flex justify-content-between"><a
+                      href="https://coffeeshop.ua/head-shop/zapchasti-dlja-bongov">Запчасти для бонгов (16)</a></span>
+                </li>
+                <li class="us-categories-item"><span class="d-flex justify-content-between"><a
+                      href="https://coffeeshop.ua/head-shop/aksessuari-head">Аксессуары (30)</a></span>
+                </li>
+                <li class="us-categories-item"><span class="d-flex justify-content-between"><a
+                      href="https://coffeeshop.ua/head-shop/bumaga-papirosnaya">Бумага папиросная (7)</a></span>
+                </li>
+                <li class="us-categories-item"><span class="d-flex justify-content-between"><a
+                      href="https://coffeeshop.ua/head-shop/kontejneri-i-tajniki">Контейнеры и тайники (7)</a></span>
+                </li>
+              </ul>
+            </li>
+            <li class="us-categories-item"><span class="d-flex justify-content-between"><a
+                  href="https://coffeeshop.ua/hemp-shop">HEMP shop (50)</a><a href="javascript:void(0);"
+                  class="us-categories-toggle"><i class="fas fa-chevron-down"></i></a></span>
+              <ul class="us-categories-children us-categories-2 list-unstyled">
+                <li class="us-categories-item"><span class="d-flex justify-content-between"><a
+                      href="https://coffeeshop.ua/hemp-shop/konopljanaja-atributika">Атрибутика (1)</a></span>
+                </li>
+                <li class="us-categories-item"><span class="d-flex justify-content-between"><a
+                      href="https://coffeeshop.ua/hemp-shop/kosmetika-iz-konopli">Косметика (22)</a></span>
+                </li>
+                <li class="us-categories-item"><span class="d-flex justify-content-between"><a
+                      href="https://coffeeshop.ua/hemp-shop/konoplyanaya-obuv">Обувь (1)</a></span>
+                </li>
+                <li class="us-categories-item"><span class="d-flex justify-content-between"><a
+                      href="https://coffeeshop.ua/hemp-shop/rasta-odezhda">Раста одежда (24)</a></span>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+        <div class="panel ocfilter panel-default" id="ocfilter">
+          <div class="panel-heading" style="padding: 20px; font-weight: 500; background-color: #f2f2f2; margin: 20px 0">
+            Фильтр товаров</div>
+          <div class="d-none" id="ocfilter-button">
+            <button class="btn btn-primary disabled"
+              data-loading-text="<i class='fa fa-refresh fa-spin'></i> Загрузка.."></button>
+          </div>
+          <div class="list-group">
+            <div class="list-group-item ocfilter-option" data-toggle="popover-price" data-original-title="" title="">
+              <div class="ocf-option-name">
+                Цена&nbsp;
+                <span id="price-from">85</span>&nbsp;-&nbsp;<span id="price-to">1740</span>грн.
+              </div>
+              <div class="ocf-option-values">
+                <div id="scale-price" class="scale ocf-target noUi-target noUi-ltr noUi-horizontal noUi-background"
+                  data-option-id="p" data-start-min="85" data-start-max="1740" data-range-min="85" data-range-max="1740"
+                  data-element-min="#price-from" data-element-max="#price-to" data-control-min="#min-price-value"
+                  data-control-max="#max-price-value">
+                  <div class="noUi-base">
+                    <div class="noUi-origin noUi-connect noUi-draggable" style="left: 0%;">
+                      <div class="noUi-handle noUi-handle-lower"></div>
+                    </div>
+                    <div class="noUi-origin noUi-background" style="left: 100%;">
+                      <div class="noUi-handle noUi-handle-upper"></div>
+                    </div>
+                  </div>
+                  <div class="noUi-pips noUi-pips-horizontal">
+                    <div class="noUi-marker noUi-marker-horizontal noUi-marker-large" style="left: 0.00000%"></div>
+                    <div class="noUi-value noUi-value-horizontal noUi-value-large" style="left: 0.00000%">85</div>
+                    <div class="noUi-marker noUi-marker-horizontal noUi-marker-normal" style="left: 4.16667%"></div>
+                    <div class="noUi-marker noUi-marker-horizontal noUi-marker-normal" style="left: 8.33333%"></div>
+                    <div class="noUi-marker noUi-marker-horizontal noUi-marker-normal" style="left: 12.50000%"></div>
+                    <div class="noUi-marker noUi-marker-horizontal noUi-marker-normal" style="left: 16.66667%"></div>
+                    <div class="noUi-marker noUi-marker-horizontal noUi-marker-normal" style="left: 20.83333%"></div>
+                    <div class="noUi-marker noUi-marker-horizontal noUi-marker-large" style="left: 25.00000%"></div>
+                    <div class="noUi-value noUi-value-horizontal noUi-value-large" style="left: 25.00000%">97</div>
+                    <div class="noUi-marker noUi-marker-horizontal noUi-marker-normal" style="left: 29.16667%"></div>
+                    <div class="noUi-marker noUi-marker-horizontal noUi-marker-normal" style="left: 33.33333%"></div>
+                    <div class="noUi-marker noUi-marker-horizontal noUi-marker-normal" style="left: 37.50000%"></div>
+                    <div class="noUi-marker noUi-marker-horizontal noUi-marker-normal" style="left: 41.66667%"></div>
+                    <div class="noUi-marker noUi-marker-horizontal noUi-marker-normal" style="left: 45.83333%"></div>
+                    <div class="noUi-marker noUi-marker-horizontal noUi-marker-large" style="left: 50.00000%"></div>
+                    <div class="noUi-value noUi-value-horizontal noUi-value-large" style="left: 50.00000%">214</div>
+                    <div class="noUi-marker noUi-marker-horizontal noUi-marker-normal" style="left: 54.16667%"></div>
+                    <div class="noUi-marker noUi-marker-horizontal noUi-marker-normal" style="left: 58.33333%"></div>
+                    <div class="noUi-marker noUi-marker-horizontal noUi-marker-normal" style="left: 62.50000%"></div>
+                    <div class="noUi-marker noUi-marker-horizontal noUi-marker-normal" style="left: 66.66667%"></div>
+                    <div class="noUi-marker noUi-marker-horizontal noUi-marker-normal" style="left: 70.83333%"></div>
+                    <div class="noUi-marker noUi-marker-horizontal noUi-marker-large" style="left: 75.00000%"></div>
+                    <div class="noUi-value noUi-value-horizontal noUi-value-large" style="left: 75.00000%">619</div>
+                    <div class="noUi-marker noUi-marker-horizontal noUi-marker-normal" style="left: 79.16667%"></div>
+                    <div class="noUi-marker noUi-marker-horizontal noUi-marker-normal" style="left: 83.33333%"></div>
+                    <div class="noUi-marker noUi-marker-horizontal noUi-marker-normal" style="left: 87.50000%"></div>
+                    <div class="noUi-marker noUi-marker-horizontal noUi-marker-normal" style="left: 91.66667%"></div>
+                    <div class="noUi-marker noUi-marker-horizontal noUi-marker-normal" style="left: 95.83333%"></div>
+                    <div class="noUi-marker noUi-marker-horizontal noUi-marker-large" style="left: 100.00000%"></div>
+                    <div class="noUi-value noUi-value-horizontal noUi-value-large" style="left: 100.00000%">1740</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="list-group-item ocfilter-option" id="option-m">
+              <div class="ocf-option-name">
+                Производитель
+              </div>
+              <div class="ocf-option-values">
+                <label id="v-m28" data-option-id="m">
+                  <input type="checkbox" name="ocf[m]" value="m:28" class="ocf-target" autocomplete="off">
+                  <span>Barneys Farm</span>
+                  <small class="badge">3</small>
+                </label>
+                <label id="v-m53" data-option-id="m">
+                  <input type="checkbox" name="ocf[m]" value="m:53" class="ocf-target" autocomplete="off">
+                  <span>Buddha Seeds</span>
+                  <small class="badge">12</small>
+                </label>
+                <label id="v-m8" data-option-id="m">
+                  <input type="checkbox" name="ocf[m]" value="m:8" class="ocf-target" autocomplete="off">
+                  <span>Columbian Garden</span>
+                  <small class="badge">4</small>
+                </label>
+                <label id="v-m30" data-option-id="m">
+                  <input type="checkbox" name="ocf[m]" value="m:30" class="ocf-target" autocomplete="off">
+                  <span>Dinafem</span>
+                  <small class="badge">3</small>
+                </label>
+                <label id="v-m29" data-option-id="m">
+                  <input type="checkbox" name="ocf[m]" value="m:29" class="ocf-target" autocomplete="off">
+                  <span>Dutch Passion</span>
+                  <small class="badge">21</small>
+                </label>
+                <label id="v-m31" data-option-id="m">
+                  <input type="checkbox" name="ocf[m]" value="m:31" class="ocf-target" autocomplete="off">
+                  <span>Female</span>
+                  <small class="badge">10</small>
+                </label>
+                <label id="v-m25" data-option-id="m">
+                  <input type="checkbox" name="ocf[m]" value="m:25" class="ocf-target" autocomplete="off">
+                  <span>iSeeds</span>
+                  <small class="badge">6</small>
+                </label>
+                <label id="v-m42" data-option-id="m">
+                  <input type="checkbox" name="ocf[m]" value="m:42" class="ocf-target" autocomplete="off">
+                  <span>Monster Cannabis</span>
+                  <small class="badge">6</small>
+                </label>
+                <label id="v-m52" data-option-id="m">
+                  <input type="checkbox" name="ocf[m]" value="m:52" class="ocf-target" autocomplete="off">
+                  <span>Pyramid Seeds</span>
+                  <small class="badge">24</small>
+                </label>
+                <label id="v-m46" data-option-id="m">
+                  <input type="checkbox" name="ocf[m]" value="m:46" class="ocf-target" autocomplete="off">
+                  <span>ROYAL QUEEN SEEDS</span>
+                  <small class="badge">1</small>
+                </label>
+              </div>
+            </div>
+            <div class="list-group-item ocfilter-option" id="option-s">
+              <div class="ocf-option-name">
+                Наличие
+              </div>
+              <div class="ocf-option-values">
+                <label id="v-sin" data-option-id="s">
+                  <input type="checkbox" name="ocf[s]" value="s:in" class="ocf-target" autocomplete="off">
+                  <span>В наличии</span>
+                  <small class="badge">25</small>
+                </label>
+              </div>
+            </div>
+            <div class="list-group-item ocfilter-option" id="option-10012">
+              <div class="ocf-option-name">
+                Высота растения (+/-)
+                <span id="left-value-10012">0</span>
+                -&nbsp;<span id="right-value-10012">250</span>
+                см
+              </div>
+              <div class="ocf-option-values">
+                <div id="scale-10012" class="scale ocf-target noUi-target noUi-ltr noUi-horizontal noUi-background"
+                  data-option-id="10012" data-start-min="0" data-start-max="250" data-range-min="0" data-range-max="250"
+                  data-element-min="#left-value-10012" data-element-max="#right-value-10012">
+                  <div class="noUi-base">
+                    <div class="noUi-origin noUi-connect noUi-draggable" style="left: 0%;">
+                      <div class="noUi-handle noUi-handle-lower"></div>
+                    </div>
+                    <div class="noUi-origin noUi-background" style="left: 100%;">
+                      <div class="noUi-handle noUi-handle-upper"></div>
+                    </div>
+                  </div>
+                  <div class="noUi-pips noUi-pips-horizontal">
+                    <div class="noUi-marker noUi-marker-horizontal noUi-marker-large" style="left: 0.00000%"></div>
+                    <div class="noUi-value noUi-value-horizontal noUi-value-large" style="left: 0.00000%">0</div>
+                    <div class="noUi-marker noUi-marker-horizontal noUi-marker-normal" style="left: 3.84615%"></div>
+                    <div class="noUi-marker noUi-marker-horizontal noUi-marker-normal" style="left: 7.69231%"></div>
+                    <div class="noUi-marker noUi-marker-horizontal noUi-marker-normal" style="left: 11.53846%"></div>
+                    <div class="noUi-marker noUi-marker-horizontal noUi-marker-normal" style="left: 15.38462%"></div>
+                    <div class="noUi-marker noUi-marker-horizontal noUi-marker-normal" style="left: 19.23077%"></div>
+                    <div class="noUi-marker noUi-marker-horizontal noUi-marker-normal" style="left: 23.07692%"></div>
+                    <div class="noUi-marker noUi-marker-horizontal noUi-marker-normal" style="left: 26.92308%"></div>
+                    <div class="noUi-marker noUi-marker-horizontal noUi-marker-normal" style="left: 30.76923%"></div>
+                    <div class="noUi-marker noUi-marker-horizontal noUi-marker-normal" style="left: 34.61538%"></div>
+                    <div class="noUi-marker noUi-marker-horizontal noUi-marker-normal" style="left: 38.46154%"></div>
+                    <div class="noUi-marker noUi-marker-horizontal noUi-marker-normal" style="left: 42.30769%"></div>
+                    <div class="noUi-marker noUi-marker-horizontal noUi-marker-normal" style="left: 46.15385%"></div>
+                    <div class="noUi-marker noUi-marker-horizontal noUi-marker-large" style="left: 50.00000%"></div>
+                    <div class="noUi-value noUi-value-horizontal noUi-value-large" style="left: 50.00000%">125</div>
+                    <div class="noUi-marker noUi-marker-horizontal noUi-marker-normal" style="left: 53.84615%"></div>
+                    <div class="noUi-marker noUi-marker-horizontal noUi-marker-normal" style="left: 57.69231%"></div>
+                    <div class="noUi-marker noUi-marker-horizontal noUi-marker-normal" style="left: 61.53846%"></div>
+                    <div class="noUi-marker noUi-marker-horizontal noUi-marker-normal" style="left: 65.38462%"></div>
+                    <div class="noUi-marker noUi-marker-horizontal noUi-marker-normal" style="left: 69.23077%"></div>
+                    <div class="noUi-marker noUi-marker-horizontal noUi-marker-normal" style="left: 73.07692%"></div>
+                    <div class="noUi-marker noUi-marker-horizontal noUi-marker-normal" style="left: 76.92308%"></div>
+                    <div class="noUi-marker noUi-marker-horizontal noUi-marker-normal" style="left: 80.76923%"></div>
+                    <div class="noUi-marker noUi-marker-horizontal noUi-marker-normal" style="left: 84.61538%"></div>
+                    <div class="noUi-marker noUi-marker-horizontal noUi-marker-normal" style="left: 88.46154%"></div>
+                    <div class="noUi-marker noUi-marker-horizontal noUi-marker-normal" style="left: 92.30769%"></div>
+                    <div class="noUi-marker noUi-marker-horizontal noUi-marker-normal" style="left: 96.15385%"></div>
+                    <div class="noUi-marker noUi-marker-horizontal noUi-marker-large" style="left: 100.00000%"></div>
+                    <div class="noUi-value noUi-value-horizontal noUi-value-large" style="left: 100.00000%">250</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="list-group-item ocfilter-option" id="option-10008">
+              <div class="ocf-option-name">
+                Урожай (+/-)
+                <span id="left-value-10008">0</span>
+                -&nbsp;<span id="right-value-10008">700</span>
+                г/м²
+              </div>
+              <div class="ocf-option-values">
+                <div id="scale-10008" class="scale ocf-target noUi-target noUi-ltr noUi-horizontal noUi-background"
+                  data-option-id="10008" data-start-min="0" data-start-max="700" data-range-min="0" data-range-max="700"
+                  data-element-min="#left-value-10008" data-element-max="#right-value-10008">
+                  <div class="noUi-base">
+                    <div class="noUi-origin noUi-connect noUi-draggable" style="left: 0%;">
+                      <div class="noUi-handle noUi-handle-lower"></div>
+                    </div>
+                    <div class="noUi-origin noUi-background" style="left: 100%;">
+                      <div class="noUi-handle noUi-handle-upper"></div>
+                    </div>
+                  </div>
+                  <div class="noUi-pips noUi-pips-horizontal">
+                    <div class="noUi-marker noUi-marker-horizontal noUi-marker-large" style="left: 0.00000%"></div>
+                    <div class="noUi-value noUi-value-horizontal noUi-value-large" style="left: 0.00000%">0</div>
+                    <div class="noUi-marker noUi-marker-horizontal noUi-marker-normal" style="left: 3.84615%"></div>
+                    <div class="noUi-marker noUi-marker-horizontal noUi-marker-normal" style="left: 7.69231%"></div>
+                    <div class="noUi-marker noUi-marker-horizontal noUi-marker-normal" style="left: 11.53846%"></div>
+                    <div class="noUi-marker noUi-marker-horizontal noUi-marker-normal" style="left: 15.38462%"></div>
+                    <div class="noUi-marker noUi-marker-horizontal noUi-marker-normal" style="left: 19.23077%"></div>
+                    <div class="noUi-marker noUi-marker-horizontal noUi-marker-normal" style="left: 23.07692%"></div>
+                    <div class="noUi-marker noUi-marker-horizontal noUi-marker-normal" style="left: 26.92308%"></div>
+                    <div class="noUi-marker noUi-marker-horizontal noUi-marker-normal" style="left: 30.76923%"></div>
+                    <div class="noUi-marker noUi-marker-horizontal noUi-marker-normal" style="left: 34.61538%"></div>
+                    <div class="noUi-marker noUi-marker-horizontal noUi-marker-normal" style="left: 38.46154%"></div>
+                    <div class="noUi-marker noUi-marker-horizontal noUi-marker-normal" style="left: 42.30769%"></div>
+                    <div class="noUi-marker noUi-marker-horizontal noUi-marker-normal" style="left: 46.15385%"></div>
+                    <div class="noUi-marker noUi-marker-horizontal noUi-marker-large" style="left: 50.00000%"></div>
+                    <div class="noUi-value noUi-value-horizontal noUi-value-large" style="left: 50.00000%">350</div>
+                    <div class="noUi-marker noUi-marker-horizontal noUi-marker-normal" style="left: 53.84615%"></div>
+                    <div class="noUi-marker noUi-marker-horizontal noUi-marker-normal" style="left: 57.69231%"></div>
+                    <div class="noUi-marker noUi-marker-horizontal noUi-marker-normal" style="left: 61.53846%"></div>
+                    <div class="noUi-marker noUi-marker-horizontal noUi-marker-normal" style="left: 65.38462%"></div>
+                    <div class="noUi-marker noUi-marker-horizontal noUi-marker-normal" style="left: 69.23077%"></div>
+                    <div class="noUi-marker noUi-marker-horizontal noUi-marker-normal" style="left: 73.07692%"></div>
+                    <div class="noUi-marker noUi-marker-horizontal noUi-marker-normal" style="left: 76.92308%"></div>
+                    <div class="noUi-marker noUi-marker-horizontal noUi-marker-normal" style="left: 80.76923%"></div>
+                    <div class="noUi-marker noUi-marker-horizontal noUi-marker-normal" style="left: 84.61538%"></div>
+                    <div class="noUi-marker noUi-marker-horizontal noUi-marker-normal" style="left: 88.46154%"></div>
+                    <div class="noUi-marker noUi-marker-horizontal noUi-marker-normal" style="left: 92.30769%"></div>
+                    <div class="noUi-marker noUi-marker-horizontal noUi-marker-normal" style="left: 96.15385%"></div>
+                    <div class="noUi-marker noUi-marker-horizontal noUi-marker-large" style="left: 100.00000%"></div>
+                    <div class="noUi-value noUi-value-horizontal noUi-value-large" style="left: 100.00000%">700</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="list-group-item ocfilter-option" id="option-10006">
+              <div class="ocf-option-name">
+                Цветение
+              </div>
+              <div class="ocf-option-values">
+                <label id="v-100061832319091" data-option-id="10006">
+                  <input type="checkbox" name="ocf[10006]" value="10006:1832319091" class="ocf-target"
+                    autocomplete="off">
+                  <span>7 - 8 недель</span>
+                  <small class="badge">1</small>
+                </label>
+                <label id="v-100061525114543" data-option-id="10006">
+                  <input type="checkbox" name="ocf[10006]" value="10006:1525114543" class="ocf-target"
+                    autocomplete="off">
+                  <span>7 недель</span>
+                  <small class="badge">1</small>
+                </label>
+                <label id="v-100061211576154" data-option-id="10006">
+                  <input type="checkbox" name="ocf[10006]" value="10006:1211576154" class="ocf-target"
+                    autocomplete="off">
+                  <span>8 - 10 недель</span>
+                  <small class="badge">3</small>
+                </label>
+                <label id="v-100062993612585" data-option-id="10006">
+                  <input type="checkbox" name="ocf[10006]" value="10006:2993612585" class="ocf-target"
+                    autocomplete="off">
+                  <span>8 - 10 недель, Октябрь</span>
+                  <small class="badge">1</small>
+                </label>
+                <label id="v-10006105297261" data-option-id="10006">
+                  <input type="checkbox" name="ocf[10006]" value="10006:105297261" class="ocf-target"
+                    autocomplete="off">
+                  <span>8 - 9 недель</span>
+                  <small class="badge">2</small>
+                </label>
+                <label id="v-10006208870105" data-option-id="10006">
+                  <input type="checkbox" name="ocf[10006]" value="10006:208870105" class="ocf-target"
+                    autocomplete="off">
+                  <span>8 недель</span>
+                  <small class="badge">8</small>
+                </label>
+                <label id="v-100062590535512" data-option-id="10006">
+                  <input type="checkbox" name="ocf[10006]" value="10006:2590535512" class="ocf-target"
+                    autocomplete="off">
+                  <span>8 недель / Октябрь</span>
+                  <small class="badge">1</small>
+                </label>
+                <label id="v-100062440969263" data-option-id="10006">
+                  <input type="checkbox" name="ocf[10006]" value="10006:2440969263" class="ocf-target"
+                    autocomplete="off">
+                  <span>9 недель</span>
+                  <small class="badge">3</small>
+                </label>
+                <label id="v-100061495089614" data-option-id="10006">
+                  <input type="checkbox" name="ocf[10006]" value="10006:1495089614" class="ocf-target"
+                    autocomplete="off">
+                  <span>10 - 11 недель</span>
+                  <small class="badge">1</small>
+                </label>
+                <label id="v-10006629021845" data-option-id="10006">
+                  <input type="checkbox" name="ocf[10006]" value="10006:629021845" class="ocf-target"
+                    autocomplete="off">
+                  <span>10 - 12 недель</span>
+                  <small class="badge">2</small>
+                </label>
+                <label id="v-100061036756800" data-option-id="10006">
+                  <input type="checkbox" name="ocf[10006]" value="10006:1036756800" class="ocf-target"
+                    autocomplete="off">
+                  <span>10 недель</span>
+                  <small class="badge">5</small>
+                </label>
+                <label id="v-100061668079112" data-option-id="10006">
+                  <input type="checkbox" name="ocf[10006]" value="10006:1668079112" class="ocf-target"
+                    autocomplete="off">
+                  <span>11 - 13 недель</span>
+                  <small class="badge">1</small>
+                </label>
+                <label id="v-100062697299638" data-option-id="10006">
+                  <input type="checkbox" name="ocf[10006]" value="10006:2697299638" class="ocf-target"
+                    autocomplete="off">
+                  <span>11 недель</span>
+                  <small class="badge">1</small>
+                </label>
+                <label id="v-100063701894125" data-option-id="10006">
+                  <input type="checkbox" name="ocf[10006]" value="10006:3701894125" class="ocf-target"
+                    autocomplete="off">
+                  <span>12 недель</span>
+                  <small class="badge">1</small>
+                </label>
+                <label id="v-100062230452226" data-option-id="10006">
+                  <input type="checkbox" name="ocf[10006]" value="10006:2230452226" class="ocf-target"
+                    autocomplete="off">
+                  <span>45 - 50 дней, конец сентября–середина октября</span>
+                  <small class="badge">1</small>
+                </label>
+                <div class="collapse" id="ocfilter-hidden-values-10006">
+                  <hr style="margin:0 0 10px;">
+                  <label id="v-10006121402774" data-option-id="10006">
+                    <input type="checkbox" name="ocf[10006]" value="10006:121402774" class="ocf-target"
+                      autocomplete="off">
+                    <span>45 - 55 дней</span>
+                    <small class="badge">1</small>
+                  </label>
+                  <label id="v-100061658952255" data-option-id="10006">
+                    <input type="checkbox" name="ocf[10006]" value="10006:1658952255" class="ocf-target"
+                      autocomplete="off">
+                    <span>45 - 55 дней / сентябрь</span>
+                    <small class="badge">1</small>
+                  </label>
+                  <label id="v-100062597687948" data-option-id="10006">
+                    <input type="checkbox" name="ocf[10006]" value="10006:2597687948" class="ocf-target"
+                      autocomplete="off">
+                    <span>50 - 55 дней</span>
+                    <small class="badge">1</small>
+                  </label>
+                  <label id="v-100064045286866" data-option-id="10006">
+                    <input type="checkbox" name="ocf[10006]" value="10006:4045286866" class="ocf-target"
+                      autocomplete="off">
+                    <span>50 - 55 дней, вторая половина Сентября</span>
+                    <small class="badge">1</small>
+                  </label>
+                  <label id="v-10006869160879" data-option-id="10006">
+                    <input type="checkbox" name="ocf[10006]" value="10006:869160879" class="ocf-target"
+                      autocomplete="off">
+                    <span>50 - 60 дней, сентябрь</span>
+                    <small class="badge">1</small>
+                  </label>
+                  <label id="v-1000653947533" data-option-id="10006">
+                    <input type="checkbox" name="ocf[10006]" value="10006:53947533" class="ocf-target"
+                      autocomplete="off">
+                    <span>50 - 65 дней</span>
+                    <small class="badge">1</small>
+                  </label>
+                  <label id="v-10006613556489" data-option-id="10006">
+                    <input type="checkbox" name="ocf[10006]" value="10006:613556489" class="ocf-target"
+                      autocomplete="off">
+                    <span>50 - 70 дней</span>
+                    <small class="badge">2</small>
+                  </label>
+                  <label id="v-100063266898893" data-option-id="10006">
+                    <input type="checkbox" name="ocf[10006]" value="10006:3266898893" class="ocf-target"
+                      autocomplete="off">
+                    <span>50 - 75 дней</span>
+                    <small class="badge">1</small>
+                  </label>
+                  <label id="v-10006916993056" data-option-id="10006">
+                    <input type="checkbox" name="ocf[10006]" value="10006:916993056" class="ocf-target"
+                      autocomplete="off">
+                    <span>52 - 57 дней</span>
+                    <small class="badge">1</small>
+                  </label>
+                  <label id="v-100063740664976" data-option-id="10006">
+                    <input type="checkbox" name="ocf[10006]" value="10006:3740664976" class="ocf-target"
+                      autocomplete="off">
+                    <span>55 - 60 дней, сентябрь</span>
+                    <small class="badge">1</small>
+                  </label>
+                  <label id="v-10006816958214" data-option-id="10006">
+                    <input type="checkbox" name="ocf[10006]" value="10006:816958214" class="ocf-target"
+                      autocomplete="off">
+                    <span>55 - 65 дней</span>
+                    <small class="badge">2</small>
+                  </label>
+                  <label id="v-10006816415592" data-option-id="10006">
+                    <input type="checkbox" name="ocf[10006]" value="10006:816415592" class="ocf-target"
+                      autocomplete="off">
+                    <span>55 дней / конец Сентября</span>
+                    <small class="badge">1</small>
+                  </label>
+                  <label id="v-10006920853296" data-option-id="10006">
+                    <input type="checkbox" name="ocf[10006]" value="10006:920853296" class="ocf-target"
+                      autocomplete="off">
+                    <span>55 дней, конец сентября</span>
+                    <small class="badge">1</small>
+                  </label>
+                  <label id="v-10006900240083" data-option-id="10006">
+                    <input type="checkbox" name="ocf[10006]" value="10006:900240083" class="ocf-target"
+                      autocomplete="off">
+                    <span>55 дней, начало сентября</span>
+                    <small class="badge">6</small>
+                  </label>
+                  <label id="v-100061797856646" data-option-id="10006">
+                    <input type="checkbox" name="ocf[10006]" value="10006:1797856646" class="ocf-target"
+                      autocomplete="off">
+                    <span>55 дней, сентябрь</span>
+                    <small class="badge">1</small>
+                  </label>
+                  <label id="v-10006625989521" data-option-id="10006">
+                    <input type="checkbox" name="ocf[10006]" value="10006:625989521" class="ocf-target"
+                      autocomplete="off">
+                    <span>55 дней, середина сентября</span>
+                    <small class="badge">3</small>
+                  </label>
+                  <label id="v-10006752013624" data-option-id="10006">
+                    <input type="checkbox" name="ocf[10006]" value="10006:752013624" class="ocf-target"
+                      autocomplete="off">
+                    <span>56 - 63 дней</span>
+                    <small class="badge">1</small>
+                  </label>
+                  <label id="v-100063866447992" data-option-id="10006">
+                    <input type="checkbox" name="ocf[10006]" value="10006:3866447992" class="ocf-target"
+                      autocomplete="off">
+                    <span>58 дней, начало сентября</span>
+                    <small class="badge">1</small>
+                  </label>
+                  <label id="v-100061495915932" data-option-id="10006">
+                    <input type="checkbox" name="ocf[10006]" value="10006:1495915932" class="ocf-target"
+                      autocomplete="off">
+                    <span>60 - 65 дней, сентябрь</span>
+                    <small class="badge">1</small>
+                  </label>
+                  <label id="v-100064224239067" data-option-id="10006">
+                    <input type="checkbox" name="ocf[10006]" value="10006:4224239067" class="ocf-target"
+                      autocomplete="off">
+                    <span>60 - 65 дней,середина октября</span>
+                    <small class="badge">1</small>
+                  </label>
+                  <label id="v-100061410788991" data-option-id="10006">
+                    <input type="checkbox" name="ocf[10006]" value="10006:1410788991" class="ocf-target"
+                      autocomplete="off">
+                    <span>60 дней</span>
+                    <small class="badge">1</small>
+                  </label>
+                  <label id="v-100063376643971" data-option-id="10006">
+                    <input type="checkbox" name="ocf[10006]" value="10006:3376643971" class="ocf-target"
+                      autocomplete="off">
+                    <span>60 дней, сентябрь</span>
+                    <small class="badge">1</small>
+                  </label>
+                  <label id="v-1000681366829" data-option-id="10006">
+                    <input type="checkbox" name="ocf[10006]" value="10006:81366829" class="ocf-target"
+                      autocomplete="off">
+                    <span>65 - 70 дней, вторая половина Октября</span>
+                    <small class="badge">1</small>
+                  </label>
+                  <label id="v-100062990552507" data-option-id="10006">
+                    <input type="checkbox" name="ocf[10006]" value="10006:2990552507" class="ocf-target"
+                      autocomplete="off">
+                    <span>65 дней</span>
+                    <small class="badge">4</small>
+                  </label>
+                  <label id="v-100063401403608" data-option-id="10006">
+                    <input type="checkbox" name="ocf[10006]" value="10006:3401403608" class="ocf-target"
+                      autocomplete="off">
+                    <span>65 дней / Октябрь</span>
+                    <small class="badge">1</small>
+                  </label>
+                  <label id="v-10006794544489" data-option-id="10006">
+                    <input type="checkbox" name="ocf[10006]" value="10006:794544489" class="ocf-target"
+                      autocomplete="off">
+                    <span>65 дней, начало октября</span>
+                    <small class="badge">1</small>
+                  </label>
+                  <label id="v-100061203875595" data-option-id="10006">
+                    <input type="checkbox" name="ocf[10006]" value="10006:1203875595" class="ocf-target"
+                      autocomplete="off">
+                    <span>68 дней</span>
+                    <small class="badge">1</small>
+                  </label>
+                  <label id="v-100062823372042" data-option-id="10006">
+                    <input type="checkbox" name="ocf[10006]" value="10006:2823372042" class="ocf-target"
+                      autocomplete="off">
+                    <span>70 - 75 дней</span>
+                    <small class="badge">1</small>
+                  </label>
+                  <label id="v-100061106138899" data-option-id="10006">
+                    <input type="checkbox" name="ocf[10006]" value="10006:1106138899" class="ocf-target"
+                      autocomplete="off">
+                    <span>70 - 77 дней</span>
+                    <small class="badge">1</small>
+                  </label>
+                  <label id="v-10006818540972" data-option-id="10006">
+                    <input type="checkbox" name="ocf[10006]" value="10006:818540972" class="ocf-target"
+                      autocomplete="off">
+                    <span>70 - 80 дней</span>
+                    <small class="badge">1</small>
+                  </label>
+                  <label id="v-100062509843007" data-option-id="10006">
+                    <input type="checkbox" name="ocf[10006]" value="10006:2509843007" class="ocf-target"
+                      autocomplete="off">
+                    <span>70 дней</span>
+                    <small class="badge">4</small>
+                  </label>
+                  <label id="v-100063301235137" data-option-id="10006">
+                    <input type="checkbox" name="ocf[10006]" value="10006:3301235137" class="ocf-target"
+                      autocomplete="off">
+                    <span>70 дней / Октябрь</span>
+                    <small class="badge">1</small>
+                  </label>
+                  <label id="v-100063986651071" data-option-id="10006">
+                    <input type="checkbox" name="ocf[10006]" value="10006:3986651071" class="ocf-target"
+                      autocomplete="off">
+                    <span>72 - 75 дней</span>
+                    <small class="badge">1</small>
+                  </label>
+                  <label id="v-100061343282659" data-option-id="10006">
+                    <input type="checkbox" name="ocf[10006]" value="10006:1343282659" class="ocf-target"
+                      autocomplete="off">
+                    <span>75 дней - Полный цикл</span>
+                    <small class="badge">3</small>
+                  </label>
+                  <label id="v-100062703495820" data-option-id="10006">
+                    <input type="checkbox" name="ocf[10006]" value="10006:2703495820" class="ocf-target"
+                      autocomplete="off">
+                    <span>75 дней, вторая половина Октября</span>
+                    <small class="badge">1</small>
+                  </label>
+                  <label id="v-100063354346297" data-option-id="10006">
+                    <input type="checkbox" name="ocf[10006]" value="10006:3354346297" class="ocf-target"
+                      autocomplete="off">
+                    <span>90 дней</span>
+                    <small class="badge">1</small>
+                  </label>
+                  <label id="v-100062851910472" data-option-id="10006">
+                    <input type="checkbox" name="ocf[10006]" value="10006:2851910472" class="ocf-target"
+                      autocomplete="off">
+                    <span>до 450 г/м²</span>
+                    <small class="badge">1</small>
+                  </label>
+                  <label id="v-10006723433214" data-option-id="10006">
+                    <input type="checkbox" name="ocf[10006]" value="10006:723433214" class="ocf-target"
+                      autocomplete="off">
+                    <span>Сентябрь / 7 недель</span>
+                    <small class="badge">1</small>
+                  </label>
+                  <label id="v-100063485298300" data-option-id="10006">
+                    <input type="checkbox" name="ocf[10006]" value="10006:3485298300" class="ocf-target"
+                      autocomplete="off">
+                    <span>Середина октября</span>
+                    <small class="badge">2</small>
+                  </label>
+                </div>
+                <div class="collapse-value">
+                  <button type="button" data-target="#ocfilter-hidden-values-10006" data-toggle="collapse"
+                    class="btn btn-block">Показать все <i class="fa fa-fw"></i></button>
+                </div>
+              </div>
+            </div>
+            <div class="list-group-item ocfilter-option" id="option-10007">
+              <div class="ocf-option-name">
+                Тип сорта
+              </div>
+              <div class="ocf-option-values">
+                <label id="v-10007308753029" data-option-id="10007">
+                  <input type="checkbox" name="ocf[10007]" value="10007:308753029" class="ocf-target"
+                    autocomplete="off">
+                  <span>20% Sativa / 80% Indica</span>
+                  <small class="badge">1</small>
+                </label>
+                <label id="v-100072044382139" data-option-id="10007">
+                  <input type="checkbox" name="ocf[10007]" value="10007:2044382139" class="ocf-target"
+                    autocomplete="off">
+                  <span>Indica</span>
+                  <small class="badge">5</small>
+                </label>
+                <label id="v-100073471920269" data-option-id="10007">
+                  <input type="checkbox" name="ocf[10007]" value="10007:3471920269" class="ocf-target"
+                    autocomplete="off">
+                  <span>Indica / Ruderalis</span>
+                  <small class="badge">1</small>
+                </label>
+                <label id="v-100073727871608" data-option-id="10007">
+                  <input type="checkbox" name="ocf[10007]" value="10007:3727871608" class="ocf-target"
+                    autocomplete="off">
+                  <span>Indica 70% / Sativa 30%</span>
+                  <small class="badge">1</small>
+                </label>
+                <label id="v-100071360714613" data-option-id="10007">
+                  <input type="checkbox" name="ocf[10007]" value="10007:1360714613" class="ocf-target"
+                    autocomplete="off">
+                  <span>Indica 80% / Sativa 20%</span>
+                  <small class="badge">2</small>
+                </label>
+                <label id="v-100073566359771" data-option-id="10007">
+                  <input type="checkbox" name="ocf[10007]" value="10007:3566359771" class="ocf-target"
+                    autocomplete="off">
+                  <span>Indica 95% / Sativa 5%</span>
+                  <small class="badge">1</small>
+                </label>
+                <label id="v-10007527093782" data-option-id="10007">
+                  <input type="checkbox" name="ocf[10007]" value="10007:527093782" class="ocf-target"
+                    autocomplete="off">
+                  <span>Ruderalis / Indica</span>
+                  <small class="badge">2</small>
+                </label>
+                <label id="v-100074106885405" data-option-id="10007">
+                  <input type="checkbox" name="ocf[10007]" value="10007:4106885405" class="ocf-target"
+                    autocomplete="off">
+                  <span>Ruderalis / Indica / Sativa</span>
+                  <small class="badge">2</small>
+                </label>
+                <label id="v-100071795380129" data-option-id="10007">
+                  <input type="checkbox" name="ocf[10007]" value="10007:1795380129" class="ocf-target"
+                    autocomplete="off">
+                  <span>Sativa / Indica / Ruderalis</span>
+                  <small class="badge">2</small>
+                </label>
+                <label id="v-10007373990566" data-option-id="10007">
+                  <input type="checkbox" name="ocf[10007]" value="10007:373990566" class="ocf-target"
+                    autocomplete="off">
+                  <span>Sativa 10% / Indica 90%</span>
+                  <small class="badge">10</small>
+                </label>
+                <label id="v-100071501086943" data-option-id="10007">
+                  <input type="checkbox" name="ocf[10007]" value="10007:1501086943" class="ocf-target"
+                    autocomplete="off">
+                  <span>Sativa 15% / Indica 85%</span>
+                  <small class="badge">1</small>
+                </label>
+                <label id="v-10007887068649" data-option-id="10007">
+                  <input type="checkbox" name="ocf[10007]" value="10007:887068649" class="ocf-target"
+                    autocomplete="off">
+                  <span>Sativa 20% / Indica 60%</span>
+                  <small class="badge">1</small>
+                </label>
+                <label id="v-100071044476643" data-option-id="10007">
+                  <input type="checkbox" name="ocf[10007]" value="10007:1044476643" class="ocf-target"
+                    autocomplete="off">
+                  <span>Sativa 20% / Indica 80%</span>
+                  <small class="badge">6</small>
+                </label>
+                <label id="v-100072079160208" data-option-id="10007">
+                  <input type="checkbox" name="ocf[10007]" value="10007:2079160208" class="ocf-target"
+                    autocomplete="off">
+                  <span>Sativa 25% / Indica 75%</span>
+                  <small class="badge">1</small>
+                </label>
+                <label id="v-100072608110671" data-option-id="10007">
+                  <input type="checkbox" name="ocf[10007]" value="10007:2608110671" class="ocf-target"
+                    autocomplete="off">
+                  <span>Sativa 30% / Indica 70%</span>
+                  <small class="badge">1</small>
+                </label>
+                <div class="collapse" id="ocfilter-hidden-values-10007">
+                  <hr style="margin:0 0 10px;">
+                  <label id="v-100071733308045" data-option-id="10007">
+                    <input type="checkbox" name="ocf[10007]" value="10007:1733308045" class="ocf-target"
+                      autocomplete="off">
+                    <span>Sativa 40% / Indica 60%</span>
+                    <small class="badge">6</small>
+                  </label>
+                  <label id="v-100073412220357" data-option-id="10007">
+                    <input type="checkbox" name="ocf[10007]" value="10007:3412220357" class="ocf-target"
+                      autocomplete="off">
+                    <span>Sativa 50% / Indica 50%</span>
+                    <small class="badge">1</small>
+                  </label>
+                  <label id="v-100072368513899" data-option-id="10007">
+                    <input type="checkbox" name="ocf[10007]" value="10007:2368513899" class="ocf-target"
+                      autocomplete="off">
+                    <span>Гибрид</span>
+                    <small class="badge">1</small>
+                  </label>
+                  <label id="v-100071777415846" data-option-id="10007">
+                    <input type="checkbox" name="ocf[10007]" value="10007:1777415846" class="ocf-target"
+                      autocomplete="off">
+                    <span>Гибрид. Преимущественно Indica</span>
+                    <small class="badge">1</small>
+                  </label>
+                  <label id="v-100071267135162" data-option-id="10007">
+                    <input type="checkbox" name="ocf[10007]" value="10007:1267135162" class="ocf-target"
+                      autocomplete="off">
+                    <span>Преимущественно Indica</span>
+                    <small class="badge">42</small>
+                  </label>
+                </div>
+                <div class="collapse-value">
+                  <button type="button" data-target="#ocfilter-hidden-values-10007" data-toggle="collapse"
+                    class="btn btn-block">Показать все <i class="fa fa-fw"></i></button>
+                </div>
+              </div>
+            </div>
+            <div class="list-group-item ocfilter-option" id="option-10005">
+              <div class="ocf-option-name">
+                Содержание ТГК
+              </div>
+              <div class="ocf-option-values">
+                <label id="v-10005251432666" data-option-id="10005">
+                  <input type="checkbox" name="ocf[10005]" value="10005:251432666" class="ocf-target"
+                    autocomplete="off">
+                  <span>1% CBD: 10 - 13% CBG: 0,23%</span>
+                  <small class="badge">1</small>
+                </label>
+                <label id="v-10005763365671" data-option-id="10005">
+                  <input type="checkbox" name="ocf[10005]" value="10005:763365671" class="ocf-target"
+                    autocomplete="off">
+                  <span>1% CBD: 20%</span>
+                  <small class="badge">2</small>
+                </label>
+                <label id="v-100053575992015" data-option-id="10005">
+                  <input type="checkbox" name="ocf[10005]" value="10005:3575992015" class="ocf-target"
+                    autocomplete="off">
+                  <span>7 - 14% CBD: 0,10%</span>
+                  <small class="badge">1</small>
+                </label>
+                <label id="v-1000555775571" data-option-id="10005">
+                  <input type="checkbox" name="ocf[10005]" value="10005:55775571" class="ocf-target" autocomplete="off">
+                  <span>8 - 12% CBD: средний</span>
+                  <small class="badge">1</small>
+                </label>
+                <label id="v-100051416988795" data-option-id="10005">
+                  <input type="checkbox" name="ocf[10005]" value="10005:1416988795" class="ocf-target"
+                    autocomplete="off">
+                  <span>8% CBD: 10%</span>
+                  <small class="badge">1</small>
+                </label>
+                <label id="v-1000528903555" data-option-id="10005">
+                  <input type="checkbox" name="ocf[10005]" value="10005:28903555" class="ocf-target" autocomplete="off">
+                  <span>9% CBD: 10% CBN: 0.3%</span>
+                  <small class="badge">1</small>
+                </label>
+                <label id="v-100051057203767" data-option-id="10005">
+                  <input type="checkbox" name="ocf[10005]" value="10005:1057203767" class="ocf-target"
+                    autocomplete="off">
+                  <span>10% CBD: 9%</span>
+                  <small class="badge">1</small>
+                </label>
+                <label id="v-100054235212628" data-option-id="10005">
+                  <input type="checkbox" name="ocf[10005]" value="10005:4235212628" class="ocf-target"
+                    autocomplete="off">
+                  <span>10% CBD: 9% CBN: 0.28%</span>
+                  <small class="badge">1</small>
+                </label>
+                <label id="v-100053212655425" data-option-id="10005">
+                  <input type="checkbox" name="ocf[10005]" value="10005:3212655425" class="ocf-target"
+                    autocomplete="off">
+                  <span>12 - 14%</span>
+                  <small class="badge">1</small>
+                </label>
+                <label id="v-10005288767480" data-option-id="10005">
+                  <input type="checkbox" name="ocf[10005]" value="10005:288767480" class="ocf-target"
+                    autocomplete="off">
+                  <span>13 - 18% CBD: 0,05% CBG: 0,05%</span>
+                  <small class="badge">1</small>
+                </label>
+                <label id="v-10005180493108" data-option-id="10005">
+                  <input type="checkbox" name="ocf[10005]" value="10005:180493108" class="ocf-target"
+                    autocomplete="off">
+                  <span>13% CBD: 1% CBN: 0.3%</span>
+                  <small class="badge">1</small>
+                </label>
+                <label id="v-100052008491761" data-option-id="10005">
+                  <input type="checkbox" name="ocf[10005]" value="10005:2008491761" class="ocf-target"
+                    autocomplete="off">
+                  <span>13% CBD: 1% CBN: 0.6%</span>
+                  <small class="badge">1</small>
+                </label>
+                <label id="v-10005869049644" data-option-id="10005">
+                  <input type="checkbox" name="ocf[10005]" value="10005:869049644" class="ocf-target"
+                    autocomplete="off">
+                  <span>14 - 16% CBD: 0,15% CBG: 0,66%</span>
+                  <small class="badge">1</small>
+                </label>
+                <label id="v-100054152530488" data-option-id="10005">
+                  <input type="checkbox" name="ocf[10005]" value="10005:4152530488" class="ocf-target"
+                    autocomplete="off">
+                  <span>14 - 17%</span>
+                  <small class="badge">1</small>
+                </label>
+                <label id="v-100053647302273" data-option-id="10005">
+                  <input type="checkbox" name="ocf[10005]" value="10005:3647302273" class="ocf-target"
+                    autocomplete="off">
+                  <span>14% CBD: 0.9% CBN: 0.5%</span>
+                  <small class="badge">1</small>
+                </label>
+                <div class="collapse" id="ocfilter-hidden-values-10005">
+                  <hr style="margin:0 0 10px;">
+                  <label id="v-100053185581089" data-option-id="10005">
+                    <input type="checkbox" name="ocf[10005]" value="10005:3185581089" class="ocf-target"
+                      autocomplete="off">
+                    <span>14% CBD: 1% CBN: 0.5%</span>
+                    <small class="badge">1</small>
+                  </label>
+                  <label id="v-10005485652242" data-option-id="10005">
+                    <input type="checkbox" name="ocf[10005]" value="10005:485652242" class="ocf-target"
+                      autocomplete="off">
+                    <span>15 - 20%</span>
+                    <small class="badge">1</small>
+                  </label>
+                  <label id="v-10005784880784" data-option-id="10005">
+                    <input type="checkbox" name="ocf[10005]" value="10005:784880784" class="ocf-target"
+                      autocomplete="off">
+                    <span>15 - 22%</span>
+                    <small class="badge">1</small>
+                  </label>
+                  <label id="v-100053248755238" data-option-id="10005">
+                    <input type="checkbox" name="ocf[10005]" value="10005:3248755238" class="ocf-target"
+                      autocomplete="off">
+                    <span>15% CBD: 1% CBN: 0.4%</span>
+                    <small class="badge">1</small>
+                  </label>
+                  <label id="v-100053635994855" data-option-id="10005">
+                    <input type="checkbox" name="ocf[10005]" value="10005:3635994855" class="ocf-target"
+                      autocomplete="off">
+                    <span>15% CBD: 1% CBN: 0.5%</span>
+                    <small class="badge">1</small>
+                  </label>
+                  <label id="v-100052174479923" data-option-id="10005">
+                    <input type="checkbox" name="ocf[10005]" value="10005:2174479923" class="ocf-target"
+                      autocomplete="off">
+                    <span>15%+</span>
+                    <small class="badge">1</small>
+                  </label>
+                  <label id="v-10005789480352" data-option-id="10005">
+                    <input type="checkbox" name="ocf[10005]" value="10005:789480352" class="ocf-target"
+                      autocomplete="off">
+                    <span>15%, КБД 17%</span>
+                    <small class="badge">1</small>
+                  </label>
+                  <label id="v-10005501169951" data-option-id="10005">
+                    <input type="checkbox" name="ocf[10005]" value="10005:501169951" class="ocf-target"
+                      autocomplete="off">
+                    <span>16 - 20% CBD: 0,05% CBG: 0,4%</span>
+                    <small class="badge">1</small>
+                  </label>
+                  <label id="v-100051846203500" data-option-id="10005">
+                    <input type="checkbox" name="ocf[10005]" value="10005:1846203500" class="ocf-target"
+                      autocomplete="off">
+                    <span>16% CBD: 1% CBN: 0.4%</span>
+                    <small class="badge">1</small>
+                  </label>
+                  <label id="v-100052339334203" data-option-id="10005">
+                    <input type="checkbox" name="ocf[10005]" value="10005:2339334203" class="ocf-target"
+                      autocomplete="off">
+                    <span>17 - 20%</span>
+                    <small class="badge">1</small>
+                  </label>
+                  <label id="v-10005264549802" data-option-id="10005">
+                    <input type="checkbox" name="ocf[10005]" value="10005:264549802" class="ocf-target"
+                      autocomplete="off">
+                    <span>17 - 20% CBD: 0,1% CBG: 1,48%</span>
+                    <small class="badge">1</small>
+                  </label>
+                  <label id="v-100052457245434" data-option-id="10005">
+                    <input type="checkbox" name="ocf[10005]" value="10005:2457245434" class="ocf-target"
+                      autocomplete="off">
+                    <span>17 - 21%</span>
+                    <small class="badge">1</small>
+                  </label>
+                  <label id="v-100053615010508" data-option-id="10005">
+                    <input type="checkbox" name="ocf[10005]" value="10005:3615010508" class="ocf-target"
+                      autocomplete="off">
+                    <span>17%, КБД 16%</span>
+                    <small class="badge">1</small>
+                  </label>
+                  <label id="v-100052670912562" data-option-id="10005">
+                    <input type="checkbox" name="ocf[10005]" value="10005:2670912562" class="ocf-target"
+                      autocomplete="off">
+                    <span>17.5% CBD: 1%</span>
+                    <small class="badge">1</small>
+                  </label>
+                  <label id="v-100052929941058" data-option-id="10005">
+                    <input type="checkbox" name="ocf[10005]" value="10005:2929941058" class="ocf-target"
+                      autocomplete="off">
+                    <span>18 - 19%</span>
+                    <small class="badge">1</small>
+                  </label>
+                  <label id="v-100053825084014" data-option-id="10005">
+                    <input type="checkbox" name="ocf[10005]" value="10005:3825084014" class="ocf-target"
+                      autocomplete="off">
+                    <span>18 - 20% CBD: 0,1%</span>
+                    <small class="badge">1</small>
+                  </label>
+                  <label id="v-100053513426761" data-option-id="10005">
+                    <input type="checkbox" name="ocf[10005]" value="10005:3513426761" class="ocf-target"
+                      autocomplete="off">
+                    <span>18 - 21% CBD 0,05%</span>
+                    <small class="badge">1</small>
+                  </label>
+                  <label id="v-10005322314960" data-option-id="10005">
+                    <input type="checkbox" name="ocf[10005]" value="10005:322314960" class="ocf-target"
+                      autocomplete="off">
+                    <span>18 - 23% CBD: 0,05% CBG: 0,28%</span>
+                    <small class="badge">1</small>
+                  </label>
+                  <label id="v-1000547938072" data-option-id="10005">
+                    <input type="checkbox" name="ocf[10005]" value="10005:47938072" class="ocf-target"
+                      autocomplete="off">
+                    <span>18 - 23% CBD: 0,68%</span>
+                    <small class="badge">1</small>
+                  </label>
+                  <label id="v-10005109669790" data-option-id="10005">
+                    <input type="checkbox" name="ocf[10005]" value="10005:109669790" class="ocf-target"
+                      autocomplete="off">
+                    <span>18% CBD: 0.22%</span>
+                    <small class="badge">1</small>
+                  </label>
+                  <label id="v-100051170517513" data-option-id="10005">
+                    <input type="checkbox" name="ocf[10005]" value="10005:1170517513" class="ocf-target"
+                      autocomplete="off">
+                    <span>18% CBD: 1% CBN: 0.6%</span>
+                    <small class="badge">1</small>
+                  </label>
+                  <label id="v-10005198198389" data-option-id="10005">
+                    <input type="checkbox" name="ocf[10005]" value="10005:198198389" class="ocf-target"
+                      autocomplete="off">
+                    <span>19% CBD: 1%</span>
+                    <small class="badge">1</small>
+                  </label>
+                  <label id="v-10005547604175" data-option-id="10005">
+                    <input type="checkbox" name="ocf[10005]" value="10005:547604175" class="ocf-target"
+                      autocomplete="off">
+                    <span>19% CBD: 1% CBN: 0.6%</span>
+                    <small class="badge">2</small>
+                  </label>
+                  <label id="v-100051869862582" data-option-id="10005">
+                    <input type="checkbox" name="ocf[10005]" value="10005:1869862582" class="ocf-target"
+                      autocomplete="off">
+                    <span>19.8% CBD: 1% CBN: 0.4%</span>
+                    <small class="badge">1</small>
+                  </label>
+                  <label id="v-100051427939589" data-option-id="10005">
+                    <input type="checkbox" name="ocf[10005]" value="10005:1427939589" class="ocf-target"
+                      autocomplete="off">
+                    <span>20%</span>
+                    <small class="badge">7</small>
+                  </label>
+                  <label id="v-100052249224376" data-option-id="10005">
+                    <input type="checkbox" name="ocf[10005]" value="10005:2249224376" class="ocf-target"
+                      autocomplete="off">
+                    <span>20% CBD: 1% CBN: 0.29%</span>
+                    <small class="badge">1</small>
+                  </label>
+                  <label id="v-100053732360733" data-option-id="10005">
+                    <input type="checkbox" name="ocf[10005]" value="10005:3732360733" class="ocf-target"
+                      autocomplete="off">
+                    <span>20% CBD: 1% CBN: 0.3%</span>
+                    <small class="badge">1</small>
+                  </label>
+                  <label id="v-100052734809560" data-option-id="10005">
+                    <input type="checkbox" name="ocf[10005]" value="10005:2734809560" class="ocf-target"
+                      autocomplete="off">
+                    <span>20% CBD: 1% CBN: 0.6%</span>
+                    <small class="badge">2</small>
+                  </label>
+                  <label id="v-100051159090813" data-option-id="10005">
+                    <input type="checkbox" name="ocf[10005]" value="10005:1159090813" class="ocf-target"
+                      autocomplete="off">
+                    <span>20% CBD: 2%</span>
+                    <small class="badge">1</small>
+                  </label>
+                  <label id="v-100054137623737" data-option-id="10005">
+                    <input type="checkbox" name="ocf[10005]" value="10005:4137623737" class="ocf-target"
+                      autocomplete="off">
+                    <span>20% CBD: 20%</span>
+                    <small class="badge">1</small>
+                  </label>
+                  <label id="v-100052554882587" data-option-id="10005">
+                    <input type="checkbox" name="ocf[10005]" value="10005:2554882587" class="ocf-target"
+                      autocomplete="off">
+                    <span>21 - 26% CBD: 0,32% CBG: 0,4%</span>
+                    <small class="badge">1</small>
+                  </label>
+                  <label id="v-100051275580868" data-option-id="10005">
+                    <input type="checkbox" name="ocf[10005]" value="10005:1275580868" class="ocf-target"
+                      autocomplete="off">
+                    <span>21%</span>
+                    <small class="badge">7</small>
+                  </label>
+                  <label id="v-10005613477171" data-option-id="10005">
+                    <input type="checkbox" name="ocf[10005]" value="10005:613477171" class="ocf-target"
+                      autocomplete="off">
+                    <span>21% CBD: 0,17% CBG: 2,28%</span>
+                    <small class="badge">1</small>
+                  </label>
+                  <label id="v-100053981166941" data-option-id="10005">
+                    <input type="checkbox" name="ocf[10005]" value="10005:3981166941" class="ocf-target"
+                      autocomplete="off">
+                    <span>21% CBD: 1% CBN: 0.5%</span>
+                    <small class="badge">1</small>
+                  </label>
+                  <label id="v-100051730871943" data-option-id="10005">
+                    <input type="checkbox" name="ocf[10005]" value="10005:1730871943" class="ocf-target"
+                      autocomplete="off">
+                    <span>22%</span>
+                    <small class="badge">3</small>
+                  </label>
+                  <label id="v-100052117202758" data-option-id="10005">
+                    <input type="checkbox" name="ocf[10005]" value="10005:2117202758" class="ocf-target"
+                      autocomplete="off">
+                    <span>23%</span>
+                    <small class="badge">5</small>
+                  </label>
+                  <label id="v-100052410413083" data-option-id="10005">
+                    <input type="checkbox" name="ocf[10005]" value="10005:2410413083" class="ocf-target"
+                      autocomplete="off">
+                    <span>24% CBD: 1% CBN: 0.18%</span>
+                    <small class="badge">1</small>
+                  </label>
+                  <label id="v-10005678202560" data-option-id="10005">
+                    <input type="checkbox" name="ocf[10005]" value="10005:678202560" class="ocf-target"
+                      autocomplete="off">
+                    <span>25%</span>
+                    <small class="badge">1</small>
+                  </label>
+                  <label id="v-10005305659484" data-option-id="10005">
+                    <input type="checkbox" name="ocf[10005]" value="10005:305659484" class="ocf-target"
+                      autocomplete="off">
+                    <span>25% CBD: 1% CBN: 0.28%</span>
+                    <small class="badge">1</small>
+                  </label>
+                  <label id="v-100054126998018" data-option-id="10005">
+                    <input type="checkbox" name="ocf[10005]" value="10005:4126998018" class="ocf-target"
+                      autocomplete="off">
+                    <span>25% CBD: 1% CBN: 0.3%</span>
+                    <small class="badge">1</small>
+                  </label>
+                  <label id="v-1000555000963" data-option-id="10005">
+                    <input type="checkbox" name="ocf[10005]" value="10005:55000963" class="ocf-target"
+                      autocomplete="off">
+                    <span>26%</span>
+                    <small class="badge">1</small>
+                  </label>
+                  <label id="v-10005442379842" data-option-id="10005">
+                    <input type="checkbox" name="ocf[10005]" value="10005:442379842" class="ocf-target"
+                      autocomplete="off">
+                    <span>27%</span>
+                    <small class="badge">1</small>
+                  </label>
+                  <label id="v-100052647010061" data-option-id="10005">
+                    <input type="checkbox" name="ocf[10005]" value="10005:2647010061" class="ocf-target"
+                      autocomplete="off">
+                    <span>28%</span>
+                    <small class="badge">1</small>
+                  </label>
+                </div>
+                <div class="collapse-value">
+                  <button type="button" data-target="#ocfilter-hidden-values-10005" data-toggle="collapse"
+                    class="btn btn-block">Показать все <i class="fa fa-fw"></i></button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <script type="text/javascript">< !--
+            $(function () {
+              $('body').append($('.ocfilter-mobile').remove().get(0).outerHTML);
+
+              var options = {
+                mobile: $('.ocfilter-mobile').is(':visible'),
+                php: {
+                  searchButton: false,
+                  showPrice: true,
+                  showCounter: true,
+                  manualPrice: true,
+                  link: 'http://coffeeshop.ua/seed-shop/indika',
+                  path: '71_71_71_76_76_76',
+                  params: '',
+                  index: 'filter_ocfilter'
+                },
+                text: {
+                  show_all: 'Показать все',
+                  hide: 'Скрыть',
+                  load: 'Загрузка...',
+                  any: 'Все',
+                  select: 'Укажите параметры'
+                }
+              };
+
+              if (options.mobile) {
+                $('.ocf-offcanvas-body').html($('#ocfilter').remove().get(0).outerHTML);
+              }
+
+              $('[data-toggle="offcanvas"]').on('click', function (e) {
+
+                $('#us_overlay').addClass('active');
+
+                $(this).toggleClass('active');
+                $('body').toggleClass('modal-open');
+                $('.ocfilter-mobile').toggleClass('active');
+              });
+
+              setTimeout(function () {
+                $('#ocfilter').ocfilter(options);
+              }, 1);
+            });
+  //--></script>
+        <div class="row us-module-column-box">
+          <div id="oct_banner_plus_1_1" class="us-banner-plus-wrap us-banner-plus-wrap-full-width col-sm-12">
+            <div class="us-banner-plus-box h-100 py-0">
+              <div class="us-banner-plus-inner d-flex align-items-center justify-content-between text-center">
+                <div
+                  class="us-banner-plus-info us-banner-plus-info-single d-flex flex-column h-100 justify-content-between">
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+    </div>
+
+    <div style=" width: 75%;  display: flex; flex-wrap: wrap; margin-left: 12px">
+      {{#if products.length}}
+
+      {{#each products}}
+
+      <div class="card-store" onClick="window.open('/product/{{_id}}','_blank');"
+        style="display:flex; flex-direction: column; justify-content: space-between">
+
+        <div class="us-module-stickers">
+
+          {{!-- {{#comparison product.discount 0}}
+          <div class="us-module-stickers-sticker us-module-stickers-sticker-discount">-{{product.discount}}%</div>
+          {{/comparison}} --}}
+
+          {{#if product.isHit}}
+          <div class="us-module-stickers-sticker us-module-stickers-sticker-stickers_bestseller">ХИТ</div>
+          {{/if}}
+
+          {{!-- {{#comparison product.discount 0}}
+          <div class="us-module-stickers-sticker us-module-stickers-sticker-stickers_special">АКЦИЯ</div>
+          {{/comparison}} --}}
+
+        </div>
+
+        <div style="padding: 0 20px 20px 20px; display: flex; flex-direction: column; justify-content: space-between; height: 558px;">
+          <div>
+            <div>
+              <img class="card-image" src="{{ImageUrl}}">
+            </div>
+            <div class="card-name">
+              <span>{{Title}}</span>
+            </div>
+            <div class="card-rating">
+              <span class="us-module-rating-star"></span>
+              <span class="us-module-rating-star"></span>
+              <span class="us-module-rating-star"></span>
+              <span class="us-module-rating-star"></span>
+              <span class="us-module-rating-star"></span>
+            </div>
+
+            <div class="card-description">
+              <span>{{Description}}</span>
+            </div>
+          </div>
+
+          <div>
+            <div class="card-price-no-discount">
+              <span>{{Price}} грн.</span>
+            </div>
+
+            <div>
+              <button class="card__btn_purchase">КУПИТЬ</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      {{/each}}
+
+      {{else}}
+      <p>No products!</p>
+      {{/if}}
+    </div>
+
+
+  </div>
+</div>

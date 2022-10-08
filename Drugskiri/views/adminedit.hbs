@@ -1,0 +1,78 @@
+<form action="/admin/editproduct" method="POST">
+
+    <div class="auth-stretched">
+        <div class="auth-container"style="padding: 0">
+            <div class="auth-section" style="width: 1400px">
+                <div class="auth-holder" style="padding: 40px">
+                    <div style="display:flex; margin-bottom: 20px; justify-content: space-between">
+                        <div style="width: 20%">
+                            Title
+                        </div>
+
+                        <div style="width: 8%">
+                            Price
+                        </div>
+
+                        <div style="width: 20%;">
+                            Description
+                        </div>
+
+                        <div style="width: 20%; margin-left: 3%;">
+                            Type
+                        </div>
+
+                        <div style="width: 20%">
+                            Genetics
+                        </div>
+
+                        <div style="width: 6%">
+                            Is hit
+                        </div>
+
+                        <div style="width: 6%">
+                            Is in stock
+                        </div>
+                    </div>
+                    {{#if products.length}}
+                    {{#each products}}
+                    <div style="display:flex; justify-content: space-between;">
+                        <div style="width: 20%; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">
+                            <a href='/admin/edit/{{_id}}' style="text-decoration: none; cursor: pointer">{{Title}}</a>
+                        </div>
+
+                        <div style="width: 8%; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">
+                            {{Price}}
+                        </div>
+
+                        <div style="width: 20%; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">
+                            {{Description}}
+                        </div>
+
+                        <div style="width: 20%; margin-left: 3%; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">
+                            {{Type}}
+                        </div>
+
+                        <div style="width: 20%; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">
+                            {{Genetics}}
+                        </div>
+
+                        <div style="width: 6%; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">
+                            {{IsHit}}
+                        </div>
+
+                        <div style="width: 6%; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">
+                            {{IsInStock}}
+                        </div>
+                    </div>
+                    {{/each}}
+                    {{else}}
+                    No products!
+                    {{/if}}
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</form>

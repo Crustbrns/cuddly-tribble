@@ -1,0 +1,148 @@
+<header style="margin-top: 20px">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-12 col-lg-4 col-md-12 d-flex align-items-center">
+                <div class="us-phone-img">
+                    <img src="/images/pnone-icon.svg" alt="phone-icon">
+                </div>
+                <div class="us-phone-content" style="display: flex; flex-direction: column">
+                    <a class="btn top-phone-btn dropdown-toggle" href="tel:+380634201777
+" role="button" id="us-phones-dropdown" data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false"><span><b>+38(063) 420 1 777</b>
+                        </span></a>
+                    <ul class="dropdown-menu header-dropdown-menu" aria-labelledby="us-phones-dropdown">
+                        <li><a href="tel:+380634201777
+" class="phoneclick"><i class="fas fa-phone-volume"></i><b> +38(063) 420 1 777 </b>
+                            </a></li>
+                        <li><a href="tel:+380984201777" class="phoneclick"><i class="fas fa-phone-volume"></i><b>
+                                    +38(098) 420 1
+                                    777</b></a></li>
+                    </ul>
+                    <a href="javascript:;" class="us-phone-link" style="margin-left: 14px; margin-top: -14px"
+                        onclick="octPopupCallPhone()">Заказать звонок</a>
+                </div>
+            </div>
+            <div id="logo" class="col-12 col-lg-4 col-md-12 us-logo-box text-center">
+                <a href="https://coffeeshop.ua/">
+                    <img src="/images/seed-1624006030.jpg"
+                        title="Кращий магазин насіння марихуани Coffeeshop.ua в Україні"
+                        alt="Кращий магазин насіння марихуани Coffeeshop.ua в Україні" class="us-logo-img">
+                </a>
+                <div id="search" class="input-group header-input-group">
+                    <input type="text" id="input_search" name="search" value="" placeholder="Поиск"
+                        class="input-lg header-input" autocomplete="off" style="width: 322px;">
+                    <button type="button" id="oct-search-button" class="btn" ;
+                        style="height: 27px; width: 40px; padding-right: 28px; padding-bottom: 30px; border-radius: 0"><i
+                            class="fa-solid fa-magnifying-glass"></i></button>
+                    <div id="us_livesearch_close" onclick="clearLiveSearch();" class="d-lg-none"><i
+                            class="fas fa-times"></i>
+                    </div>
+                    <div id="us_livesearch"></div>
+                </div>
+            </div>
+            <div id="cart" class="col-lg-4 us-cart-box d-flex align-items-center justify-content-end">
+                <button type="button" class="us-cart-img cart-icon-purchase" onclick="octPopupCart()">
+                    <img src="/images/cart-icon.svg" alt="cart-icon">
+                    <span class="header-cart-index">0</span>
+                </button>
+                <div class="us-cart-content" style="display: flex; flex-direction: column;">
+                    <p class="us-cart-text" style="margin-top: 5px; margin-left: 14px">
+                        <b>0.00грн.</b>
+                    </p>
+                    <a href="https://coffeeshop.ua/index.php?route=checkout/simplecheckout" class="us-cart-link"
+                        style="margin-top: -20px; margin-left: 14px">
+                        Оформить заказ
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div style="background-color: #24a255; margin: 20px 0 20px 0">
+    <div style="width: 800px; margin-left: auto; margin-right: auto">
+        <div style="display: flex; justify-content: space-between; padding: 12px 0; color: #e5e5e5">
+            <a>SEED SHOP</a>
+            <a>MUSHROOMS SHOP</a>
+            <a>GROW SHOP</a>
+            <a>HEAD SHOP</a>
+            <a>HEMP SHOP</a>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div>
+        <div style="margin-bottom: 20px">
+            <code
+                style="color: gray; "><a href="/">Home</a> > <a href="/">SEED shop</a> > <span style="color: green">{{product.Title}}</span><br></code>
+        </div>
+        <span class="us-main-shop-title">{{product.Title}}</span>
+        <hr>
+    </div>
+    <div style="display: flex; align-items: start; margin: 50px 0 100px 0; justify-content: space-between">
+        <div style="width: 30%">
+            <img style="width:100%; height: auto" src="{{product.ImageUrl}}">
+        </div>
+        <div style="width: 60%">
+            <div style="display: flex">
+                {{#if product.IsHit}}
+                <i class="fa fa-bolt" style="padding-top: 10px; margin-right: 10px; color: #ffb900" aria-hidden="true"></i><span><h3>{{product.Title}}</h3></span>
+                {{else}}
+                <span><h3>{{product.Title}}</h3></span>
+                {{/if}}
+            </div>
+            <div style="display: flex; margin-top: 12px">
+                {{#if product.IsInStock}}
+                <div class="us-price-new"><span data-value="150.0000" class="autocalc-product-special">{{product.Price}}
+                        грн.</span></div>
+                {{else}}
+                <div class="us-price-new" style="background-color: gray"><span data-value="150.0000"
+                        class="autocalc-product-special">{{product.Price}}
+                        грн</span></div>
+                <h5 style="color: #a5a9ab; padding-top: 4px">Нет в наличии</h5>
+                {{/if}}
+            </div>
+            <div style="margin-top: 40px">
+                <span data-value="150.0000" class="autocalc-product-special">{{product.Description}}</span>
+            </div>
+            <div style="margin-top: 40px">
+                <div style="display: flex; justify-content: space-between">
+                    <span>Тип продукта: </span>
+                    <span data-value="150.0000" class="autocalc-product-special">{{product.Type}}</span>
+                </div>
+                <div style="display: flex; justify-content: space-between">
+                    <span>Генетика продукта: </span>
+                    <span data-value="150.0000" class="autocalc-product-special">{{product.Genetics}}</span>
+                </div>
+            </div>
+            <div style="margin-top: 40px">
+                {{#if product.IsHit}}
+                <span data-value="150.0000" class="autocalc-product-special">Продукт <span
+                        style="color:#7fbb00">является</span> хитом</span>
+                {{else}}
+                <span data-value="150.0000" class="autocalc-product-special">Продукт <span style="color:#e4002b">не
+                        является</span> хитом</span>
+                {{/if}}
+            </div>
+            <div style="margin-top: 0px">
+                {{#if product.IsInStock}}
+                <span data-value="150.0000" class="autocalc-product-special">Продукт <span
+                        style="color:#7fbb00;">есть</span> в наличии</span>
+                {{else}}
+                <span data-value="150.0000" class="autocalc-product-special">Продукта <span
+                        style="color:#e4002b">нет</span> в наличии</span>
+                {{/if}}
+            </div>
+        </div>
+    </div>
+</div>
+{{!-- {{#if products.length}}
+{{#each products}}
+{{title}}
+{{price}}
+{{/each}}
+title isn't null
+{{else}}
+title is null
+{{/if}} --}}

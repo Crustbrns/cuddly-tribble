@@ -1,0 +1,37 @@
+<div class="auth-stretched">
+    <div class="auth-container">
+        <div class="auth-section">
+            <div class="auth-holder">
+                <div class="auth-title">
+                    Welcome Back..
+                </div>
+                <div class="auth-subtitle">
+                    Please enter your email and password
+                </div>
+
+                <div class="auth-fields">
+
+                    <form action="/auth/login" method="POST">
+
+                        <div>
+                            <input class="auth-field" type="text" placeholder="login" name="username" required>
+                        </div>
+
+                        <div style="margin-top: 10px">
+                            <input class="auth-field" type="password" placeholder="Password" name="password" required>
+                        </div>
+
+                        <div>
+                            <button class="enter-button-field">Sign In</button>
+                        </div>
+
+                    </form>
+
+                    <div class="auth-subtitle auth-create-request">
+                        Don't have an account yet? <a href="/register">Create account</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
