@@ -94,6 +94,26 @@ body{
     margin-left: 20px;
 }
 
+#find{
+    background-color: rgb(27, 126, 255);
+    padding: 10px 20px;
+    border-radius: 4px;
+    color: white;
+    transition: .2s ease;
+    user-select: none;
+    width: 200px;
+    margin-bottom: 10px;
+    font-family: 'e-Ukraine-R';
+    font-size: 14px;
+    border: 0;
+    margin-left: 20px;
+}
+#find::placeholder{
+    color: white;
+    font-family: 'e-Ukraine-R';
+    font-size: 14px;
+}
+
 .card{
     width: 200px;
     height: 310px;
@@ -102,10 +122,14 @@ body{
     margin-right: 10px;
     margin-bottom: 10px;
 }
+.card.yellow{
+    background-color: #ffc20e;
+}
 
 .card--image{
     display: flex;
     height: 200px;
+    width: 100%;
     object-fit: contain;
     border-radius: 4px;
 }
