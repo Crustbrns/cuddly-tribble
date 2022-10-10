@@ -19,14 +19,13 @@ const Navigation = function () {
             </div>
 
             <div className={classes.get__navs}>
-                {/* <Link to="/createperson" end> */}
-                {/* <div className='button' onClick={console.log('няняняняняняяняняня')}>Create person</div> */}
-                {/* </Link> */}
-                <ClickComponent />
+                <Link to="/yarik" end>
+                    <div className='button'>Yarik</div>
+                </Link>
                 <Link to="/tictactoe" end>
                     <div className='button'>Tictactoe</div>
                 </Link>
-            </div>
+            </div >
         </div >
     )
 }

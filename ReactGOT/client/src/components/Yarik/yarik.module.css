@@ -1,0 +1,13 @@
+.container {
+    width: 100vw;
+    height: 100vh;
+    justify-content:end;
+    /* display: flex;
+    justify-content: end; */
+}
+
+.yarik{
+    position: absolute;
+    top: 82%;
+    width: 110px;
+}
