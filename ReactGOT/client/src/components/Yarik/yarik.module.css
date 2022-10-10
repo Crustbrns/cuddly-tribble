@@ -11,3 +11,8 @@
     top: 82%;
     width: 110px;
 }
+
+.drop{
+    position: absolute;
+    width: 2%;
+}
