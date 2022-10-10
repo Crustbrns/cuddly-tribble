@@ -1,12 +1,12 @@
 import React from 'react';
 import YarikImage from './Yarik.png';
-import DropImage from './drop.png';
+import DropImage from './Шишка.png';
 import classes from './yarik.module.css';
-import { addNewDrop, Game } from './logic';
+import { addNewDrop, Game, UpdateDrops } from './logic';
 
 const Yarik = function () {
     const [pos, setPos] = React.useState({ x: -55 });
-    const [ammo, setAmmo] = React.useState([]);
+    const [game, setGame] = React.useState(new Game([]));
 
     React.useState(() => {
         document.body.addEventListener('keypress', (event) => Move(event));
@@ -16,6 +16,17 @@ const Yarik = function () {
     React.useEffect(() => {
         console.log(pos, window.innerWidth);
         calcPos();
+
+        const Interval = setInterval(() => {
+            // setStatus((status) => changeStatus(status));
+            game.UpdateDrops();
+            game.RemoveLast();
+            setGame((game) => new Game(game.Drops));
+        }, 50);
+
+        return function stopTimer() {
+            clearInterval(Interval);
+        }
     }, [])
 
     function calcPos(event) {
@@ -30,9 +41,9 @@ const Yarik = function () {
             else if (event.key === 'd' || event.key === 'в') {
                 tempPos.x += window.innerWidth / 48;
             }
-            if(event.code === 'Space'){
+            if (event.code === 'Space') {
                 // tempPos.x += window.innerWidth / 48;
-                addNewDrop({x: tempPos.x, y: window.innerHeight });
+                setGame(game, game.addNewDrop({ x: tempPos.x + window.innerWidth * 0.01, y: window.innerHeight * 0.8 }));
             }
         }
 
@@ -49,19 +60,12 @@ const Yarik = function () {
         }
     }
 
-    function GetDrops() {
-        let output = [];
-        let index = 0;
-        for (const item of Game.Drops) {
-            output.push(<img key={index++} style={{transform: `translate(${item.pos.x}px, ${item.pos.y}px)`}} className={classes.drop} src={DropImage}/>);
-        }
-        return output;
-    }
-
     return (
         <div className={classes.container}>
             <img style={{ transform: `translate(${pos.x}px)`, height: `calc(18%)`, width: `5%` }} className={classes.yarik} alt='yarik' src={YarikImage} />
-            {GetDrops()}
+            {game.Drops.map((item, index) => {
+                return <img key={index} style={{ transform: `translate(${item.pos.x}px, ${item.pos.y}px)` }} className={classes.drop} src={DropImage} />
+            })}
         </div>
     )
 }
