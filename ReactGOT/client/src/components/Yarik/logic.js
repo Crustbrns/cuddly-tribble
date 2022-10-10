@@ -17,7 +17,16 @@ class Game {
             if (Object.hasOwnProperty.call(this.Drops, key)) {
                 const item = this.Drops[key];
                 item.pos.y -= item.speed;
-                item.speed += 0.02;
+                item.speed += window.innerHeight / 54000;
+            }
+        }
+    }
+
+    UpdateEnemies() {
+        for (const key in this.Enemies) {
+            if (Object.hasOwnProperty.call(this.Enemies, key)) {
+                const item = this.Enemies[key];
+                item.Move();
             }
         }
     }
@@ -34,11 +43,36 @@ class Enemy {
     constructor(pos) {
         this.pos = pos;
         this.alive = true;
-        this.speed = 1;
+        this.direction = Math.random() > 0.5 ? 2 : 1;
     }
 
     Die = () => {
         this.alive = false;
+    }
+
+    ChangeDirection = () => {
+        this.direction == 1 ? this.direction = 2 : this.direction = 1;
+    }
+
+    CheckBorders() {
+        let leftBorder = - window.innerWidth / 2;
+        let rightBorder = window.innerWidth / 2 - window.innerWidth * 0.05;
+
+        if (this.pos.x < leftBorder) {
+            this.pos.x = leftBorder;
+            this.ChangeDirection();
+        }
+        else if (this.pos.x > rightBorder) {
+            this.pos.x = rightBorder;
+            this.ChangeDirection();
+        }
+    }
+
+    Move() {
+        if (this.direction != 0) {
+            this.direction == 1 ? this.pos.x -= 1 : this.pos.x += 1;
+        }
+        this.CheckBorders();
     }
 }
 

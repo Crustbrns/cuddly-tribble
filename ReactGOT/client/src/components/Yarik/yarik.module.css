@@ -16,3 +16,20 @@
     position: absolute;
     width: 2%;
 }
+
+.enemy{
+    position: absolute;
+    width: 5%;
+    height: calc(18%);
+    animation: encounter;
+    /* animation-duration: .4s; */
+}
+
+@keyframes encounter {
+    from{
+        transform: scale(0);
+    }
+    to{
+        transform: scale(1);
+    }
+}

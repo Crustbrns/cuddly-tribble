@@ -20,21 +20,23 @@ const Yarik = function () {
     React.useEffect(() => {
         console.log(pos, window.innerWidth);
 
-        const MoveInterval = setInterval(() => {
-            calcPos();
-        }, 1);
+        const CreateEnemyInterval = setInterval(() => {
+            game.addNewEnemy();
+            setGame((game) => new Game(game.Drops, game.Enemies));
+        }, 3000);
 
         const Interval = setInterval(() => {
-            // setStatus((status) => changeStatus(status));
+            calcPos();
             if (movement.dirleft || movement.dirright) calcPos();
             game.UpdateDrops();
+            game.UpdateEnemies();
             game.RemoveLast();
-            setGame((game) => new Game(game.Drops, []));
+            setGame((game) => new Game(game.Drops, game.Enemies));
         }, 1);
 
         return function stopTimer() {
             clearInterval(Interval);
-            clearInterval(MoveInterval);
+            clearInterval(CreateEnemyInterval);
         }
     }, [])
 
@@ -50,10 +52,10 @@ const Yarik = function () {
             }
         }
         if (movement.dirleft) {
-            tempPos.x -= window.innerWidth / 400;
+            tempPos.x -= window.innerWidth / 600;
         }
         if (movement.dirright) {
-            tempPos.x += window.innerWidth / 400;
+            tempPos.x += window.innerWidth / 600;
         }
 
         if (tempPos.x < leftBorder) tempPos.x = leftBorder;
@@ -82,7 +84,7 @@ const Yarik = function () {
                 return <img key={index} style={{ transform: `translate(${item.pos.x}px, ${item.pos.y}px)` }} className={classes.drop} src={DropImage} />
             })}
             {game.Enemies.map((item, index) => {
-                return <img key={index} style={{ transform: `translate(${item.pos.x}px, ${item.pos.y}px)` }} className={classes.drop} src={EnemyImage} />
+                return <img key={index} style={{ transform: `translate(${item.pos.x}px` }} className={classes.enemy} src={EnemyImage} />
             })}
         </div>
     )
