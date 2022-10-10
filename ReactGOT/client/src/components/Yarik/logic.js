@@ -1,11 +1,15 @@
 class Game {
-    constructor(drops) {
+    constructor(drops, enemies) {
         this.Drops = drops;
+        this.Enemies = enemies;
+    }
+
+    addNewEnemy() {
+        this.Enemies.push(new Enemy({ x: 0 }));
     }
 
     addNewDrop(pos) {
         this.Drops.push(new Drop(pos));
-        console.log(this.Drops.length);
     }
 
     UpdateDrops() {
@@ -13,17 +17,29 @@ class Game {
             if (Object.hasOwnProperty.call(this.Drops, key)) {
                 const item = this.Drops[key];
                 item.pos.y -= item.speed;
-                item.speed += 1;
+                item.speed += 0.02;
             }
         }
     }
 
     RemoveLast() {
-        if (this.Drops.at(this.Drops.length - 1) !== undefined && this.Drops.at(this.Drops.length - 1).pos.y < -100) {
-            this.Drops.pop();
+        if (this.Drops.at(0) !== undefined && this.Drops.at(0).pos.y < -100) {
+            this.Drops.splice(0, 1);
         }
     }
 
+}
+
+class Enemy {
+    constructor(pos) {
+        this.pos = pos;
+        this.alive = true;
+        this.speed = 1;
+    }
+
+    Die = () => {
+        this.alive = false;
+    }
 }
 
 class Drop {
