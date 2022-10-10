@@ -70,7 +70,7 @@ const Yarik = function () {
             setMovement(movement.dirleft = truth);
         }
         if (event.key === 'd' || event.key === 'в') {
-            setMovement(movement.dirright = truth );
+            setMovement(movement.dirright = truth);
         }
         if (event.code === 'Space') {
             calcPos(event);
@@ -84,7 +84,7 @@ const Yarik = function () {
                 return <img key={index} style={{ transform: `translate(${item.pos.x}px, ${item.pos.y}px)` }} className={classes.drop} src={DropImage} />
             })}
             {game.Enemies.map((item, index) => {
-                return <img key={index} style={{ transform: `translate(${item.pos.x}px` }} className={classes.enemy} src={EnemyImage} />
+                return <img key={index} style={{ transform: `translate(${item.pos.x}px` }} className={`${classes.enemy} ${item.deadAnim}`} src={item.alive ? EnemyImage : EnemyDeadImage} />
             })}
         </div>
     )

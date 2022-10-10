@@ -1,3 +1,5 @@
+var intersects = require('intersects');
+
 class Game {
     constructor(drops, enemies) {
         this.Drops = drops;
@@ -18,8 +20,24 @@ class Game {
                 const item = this.Drops[key];
                 item.pos.y -= item.speed;
                 item.speed += window.innerHeight / 54000;
+                this.CheckKill(item);
             }
         }
+    }
+
+    CheckKill(drop) {
+        for (const item of this.Enemies) {
+            if (item.alive) {
+                if (intersects.boxBox(drop.pos.x, drop.pos.y, 100, 200, item.pos.x, 0, window.innerHeight * 0.18, window.innerWidth * 0.05)) {
+                    console.log('killed');
+                    item.alive = false;
+                    item.deadAnim = Math.random() > 0.5 ? 'dead1' : 'dead2';
+                    // this.Enemies.splice(this.Enemies.findIndex(x => x == item), 1);
+                    this.Drops.splice(this.Drops.findIndex(x => x == drop), 1);
+                }
+            }
+        }
+        // if(intersects())
     }
 
     UpdateEnemies() {
@@ -43,6 +61,7 @@ class Enemy {
     constructor(pos) {
         this.pos = pos;
         this.alive = true;
+        this.deadAnim = '';
         this.direction = Math.random() > 0.5 ? 2 : 1;
     }
 
