@@ -16,10 +16,12 @@ const audios = [new Audio(death1), new Audio(death2), new Audio(death3), new Aud
 const shot = new Audio(yarik);
 
 class Game {
-    constructor(drops, enemies, spawnTime) {
+    constructor(drops, enemies, spawnTime, points, killedCount) {
         this.Drops = drops;
         this.Enemies = enemies;
         this.spawnTime = spawnTime;
+        this.Points = points;
+        this.killedCount = killedCount;
     }
 
     addNewEnemy() {
@@ -31,8 +33,8 @@ class Game {
     }
 
     addNewDrop(pos) {
-        console.log(this.reloadTime);
         this.Drops.push(new Drop(pos));
+        shot.volume = 1;
         shot.play();
     }
 
@@ -42,10 +44,27 @@ class Game {
                 const item = this.Drops[key];
                 item.pos.y -= item.speed;
                 item.speed += window.innerHeight / 54000;
-                if (this.CheckKill(item))
+                if (this.CheckKill(item)) {
                     this.Drops.splice(this.Drops.findIndex(x => x == item), 1);
+                    this.Points += this.MultiplyPoints();
+                    console.log(this.killedCount, this.Points);
+                }
             }
         }
+    }
+
+    MultiplyPoints() {
+        let NewPoints = this.AddPoints();
+        NewPoints += (3000 - this.spawnTime) / 100;
+        return Math.floor(NewPoints);
+    }
+
+    AddPoints() {
+        ++this.killedCount;
+        if (this.killedCount < 10) return 100;
+        else if (this.killedCount < 30) return 150;
+        else if (this.killedCount < 50) return 250;
+        else return 400;
     }
 
     CheckKill(drop) {
@@ -63,7 +82,6 @@ class Game {
             }
         }
         return false;
-        // if(intersects())
     }
 
     UpdateEnemies() {
@@ -136,7 +154,7 @@ class Enemy {
 class Drop {
     constructor(pos) {
         this.pos = pos;
-        this.speed = window.innerHeight / 1080;
+        this.speed = window.innerHeight / 540;
     }
 }
 

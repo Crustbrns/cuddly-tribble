@@ -5,10 +5,11 @@ import EnemyImage from './Resources/enemy.png';
 import EnemyDeadImage from './Resources/enemy-stuffed.png';
 import classes from './yarik.module.css';
 import { addNewDrop, DeadAnim, Game, UpdateDrops } from './logic';
+import { GameRadio } from './radio';
 
 const Yarik = function () {
     const [pos, setPos] = React.useState({ x: -55 });
-    const [game, setGame] = React.useState(new Game([], [], 3000, 300));
+    const [game, setGame] = React.useState(new Game([], [], 3000, 0, 0));
     const [movement, setMovement] = React.useState({ dirleft: false, dirright: false });
     const [reload, setReload] = React.useState({ time: 0 });
 
@@ -19,15 +20,16 @@ const Yarik = function () {
         CreateEnemy();
     });
 
-    async function CreateEnemy() {
+    function CreateEnemy() {
         if (game.Enemies.length < 10) {
             game.addNewEnemy();
             game.ChangeDelay();
-            setGame((game) => new Game(game.Drops, game.Enemies, game.spawnTime));
+            setGame(game, game.Enemies = game.Enemies);
+            setGame(game, game.spawnTime = game.spawnTime);
         }
 
-        setTimeout(async function () {
-            await CreateEnemy();
+        setTimeout(function () {
+            CreateEnemy();
         }, game.spawnTime);
     }
 
@@ -36,11 +38,14 @@ const Yarik = function () {
 
         const Interval = setInterval(() => {
             calcPos();
-            game.UpdateDrops();
-            game.UpdateEnemies();
-            game.RemoveLast();
+            setGame(game, game.UpdateDrops());
+            setGame(game, game.UpdateEnemies());
+            setGame(game, game.RemoveLast());
             if (reload.time > 0) setReload(reload.time = reload.time - 1);
-            setGame((game) => new Game(game.Drops, game.Enemies, game.spawnTime));
+            // setGame(game, game.Drops = game.Drops);
+            // setGame(game, game.Enemies = game.Enemies);
+            // setGame(game, game.Points = game.Points);
+            // setGame(game, game.killedCount = game.killedCount);
         }, 1);
 
         const ShootInterval = setInterval(() => {
@@ -64,13 +69,19 @@ const Yarik = function () {
             if (event.code === 'Space' && reload.time == 0) {
                 setGame(game, game.addNewDrop({ x: tempPos.x + window.innerWidth * 0.01, y: window.innerHeight * 0.8 }));
                 setReload(reload.time = 150);
+                GameRadio.InitRadio();
             }
         }
-        if (movement.dirleft) {
-            tempPos.x -= window.innerWidth / 300;
-        }
-        if (movement.dirright) {
-            tempPos.x += window.innerWidth / 300;
+
+        if (movement.dirleft || movement.dirright) {
+            GameRadio.InitRadio();
+
+            if (movement.dirleft) {
+                tempPos.x -= window.innerWidth / 300;
+            }
+            if (movement.dirright) {
+                tempPos.x += window.innerWidth / 300;
+            }
         }
 
         if (tempPos.x < leftBorder) tempPos.x = leftBorder;
@@ -108,6 +119,7 @@ const Yarik = function () {
             {game.Enemies.map((item, index) => {
                 return <img key={index} style={{ transform: `translate(${item.pos.x}px` }} className={`${classes.enemy} ${item.alive ? '' : getDeadAnim(item)}`} src={item.alive ? EnemyImage : EnemyDeadImage} />
             })}
+            <div className={classes.points}>{game.Points}</div>
         </div>
     )
 }
