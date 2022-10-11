@@ -1,4 +1,10 @@
 var intersects = require('intersects');
+const death1 = require('./Resources/Sounds/den1.mp3');
+const death2 = require('./Resources/Sounds/den2.mp3');
+const death3 = require('./Resources/Sounds/den3.mp3');
+const death4 = require('./Resources/Sounds/den4.mp3');
+const death5 = require('./Resources/Sounds/den5.mp3');
+const yarik = require('./Resources/Sounds/yarik.ogg');
 
 const DeadAnim = {
     Rotate: 0,
@@ -6,6 +12,8 @@ const DeadAnim = {
     RotateReverse: 2,
     Fade: 3
 }
+const audios = [new Audio(death1), new Audio(death2), new Audio(death3), new Audio(death4), new Audio(death5)]
+const shot = new Audio(yarik);
 
 class Game {
     constructor(drops, enemies, spawnTime) {
@@ -23,7 +31,9 @@ class Game {
     }
 
     addNewDrop(pos) {
+        console.log(this.reloadTime);
         this.Drops.push(new Drop(pos));
+        shot.play();
     }
 
     UpdateDrops() {
@@ -32,7 +42,8 @@ class Game {
                 const item = this.Drops[key];
                 item.pos.y -= item.speed;
                 item.speed += window.innerHeight / 54000;
-                this.CheckKill(item);
+                if (this.CheckKill(item))
+                    this.Drops.splice(this.Drops.findIndex(x => x == item), 1);
             }
         }
     }
@@ -43,11 +54,15 @@ class Game {
                 if (intersects.boxBox(drop.pos.x, drop.pos.y, 100, 200, item.pos.x, 0, window.innerHeight * 0.18, window.innerWidth * 0.05)) {
                     console.log('killed');
                     item.alive = false;
-                    // this.Enemies.splice(this.Enemies.findIndex(x => x == item), 1);
-                    this.Drops.splice(this.Drops.findIndex(x => x == drop), 1);
+                    audios[Math.floor(Math.random() * 5)].play();
+                    setTimeout(() => {
+                        this.Enemies.splice(this.Enemies.findIndex(x => x == item), 1);
+                    }, 500);
+                    return true;
                 }
             }
         }
+        return false;
         // if(intersects())
     }
 
@@ -66,11 +81,15 @@ class Game {
         }
     }
 
-    ChangeDelay(){
+    ChangeDelay() {
         if (this.spawnTime > 250) {
             this.spawnTime -= this.spawnTime / 10;
         }
         else this.spawnTime = 250;
+    }
+
+    EnemiesShoot() {
+        // console.log('shoot');
     }
 }
 
@@ -108,7 +127,7 @@ class Enemy {
 
     Move() {
         if (this.direction != 0) {
-            this.direction == 1 ? this.pos.x -= 1 : this.pos.x += 1;
+            this.direction == 1 ? this.pos.x -= window.innerWidth / 1920 : this.pos.x += window.innerWidth / 1920;
         }
         this.CheckBorders();
     }
@@ -117,7 +136,7 @@ class Enemy {
 class Drop {
     constructor(pos) {
         this.pos = pos;
-        this.speed = 1;
+        this.speed = window.innerHeight / 1080;
     }
 }
 

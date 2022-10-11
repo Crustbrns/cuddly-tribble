@@ -38,25 +38,25 @@
 .dead1 {
     opacity: 0;
     animation: deadanim1;
-    animation-duration: 1.4s;
+    animation-duration: .5s;
 }
 
 .dead2 {
     opacity: 0;
     animation: deadanim2;
-    animation-duration: 2s;
+    animation-duration: .5s;
 }
 
 .dead3 {
     opacity: 0;
     animation: deadanim3;
-    animation-duration: 2s;
+    animation-duration: .5s;
 }
 
 .dead4 {
     opacity: 0;
     animation: deadanim4;
-    animation-duration: 1s;
+    animation-duration: .5s;
 }
 
 @keyframes deadanim1 {

@@ -8,8 +8,9 @@ import { addNewDrop, DeadAnim, Game, UpdateDrops } from './logic';
 
 const Yarik = function () {
     const [pos, setPos] = React.useState({ x: -55 });
-    const [game, setGame] = React.useState(new Game([], [], 3000));
+    const [game, setGame] = React.useState(new Game([], [], 3000, 300));
     const [movement, setMovement] = React.useState({ dirleft: false, dirright: false });
+    const [reload, setReload] = React.useState({ time: 0 });
 
     React.useState(() => {
         document.body.addEventListener('keydown', (event) => Move(event, true));
@@ -19,10 +20,11 @@ const Yarik = function () {
     });
 
     async function CreateEnemy() {
-        game.addNewEnemy();
-        game.ChangeDelay();
-
-        setGame((game) => new Game(game.Drops, game.Enemies, game.spawnTime));
+        if (game.Enemies.length < 10) {
+            game.addNewEnemy();
+            game.ChangeDelay();
+            setGame((game) => new Game(game.Drops, game.Enemies, game.spawnTime));
+        }
 
         setTimeout(async function () {
             await CreateEnemy();
@@ -32,25 +34,22 @@ const Yarik = function () {
     React.useEffect(() => {
         console.log(pos, window.innerWidth);
 
-        // const CreateEnemyInterval = setInterval(() => {
-        //     game.addNewEnemy();
-        //     game.spawnTime -= 300;
-        //     setGame((game) => new Game(game.Drops, game.Enemies, game.spawnTime));
-        //     setTime(time.delay = time.delay - 300);
-        //     console.log(time.delay);
-        // }, time.delay);
-
         const Interval = setInterval(() => {
             calcPos();
-            if (movement.dirleft || movement.dirright) calcPos();
             game.UpdateDrops();
             game.UpdateEnemies();
             game.RemoveLast();
+            if (reload.time > 0) setReload(reload.time = reload.time - 1);
             setGame((game) => new Game(game.Drops, game.Enemies, game.spawnTime));
         }, 1);
 
+        const ShootInterval = setInterval(() => {
+            game.EnemiesShoot();
+        }, 100);
+
         return function stopTimer() {
             clearInterval(Interval);
+            clearInterval(ShootInterval);
             // clearInterval(CreateEnemyInterval);
         }
     }, [])
@@ -62,15 +61,16 @@ const Yarik = function () {
         let rightBorder = window.innerWidth / 2 - window.innerWidth * 0.05;
 
         if (event !== undefined) {
-            if (event.code === 'Space') {
+            if (event.code === 'Space' && reload.time == 0) {
                 setGame(game, game.addNewDrop({ x: tempPos.x + window.innerWidth * 0.01, y: window.innerHeight * 0.8 }));
+                setReload(reload.time = 150);
             }
         }
         if (movement.dirleft) {
-            tempPos.x -= window.innerWidth / 600;
+            tempPos.x -= window.innerWidth / 300;
         }
         if (movement.dirright) {
-            tempPos.x += window.innerWidth / 600;
+            tempPos.x += window.innerWidth / 300;
         }
 
         if (tempPos.x < leftBorder) tempPos.x = leftBorder;
