@@ -16,9 +16,10 @@ const audios = [new Audio(death1), new Audio(death2), new Audio(death3), new Aud
 const shot = new Audio(yarik);
 
 class Game {
-    constructor(drops, enemies, spawnTime, points, killedCount) {
+    constructor(drops, enemies, balls, spawnTime, points, killedCount) {
         this.Drops = drops;
         this.Enemies = enemies;
+        this.Balls = balls;
         this.spawnTime = spawnTime;
         this.Points = points;
         this.killedCount = killedCount;
@@ -36,6 +37,21 @@ class Game {
         this.Drops.push(new Drop(pos));
         shot.volume = 1;
         shot.play();
+    }
+
+    addNewBall(pos) {
+        this.Balls.push(new Ball(pos));
+    }
+
+    UpdateBalls() {
+        for (const key in this.Balls) {
+            if (Object.hasOwnProperty.call(this.Balls, key)) {
+                const item = this.Balls[key];
+                item.pos.y += item.speed;
+                item.speed += window.innerHeight / 54000;
+                console.log(item);
+            }
+        }
     }
 
     UpdateDrops() {
@@ -89,6 +105,9 @@ class Game {
             if (Object.hasOwnProperty.call(this.Enemies, key)) {
                 const item = this.Enemies[key];
                 item.Move();
+                if (Math.random() < 0.001 * (this.killedCount < 10 ? this.killedCount : Math.sqrt(Math.sqrt(this.killedCount))) && item.alive) {
+                    this.addNewBall({ x: item.pos.x + window.innerWidth * 0.01, y: window.innerHeight * 0.1 });
+                }
             }
         }
     }
@@ -97,6 +116,9 @@ class Game {
         if (this.Drops.at(0) !== undefined && this.Drops.at(0).pos.y < -100) {
             this.Drops.splice(0, 1);
         }
+        if (this.Balls.at(0) !== undefined && this.Balls.at(0).pos.y > window.innerHeight + 100) {
+            this.Balls.splice(0, 1);
+        }
     }
 
     ChangeDelay() {
@@ -104,10 +126,6 @@ class Game {
             this.spawnTime -= this.spawnTime / 10;
         }
         else this.spawnTime = 250;
-    }
-
-    EnemiesShoot() {
-        // console.log('shoot');
     }
 }
 
@@ -158,23 +176,12 @@ class Drop {
     }
 }
 
-// function addNewDrop(pos) {
-//     Game.Drops.push(new Drop(pos));
-//     console.log(Game.Drops.length);
-// }
-
-// function UpdateDrops(){
-//     for (const item of Game.Drops) {
-//         item.pos.y -= item.speed;
-//         item.speed += 1;
-//     }
-// }
-
-// function RemoveDrop() {
-//     if (Game.Drops.at(Game.Drops.length - 1).pos.y < 200){
-//         Game.Drops.pop();
-//     }
-// }
+class Ball {
+    constructor(pos) {
+        this.pos = pos;
+        this.speed = window.innerHeight / 540;
+    }
+}
 
 module.exports = {
     Game,

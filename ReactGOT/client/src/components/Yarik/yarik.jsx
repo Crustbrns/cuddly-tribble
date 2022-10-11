@@ -1,6 +1,7 @@
 import React from 'react';
 import YarikImage from './Resources/Yarik.png';
 import DropImage from './Resources/Шишка.png';
+import BallImage from './Resources/ball.png';
 import EnemyImage from './Resources/enemy.png';
 import EnemyDeadImage from './Resources/enemy-stuffed.png';
 import classes from './yarik.module.css';
@@ -9,7 +10,7 @@ import { GameRadio } from './radio';
 
 const Yarik = function () {
     const [pos, setPos] = React.useState({ x: -55 });
-    const [game, setGame] = React.useState(new Game([], [], 3000, 0, 0));
+    const [game, setGame] = React.useState(new Game([], [], [], 3000, 0, 0));
     const [movement, setMovement] = React.useState({ dirleft: false, dirright: false });
     const [reload, setReload] = React.useState({ time: 0 });
 
@@ -39,13 +40,13 @@ const Yarik = function () {
         const Interval = setInterval(() => {
             calcPos();
             setGame(game, game.UpdateDrops());
+            setGame(game, game.UpdateBalls());
             setGame(game, game.UpdateEnemies());
             setGame(game, game.RemoveLast());
-            if (reload.time > 0) setReload(reload.time = reload.time - 1);
-            // setGame(game, game.Drops = game.Drops);
-            // setGame(game, game.Enemies = game.Enemies);
-            // setGame(game, game.Points = game.Points);
-            // setGame(game, game.killedCount = game.killedCount);
+            setGame(game, game.Balls = game.Balls);
+
+            if (reload.time > 0)
+                setReload(reload.time = reload.time - 1);
         }, 1);
 
         const ShootInterval = setInterval(() => {
@@ -55,7 +56,6 @@ const Yarik = function () {
         return function stopTimer() {
             clearInterval(Interval);
             clearInterval(ShootInterval);
-            // clearInterval(CreateEnemyInterval);
         }
     }, [])
 
@@ -118,6 +118,9 @@ const Yarik = function () {
             })}
             {game.Enemies.map((item, index) => {
                 return <img key={index} style={{ transform: `translate(${item.pos.x}px` }} className={`${classes.enemy} ${item.alive ? '' : getDeadAnim(item)}`} src={item.alive ? EnemyImage : EnemyDeadImage} />
+            })}
+            {game.Balls.map((item, index) => {
+                return <img key={index} style={{ transform: `translate(${item.pos.x}px, ${item.pos.y}px)` }} className={classes.drop} src={BallImage} />
             })}
             <div className={classes.points}>{game.Points}</div>
         </div>
