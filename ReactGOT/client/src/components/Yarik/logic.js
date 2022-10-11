@@ -1,4 +1,5 @@
 var intersects = require('intersects');
+const { GameRadio } = require('./radio');
 const death1 = require('./Resources/Sounds/den1.mp3');
 const death2 = require('./Resources/Sounds/den2.mp3');
 const death3 = require('./Resources/Sounds/den3.mp3');
@@ -55,6 +56,7 @@ class Game {
                 console.log(item);
                 if (this.CheckPlayerKill(item, player)) {
                     this.Over = true;
+                    GameRadio.ToggleSomething();
                 }
             }
         }
@@ -119,7 +121,7 @@ class Game {
             if (Object.hasOwnProperty.call(this.Enemies, key)) {
                 const item = this.Enemies[key];
                 item.Move();
-                if (Math.random() < 0.001 * (this.killedCount < 10 ? this.killedCount : Math.sqrt(Math.sqrt(this.killedCount))) && item.alive) {
+                if (Math.random() < 0.0015 * (this.killedCount < 10 ? this.killedCount : Math.sqrt(Math.sqrt(this.killedCount))) && item.alive) {
                     this.addNewBall({ x: item.pos.x + window.innerWidth * 0.01, y: window.innerHeight * 0.1 });
                 }
             }

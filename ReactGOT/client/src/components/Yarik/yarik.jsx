@@ -5,13 +5,13 @@ import BallImage from './Resources/ball.png';
 import EnemyImage from './Resources/enemy.png';
 import EnemyDeadImage from './Resources/enemy-stuffed.png';
 import classes from './yarik.module.css';
-import { addNewDrop, DeadAnim, Game, UpdateDrops } from './logic';
+import { DeadAnim, Game } from './logic';
 import { GameRadio } from './radio';
 
 const Yarik = function () {
     const [pos, setPos] = React.useState({ x: -55 });
     const [game, setGame] = React.useState(new Game([], [], [], 3000, 0, 0));
-    const [movement, setMovement] = React.useState({ dirleft: false, dirright: false });
+    const [movement, setMovement] = React.useState({ dirleft: false, dirright: false, shooting: false });
     const [reload, setReload] = React.useState({ time: 0 });
 
     React.useState(() => {
@@ -20,6 +20,25 @@ const Yarik = function () {
         document.body.style.overflow = 'hidden';
         CreateEnemy();
     });
+    React.useEffect(() => {
+        const Interval = setInterval(() => {
+            if (!game.Over) {
+                calcPos();
+                setGame(game, game.UpdateDrops());
+                setGame(game, game.UpdateBalls(pos));
+                setGame(game, game.UpdateEnemies());
+                setGame(game, game.RemoveLast());
+                setGame(game, game.Balls = game.Balls);
+
+                if (reload.time > 0)
+                    setReload(reload.time = reload.time - 1);
+            }
+        }, 1);
+
+        return function stopTimer() {
+            clearInterval(Interval);
+        }
+    }, [])
 
     function CreateEnemy() {
         if (!game.Over) {
@@ -37,45 +56,12 @@ const Yarik = function () {
             }, game.spawnTime);
         }
     }
-
-    React.useEffect(() => {
-        console.log(pos, window.innerWidth);
-
-        const Interval = setInterval(() => {
-            if (!game.Over) {
-                calcPos();
-                setGame(game, game.UpdateDrops());
-                setGame(game, game.UpdateBalls(pos));
-                setGame(game, game.UpdateEnemies());
-                setGame(game, game.RemoveLast());
-                setGame(game, game.Balls = game.Balls);
-                setGame(game, game.gameOver = game.gameOver);
-                console.log(game.Started);
-
-                if (reload.time > 0)
-                    setReload(reload.time = reload.time - 1);
-            }
-        }, 1);
-
-        return function stopTimer() {
-            clearInterval(Interval);
-        }
-    }, [])
-
-    function calcPos(event) {
+    function calcPos() {
         let tempPos = pos;
         let leftBorder = - window.innerWidth / 2;
         let rightBorder = window.innerWidth / 2 - window.innerWidth * 0.05;
 
-        if (event !== undefined) {
-            if (event.code === 'Space' && reload.time == 0) {
-                setGame(game, game.addNewDrop({ x: tempPos.x + window.innerWidth * 0.01, y: window.innerHeight * 0.8 }));
-                setReload(reload.time = 150);
-                GameRadio.InitRadio();
-            }
-        }
-
-        if (movement.dirleft || movement.dirright) {
+        if (movement.dirleft || movement.dirright || movement.shooting) {
             GameRadio.InitRadio();
             setGame(game, game.InitGame());
 
@@ -85,6 +71,10 @@ const Yarik = function () {
             if (movement.dirright) {
                 tempPos.x += window.innerWidth / 300;
             }
+            if (movement.shooting && reload.time == 0) {
+                setGame(game, game.addNewDrop({ x: tempPos.x + window.innerWidth * 0.01, y: window.innerHeight * 0.8 }));
+                setReload(reload.time = 150);
+            }
         }
 
         if (tempPos.x < leftBorder) tempPos.x = leftBorder;
@@ -92,7 +82,6 @@ const Yarik = function () {
 
         setPos({ x: tempPos.x });
     }
-
     function getDeadAnim(enemy) {
         if (enemy.deadAnim === DeadAnim.Rotate) return classes.dead1;
         else if (enemy.deadAnim === DeadAnim.Scale) return classes.dead2;
@@ -100,7 +89,6 @@ const Yarik = function () {
         else if (enemy.deadAnim === DeadAnim.Fade) return classes.dead4;
         else return classes.dead4;
     }
-
     function Move(event, truth) {
         if (event.key === 'a' || event.key === 'ф') {
             setMovement(movement.dirleft = truth);
@@ -109,18 +97,43 @@ const Yarik = function () {
             setMovement(movement.dirright = truth);
         }
         if (event.code === 'Space') {
-            calcPos(event);
+            setMovement(movement.shooting = truth);
         }
+    }
+    function StartAgain() {
+        setGame(new Game([], [], [], 3000, 0, 0));
+        setGame(game, game.Balls = []);
+        setGame(game, game.Drops = []);
+        setGame(game, game.Enemies = []);
+        setGame(game, game.spawnTime = 3000);
+        setGame(game, game.Points = 0);
+        setGame(game, game.killedCount = 0);
+        setGame(game, game.Started = false);
+        setGame(game, game.Over = false);
+        setPos(pos, pos.x = -55);
+        CreateEnemy();
+    }
+
+    function getHints(){
+        if(!game.Started) return classes.hintContainer;
+        else return `${classes.hintContainer + ' ' + classes.fade}`;
     }
 
     return (
         <div className={classes.container}>
+            <div className={getHints()}>
+                <div className={classes.keysContainer}>
+                    <div className={classes.keybutton}>A</div>
+                    <div className={classes.keybutton}>D</div>
+                </div>
+            </div>
             <div className={`${classes.deadtitle} ${game.Over ? classes.show : ''}`}>
                 <div>Денчик выиграл)</div>
                 <div>Очки: <span className={classes.counter}>{game.Points}</span></div>
-                <div>На стаффе: <span className={classes.counter}>{game.killedCount}</span></div>
+                <div>Прибито: <span className={classes.counter}>{game.killedCount}</span></div>
+                <div className={classes.button} onClick={StartAgain}>Начать заново</div>
             </div>
-            <img style={{ transform: `translate(${pos.x}px)`, height: `calc(18%)`, width: `5%` }} className={classes.yarik} alt='yarik' src={YarikImage} />
+            <img style={{ transform: `translate(${pos.x}px)`, height: `calc(18%)`, width: `5%` }} className={`${classes.yarik} ${game.Over ? classes.gameOver : ''}`} alt='yarik' src={YarikImage} />
             {game.Drops.map((item, index) => {
                 return <img key={index} style={{ transform: `translate(${item.pos.x}px, ${item.pos.y}px)` }} className={classes.drop} src={DropImage} />
             })}
