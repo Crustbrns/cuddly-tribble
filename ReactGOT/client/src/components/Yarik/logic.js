@@ -3,17 +3,23 @@ var intersects = require('intersects');
 const DeadAnim = {
     Rotate: 0,
     Scale: 1,
-    RotateReverse: 2
+    RotateReverse: 2,
+    Fade: 3
 }
 
 class Game {
-    constructor(drops, enemies) {
+    constructor(drops, enemies, spawnTime) {
         this.Drops = drops;
         this.Enemies = enemies;
+        this.spawnTime = spawnTime;
     }
 
     addNewEnemy() {
-        this.Enemies.push(new Enemy({ x: 0 }));
+        let leftBorder = - window.innerWidth / 2;
+        let rightBorder = window.innerWidth / 2 - window.innerWidth * 0.05;
+        let pos = leftBorder + rightBorder * 2 * Math.random();
+
+        this.Enemies.push(new Enemy({ x: pos }));
     }
 
     addNewDrop(pos) {
@@ -37,7 +43,6 @@ class Game {
                 if (intersects.boxBox(drop.pos.x, drop.pos.y, 100, 200, item.pos.x, 0, window.innerHeight * 0.18, window.innerWidth * 0.05)) {
                     console.log('killed');
                     item.alive = false;
-                    item.deadAnim = Math.random() > 0.5 ? 1 : 2;
                     // this.Enemies.splice(this.Enemies.findIndex(x => x == item), 1);
                     this.Drops.splice(this.Drops.findIndex(x => x == drop), 1);
                 }
@@ -61,6 +66,12 @@ class Game {
         }
     }
 
+    ChangeDelay(){
+        if (this.spawnTime > 250) {
+            this.spawnTime -= this.spawnTime / 10;
+        }
+        else this.spawnTime = 250;
+    }
 }
 
 class Enemy {
@@ -68,7 +79,7 @@ class Enemy {
         let rand = Math.random();
         this.pos = pos;
         this.alive = true;
-        this.deadAnim = Math.floor(rand * 3);
+        this.deadAnim = Math.floor(rand * 4);
         console.log(this.deadAnim);
         this.direction = rand > 0.5 ? 1 : 2;
     }
