@@ -121,6 +121,7 @@ const Yarik = function () {
         }
     }
     function StartAgain() {
+        GameRadio.PlaySwitch();
         setGame(new Game([], [], [], 3000, 0, 0));
         setGame(game, game.Balls = []);
         setGame(game, game.Drops = []);
