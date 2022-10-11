@@ -22,45 +22,47 @@ const Yarik = function () {
     });
 
     function CreateEnemy() {
-        if (game.Enemies.length < 10) {
-            game.addNewEnemy();
-            game.ChangeDelay();
-            setGame(game, game.Enemies = game.Enemies);
-            setGame(game, game.spawnTime = game.spawnTime);
-        }
+        if (!game.Over) {
+            if (game.Started) {
+                if (game.Enemies.length < 12) {
+                    game.addNewEnemy();
+                    game.ChangeDelay();
+                    setGame(game, game.Enemies = game.Enemies);
+                    setGame(game, game.spawnTime = game.spawnTime);
+                }
+            }
 
-        setTimeout(function () {
-            CreateEnemy();
-        }, game.spawnTime);
+            setTimeout(function () {
+                CreateEnemy();
+            }, game.spawnTime);
+        }
     }
 
     React.useEffect(() => {
         console.log(pos, window.innerWidth);
 
         const Interval = setInterval(() => {
-            calcPos();
-            setGame(game, game.UpdateDrops());
-            setGame(game, game.UpdateBalls());
-            setGame(game, game.UpdateEnemies());
-            setGame(game, game.RemoveLast());
-            setGame(game, game.Balls = game.Balls);
+            if (!game.Over) {
+                calcPos();
+                setGame(game, game.UpdateDrops());
+                setGame(game, game.UpdateBalls(pos));
+                setGame(game, game.UpdateEnemies());
+                setGame(game, game.RemoveLast());
+                setGame(game, game.Balls = game.Balls);
+                setGame(game, game.gameOver = game.gameOver);
+                console.log(game.Started);
 
-            if (reload.time > 0)
-                setReload(reload.time = reload.time - 1);
+                if (reload.time > 0)
+                    setReload(reload.time = reload.time - 1);
+            }
         }, 1);
-
-        const ShootInterval = setInterval(() => {
-            game.EnemiesShoot();
-        }, 100);
 
         return function stopTimer() {
             clearInterval(Interval);
-            clearInterval(ShootInterval);
         }
     }, [])
 
     function calcPos(event) {
-        // console.log('asd');
         let tempPos = pos;
         let leftBorder = - window.innerWidth / 2;
         let rightBorder = window.innerWidth / 2 - window.innerWidth * 0.05;
@@ -75,6 +77,7 @@ const Yarik = function () {
 
         if (movement.dirleft || movement.dirright) {
             GameRadio.InitRadio();
+            setGame(game, game.InitGame());
 
             if (movement.dirleft) {
                 tempPos.x -= window.innerWidth / 300;
@@ -112,6 +115,11 @@ const Yarik = function () {
 
     return (
         <div className={classes.container}>
+            <div className={`${classes.deadtitle} ${game.Over ? classes.show : ''}`}>
+                <div>Денчик выиграл)</div>
+                <div>Очки: <span className={classes.counter}>{game.Points}</span></div>
+                <div>На стаффе: <span className={classes.counter}>{game.killedCount}</span></div>
+            </div>
             <img style={{ transform: `translate(${pos.x}px)`, height: `calc(18%)`, width: `5%` }} className={classes.yarik} alt='yarik' src={YarikImage} />
             {game.Drops.map((item, index) => {
                 return <img key={index} style={{ transform: `translate(${item.pos.x}px, ${item.pos.y}px)` }} className={classes.drop} src={DropImage} />

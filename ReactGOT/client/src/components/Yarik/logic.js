@@ -23,9 +23,12 @@ class Game {
         this.spawnTime = spawnTime;
         this.Points = points;
         this.killedCount = killedCount;
+        this.Over = false;
+        this.Started = false;
     }
 
     addNewEnemy() {
+        
         let leftBorder = - window.innerWidth / 2;
         let rightBorder = window.innerWidth / 2 - window.innerWidth * 0.05;
         let pos = leftBorder + rightBorder * 2 * Math.random();
@@ -43,15 +46,26 @@ class Game {
         this.Balls.push(new Ball(pos));
     }
 
-    UpdateBalls() {
+    UpdateBalls(player) {
         for (const key in this.Balls) {
             if (Object.hasOwnProperty.call(this.Balls, key)) {
                 const item = this.Balls[key];
                 item.pos.y += item.speed;
                 item.speed += window.innerHeight / 54000;
                 console.log(item);
+                if (this.CheckPlayerKill(item, player)) {
+                    this.Over = true;
+                }
             }
         }
+    }
+
+    CheckPlayerKill(ball, player) {
+        if (intersects.boxBox(player.x + window.innerHeight * 0.02, window.innerHeight * 0.82, window.innerWidth * 0.04, window.innerHeight * 0.02, ball.pos.x, ball.pos.y, window.innerWidth * 0.02, window.innerHeight * 0.02)) {
+            // this.Balls = [];
+            return true;
+        }
+        return false;
     }
 
     UpdateDrops() {
@@ -126,6 +140,13 @@ class Game {
             this.spawnTime -= this.spawnTime / 10;
         }
         else this.spawnTime = 250;
+    }
+
+    InitGame(){
+        if(!this.Started){
+            this.addNewEnemy();
+            this.Started = true;
+        } 
     }
 }
 
