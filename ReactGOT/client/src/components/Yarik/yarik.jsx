@@ -4,7 +4,7 @@ import DropImage from './Resources/Шишка.png';
 import EnemyImage from './Resources/enemy.png';
 import EnemyDeadImage from './Resources/enemy-stuffed.png';
 import classes from './yarik.module.css';
-import { addNewDrop, Game, UpdateDrops } from './logic';
+import { addNewDrop, DeadAnim, Game, UpdateDrops } from './logic';
 
 const Yarik = function () {
     const [pos, setPos] = React.useState({ x: -55 });
@@ -64,6 +64,12 @@ const Yarik = function () {
         setPos({ x: tempPos.x });
     }
 
+    function getDeadAnim(enemy) {
+        if (enemy.deadAnim === 0) return classes.dead1;
+        else if (enemy.deadAnim === 1) return classes.dead2;
+        else if (enemy.deadAnim === 2) return classes.dead3;
+        else return classes.dead3;
+    }
 
     function Move(event, truth) {
         if (event.key === 'a' || event.key === 'ф') {
@@ -84,7 +90,7 @@ const Yarik = function () {
                 return <img key={index} style={{ transform: `translate(${item.pos.x}px, ${item.pos.y}px)` }} className={classes.drop} src={DropImage} />
             })}
             {game.Enemies.map((item, index) => {
-                return <img key={index} style={{ transform: `translate(${item.pos.x}px` }} className={`${classes.enemy} ${item.deadAnim}`} src={item.alive ? EnemyImage : EnemyDeadImage} />
+                return <img key={index} style={{ transform: `translate(${item.pos.x}px` }} className={`${classes.enemy} ${item.alive ? '' : getDeadAnim(item)}`} src={item.alive ? EnemyImage : EnemyDeadImage} />
             })}
         </div>
     )

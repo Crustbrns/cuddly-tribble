@@ -37,34 +37,53 @@
 
 .dead1 {
     opacity: 0;
-    animation: deadType1;
+    animation: deadanim1;
     animation-duration: 2s;
-  }
-  
-  .dead2 {
+}
+
+.dead2 {
     opacity: 0;
-    animation: deadType2;
+    animation: deadanim2;
     animation-duration: 2s;
-  }
-  
-  @keyframes deadType1 {
+}
+
+.dead3 {
+    opacity: 0;
+    animation: deadanim3;
+    animation-duration: 2s;
+}
+
+@keyframes deadanim1 {
+    from {
+        opacity: 1;
+        /* transform: rotate(0deg); */
+    }
+
+    to {
+        opacity: 0;
+        transform: rotate(780deg);
+        transform: scale(0.2);
+    }
+}
+
+@keyframes deadanim2 {
     from {
         opacity: 1;
     }
-    
+
     to {
         opacity: 0;
-        transform: rotate(780deg) !important;
+        transform: rotate(780deg);
     }
-  }
-  
-  @keyframes deadType2 {
+}
+
+@keyframes deadanim3 {
     from {
         opacity: 1;
     }
-    
+
     to {
         opacity: 0;
-        transform: rotate(-780deg) !important;
+        transform: rotate(-780deg);
     }
-  }
+}

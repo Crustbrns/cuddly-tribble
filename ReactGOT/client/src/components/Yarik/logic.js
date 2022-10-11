@@ -1,5 +1,11 @@
 var intersects = require('intersects');
 
+const DeadAnim = {
+    Rotate: 0,
+    Scale: 1,
+    RotateReverse: 2
+}
+
 class Game {
     constructor(drops, enemies) {
         this.Drops = drops;
@@ -31,7 +37,7 @@ class Game {
                 if (intersects.boxBox(drop.pos.x, drop.pos.y, 100, 200, item.pos.x, 0, window.innerHeight * 0.18, window.innerWidth * 0.05)) {
                     console.log('killed');
                     item.alive = false;
-                    item.deadAnim = Math.random() > 0.5 ? 'dead1' : 'dead2';
+                    item.deadAnim = Math.random() > 0.5 ? 1 : 2;
                     // this.Enemies.splice(this.Enemies.findIndex(x => x == item), 1);
                     this.Drops.splice(this.Drops.findIndex(x => x == drop), 1);
                 }
@@ -59,10 +65,12 @@ class Game {
 
 class Enemy {
     constructor(pos) {
+        let rand = Math.random();
         this.pos = pos;
         this.alive = true;
-        this.deadAnim = '';
-        this.direction = Math.random() > 0.5 ? 2 : 1;
+        this.deadAnim = Math.floor(rand * 3);
+        console.log(this.deadAnim);
+        this.direction = rand > 0.5 ? 1 : 2;
     }
 
     Die = () => {
@@ -121,5 +129,6 @@ class Drop {
 // }
 
 module.exports = {
-    Game
+    Game,
+    DeadAnim
 }
