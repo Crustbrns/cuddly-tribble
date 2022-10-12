@@ -7,6 +7,7 @@ import DropImage from './Resources/Шишка.png';
 import BallImage from './Resources/ball.png';
 import PillsImage from './Resources/pills.png';
 import ShavuhaImage from './Resources/Шавуха.png';
+import BossImage from './Resources/Boss.png';
 import EnemyImage from './Resources/enemy.png';
 import EnemyDeadImage from './Resources/enemy-stuffed.png';
 import WinVideo from './Resources/Win.gif';
@@ -57,6 +58,7 @@ const Yarik = function () {
                 setGame(game, game.UpdateDrops());
                 setGame(game, game.UpdateBalls(pos));
                 setGame(game, game.UpdateEnemies());
+                setGame(game, game.UpdateBoss());
                 setGame(game, game.RemoveLast());
                 setGame(game, game.UpdateBonuses(pos));
                 setGame(game, game.BusterTime = game.BusterTime);
@@ -87,7 +89,7 @@ const Yarik = function () {
 
     function CreateEnemy() {
         if (!game.Over) {
-            if (game.Points < 30000) {
+            if (game.Points < 100) {
                 if (game.Started) {
                     if (game.Enemies.length < 12) {
                         game.addNewEnemy();
@@ -100,6 +102,12 @@ const Yarik = function () {
                 setTimeout(function () {
                     CreateEnemy();
                 }, game.spawnTime);
+            }
+            else {
+                if (game.Boss === null) {
+                    setGame(game, game.BossInit());
+                    console.log(game.Boss);
+                }
             }
         }
     }
@@ -173,6 +181,7 @@ const Yarik = function () {
         setGame(game, game.ShavuhaCount = 0);
         setGame(game, game.PillsCount = 0);
         setGame(game, game.Win = false);
+        setGame(game, game.Boss = null);
         setPos(pos, pos.x = -55);
         CreateEnemy();
     }
@@ -206,8 +215,25 @@ const Yarik = function () {
         return null;
     }
 
+    function getBoss() {
+        if (game.Boss !== null) {
+            return <img style={{ transform: `translate(${game.Boss.pos.x}px)` }} className={`${classes.enemy}`} src={BossImage} />;
+        }
+    }
+
+    function getBossHp() {
+        if (game.Boss !== null) {
+            return <div className={classes.barContainer}>
+                <div className={classes.bossTitle}>Big Papa</div>
+                <div className={classes.hpContainer}>
+                    <div className={classes.hp} style={{ width: `${game.Boss.hp / 10}%` }}></div>
+                </div>
+            </div>
+        }
+    }
+
     return (
-        <div style={getBack()} className={`${classes.container} ${game.Points > 10 ? classes.bossArived : ''}`}>
+        <div style={getBack()} className={`${classes.container} ${game.Boss !== null ? classes.bossArived : ''}`}>
             <div className={classes.darken}>
                 <div className={getHints()}>
                     <div className={classes.keysContainer}>
@@ -243,6 +269,8 @@ const Yarik = function () {
                 {game.Bonuses.map((item, index) => {
                     return <img key={index} style={{ transform: `translate(${item.pos.x}px, ${item.pos.y}px)` }} className={classes.drop} src={item.type == 'Pill' ? PillsImage : ShavuhaImage} />
                 })}
+                {getBoss()}
+                {getBossHp()}
                 <div className={classes.points}>{game.Points}</div>
             </div>
         </div>

@@ -41,6 +41,7 @@ class Game {
         this.TimeAlive = 0;
         this.PillsCount = 0;
         this.Win = false;
+        this.Boss = null;
         shot.volume = 0.35;
         shotshavuha[0].volume = 0.35;
         shotshavuha[1].volume = 0.20;
@@ -106,6 +107,9 @@ class Game {
             if (Object.hasOwnProperty.call(this.Balls, key)) {
                 const item = this.Balls[key];
                 item.pos.y += item.speed;
+                if (item.dir !== null) {
+                    item.pos.x += item.dir;
+                }
                 item.speed += window.innerHeight / 54000;
                 if (this.CheckPlayerKill(item, player)) {
                     this.Over = true;
@@ -120,6 +124,16 @@ class Game {
             return true;
         }
         return false;
+    }
+
+    UpdateBoss() {
+        if (this.Boss !== null) {
+            this.Boss.Move();
+
+            if (Math.random() < 0.02) {
+                this.Balls.push(this.Boss.Shot());
+            }
+        }
     }
 
     UpdateDrops() {
@@ -137,6 +151,24 @@ class Game {
                     }
                     this.Points += this.MultiplyPoints();
                     if (Math.random() < 0.0015 * this.TimeAlive) {
+                        if (Math.random() > 0.5) {
+                            this.addNewBonus({ x: item.pos.x, y: window.innerHeight * 0.05 }, 'Pill');
+                        }
+                        else {
+                            this.addNewBonus({ x: item.pos.x, y: window.innerHeight * 0.05 }, 'Shavuha');
+                        }
+                    }
+                }
+                if(this.Boss !== null && this.CheckBossHit(item)){
+                    if (item.type === 'Shishka') {
+                        this.Drops.splice(this.Drops.findIndex(x => x == item), 1);
+                        this.Boss.hp -= 20;
+                    }
+                    else if (item.type === 'Shavuha') {
+                        shotshavuha.at(Math.floor(Math.random() * shotshavuha.length)).play();
+                        this.Boss.hp -= 60;
+                    }
+                    if (Math.random() < 0.015 * this.TimeAlive) {
                         if (Math.random() > 0.5) {
                             this.addNewBonus({ x: item.pos.x, y: window.innerHeight * 0.05 }, 'Pill');
                         }
@@ -180,6 +212,16 @@ class Game {
         return false;
     }
 
+    CheckBossHit(drop){
+        if (this.Boss.alive) {
+            if (intersects.boxBox(drop.pos.x, drop.pos.y, window.innerWidth * 0.03, window.innerWidth * 0.03, this.Boss.pos.x + window.innerWidth * 0.02, 0, window.innerWidth * 0.03, window.innerHeight * 0.18)) {
+                audios[Math.floor(Math.random() * 5)].play();
+                return true;
+            }
+        }
+        return false
+    }
+
     UpdateEnemies() {
         for (const key in this.Enemies) {
             if (Object.hasOwnProperty.call(this.Enemies, key)) {
@@ -191,7 +233,7 @@ class Game {
             }
         }
 
-        if (this.Points >= 800 && this.Enemies.length === 0) {
+        if (this.Points >= 300 && this.Enemies.length === 0 && this.Boss !== null && this.Boss.alive === false) {
             this.Over = true;
             // GameRadio.ToggleSomething();
             GameRadio.ReduceVolume();
@@ -200,6 +242,14 @@ class Game {
             return true;
         }
         return false;
+    }
+
+    BossInit() {
+        let leftBorder = - window.innerWidth / 2;
+        let rightBorder = window.innerWidth / 2 - window.innerWidth * 0.05;
+        let pos = leftBorder + rightBorder * 2 * Math.random();
+
+        this.Boss = new Boss({ x: pos });
     }
 
     RemoveLast() {
@@ -267,9 +317,47 @@ class Enemy {
 }
 
 class Boss {
-    constructor(){
+    constructor(pos) {
+        this.pos = pos;
         this.alive = true;
         this.reloadtime = 25;
+        let rand = Math.random();
+        this.direction = rand > 0.5 ? 1 : 2;
+        this.hp = 1000;
+    }
+
+    ChangeDirection = () => {
+        this.direction == 1 ? this.direction = 2 : this.direction = 1;
+    }
+
+    CheckBorders() {
+        let leftBorder = - window.innerWidth / 2;
+        let rightBorder = window.innerWidth / 2 - window.innerWidth * 0.05;
+
+        if (this.pos.x < leftBorder) {
+            this.pos.x = leftBorder;
+            this.ChangeDirection();
+        }
+        else if (this.pos.x > rightBorder) {
+            this.pos.x = rightBorder;
+            this.ChangeDirection();
+        }
+    }
+
+    Move() {
+        if (this.direction != 0) {
+            this.direction == 1 ? this.pos.x -= window.innerWidth / 1340 : this.pos.x += window.innerWidth / 1340;
+        }
+        if (Math.random() < 0.001) {
+            this.ChangeDirection();
+        }
+        this.CheckBorders();
+        console.log(this.hp);
+    }
+
+    Shot() {
+        let dir = Math.random();
+        return new Ball({ x: this.pos.x + window.innerWidth * 0.01, y: window.innerHeight * 0.1 }, dir > 0.66 ? window.innerWidth * 0.001 : dir > 0.33 ? -(window.innerWidth * 0.001) : 0);
     }
 }
 
@@ -282,9 +370,10 @@ class Drop {
 }
 
 class Ball {
-    constructor(pos, dri) {
+    constructor(pos, dir) {
         this.pos = pos;
         this.speed = window.innerHeight / 540;
+        this.dir = dir === null ? null : dir;
     }
 }
 

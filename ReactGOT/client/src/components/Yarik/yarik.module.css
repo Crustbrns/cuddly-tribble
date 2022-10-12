@@ -306,3 +306,28 @@
         transform: scale(1) rotate(0deg);
     }
 }
+
+.barContainer{
+    margin: auto;
+    margin-top: 85vh;
+}
+
+.bossTitle{
+    font-size: 1.5vw;
+    font-family: 'e-Ukraine-M';
+}
+
+.hpContainer{
+    width: 40%;
+    background-color: rgb(5, 5, 5);
+    height: 2vh;
+    border-radius: 5px;
+    display: flex;
+    padding: 5px;
+    margin: auto;
+}
+
+.hp{
+    background-color: #911930;
+    width: 100%;
+}
