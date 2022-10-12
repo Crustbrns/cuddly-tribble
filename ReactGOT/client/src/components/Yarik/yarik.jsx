@@ -8,6 +8,8 @@ import BallImage from './Resources/ball.png';
 import PillsImage from './Resources/pills.png';
 import ShavuhaImage from './Resources/Шавуха.png';
 import BossImage from './Resources/Boss.png';
+import BossBoostedImage from './Resources/BossBoosted.png';
+import BossDefeatedImage from './Resources/BossDefeated.png';
 import EnemyImage from './Resources/enemy.png';
 import EnemyDeadImage from './Resources/enemy-stuffed.png';
 import WinVideo from './Resources/Win.gif';
@@ -89,7 +91,7 @@ const Yarik = function () {
 
     function CreateEnemy() {
         if (!game.Over) {
-            if (game.Points < 100) {
+            if (game.Points < 20000) {
                 if (game.Started) {
                     if (game.Enemies.length < 12) {
                         game.addNewEnemy();
@@ -217,7 +219,7 @@ const Yarik = function () {
 
     function getBoss() {
         if (game.Boss !== null) {
-            return <img style={{ transform: `translate(${game.Boss.pos.x}px)` }} className={`${classes.enemy}`} src={BossImage} />;
+            return <img style={{ transform: `translate(${game.Boss.pos.x}px)` }} className={`${classes.enemy} ${game.Boss.alive ? '' : classes.bossEnemy} ${game.Boss.alive ? '' : getDeadAnim(game.Boss)}`} src={game.Boss.hp > 200 ? BossImage : game.Boss.alive ? BossBoostedImage : BossDefeatedImage} />;
         }
     }
 
@@ -227,6 +229,7 @@ const Yarik = function () {
                 <div className={classes.bossTitle}>Big Papa</div>
                 <div className={classes.hpContainer}>
                     <div className={classes.hp} style={{ width: `${game.Boss.hp / 10}%` }}></div>
+                    <div className={classes.hpAbsence} style={{ width: `${100 - (game.Boss.hp / 10)}%` }}></div>
                 </div>
             </div>
         }

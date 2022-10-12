@@ -5,8 +5,13 @@ const death2 = require('./Resources/Sounds/den2.mp3');
 const death3 = require('./Resources/Sounds/den3.mp3');
 const death4 = require('./Resources/Sounds/den4.mp3');
 const death5 = require('./Resources/Sounds/den5.mp3');
+const boss = require('./Resources/Sounds/boss.mp3');
+const boss1 = require('./Resources/Sounds/boss1.mp3');
+const boss2 = require('./Resources/Sounds/boss3.mp3');
+const bossdefeated = require('./Resources/Sounds/bossdefeated.mp3');
 const yarik = require('./Resources/Sounds/yarik.ogg');
 const yarik2 = require('./Resources/Sounds/yarikboosted.mp3');
+const yarik3 = require('./Resources/Sounds/shavuha.mp3');
 
 const shavuha1 = require('./Resources/Sounds/shavuha1.mp3');
 const shavuha2 = require('./Resources/Sounds/shavuha2.mp3');
@@ -21,7 +26,10 @@ const DeadAnim = {
 const audios = [new Audio(death1), new Audio(death2), new Audio(death3), new Audio(death4), new Audio(death5)]
 const shot = new Audio(yarik);
 const shot2 = new Audio(yarik2);
+const shot3 = new Audio(yarik3);
+const bossArrival = [new Audio(boss), new Audio(boss1), new Audio(boss2)];
 const shotshavuha = [new Audio(shavuha1), new Audio(shavuha2)];
+const bossDefeated = new Audio(bossdefeated);
 
 class Game {
     constructor(drops, enemies, balls, spawnTime, points, killedCount) {
@@ -43,6 +51,7 @@ class Game {
         this.Win = false;
         this.Boss = null;
         shot.volume = 0.35;
+        shot3.volume = 0.35;
         shotshavuha[0].volume = 0.35;
         shotshavuha[1].volume = 0.20;
     }
@@ -94,12 +103,16 @@ class Game {
     addNewDrop(pos) {
         this.Drops.push(new Drop(pos, this.getBulletType()));
         shot.volume = 1;
-        this.BusterTime === 0 ? shot.play() : shot2.play();
+        
+        if (this.TolikTime === 0) {
+            this.BusterTime === 0 ? shot.play() : shot2.play()
+        } else shot3.play();
+
         this.getBulletType() === 'Shishka' ? this.BulletsCount++ : this.ShavuhaCount++;
     }
 
     addNewBall(pos) {
-        this.Balls.push(new Ball(pos));
+        this.Balls.push(new Ball(pos, 0));
     }
 
     UpdateBalls(player) {
@@ -127,10 +140,10 @@ class Game {
     }
 
     UpdateBoss() {
-        if (this.Boss !== null) {
+        if (this.Boss !== null && this.Boss.alive) {
             this.Boss.Move();
 
-            if (Math.random() < 0.02) {
+            if (this.Boss.hp > 200 ? Math.random() < 0.012 : Math.random() < 0.021) {
                 this.Balls.push(this.Boss.Shot());
             }
         }
@@ -150,7 +163,7 @@ class Game {
                         shotshavuha.at(Math.floor(Math.random() * shotshavuha.length)).play();
                     }
                     this.Points += this.MultiplyPoints();
-                    if (Math.random() < 0.0015 * this.TimeAlive) {
+                    if (Math.random() < 1 * this.TimeAlive) {
                         if (Math.random() > 0.5) {
                             this.addNewBonus({ x: item.pos.x, y: window.innerHeight * 0.05 }, 'Pill');
                         }
@@ -159,13 +172,14 @@ class Game {
                         }
                     }
                 }
-                if(this.Boss !== null && this.CheckBossHit(item)){
+                if (this.Boss !== null && this.CheckBossHit(item)) {
                     if (item.type === 'Shishka') {
                         this.Drops.splice(this.Drops.findIndex(x => x == item), 1);
                         this.Boss.hp -= 20;
                     }
                     else if (item.type === 'Shavuha') {
                         shotshavuha.at(Math.floor(Math.random() * shotshavuha.length)).play();
+                        this.Drops.splice(this.Drops.findIndex(x => x == item), 1);
                         this.Boss.hp -= 60;
                     }
                     if (Math.random() < 0.015 * this.TimeAlive) {
@@ -175,6 +189,11 @@ class Game {
                         else {
                             this.addNewBonus({ x: item.pos.x, y: window.innerHeight * 0.05 }, 'Shavuha');
                         }
+                    }
+                    if (this.Boss.hp < 0) {
+                        this.Boss.alive = false;
+                        this.Points += 10000;
+                        bossDefeated.play();
                     }
                 }
             }
@@ -199,7 +218,6 @@ class Game {
         for (const item of this.Enemies) {
             if (item.alive) {
                 if (intersects.boxBox(drop.pos.x, drop.pos.y, window.innerWidth * 0.03, window.innerWidth * 0.03, item.pos.x + window.innerWidth * 0.02, 0, window.innerWidth * 0.03, window.innerHeight * 0.18)) {
-                    console.log('killed');
                     item.alive = false;
                     audios[Math.floor(Math.random() * 5)].play();
                     setTimeout(() => {
@@ -212,7 +230,7 @@ class Game {
         return false;
     }
 
-    CheckBossHit(drop){
+    CheckBossHit(drop) {
         if (this.Boss.alive) {
             if (intersects.boxBox(drop.pos.x, drop.pos.y, window.innerWidth * 0.03, window.innerWidth * 0.03, this.Boss.pos.x + window.innerWidth * 0.02, 0, window.innerWidth * 0.03, window.innerHeight * 0.18)) {
                 audios[Math.floor(Math.random() * 5)].play();
@@ -233,9 +251,8 @@ class Game {
             }
         }
 
-        if (this.Points >= 300 && this.Enemies.length === 0 && this.Boss !== null && this.Boss.alive === false) {
+        if (this.Points >= 20000 && this.Enemies.length === 0 && this.Boss !== null && this.Boss.alive === false) {
             this.Over = true;
-            // GameRadio.ToggleSomething();
             GameRadio.ReduceVolume();
             GameRadio.PlayWinSound(true);
             this.Win = true;
@@ -250,6 +267,7 @@ class Game {
         let pos = leftBorder + rightBorder * 2 * Math.random();
 
         this.Boss = new Boss({ x: pos });
+        bossArrival.at(Math.floor(Math.random() * bossArrival.length)).play();
     }
 
     RemoveLast() {
@@ -282,7 +300,6 @@ class Enemy {
         this.pos = pos;
         this.alive = true;
         this.deadAnim = Math.floor(rand * 5);
-        console.log(this.deadAnim);
         this.direction = rand > 0.5 ? 1 : 2;
     }
 
@@ -322,6 +339,7 @@ class Boss {
         this.alive = true;
         this.reloadtime = 25;
         let rand = Math.random();
+        this.deadAnim = Math.floor(rand * 5);
         this.direction = rand > 0.5 ? 1 : 2;
         this.hp = 1000;
     }
@@ -352,7 +370,6 @@ class Boss {
             this.ChangeDirection();
         }
         this.CheckBorders();
-        console.log(this.hp);
     }
 
     Shot() {
