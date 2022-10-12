@@ -2,6 +2,18 @@
     width: 100vw;
     height: 100vh;
     justify-content: end;
+    background-repeat: no-repeat;
+    background-size: 100vw 100vh;
+}
+
+.darken {
+     background-color: rgba(36, 36, 36, 0.8);
+     position: absolute;
+     transition: .4s;
+     width: 100vw;
+     height: 100vh;
+     top: 0;
+     left: 0;
 }
 
 .yarik {
@@ -23,23 +35,37 @@
 }
 
 .deadtitle {
-    background-color: rgba(36, 36, 36, 1);
+    /* background-color: rgb(36, 36, 36); */
     position: absolute;
     transition: .4s;
     width: 100vw;
     height: 100vh;
-    opacity: 1;
     top: 0;
     left: 0;
     visibility: hidden;
+}
+
+.background {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    /* background-color: rgba(28, 31, 36, 0.93); */
+    font-size: 2vw;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    font-size: 2vw;
 }
 
-.counter{
+.titleContainer {
+    width: 100vw;
+    height: 100vh;
+    opacity: 1;
+}
+
+.counter {
     color: greenyellow;
 }
 
@@ -98,13 +124,14 @@
     animation: deadanim5;
     animation-duration: .3s;
 }
-.gameOver{
+
+.gameOver {
     animation: gameover;
     animation-duration: 2s;
     animation-iteration-count: infinite;
 }
 
-.button{
+.button {
     background-color: aliceblue;
     padding: 0.8vw 1.5vw;
     color: black;
@@ -119,12 +146,12 @@
     transition: .3s ease;
 }
 
-.button:hover{
+.button:hover {
     background-color: rgb(202, 211, 218);
     transition: .3s ease;
 }
 
-.hintContainer{
+.hintContainer {
     display: flex;
     top: 0;
     left: 0;
@@ -137,18 +164,18 @@
     opacity: 1;
 }
 
-.hintContainer.fade{
+.hintContainer.fade {
     transition: .4s ease;
     opacity: 0;
 }
 
-.keysContainer{
+.keysContainer {
     margin: auto;
     display: flex;
     justify-content: space-between;
 }
 
-.keybutton{
+.keybutton {
     display: flex;
     padding: 2vw;
     border: 0.2vw solid white;
@@ -164,11 +191,11 @@
     animation-iteration-count: infinite;
 }
 
-.keybutton:nth-child(2){
+.keybutton:nth-child(2) {
     animation-delay: 0.5s;
 }
 
-.spacebutton{
+.spacebutton {
     margin-top: 4vh;
     padding: 1.6vw 14vw;
     animation-duration: 1.2s;
@@ -176,20 +203,22 @@
 
 
 @keyframes keypress {
-    0%{
+    0% {
         transform: scale(0.8);
     }
-    90%{
+
+    90% {
         transform: scale(1);
     }
-    100%{
+
+    100% {
         transform: scale(0.8);
     }
 }
 
 @keyframes deadanim1 {
     from {
-        opacity: 1;                                                                                                                     
+        opacity: 1;
     }
 
     to {
@@ -242,10 +271,38 @@
 }
 
 @keyframes gameover {
-    from{
+    from {
         transform: rotate(0deg);
     }
-    to{
+
+    to {
         transform: rotate(360deg);
+    }
+}
+
+.bossArived{
+    animation: dizzy;
+    animation-duration: 2s;
+}
+
+@keyframes dizzy {
+    0%{
+        transform: scale(1) rotate(0deg);
+    }
+
+    3%{
+        transform: scale(1.2) rotate(5deg);
+    }
+    
+    6%{
+        transform: scale(1.16) rotate(-2deg);
+    }
+    
+    15%{
+        transform: scale(1.1) rotate(0deg);
+    }
+
+    100%{
+        transform: scale(1) rotate(0deg);
     }
 }

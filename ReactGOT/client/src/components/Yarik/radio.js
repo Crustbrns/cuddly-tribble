@@ -36,6 +36,10 @@ class Radio {
         this.EndSounds.at(Num).play();
     }
 
+    ReduceVolume(){
+        this.Tracks.at(this.Current).volume = 0.1;
+    }
+
     PlayWinSound(play) {
         if (play) {
             this.WinSound.currentTime = 0;

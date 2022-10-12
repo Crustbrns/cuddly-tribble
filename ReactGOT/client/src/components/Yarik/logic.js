@@ -191,9 +191,10 @@ class Game {
             }
         }
 
-        if (this.Points >= 30000 && this.Enemies.length === 0) {
+        if (this.Points >= 800 && this.Enemies.length === 0) {
             this.Over = true;
-            GameRadio.ToggleSomething();
+            // GameRadio.ToggleSomething();
+            GameRadio.ReduceVolume();
             GameRadio.PlayWinSound(true);
             this.Win = true;
             return true;
@@ -265,6 +266,13 @@ class Enemy {
     }
 }
 
+class Boss {
+    constructor(){
+        this.alive = true;
+        this.reloadtime = 25;
+    }
+}
+
 class Drop {
     constructor(pos, type) {
         this.pos = pos;
@@ -274,7 +282,7 @@ class Drop {
 }
 
 class Ball {
-    constructor(pos) {
+    constructor(pos, dri) {
         this.pos = pos;
         this.speed = window.innerHeight / 540;
     }

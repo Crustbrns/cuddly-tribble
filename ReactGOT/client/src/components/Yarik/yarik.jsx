@@ -9,6 +9,7 @@ import PillsImage from './Resources/pills.png';
 import ShavuhaImage from './Resources/Шавуха.png';
 import EnemyImage from './Resources/enemy.png';
 import EnemyDeadImage from './Resources/enemy-stuffed.png';
+import WinVideo from './Resources/Win.gif';
 import classes from './yarik.module.css';
 import { DeadAnim, Game } from './logic';
 import { GameRadio } from './radio';
@@ -153,6 +154,7 @@ const Yarik = function () {
         }
     }
     function StartAgain() {
+        GameRadio.ToggleSomething();
         GameRadio.PlaySwitch();
         setGame(new Game([], [], [], 3000, 0, 0));
         setGame(game, game.Balls = []);
@@ -194,41 +196,55 @@ const Yarik = function () {
         }
     }
 
+    function getBack() {
+        const styles = {
+            backgroundImage: `url(${WinVideo})`
+        }
+        if (game.Over && game.Win) {
+            return styles;
+        }
+        return null;
+    }
+
     return (
-        <div className={classes.container}>
-            <div className={getHints()}>
-                <div className={classes.keysContainer}>
-                    <div className={classes.keybutton}>A</div>
-                    <div className={classes.keybutton}>D</div>
+        <div style={getBack()} className={`${classes.container} ${game.Points > 10 ? classes.bossArived : ''}`}>
+            <div className={classes.darken}>
+                <div className={getHints()}>
+                    <div className={classes.keysContainer}>
+                        <div className={classes.keybutton}>A</div>
+                        <div className={classes.keybutton}>D</div>
+                    </div>
                 </div>
+                <div className={`${classes.deadtitle} ${game.Over ? classes.show : ''}`}>
+                    <div className={classes.background}>
+                        {game.Over && game.Win && <Confetti launchPoints={launchPoints} burstAmount={100} afterBurstAmount={30} />}
+                        {game.Over && game.Win && <Confetti launchPoints={launchPoints2} burstAmount={100} afterBurstAmount={30} />}
+                        <div style={{ marginBottom: '2vh' }}>{game.Win ? 'Ярик победил)' : 'Денчик выиграл)'}</div>
+                        <div>Очки: <span className={classes.counter}>{game.Points}</span></div>
+                        <div>Накормлено: <span className={classes.counter}>{game.killedCount}</span></div>
+                        <div>Плюшечек: <span className={classes.counter}>{game.BulletsCount}</span></div>
+                        <div>Шавух: <span className={classes.counter}>{game.ShavuhaCount}</span></div>
+                        <div>Таблеток: <span className={classes.counter}>{game.PillsCount}</span></div>
+                        <div>Прожито: <span className={classes.counter}>{calcTimeAlive()}</span></div>
+                        <div style={{ marginTop: '4vh' }} className={`${classes.keybutton}`}>R</div>
+                        {/* <div className={classes.button} onClick={StartAgain}>Начать заново</div> */}
+                    </div>
+                </div>
+                <img style={{ transform: `translate(${pos.x}px)`, height: `calc(18%)`, width: `5%` }} className={`${classes.yarik} ${game.Over ? classes.gameOver : ''}`} alt='yarik' src={getPlayerImage()} />
+                {game.Drops.map((item, index) => {
+                    return <img key={index} style={{ transform: `translate(${item.pos.x}px, ${item.pos.y}px)` }} className={classes.drop} src={item.type === 'Shishka' ? DropImage : ShavuhaImage} />
+                })}
+                {game.Enemies.map((item, index) => {
+                    return <img key={index} style={{ transform: `translate(${item.pos.x}px` }} className={`${classes.enemy} ${item.alive ? '' : getDeadAnim(item)}`} src={item.alive ? EnemyImage : EnemyDeadImage} />
+                })}
+                {game.Balls.map((item, index) => {
+                    return <img key={index} style={{ transform: `translate(${item.pos.x}px, ${item.pos.y}px)` }} className={classes.drop} src={BallImage} />
+                })}
+                {game.Bonuses.map((item, index) => {
+                    return <img key={index} style={{ transform: `translate(${item.pos.x}px, ${item.pos.y}px)` }} className={classes.drop} src={item.type == 'Pill' ? PillsImage : ShavuhaImage} />
+                })}
+                <div className={classes.points}>{game.Points}</div>
             </div>
-            <div className={`${classes.deadtitle} ${game.Over ? classes.show : ''}`}>
-                {game.Over && game.Win && <Confetti launchPoints={launchPoints} burstAmount={100} afterBurstAmount={30} />}
-                {game.Over && game.Win && <Confetti launchPoints={launchPoints2} burstAmount={100} afterBurstAmount={30} />}
-                <div style={{ marginBottom: '2vh' }}>{game.Win ? 'Ярик победил)' : 'Денчик выиграл)'}</div>
-                <div>Очки: <span className={classes.counter}>{game.Points}</span></div>
-                <div>Накормлено: <span className={classes.counter}>{game.killedCount}</span></div>
-                <div>Плюшечек: <span className={classes.counter}>{game.BulletsCount}</span></div>
-                <div>Шавух: <span className={classes.counter}>{game.ShavuhaCount}</span></div>
-                <div>Таблеток: <span className={classes.counter}>{game.PillsCount}</span></div>
-                <div>Прожито: <span className={classes.counter}>{calcTimeAlive()}</span></div>
-                <div style={{ marginTop: '4vh' }} className={`${classes.keybutton}`}>R</div>
-                {/* <div className={classes.button} onClick={StartAgain}>Начать заново</div> */}
-            </div>
-            <img style={{ transform: `translate(${pos.x}px)`, height: `calc(18%)`, width: `5%` }} className={`${classes.yarik} ${game.Over ? classes.gameOver : ''}`} alt='yarik' src={getPlayerImage()} />
-            {game.Drops.map((item, index) => {
-                return <img key={index} style={{ transform: `translate(${item.pos.x}px, ${item.pos.y}px)` }} className={classes.drop} src={item.type === 'Shishka' ? DropImage : ShavuhaImage} />
-            })}
-            {game.Enemies.map((item, index) => {
-                return <img key={index} style={{ transform: `translate(${item.pos.x}px` }} className={`${classes.enemy} ${item.alive ? '' : getDeadAnim(item)}`} src={item.alive ? EnemyImage : EnemyDeadImage} />
-            })}
-            {game.Balls.map((item, index) => {
-                return <img key={index} style={{ transform: `translate(${item.pos.x}px, ${item.pos.y}px)` }} className={classes.drop} src={BallImage} />
-            })}
-            {game.Bonuses.map((item, index) => {
-                return <img key={index} style={{ transform: `translate(${item.pos.x}px, ${item.pos.y}px)` }} className={classes.drop} src={item.type == 'Pill' ? PillsImage : ShavuhaImage} />
-            })}
-            <div className={classes.points}>{game.Points}</div>
         </div>
     )
 }
