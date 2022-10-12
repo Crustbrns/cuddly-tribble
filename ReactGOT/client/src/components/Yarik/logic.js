@@ -12,7 +12,8 @@ const DeadAnim = {
     Rotate: 0,
     Scale: 1,
     RotateReverse: 2,
-    Fade: 3
+    Fade: 3,
+    ScaleUp: 4
 }
 const audios = [new Audio(death1), new Audio(death2), new Audio(death3), new Audio(death4), new Audio(death5)]
 const shot = new Audio(yarik);
@@ -23,7 +24,7 @@ class Game {
         this.Drops = drops;
         this.Enemies = enemies;
         this.Balls = balls;
-        this.Pills = [];
+        this.Bonuses = [];
         this.spawnTime = spawnTime;
         this.Points = points;
         this.killedCount = killedCount;
@@ -31,6 +32,7 @@ class Game {
         this.Started = false;
         this.BulletsCount = 0;
         this.BusterTime = 0;
+        this.TolikTime = 0;
         this.TimeAlive = 0;
         shot.volume = 0.35;
     }
@@ -43,27 +45,39 @@ class Game {
         this.Enemies.push(new Enemy({ x: pos }));
     }
 
-    addNewPill(pos) {
-        this.Pills.push(new Pills(pos));
+    addNewBonus(pos, type) {
+        this.Bonuses.push(new Bonus(pos, type));
     }
 
-    UpdatePills(player) {
-        for (const key in this.Pills) {
-            if (Object.hasOwnProperty.call(this.Pills, key)) {
-                const item = this.Pills[key];
+    UpdateBonuses(player) {
+        for (const key in this.Bonuses) {
+            if (Object.hasOwnProperty.call(this.Bonuses, key)) {
+                const item = this.Bonuses[key];
                 item.pos.y += item.speed;
                 item.speed += window.innerHeight / 108000;
 
                 if (this.CheckPlayerKill(item, player)) {
-                    this.Pills.splice(this.Pills.findIndex(x => x == item), 1);
-                    this.BusterTime = 3;
+                    this.Bonuses.splice(this.Bonuses.findIndex(x => x == item), 1);
+                    if (item.type === 'Pill') {
+                        this.BusterTime = 3;
+                    }
+                    else if (item.type === 'Shavuha') {
+                        this.TolikTime = 5;
+                    }
                 }
             }
         }
     }
 
+    getBulletType() {
+        if (this.TolikTime === 0) {
+            return 'Shishka';
+        }
+        else return 'Shavuha';
+    }
+
     addNewDrop(pos) {
-        this.Drops.push(new Drop(pos));
+        this.Drops.push(new Drop(pos, this.getBulletType()));
         shot.volume = 1;
         this.BusterTime === 0 ? shot.play() : shot2.play();
         this.BulletsCount++;
@@ -103,8 +117,13 @@ class Game {
                 if (this.CheckKill(item)) {
                     this.Drops.splice(this.Drops.findIndex(x => x == item), 1);
                     this.Points += this.MultiplyPoints();
-                    if (Math.random() < 0.0008 * this.TimeAlive) {
-                        this.addNewPill({ x: item.pos.x, y: window.innerHeight * 0.05 });
+                    if (Math.random() < 0.8 * this.TimeAlive) {
+                        if (Math.random() > 0.5) {
+                            this.addNewBonus({ x: item.pos.x, y: window.innerHeight * 0.05 }, 'Pill');
+                        }
+                        else {
+                            this.addNewBonus({ x: item.pos.x, y: window.innerHeight * 0.05 }, 'Shavuha');
+                        }
                     }
                 }
             }
@@ -183,7 +202,7 @@ class Enemy {
         let rand = Math.random();
         this.pos = pos;
         this.alive = true;
-        this.deadAnim = Math.floor(rand * 4);
+        this.deadAnim = Math.floor(rand * 5);
         console.log(this.deadAnim);
         this.direction = rand > 0.5 ? 1 : 2;
     }
@@ -219,9 +238,10 @@ class Enemy {
 }
 
 class Drop {
-    constructor(pos) {
+    constructor(pos, type) {
         this.pos = pos;
         this.speed = window.innerHeight / 540;
+        this.type = type;
     }
 }
 
@@ -232,10 +252,11 @@ class Ball {
     }
 }
 
-class Pills {
-    constructor(pos) {
+class Bonus {
+    constructor(pos, type) {
         this.pos = pos;
         this.speed = window.innerHeight / 1080;
+        this.type = type;
     }
 }
 

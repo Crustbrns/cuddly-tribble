@@ -1,9 +1,12 @@
 import React from 'react';
 import YarikImage from './Resources/Yarik.png';
 import YarikBoostedImage from './Resources/YarikBoosted.png';
+import TolikImage from './Resources/Tolik.png';
+import TolikBoostedImage from './Resources/TolikBoosted.png';
 import DropImage from './Resources/Шишка.png';
 import BallImage from './Resources/ball.png';
 import PillsImage from './Resources/pills.png';
+import ShavuhaImage from './Resources/Шавуха.png';
 import EnemyImage from './Resources/enemy.png';
 import EnemyDeadImage from './Resources/enemy-stuffed.png';
 import classes from './yarik.module.css';
@@ -30,10 +33,11 @@ const Yarik = function () {
                 setGame(game, game.UpdateBalls(pos));
                 setGame(game, game.UpdateEnemies());
                 setGame(game, game.RemoveLast());
-                setGame(game, game.UpdatePills(pos));
+                setGame(game, game.UpdateBonuses(pos));
                 setGame(game, game.Balls = game.Balls);
                 setGame(game, game.BulletsCount = game.BulletsCount);
                 setGame(game, game.BusterTime = game.BusterTime);
+                setGame(game, game.TolikTime = game.TolikTime);
 
                 if (reload.time > 0)
                     setReload(reload.time = reload.time - 1);
@@ -44,6 +48,7 @@ const Yarik = function () {
             if (!game.Over && game.Started) {
                 setGame(game, game.TimeAlive += 1);
                 setGame(game, game.BusterTime > 0 ? game.BusterTime -= 1 : game.BusterTime = 0);
+                setGame(game, game.TolikTime > 0 ? game.TolikTime -= 1 : game.TolikTime = 0);
             }
         }, 1000);
 
@@ -102,6 +107,7 @@ const Yarik = function () {
         else if (enemy.deadAnim === DeadAnim.Scale) return classes.dead2;
         else if (enemy.deadAnim === DeadAnim.RotateReverse) return classes.dead3;
         else if (enemy.deadAnim === DeadAnim.Fade) return classes.dead4;
+        else if (enemy.deadAnim === DeadAnim.ScaleUp) return classes.dead5;
         else return classes.dead4;
     }
     function Move(event, truth) {
@@ -114,7 +120,7 @@ const Yarik = function () {
         if (event.code === 'Space') {
             setMovement(movement.shooting = truth);
         }
-        if (event.key === 'r' && game.Over && truth) {
+        if ((event.key === 'r' || event.key === 'к') && game.Over && truth) {
             StartAgain();
         }
     }
@@ -123,7 +129,7 @@ const Yarik = function () {
         setGame(new Game([], [], [], 3000, 0, 0));
         setGame(game, game.Balls = []);
         setGame(game, game.Drops = []);
-        setGame(game, game.Pills = []);
+        setGame(game, game.Bonuses = []);
         setGame(game, game.Enemies = []);
         setGame(game, game.spawnTime = 3000);
         setGame(game, game.Points = 0);
@@ -133,6 +139,7 @@ const Yarik = function () {
         setGame(game, game.BulletsCount = 0);
         setGame(game, game.TimeAlive = 0);
         setGame(game, game.BusterTime = 0);
+        setGame(game, game.TolikTime = 0);
         setPos(pos, pos.x = -55);
         CreateEnemy();
     }
@@ -145,6 +152,15 @@ const Yarik = function () {
     function calcTimeAlive() {
         if (game.TimeAlive < 60) return `${game.TimeAlive} сек.`;
         else return `${Math.floor(game.TimeAlive / 60)} мин ${game.TimeAlive % 60} сек.`
+    }
+
+    function getPlayerImage() {
+        if (game.TolikTime === 0) {
+            return game.BusterTime === 0 ? YarikImage : YarikBoostedImage;
+        }
+        else {
+            return game.BusterTime === 0 ? TolikImage : TolikBoostedImage;
+        }
     }
 
     return (
@@ -164,9 +180,9 @@ const Yarik = function () {
                 <div style={{ marginTop: '4vh' }} className={`${classes.keybutton}`}>R</div>
                 {/* <div className={classes.button} onClick={StartAgain}>Начать заново</div> */}
             </div>
-            <img style={{ transform: `translate(${pos.x}px)`, height: `calc(18%)`, width: `5%` }} className={`${classes.yarik} ${game.Over ? classes.gameOver : ''}`} alt='yarik' src={game.BusterTime === 0 ? YarikImage : YarikBoostedImage} />
+            <img style={{ transform: `translate(${pos.x}px)`, height: `calc(18%)`, width: `5%` }} className={`${classes.yarik} ${game.Over ? classes.gameOver : ''}`} alt='yarik' src={getPlayerImage()} />
             {game.Drops.map((item, index) => {
-                return <img key={index} style={{ transform: `translate(${item.pos.x}px, ${item.pos.y}px)` }} className={classes.drop} src={DropImage} />
+                return <img key={index} style={{ transform: `translate(${item.pos.x}px, ${item.pos.y}px)` }} className={classes.drop} src={item.type === 'Shishka' ? DropImage : ShavuhaImage} />
             })}
             {game.Enemies.map((item, index) => {
                 return <img key={index} style={{ transform: `translate(${item.pos.x}px` }} className={`${classes.enemy} ${item.alive ? '' : getDeadAnim(item)}`} src={item.alive ? EnemyImage : EnemyDeadImage} />
@@ -174,8 +190,8 @@ const Yarik = function () {
             {game.Balls.map((item, index) => {
                 return <img key={index} style={{ transform: `translate(${item.pos.x}px, ${item.pos.y}px)` }} className={classes.drop} src={BallImage} />
             })}
-            {game.Pills.map((item, index) => {
-                return <img key={index} style={{ transform: `translate(${item.pos.x}px, ${item.pos.y}px)` }} className={classes.drop} src={PillsImage} />
+            {game.Bonuses.map((item, index) => {
+                return <img key={index} style={{ transform: `translate(${item.pos.x}px, ${item.pos.y}px)` }} className={classes.drop} src={item.type == 'Pill' ? PillsImage : ShavuhaImage} />
             })}
             <div className={classes.points}>{game.Points}</div>
         </div>
