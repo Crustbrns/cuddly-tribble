@@ -8,6 +8,9 @@ const death5 = require('./Resources/Sounds/den5.mp3');
 const yarik = require('./Resources/Sounds/yarik.ogg');
 const yarik2 = require('./Resources/Sounds/yarikboosted.mp3');
 
+const shavuha1 = require('./Resources/Sounds/shavuha1.mp3');
+const shavuha2 = require('./Resources/Sounds/shavuha2.mp3');
+
 const DeadAnim = {
     Rotate: 0,
     Scale: 1,
@@ -18,6 +21,7 @@ const DeadAnim = {
 const audios = [new Audio(death1), new Audio(death2), new Audio(death3), new Audio(death4), new Audio(death5)]
 const shot = new Audio(yarik);
 const shot2 = new Audio(yarik2);
+const shotshavuha = [new Audio(shavuha1), new Audio(shavuha2)];
 
 class Game {
     constructor(drops, enemies, balls, spawnTime, points, killedCount) {
@@ -31,10 +35,14 @@ class Game {
         this.Over = false;
         this.Started = false;
         this.BulletsCount = 0;
+        this.ShavuhaCount = 0;
         this.BusterTime = 0;
         this.TolikTime = 0;
         this.TimeAlive = 0;
+        this.PillsCount = 0;
         shot.volume = 0.35;
+        shotshavuha[0].volume = 0.35;
+        shotshavuha[1].volume = 0.20;
     }
 
     addNewEnemy() {
@@ -60,6 +68,7 @@ class Game {
                     this.Bonuses.splice(this.Bonuses.findIndex(x => x == item), 1);
                     if (item.type === 'Pill') {
                         this.BusterTime = 3;
+                        this.PillsCount++;
                     }
                     else if (item.type === 'Shavuha') {
                         this.TolikTime = 5;
@@ -80,7 +89,7 @@ class Game {
         this.Drops.push(new Drop(pos, this.getBulletType()));
         shot.volume = 1;
         this.BusterTime === 0 ? shot.play() : shot2.play();
-        this.BulletsCount++;
+        this.getBulletType() === 'Shishka' ? this.BulletsCount++ : this.ShavuhaCount++;
     }
 
     addNewBall(pos) {
@@ -115,9 +124,14 @@ class Game {
                 item.pos.y -= item.speed;
                 item.speed += window.innerHeight / 42000;
                 if (this.CheckKill(item)) {
-                    this.Drops.splice(this.Drops.findIndex(x => x == item), 1);
+                    if (item.type === 'Shishka') {
+                        this.Drops.splice(this.Drops.findIndex(x => x == item), 1);
+                    }
+                    else if (item.type === 'Shavuha') {
+                        shotshavuha.at(Math.floor(Math.random() * shotshavuha.length)).play();
+                    }
                     this.Points += this.MultiplyPoints();
-                    if (Math.random() < 0.8 * this.TimeAlive) {
+                    if (Math.random() < 0.0015 * this.TimeAlive) {
                         if (Math.random() > 0.5) {
                             this.addNewBonus({ x: item.pos.x, y: window.innerHeight * 0.05 }, 'Pill');
                         }

@@ -34,8 +34,6 @@ const Yarik = function () {
                 setGame(game, game.UpdateEnemies());
                 setGame(game, game.RemoveLast());
                 setGame(game, game.UpdateBonuses(pos));
-                setGame(game, game.Balls = game.Balls);
-                setGame(game, game.BulletsCount = game.BulletsCount);
                 setGame(game, game.BusterTime = game.BusterTime);
                 setGame(game, game.TolikTime = game.TolikTime);
 
@@ -93,7 +91,7 @@ const Yarik = function () {
             }
             if (movement.shooting && reload.time == 0) {
                 setGame(game, game.addNewDrop({ x: tempPos.x + window.innerWidth * 0.01, y: window.innerHeight * 0.8 }));
-                setReload(reload.time = game.BusterTime === 0 ? 150 : 25);
+                setReload(reload.time = game.BusterTime === 0 ? 150 : 30);
             }
         }
 
@@ -140,6 +138,8 @@ const Yarik = function () {
         setGame(game, game.TimeAlive = 0);
         setGame(game, game.BusterTime = 0);
         setGame(game, game.TolikTime = 0);
+        setGame(game, game.ShavuhaCount = 0);
+        setGame(game, game.PillsCount = 0);
         setPos(pos, pos.x = -55);
         CreateEnemy();
     }
@@ -176,6 +176,8 @@ const Yarik = function () {
                 <div>Очки: <span className={classes.counter}>{game.Points}</span></div>
                 <div>Накормлено: <span className={classes.counter}>{game.killedCount}</span></div>
                 <div>Плюшечек: <span className={classes.counter}>{game.BulletsCount}</span></div>
+                <div>Шавух: <span className={classes.counter}>{game.ShavuhaCount}</span></div>
+                <div>Таблеток: <span className={classes.counter}>{game.PillsCount}</span></div>
                 <div>Прожито: <span className={classes.counter}>{calcTimeAlive()}</span></div>
                 <div style={{ marginTop: '4vh' }} className={`${classes.keybutton}`}>R</div>
                 {/* <div className={classes.button} onClick={StartAgain}>Начать заново</div> */}

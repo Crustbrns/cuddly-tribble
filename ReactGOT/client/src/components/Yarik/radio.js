@@ -6,6 +6,7 @@ const track5 = require('./Resources/Radio/yarik1.mp3');
 const track6 = require('./Resources/Radio/yarik2.mp3');
 const track7 = require('./Resources/Radio/yarik3.mp3');
 const track8 = require('./Resources/Radio/zoha5.mp3');
+const track9 = require('./Resources/Radio/zoha6.mp3');
 
 const end1 = require('./Resources/Sounds/end1.mp3');
 const end2 = require('./Resources/Sounds/end2.mp3');
@@ -15,7 +16,7 @@ const switchs = require('./Resources/Sounds/switch.mp3');
 
 class Radio {
     constructor() {
-        this.Tracks = [new Audio(track1), new Audio(track2), new Audio(track3), new Audio(track4), new Audio(track5), new Audio(track6), new Audio(track7), new Audio(track8)];
+        this.Tracks = [new Audio(track1), new Audio(track2), new Audio(track3), new Audio(track4), new Audio(track5), new Audio(track6), new Audio(track7), new Audio(track8), new Audio(track9)];
         this.EndSounds = [new Audio(end1), new Audio(end2), new Audio(end3)];
         this.SwitchSound = new Audio(switchs);
         this.Current = this.ChooseRandom();
