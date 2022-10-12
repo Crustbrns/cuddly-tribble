@@ -12,6 +12,8 @@ const end1 = require('./Resources/Sounds/end1.mp3');
 const end2 = require('./Resources/Sounds/end2.mp3');
 const end3 = require('./Resources/Sounds/end3.mp3');
 
+const win = require('./Resources/Radio/win.mp3');
+
 const switchs = require('./Resources/Sounds/switch.mp3');
 
 class Radio {
@@ -19,6 +21,7 @@ class Radio {
         this.Tracks = [new Audio(track1), new Audio(track2), new Audio(track3), new Audio(track4), new Audio(track5), new Audio(track6), new Audio(track7), new Audio(track8), new Audio(track9)];
         this.EndSounds = [new Audio(end1), new Audio(end2), new Audio(end3)];
         this.SwitchSound = new Audio(switchs);
+        this.WinSound = new Audio(win);
         this.Current = this.ChooseRandom();
         this.isPlaying = false;
     }
@@ -33,7 +36,18 @@ class Radio {
         this.EndSounds.at(Num).play();
     }
 
-    PlaySwitch(){
+    PlayWinSound(play) {
+        if (play) {
+            this.WinSound.currentTime = 0;
+            this.WinSound.volume = 1;
+            this.WinSound.play();
+        }
+        else {
+            this.WinSound.pause();
+        }
+    }
+
+    PlaySwitch() {
         this.SwitchSound.volume = 0.6;
         this.SwitchSound.play();
     }

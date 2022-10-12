@@ -13,11 +13,35 @@ import classes from './yarik.module.css';
 import { DeadAnim, Game } from './logic';
 import { GameRadio } from './radio';
 
+import { Confetti, __esModule } from 'react-confetti-cannon';
+
 const Yarik = function () {
+    const launchPoints = React.useMemo(
+        () => [
+            () => ({
+                x: window.innerWidth,
+                y: window.innerHeight,
+                angle: 0.8,
+            }),
+        ],
+        []
+    )
+    const launchPoints2 = React.useMemo(
+        () => [
+            () => ({
+                x: 0,
+                y: window.innerHeight,
+                angle: -0.8,
+            }),
+        ],
+        []
+    )
+
     const [pos, setPos] = React.useState({ x: -55 });
     const [game, setGame] = React.useState(new Game([], [], [], 3000, 0, 0));
     const [movement, setMovement] = React.useState({ dirleft: false, dirright: false, shooting: false });
     const [reload, setReload] = React.useState({ time: 0 });
+    let [isExploding, setIsExploding] = React.useState(false);
 
     React.useState(() => {
         document.body.addEventListener('keydown', (event) => Move(event, true));
@@ -40,6 +64,10 @@ const Yarik = function () {
                 if (reload.time > 0)
                     setReload(reload.time = reload.time - 1);
             }
+            else {
+                setIsExploding(isExploding, isExploding = game.getWinConditions());
+                console.log(isExploding);
+            }
         }, 1);
 
         const TimeInterval = setInterval(() => {
@@ -58,18 +86,20 @@ const Yarik = function () {
 
     function CreateEnemy() {
         if (!game.Over) {
-            if (game.Started) {
-                if (game.Enemies.length < 12) {
-                    game.addNewEnemy();
-                    game.ChangeDelay();
-                    setGame(game, game.Enemies = game.Enemies);
-                    setGame(game, game.spawnTime = game.spawnTime);
+            if (game.Points < 30000) {
+                if (game.Started) {
+                    if (game.Enemies.length < 12) {
+                        game.addNewEnemy();
+                        game.ChangeDelay();
+                        setGame(game, game.Enemies = game.Enemies);
+                        setGame(game, game.spawnTime = game.spawnTime);
+                    }
                 }
-            }
 
-            setTimeout(function () {
-                CreateEnemy();
-            }, game.spawnTime);
+                setTimeout(function () {
+                    CreateEnemy();
+                }, game.spawnTime);
+            }
         }
     }
     function calcPos() {
@@ -140,6 +170,7 @@ const Yarik = function () {
         setGame(game, game.TolikTime = 0);
         setGame(game, game.ShavuhaCount = 0);
         setGame(game, game.PillsCount = 0);
+        setGame(game, game.Win = false);
         setPos(pos, pos.x = -55);
         CreateEnemy();
     }
@@ -172,7 +203,9 @@ const Yarik = function () {
                 </div>
             </div>
             <div className={`${classes.deadtitle} ${game.Over ? classes.show : ''}`}>
-                <div style={{ marginBottom: '2vh' }}>Денчик выиграл)</div>
+                {game.Over && game.Win && <Confetti launchPoints={launchPoints} burstAmount={100} afterBurstAmount={30} />}
+                {game.Over && game.Win && <Confetti launchPoints={launchPoints2} burstAmount={100} afterBurstAmount={30} />}
+                <div style={{ marginBottom: '2vh' }}>{game.Win ? 'Ярик победил)' : 'Денчик выиграл)'}</div>
                 <div>Очки: <span className={classes.counter}>{game.Points}</span></div>
                 <div>Накормлено: <span className={classes.counter}>{game.killedCount}</span></div>
                 <div>Плюшечек: <span className={classes.counter}>{game.BulletsCount}</span></div>

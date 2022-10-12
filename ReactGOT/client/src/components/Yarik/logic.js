@@ -40,6 +40,7 @@ class Game {
         this.TolikTime = 0;
         this.TimeAlive = 0;
         this.PillsCount = 0;
+        this.Win = false;
         shot.volume = 0.35;
         shotshavuha[0].volume = 0.35;
         shotshavuha[1].volume = 0.20;
@@ -76,6 +77,10 @@ class Game {
                 }
             }
         }
+    }
+
+    getWinConditions() {
+        return (this.Enemies.length === 0 && this.Points > 300);
     }
 
     getBulletType() {
@@ -185,6 +190,15 @@ class Game {
                 }
             }
         }
+
+        if (this.Points >= 30000 && this.Enemies.length === 0) {
+            this.Over = true;
+            GameRadio.ToggleSomething();
+            GameRadio.PlayWinSound(true);
+            this.Win = true;
+            return true;
+        }
+        return false;
     }
 
     RemoveLast() {
