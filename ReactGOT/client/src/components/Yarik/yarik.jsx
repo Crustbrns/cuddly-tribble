@@ -112,12 +112,10 @@ const Yarik = function () {
             setMovement(movement.dirright = truth);
         }
         if (event.code === 'Space') {
-            if (!game.Over) {
-                setMovement(movement.shooting = truth);
-            }
-            else if (game.Over && truth) {
-                StartAgain();
-            }
+            setMovement(movement.shooting = truth);
+        }
+        if (event.key === 'r' && game.Over && truth) {
+            StartAgain();
         }
     }
     function StartAgain() {
@@ -163,10 +161,10 @@ const Yarik = function () {
                 <div>Накормлено: <span className={classes.counter}>{game.killedCount}</span></div>
                 <div>Плюшечек: <span className={classes.counter}>{game.BulletsCount}</span></div>
                 <div>Прожито: <span className={classes.counter}>{calcTimeAlive()}</span></div>
-                <div className={`${classes.keybutton} ${classes.spacebutton}`}>Space</div>
+                <div style={{ marginTop: '4vh' }} className={`${classes.keybutton}`}>R</div>
                 {/* <div className={classes.button} onClick={StartAgain}>Начать заново</div> */}
             </div>
-            <img style={{ transform: `translate(${pos.x}px)`, height: `calc(18%)`, width: `5%` }} className={`${classes.yarik} ${game.Over ? classes.gameOver : ''}`} alt='yarik' src={game.BusterTime === 0 ? YarikImage: YarikBoostedImage} />
+            <img style={{ transform: `translate(${pos.x}px)`, height: `calc(18%)`, width: `5%` }} className={`${classes.yarik} ${game.Over ? classes.gameOver : ''}`} alt='yarik' src={game.BusterTime === 0 ? YarikImage : YarikBoostedImage} />
             {game.Drops.map((item, index) => {
                 return <img key={index} style={{ transform: `translate(${item.pos.x}px, ${item.pos.y}px)` }} className={classes.drop} src={DropImage} />
             })}

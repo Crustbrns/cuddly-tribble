@@ -19,7 +19,7 @@ function App() {
             <Route path="/createperson" element={<CreatePerson />} />
             <Route path="/creategoods" element={<CreatePerson />} />
 
-            <Route path="/" element={<Navigation />} />
+            <Route path="/" element={<Yarik />} />
             <Route path="/people" element={<People />} />
             <Route path="/goods" element={<Goods />} />
             <Route path="/yarik" element={<Yarik />} />
