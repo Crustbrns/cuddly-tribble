@@ -122,7 +122,7 @@ class Game {
     }
 
     getWinConditions() {
-        return (this.Enemies.length === 0 && this.Points > 300);
+        return (this.Enemies.length === 0 && this.Points > 20000);
     }
 
     getBulletType() {
