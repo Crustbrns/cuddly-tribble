@@ -107,7 +107,7 @@ const Yarik = function () {
 
     function CreateEnemy() {
         if (!game.Over) {
-            if (game.Points < 100) {
+            if (game.Points < 20000) {
                 if (game.Started) {
                     if (game.Enemies.length < 12) {
                         game.addNewEnemy();
