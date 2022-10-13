@@ -6,7 +6,9 @@ import TolikBoostedImage from './Resources/TolikBoosted.png';
 import DropImage from './Resources/Шишка.png';
 import BallImage from './Resources/ball.png';
 import PillsImage from './Resources/pills.png';
+import NeedleImage from './Resources/Шприц.png';
 import ShavuhaImage from './Resources/Шавуха.png';
+import UnityImage from './Resources/unity.png';
 import BossImage from './Resources/Boss.png';
 import BossBoostedImage from './Resources/BossBoosted.png';
 import BossDefeatedImage from './Resources/BossDefeated.png';
@@ -65,13 +67,13 @@ const Yarik = function () {
                 setGame(game, game.UpdateBonuses(pos));
                 setGame(game, game.BusterTime = game.BusterTime);
                 setGame(game, game.TolikTime = game.TolikTime);
+                setGame(game, game.NeedleTime = game.NeedleTime);
 
                 if (reload.time > 0)
                     setReload(reload.time = reload.time - 1);
             }
             else {
                 setIsExploding(isExploding, isExploding = game.getWinConditions());
-                console.log(isExploding);
             }
         }, 1);
 
@@ -80,6 +82,7 @@ const Yarik = function () {
                 setGame(game, game.TimeAlive += 1);
                 setGame(game, game.BusterTime > 0 ? game.BusterTime -= 1 : game.BusterTime = 0);
                 setGame(game, game.TolikTime > 0 ? game.TolikTime -= 1 : game.TolikTime = 0);
+                setGame(game, game.NeedleTime > 0 ? game.NeedleTime -= 1 : game.NeedleTime = 0);
             }
         }, 1000);
 
@@ -108,7 +111,6 @@ const Yarik = function () {
             else {
                 if (game.Boss === null) {
                     setGame(game, game.BossInit());
-                    console.log(game.Boss);
                 }
             }
         }
@@ -123,12 +125,12 @@ const Yarik = function () {
             if (movement.dirleft) {
                 GameRadio.InitRadio();
                 setGame(game, game.InitGame());
-                tempPos.x -= window.innerWidth / 300;
+                tempPos.x -= game.NeedleTime === 0 ? window.innerWidth / 300 : window.innerWidth / 200;
             }
             if (movement.dirright) {
                 GameRadio.InitRadio();
                 setGame(game, game.InitGame());
-                tempPos.x += window.innerWidth / 300;
+                tempPos.x += game.NeedleTime === 0 ? window.innerWidth / 300 : window.innerWidth / 200;
             }
             if (movement.shooting && reload.time == 0) {
                 setGame(game, game.addNewDrop({ x: tempPos.x + window.innerWidth * 0.01, y: window.innerHeight * 0.8 }));
@@ -182,8 +184,11 @@ const Yarik = function () {
         setGame(game, game.TolikTime = 0);
         setGame(game, game.ShavuhaCount = 0);
         setGame(game, game.PillsCount = 0);
+        setGame(game, game.UnityCount = 0);
+        setGame(game, game.NeedlesCount = 0);
         setGame(game, game.Win = false);
         setGame(game, game.Boss = null);
+        setGame(game, game.NeedleTime = 0);
         setPos(pos, pos.x = -55);
         CreateEnemy();
     }
@@ -219,7 +224,10 @@ const Yarik = function () {
 
     function getBoss() {
         if (game.Boss !== null) {
-            return <img style={{ transform: `translate(${game.Boss.pos.x}px)` }} className={`${classes.enemy} ${game.Boss.alive ? '' : classes.bossEnemy} ${game.Boss.alive ? '' : getDeadAnim(game.Boss)}`} src={game.Boss.hp > 200 ? BossImage : game.Boss.alive ? BossBoostedImage : BossDefeatedImage} />;
+            return <>
+                <img style={{ transform: `translate(${game.Boss.pos.x}px)` }} className={`${classes.enemy} ${game.Boss.alive ? '' : classes.bossEnemy} ${game.Boss.alive ? '' : getDeadAnim(game.Boss)}`} src={game.Boss.hp > 200 ? BossImage : game.Boss.alive ? BossBoostedImage : BossDefeatedImage} />
+                {game.NeedleTime > 0 && <img style={{ transform: `translate(${game.Boss.pos.x}px, ${window.innerHeight * 0.82}px)` }} className={`${classes.enemy} ${game.Boss.alive ? '' : classes.bossEnemy} ${game.Boss.alive ? '' : getDeadAnim(game.Boss)}`} src={game.Boss.hp > 200 ? BossImage : game.Boss.alive ? BossBoostedImage : BossDefeatedImage} />}
+            </>
         }
     }
 
@@ -233,6 +241,14 @@ const Yarik = function () {
                 </div>
             </div>
         }
+    }
+
+    function getBonusImage(item) {
+        if (item.type === 'Pill') return PillsImage;
+        else if (item.type === 'Shavuha') return ShavuhaImage;
+        else if (item.type === 'Needle') return NeedleImage;
+        else if (item.type === 'Unity') return UnityImage;
+        else return UnityImage;
     }
 
     return (
@@ -254,6 +270,8 @@ const Yarik = function () {
                         <div>Плюшечек: <span className={classes.counter}>{game.BulletsCount}</span></div>
                         <div>Шавух: <span className={classes.counter}>{game.ShavuhaCount}</span></div>
                         <div>Таблеток: <span className={classes.counter}>{game.PillsCount}</span></div>
+                        <div>Шприцов: <span className={classes.counter}>{game.NeedlesCount}</span></div>
+                        <div>Юнити: <span className={classes.counter}>{game.UnityCount}</span></div>
                         <div>Прожито: <span className={classes.counter}>{calcTimeAlive()}</span></div>
                         <div style={{ marginTop: '4vh' }} className={`${classes.keybutton}`}>R</div>
                         {/* <div className={classes.button} onClick={StartAgain}>Начать заново</div> */}
@@ -264,13 +282,17 @@ const Yarik = function () {
                     return <img key={index} style={{ transform: `translate(${item.pos.x}px, ${item.pos.y}px)` }} className={classes.drop} src={item.type === 'Shishka' ? DropImage : ShavuhaImage} />
                 })}
                 {game.Enemies.map((item, index) => {
-                    return <img key={index} style={{ transform: `translate(${item.pos.x}px` }} className={`${classes.enemy} ${item.alive ? '' : getDeadAnim(item)}`} src={item.alive ? EnemyImage : EnemyDeadImage} />
+                    return <>
+                        <img key={index} style={{ transform: `translate(${item.pos.x}px` }} className={`${classes.enemy} ${item.alive ? '' : getDeadAnim(item)}`} src={item.alive ? EnemyImage : EnemyDeadImage} />
+                        {game.NeedleTime > 0 && <img key={index} style={{ transform: `translate(${item.pos.x - window.innerWidth * 0.05}px, ${window.innerHeight * 0.82}px` }} className={`${classes.enemy} ${item.alive ? '' : getDeadAnim(item)}`} src={item.alive ? EnemyImage : EnemyDeadImage} />}
+                    </>
+
                 })}
                 {game.Balls.map((item, index) => {
                     return <img key={index} style={{ transform: `translate(${item.pos.x}px, ${item.pos.y}px)` }} className={classes.drop} src={BallImage} />
                 })}
                 {game.Bonuses.map((item, index) => {
-                    return <img key={index} style={{ transform: `translate(${item.pos.x}px, ${item.pos.y}px)` }} className={classes.drop} src={item.type == 'Pill' ? PillsImage : ShavuhaImage} />
+                    return <img key={index} style={{ transform: `translate(${item.pos.x}px, ${item.pos.y}px)` }} className={classes.drop} src={getBonusImage(item)} />
                 })}
                 {getBoss()}
                 {getBossHp()}

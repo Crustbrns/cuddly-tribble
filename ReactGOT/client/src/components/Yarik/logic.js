@@ -13,6 +13,8 @@ const yarik = require('./Resources/Sounds/yarik.ogg');
 const yarik2 = require('./Resources/Sounds/yarikboosted.mp3');
 const yarik3 = require('./Resources/Sounds/shavuha.mp3');
 
+const junkie = require('./Resources/Sounds/junkie.mp3');
+
 const shavuha1 = require('./Resources/Sounds/shavuha1.mp3');
 const shavuha2 = require('./Resources/Sounds/shavuha2.mp3');
 
@@ -27,6 +29,7 @@ const audios = [new Audio(death1), new Audio(death2), new Audio(death3), new Aud
 const shot = new Audio(yarik);
 const shot2 = new Audio(yarik2);
 const shot3 = new Audio(yarik3);
+const needle = new Audio(junkie);
 const bossArrival = [new Audio(boss), new Audio(boss1), new Audio(boss2)];
 const shotshavuha = [new Audio(shavuha1), new Audio(shavuha2)];
 const bossDefeated = new Audio(bossdefeated);
@@ -46,12 +49,16 @@ class Game {
         this.ShavuhaCount = 0;
         this.BusterTime = 0;
         this.TolikTime = 0;
+        this.NeedleTime = 0;
         this.TimeAlive = 0;
         this.PillsCount = 0;
+        this.UnityCount = 0;
+        this.NeedlesCount = 0;
         this.Win = false;
         this.Boss = null;
         shot.volume = 0.35;
         shot3.volume = 0.35;
+        needle.volume = 0.5;
         shotshavuha[0].volume = 0.35;
         shotshavuha[1].volume = 0.20;
     }
@@ -84,6 +91,30 @@ class Game {
                     else if (item.type === 'Shavuha') {
                         this.TolikTime = 5;
                     }
+                    else if (item.type === 'Needle') {
+                        this.NeedleTime = 2;
+                        needle.currentTime = 0;
+                        this.NeedlesCount++;
+                        needle.play();
+                    }
+                    else if (item.type === 'Unity') {
+                        this.UnityCount++;
+                        for (const item of this.Enemies) {
+                            this.Points += this.MultiplyPoints();
+                            item.alive = false;
+                            setTimeout(() => {
+                                this.Enemies.splice(this.Enemies.findIndex(x => x == item), 1);
+                            }, 500);
+                        }
+                        if (this.Boss !== null) {
+                            this.Boss.hp -= 150;
+                            if (this.Boss.hp < 0) {
+                                this.Boss.alive = false;
+                                this.Points += 10000;
+                                bossDefeated.play();
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -103,7 +134,7 @@ class Game {
     addNewDrop(pos) {
         this.Drops.push(new Drop(pos, this.getBulletType()));
         shot.volume = 1;
-        
+
         if (this.TolikTime === 0) {
             this.BusterTime === 0 ? shot.play() : shot2.play()
         } else shot3.play();
@@ -163,12 +194,18 @@ class Game {
                         shotshavuha.at(Math.floor(Math.random() * shotshavuha.length)).play();
                     }
                     this.Points += this.MultiplyPoints();
-                    if (Math.random() < 1 * this.TimeAlive) {
-                        if (Math.random() > 0.5) {
+                    if (Math.random() < 0.005 * this.TimeAlive) {
+                        if (Math.random() > 0.75) {
                             this.addNewBonus({ x: item.pos.x, y: window.innerHeight * 0.05 }, 'Pill');
                         }
-                        else {
+                        else if (Math.random() > 0.5) {
                             this.addNewBonus({ x: item.pos.x, y: window.innerHeight * 0.05 }, 'Shavuha');
+                        }
+                        else if (Math.random() > 0.25) {
+                            this.addNewBonus({ x: item.pos.x, y: window.innerHeight * 0.05 }, 'Needle');
+                        }
+                        else {
+                            this.addNewBonus({ x: item.pos.x, y: window.innerHeight * 0.05 }, 'Unity');
                         }
                     }
                 }
@@ -182,7 +219,7 @@ class Game {
                         this.Drops.splice(this.Drops.findIndex(x => x == item), 1);
                         this.Boss.hp -= 60;
                     }
-                    if (Math.random() < 0.015 * this.TimeAlive) {
+                    if (Math.random() < 0.0075 * this.TimeAlive) {
                         if (Math.random() > 0.5) {
                             this.addNewBonus({ x: item.pos.x, y: window.innerHeight * 0.05 }, 'Pill');
                         }

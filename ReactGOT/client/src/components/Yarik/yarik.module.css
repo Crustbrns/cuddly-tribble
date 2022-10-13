@@ -193,6 +193,7 @@
     animation: keypress;
     animation-duration: .8s;
     animation-iteration-count: infinite;
+    user-select: none;
 }
 
 .keybutton:nth-child(2) {
