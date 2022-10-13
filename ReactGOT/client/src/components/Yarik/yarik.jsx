@@ -20,6 +20,8 @@ import { DeadAnim, Game } from './logic';
 import { GameRadio } from './radio';
 
 import { Confetti, __esModule } from 'react-confetti-cannon';
+import { saveResult } from './result';
+const Cookies = require('js-cookie');
 
 const Yarik = function () {
     const launchPoints = React.useMemo(
@@ -43,18 +45,29 @@ const Yarik = function () {
         []
     )
 
+    const [result, setResult] = React.useState([]);
     const [pos, setPos] = React.useState({ x: -55 });
     const [game, setGame] = React.useState(new Game([], [], [], 3000, 0, 0));
     const [movement, setMovement] = React.useState({ dirleft: false, dirright: false, shooting: false });
     const [reload, setReload] = React.useState({ time: 0 });
+    const [name, setName] = React.useState(Cookies.get('user') === 'undefined' ? '' : Cookies.get('user'));
     let [isExploding, setIsExploding] = React.useState(false);
 
     React.useState(() => {
         document.body.addEventListener('keydown', (event) => Move(event, true));
         document.body.addEventListener('keyup', (event) => Move(event, false));
         document.body.style.overflow = 'hidden';
+
+        getResults();
         CreateEnemy();
     });
+
+    async function getResults() {
+        await fetch('/results')
+            .then(result => result.json())
+            .then(result => setResult(result.result));
+    }
+
     React.useEffect(() => {
         const Interval = setInterval(() => {
             if (!game.Over) {
@@ -94,7 +107,7 @@ const Yarik = function () {
 
     function CreateEnemy() {
         if (!game.Over) {
-            if (game.Points < 20000) {
+            if (game.Points < 100) {
                 if (game.Started) {
                     if (game.Enemies.length < 12) {
                         game.addNewEnemy();
@@ -251,6 +264,12 @@ const Yarik = function () {
         else return UnityImage;
     }
 
+    function UpdateName(evt) {
+        let tempname = evt.target.value;
+        setName(tempname);
+        Cookies.set('user', tempname);
+    }
+
     return (
         <div style={getBack()} className={`${classes.container} ${game.Boss !== null ? classes.bossArived : ''}`}>
             <div className={classes.darken}>
@@ -262,18 +281,25 @@ const Yarik = function () {
                 </div>
                 <div className={`${classes.deadtitle} ${game.Over ? classes.show : ''}`}>
                     <div className={classes.background}>
-                        {game.Over && game.Win && <Confetti launchPoints={launchPoints} burstAmount={100} afterBurstAmount={30} />}
-                        {game.Over && game.Win && <Confetti launchPoints={launchPoints2} burstAmount={100} afterBurstAmount={30} />}
-                        <div style={{ marginBottom: '2vh' }}>{game.Win ? 'Ярик победил)' : 'Денчик выиграл)'}</div>
-                        <div>Очки: <span className={classes.counter}>{game.Points}</span></div>
-                        <div>Накормлено: <span className={classes.counter}>{game.killedCount}</span></div>
-                        <div>Плюшечек: <span className={classes.counter}>{game.BulletsCount}</span></div>
-                        <div>Шавух: <span className={classes.counter}>{game.ShavuhaCount}</span></div>
-                        <div>Таблеток: <span className={classes.counter}>{game.PillsCount}</span></div>
-                        <div>Шприцов: <span className={classes.counter}>{game.NeedlesCount}</span></div>
-                        <div>Юнити: <span className={classes.counter}>{game.UnityCount}</span></div>
-                        <div>Прожито: <span className={classes.counter}>{calcTimeAlive()}</span></div>
-                        <div style={{ marginTop: '4vh' }} className={`${classes.keybutton}`}>R</div>
+                            {game.Over && game.Win && <Confetti launchPoints={launchPoints} burstAmount={100} afterBurstAmount={30} />}
+                            {game.Over && game.Win && <Confetti launchPoints={launchPoints2} burstAmount={100} afterBurstAmount={30} />}
+                            <div style={{ marginBottom: '1vh' }}>{game.Win ? 'Ярик победил)' : 'Денчик выиграл)'}</div>
+                            <input style={{ marginBottom: '2vh' }} className={classes.input} value={name} onChange={evt => UpdateName(evt)} maxLength={20} placeholder='Your name..' />
+                            <div>Очки: <span className={classes.counter}>{game.Points}</span></div>
+                            <div>Накормлено: <span className={classes.counter}>{game.killedCount}</span></div>
+                            <div>Плюшечек: <span className={classes.counter}>{game.BulletsCount}</span></div>
+                            <div>Шавух: <span className={classes.counter}>{game.ShavuhaCount}</span></div>
+                            <div>Таблеток: <span className={classes.counter}>{game.PillsCount}</span></div>
+                            <div>Шприцов: <span className={classes.counter}>{game.NeedlesCount}</span></div>
+                            <div>Юнити: <span className={classes.counter}>{game.UnityCount}</span></div>
+                            <div>Прожито: <span className={classes.counter}>{calcTimeAlive()}</span></div>
+                            <div style={{ marginTop: '4vh' }} className={`${classes.keybutton}`}>R</div>
+                        {/* </div>
+                        <div>
+                            {result?.map((item, index) => {
+                                return <div>{item.name} {item.score}</div>
+                            })}
+                        </div> */}
                         {/* <div className={classes.button} onClick={StartAgain}>Начать заново</div> */}
                     </div>
                 </div>

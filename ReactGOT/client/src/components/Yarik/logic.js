@@ -17,6 +17,7 @@ const junkie = require('./Resources/Sounds/junkie.mp3');
 
 const shavuha1 = require('./Resources/Sounds/shavuha1.mp3');
 const shavuha2 = require('./Resources/Sounds/shavuha2.mp3');
+const { saveResult } = require('./result');
 
 const DeadAnim = {
     Rotate: 0,
@@ -157,6 +158,7 @@ class Game {
                 item.speed += window.innerHeight / 54000;
                 if (this.CheckPlayerKill(item, player)) {
                     this.Over = true;
+                    saveResult(this.Points);
                     GameRadio.ToggleSomething();
                 }
             }
@@ -230,6 +232,7 @@ class Game {
                     if (this.Boss.hp < 0) {
                         this.Boss.alive = false;
                         this.Points += 10000;
+                        saveResult(this.Points);
                         bossDefeated.play();
                     }
                 }
