@@ -224,7 +224,7 @@ class Game {
                     }
                 }
                 if (this.Boss !== null && this.CheckBossHit(item)) {
-                    if (item.type === 'Shishka') {
+                    if (item.type === 'Shishka' || item.type.includes('Odnorazka')) {
                         this.Drops.splice(this.Drops.findIndex(x => x == item), 1);
                         this.Boss.hp -= 20;
                     }
