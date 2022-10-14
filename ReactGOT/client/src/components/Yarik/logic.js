@@ -40,6 +40,7 @@ class Game {
         this.Drops = drops;
         this.Enemies = enemies;
         this.Balls = balls;
+        this.Allies = [];
         this.Bonuses = [];
         this.spawnTime = spawnTime;
         this.Points = points;
@@ -93,6 +94,12 @@ class Game {
                         this.TolikTime = 5;
                     }
                     else if (item.type === 'Needle') {
+                        this.NeedleTime = 2;
+                        needle.currentTime = 0;
+                        this.NeedlesCount++;
+                        needle.play();
+                    }
+                    else if (item.type === 'Odnorazka') {
                         this.NeedleTime = 2;
                         needle.currentTime = 0;
                         this.NeedlesCount++;
@@ -196,18 +203,23 @@ class Game {
                         shotshavuha.at(Math.floor(Math.random() * shotshavuha.length)).play();
                     }
                     this.Points += this.MultiplyPoints();
-                    if (Math.random() < 0.005 * this.TimeAlive) {
-                        if (Math.random() > 0.75) {
+                    if (Math.random() < 1 * this.TimeAlive) {
+                        // 0.005
+                        let randItem = Math.random();
+                        if (randItem > 0.8) {
                             this.addNewBonus({ x: item.pos.x, y: window.innerHeight * 0.05 }, 'Pill');
                         }
-                        else if (Math.random() > 0.5) {
+                        else if (randItem > 0.6) {
                             this.addNewBonus({ x: item.pos.x, y: window.innerHeight * 0.05 }, 'Shavuha');
                         }
-                        else if (Math.random() > 0.25) {
+                        else if (randItem > 0.4) {
                             this.addNewBonus({ x: item.pos.x, y: window.innerHeight * 0.05 }, 'Needle');
                         }
-                        else {
+                        else if (randItem > 0.2) {
                             this.addNewBonus({ x: item.pos.x, y: window.innerHeight * 0.05 }, 'Unity');
+                        }
+                        else {
+                            this.addNewBonus({ x: item.pos.x, y: window.innerHeight * 0.05 }, 'Zoha');
                         }
                     }
                 }
@@ -368,6 +380,43 @@ class Enemy {
     Move() {
         if (this.direction != 0) {
             this.direction == 1 ? this.pos.x -= window.innerWidth / 1920 : this.pos.x += window.innerWidth / 1920;
+        }
+        this.CheckBorders();
+    }
+}
+
+class Ally {
+    constructor(pos) {
+        this.pos = pos;
+        this.hp = 300;
+        let rand = Math.random();
+        this.deadAnim = Math.floor(rand * 5);
+        this.direction = rand > 0.5 ? 1 : 2;
+    }
+    ChangeDirection = () => {
+        this.direction == 1 ? this.direction = 2 : this.direction = 1;
+    }
+
+    CheckBorders() {
+        let leftBorder = - window.innerWidth / 2;
+        let rightBorder = window.innerWidth / 2 - window.innerWidth * 0.05;
+
+        if (this.pos.x < leftBorder) {
+            this.pos.x = leftBorder;
+            this.ChangeDirection();
+        }
+        else if (this.pos.x > rightBorder) {
+            this.pos.x = rightBorder;
+            this.ChangeDirection();
+        }
+    }
+
+    Move() {
+        if (this.direction != 0) {
+            this.direction == 1 ? this.pos.x -= window.innerWidth / 1340 : this.pos.x += window.innerWidth / 1340;
+        }
+        if (Math.random() < 0.001) {
+            this.ChangeDirection();
         }
         this.CheckBorders();
     }

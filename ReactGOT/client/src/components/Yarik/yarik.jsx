@@ -8,6 +8,7 @@ import BallImage from './Resources/ball.png';
 import PillsImage from './Resources/pills.png';
 import NeedleImage from './Resources/Шприц.png';
 import ShavuhaImage from './Resources/Шавуха.png';
+import OdnorazkaImage from './Resources/odnorazka.png';
 import UnityImage from './Resources/unity.png';
 import BossImage from './Resources/Boss.png';
 import BossBoostedImage from './Resources/BossBoosted.png';
@@ -261,6 +262,7 @@ const Yarik = function () {
         else if (item.type === 'Shavuha') return ShavuhaImage;
         else if (item.type === 'Needle') return NeedleImage;
         else if (item.type === 'Unity') return UnityImage;
+        else if (item.type === 'Zoha') return OdnorazkaImage;
         else return UnityImage;
     }
 
