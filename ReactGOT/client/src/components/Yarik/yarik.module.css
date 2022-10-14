@@ -22,6 +22,12 @@
     width: 110px;
 }
 
+.zoha {
+    position: absolute;
+    top: 84%;
+    height: 16%;
+}
+
 .drop {
     position: absolute;
     width: 2%;

@@ -8,6 +8,8 @@ import BallImage from './Resources/ball.png';
 import PillsImage from './Resources/pills.png';
 import NeedleImage from './Resources/Шприц.png';
 import ShavuhaImage from './Resources/Шавуха.png';
+import ZohaImage from './Resources/Zoha.png';
+import ZohaBoostedImage from './Resources/ZohaBoosted.png';
 import OdnorazkaImage from './Resources/odnorazka.png';
 import UnityImage from './Resources/unity.png';
 import BossImage from './Resources/Boss.png';
@@ -20,8 +22,10 @@ import classes from './yarik.module.css';
 import { DeadAnim, Game } from './logic';
 import { GameRadio } from './radio';
 
-import { Confetti, __esModule } from 'react-confetti-cannon';
 import { saveResult } from './result';
+import { Confetti, __esModule } from 'react-confetti-cannon';
+import { getOdnorazka } from './odnorazka';
+
 const Cookies = require('js-cookie');
 
 const Yarik = function () {
@@ -77,6 +81,7 @@ const Yarik = function () {
                 setGame(game, game.UpdateBalls(pos));
                 setGame(game, game.UpdateEnemies());
                 setGame(game, game.UpdateBoss());
+                setGame(game, game.UpdateAllies());
                 setGame(game, game.RemoveLast());
                 setGame(game, game.UpdateBonuses(pos));
                 setGame(game, game.BusterTime = game.BusterTime);
@@ -283,19 +288,21 @@ const Yarik = function () {
                 </div>
                 <div className={`${classes.deadtitle} ${game.Over ? classes.show : ''}`}>
                     <div className={classes.background}>
-                            {game.Over && game.Win && <Confetti launchPoints={launchPoints} burstAmount={100} afterBurstAmount={30} />}
-                            {game.Over && game.Win && <Confetti launchPoints={launchPoints2} burstAmount={100} afterBurstAmount={30} />}
-                            <div style={{ marginBottom: '1vh' }}>{game.Win ? 'Ярик победил)' : 'Денчик выиграл)'}</div>
-                            <input style={{ marginBottom: '2vh' }} className={classes.input} value={name} onChange={evt => UpdateName(evt)} maxLength={20} placeholder='Your name..' />
-                            <div>Очки: <span className={classes.counter}>{game.Points}</span></div>
-                            <div>Накормлено: <span className={classes.counter}>{game.killedCount}</span></div>
-                            <div>Плюшечек: <span className={classes.counter}>{game.BulletsCount}</span></div>
-                            <div>Шавух: <span className={classes.counter}>{game.ShavuhaCount}</span></div>
-                            <div>Таблеток: <span className={classes.counter}>{game.PillsCount}</span></div>
-                            <div>Шприцов: <span className={classes.counter}>{game.NeedlesCount}</span></div>
-                            <div>Юнити: <span className={classes.counter}>{game.UnityCount}</span></div>
-                            <div>Прожито: <span className={classes.counter}>{calcTimeAlive()}</span></div>
-                            <div style={{ marginTop: '4vh' }} className={`${classes.keybutton}`}>R</div>
+                        {game.Over && game.Win && <Confetti launchPoints={launchPoints} burstAmount={100} afterBurstAmount={30} />}
+                        {game.Over && game.Win && <Confetti launchPoints={launchPoints2} burstAmount={100} afterBurstAmount={30} />}
+                        <div style={{ marginBottom: '1vh' }}>{game.Win ? 'Ярик победил)' : 'Денчик выиграл)'}</div>
+                        <input style={{ marginBottom: '2vh' }} className={classes.input} value={name} onChange={evt => UpdateName(evt)} maxLength={20} placeholder='Your name..' />
+                        <div>Очки: <span className={classes.counter}>{game.Points}</span></div>
+                        <div>Накормлено: <span className={classes.counter}>{game.killedCount}</span></div>
+                        <div>Плюшечек: <span className={classes.counter}>{game.BulletsCount}</span></div>
+                        <div>Шавух: <span className={classes.counter}>{game.ShavuhaCount}</span></div>
+                        <div>Таблеток: <span className={classes.counter}>{game.PillsCount}</span></div>
+                        <div>Шприцов: <span className={classes.counter}>{game.NeedlesCount}</span></div>
+                        <div>Юнити: <span className={classes.counter}>{game.UnityCount}</span></div>
+                        <div>Зох: <span className={classes.counter}>{game.ZohaCount}</span></div>
+                        <div>Одноразок: <span className={classes.counter}>{game.OdnorazkaCount}</span></div>
+                        <div>Прожито: <span className={classes.counter}>{calcTimeAlive()}</span></div>
+                        <div style={{ marginTop: '4vh' }} className={`${classes.keybutton}`}>R</div>
                         {/* </div>
                         <div>
                             {result?.map((item, index) => {
@@ -305,9 +312,12 @@ const Yarik = function () {
                         {/* <div className={classes.button} onClick={StartAgain}>Начать заново</div> */}
                     </div>
                 </div>
+                {game.Allies.map((item, index) => {
+                    return <img key={index} style={{ transform: `translate(${item.pos.x}px` }} className={`${classes.zoha}`} src={item.BusterTime === 0 ? ZohaImage : ZohaBoostedImage} />
+                })}
                 <img style={{ transform: `translate(${pos.x}px)`, height: `calc(18%)`, width: `5%` }} className={`${classes.yarik} ${game.Over ? classes.gameOver : ''}`} alt='yarik' src={getPlayerImage()} />
                 {game.Drops.map((item, index) => {
-                    return <img key={index} style={{ transform: `translate(${item.pos.x}px, ${item.pos.y}px)` }} className={classes.drop} src={item.type === 'Shishka' ? DropImage : ShavuhaImage} />
+                    return <img key={index} style={{ transform: `translate(${item.pos.x}px, ${item.pos.y}px)` }} className={classes.drop} src={item.type === 'Shishka' ? DropImage : item.type === 'Shavuha' ? ShavuhaImage : getOdnorazka(item.type)} />
                 })}
                 {game.Enemies.map((item, index) => {
                     return <>
