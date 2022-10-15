@@ -18,6 +18,13 @@ const zoha2 = require('./Resources/Sounds/выстрел2.mp3');
 const zoha3 = require('./Resources/Sounds/выстрел3.mp3');
 const zoha4 = require('./Resources/Sounds/выстрел4.mp3');
 
+const zohadamage1 = require('./Resources/Sounds/урон1.mp3');
+const zohadamage2 = require('./Resources/Sounds/урон2.mp3');
+const zohadamage3 = require('./Resources/Sounds/урон3.mp3');
+const zohadamage4 = require('./Resources/Sounds/урон4.mp3');
+const zohadamage5 = require('./Resources/Sounds/урон5.mp3');
+const zohadamage6 = require('./Resources/Sounds/урон6.mp3');
+
 const junkie = require('./Resources/Sounds/junkie.mp3');
 
 const shavuha1 = require('./Resources/Sounds/shavuha1.mp3');
@@ -42,6 +49,7 @@ const bossArrival = [new Audio(boss), new Audio(boss1), new Audio(boss2)];
 const shotshavuha = [new Audio(shavuha1), new Audio(shavuha2)];
 const bossDefeated = new Audio(bossdefeated);
 const zohashot = [new Audio(zoha1), new Audio(zoha2), new Audio(zoha3), new Audio(zoha4)];
+const zohadamage = [new Audio(zohadamage1), new Audio(zohadamage2), new Audio(zohadamage3), new Audio(zohadamage4), new Audio(zohadamage5), new Audio(zohadamage6)];
 
 class Game {
     constructor(drops, enemies, balls, spawnTime, points, killedCount) {
@@ -77,6 +85,10 @@ class Game {
         zohashot[1].volume = 0.25;
         zohashot[2].volume = 0.25;
         zohashot[3].volume = 0.25;
+
+        for (const item of zohadamage) {
+            item.volume = 0.4;
+        }
     }
 
     addNewEnemy() {
@@ -195,7 +207,7 @@ class Game {
     addZohaDrop(pos) {
         if (Math.random() < 0.02) {
             zohashot.at(Math.floor(Math.random() * zohashot.length)).play();
-            this.Drops.push(new Drop(pos, `cgrt${Math.floor(Math.random() * 12)}`));
+            this.Drops.push(new Drop(pos, `cgrt${Math.floor(Math.random() * 14)}`));
             this.OdnorazkaCount++;
         }
     }
@@ -235,6 +247,7 @@ class Game {
                 for (const ally of this.Allies) {
                     if (ally.alive && this.CheckPlayerKill(item, ally.pos)) {
                         this.Balls.splice(this.Balls.findIndex(x => x == item), 1);
+                        zohadamage.at(Math.floor(Math.random()*zohadamage.length)).play();
                         ally.hp -= 20;
                         console.log(ally.hp);
                         if (ally.hp <= 0) {

@@ -11,6 +11,8 @@ const img10 = require('./Resources/odnorazki/10.png');
 const img11 = require('./Resources/odnorazki/11.png');
 const img12 = require('./Resources/odnorazki/12.png');
 const img13 = require('./Resources/odnorazki/13.png');
+const img14 = require('./Resources/odnorazki/14.png');
+const img15 = require('./Resources/odnorazki/15.png');
 
 const Odnorazki =
     [{ image: img1, type: '0' },
@@ -25,7 +27,9 @@ const Odnorazki =
     { image: img10, type: '9' },
     { image: img11, type: '10' },
     { image: img12, type: '11' },
-    { image: img13, type: '12' }]
+    { image: img13, type: '12' },
+    { image: img14, type: '13' },
+    { image: img15, type: '14' }]
 
 function getOdnorazka(type) {
     return Odnorazki.find(x => x.type === type.slice(4)).image;
