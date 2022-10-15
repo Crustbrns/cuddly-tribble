@@ -123,6 +123,15 @@
     flex-direction: column;
 }
 
+@keyframes bgshow {
+    from{
+        opacity: 0;
+    }
+    to{
+        opacity: 1;
+    }
+}
+
 .stat {
     display: flex;
     flex-direction: column;
@@ -143,6 +152,8 @@
     background-color: rgba(36, 36, 36, 0.76) !important;
     transition: .4s;
     z-index: 1000;
+    animation: bgshow;
+    animation-duration: .6s;
 }
 
 @keyframes encounter {
@@ -152,6 +163,24 @@
 
     to {
         transform: scale(1);
+    }
+}
+
+.hide {
+    background-color: rgba(36, 36, 36, 0.76) !important;
+    transition: .4s;
+    z-index: 1000;
+    animation: bgfade;
+    animation-duration: .6s;
+}
+
+@keyframes bgfade {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
     }
 }
 
@@ -393,6 +422,8 @@
 .barContainer {
     margin: auto;
     margin-top: 85vh;
+    animation: zohaEncounter;
+    animation-duration: 0.5s;
 }
 
 .bossTitle {

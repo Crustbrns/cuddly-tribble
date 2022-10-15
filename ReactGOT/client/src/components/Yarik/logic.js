@@ -133,6 +133,7 @@ class Game {
                 if (item.type === 'Pill' || item.type === 'Unity') {
                     for (const ally of this.Allies) {
                         if (this.checkZohaCollision(item, ally.pos)) {
+                            this.Bonuses.splice(this.Bonuses.findIndex(x => x == item), 1);
                             if (item.type === 'Pill') {
                                 ally.BusterTime = 3;
                                 this.PillsCount++;
@@ -220,7 +221,7 @@ class Game {
                     GameRadio.ToggleSomething();
                 }
                 for (const ally of this.Allies) {
-                    if (this.CheckPlayerKill(item, ally.pos)) {
+                    if (ally.alive && this.CheckPlayerKill(item, ally.pos)) {
                         this.Balls.splice(this.Balls.findIndex(x => x == item), 1);
                         ally.hp -= 20;
                         console.log(ally.hp);
@@ -266,9 +267,11 @@ class Game {
         for (const key in this.Allies) {
             if (Object.hasOwnProperty.call(this.Allies, key)) {
                 const item = this.Allies[key];
-                item.Move();
-                if (item.BusterTime === 0 ? Math.random() < 0.2 : Math.random() < 0.6) {
-                    this.addZohaDrop({ x: item.pos.x + window.innerWidth * 0.01, y: window.innerHeight * 0.86 });
+                if (item.alive) {
+                    item.Move();
+                    if (item.BusterTime === 0 ? Math.random() < 0.2 : Math.random() < 0.6) {
+                        this.addZohaDrop({ x: item.pos.x + window.innerWidth * 0.01, y: window.innerHeight * 0.86 });
+                    }
                 }
             }
         }
@@ -288,33 +291,24 @@ class Game {
                         shotshavuha.at(Math.floor(Math.random() * shotshavuha.length)).play();
                     }
                     this.Points += this.MultiplyPoints();
-                    if (Math.random() < 1 * this.TimeAlive) {
-                        // 0.005
+                    if (Math.random() < 0.006 * this.TimeAlive) {
 
                         let randItem = Math.random();
                         if (randItem > 0.8) {
                             this.addNewBonus({ x: item.pos.x, y: window.innerHeight * 0.05 }, 'Pill');
                         }
-                        else {
+                        else if (randItem > 0.6) {
+                            this.addNewBonus({ x: item.pos.x, y: window.innerHeight * 0.05 }, 'Shavuha');
+                        }
+                        else if (randItem > 0.4) {
+                            this.addNewBonus({ x: item.pos.x, y: window.innerHeight * 0.05 }, 'Needle');
+                        }
+                        else if (randItem > 0.2) {
+                            this.addNewBonus({ x: item.pos.x, y: window.innerHeight * 0.05 }, 'Unity');
+                        }
+                        else if (randItem > 0 && this.Allies.length < 3) {
                             this.addNewBonus({ x: item.pos.x, y: window.innerHeight * 0.05 }, 'Zoha');
                         }
-
-                        // let randItem = Math.random();
-                        // if (randItem > 0.8) {
-                        //     this.addNewBonus({ x: item.pos.x, y: window.innerHeight * 0.05 }, 'Pill');
-                        // }
-                        // else if (randItem > 0.6) {
-                        //     this.addNewBonus({ x: item.pos.x, y: window.innerHeight * 0.05 }, 'Shavuha');
-                        // }
-                        // else if (randItem > 0.4) {
-                        //     this.addNewBonus({ x: item.pos.x, y: window.innerHeight * 0.05 }, 'Needle');
-                        // }
-                        // else if (randItem > 0.2) {
-                        //     this.addNewBonus({ x: item.pos.x, y: window.innerHeight * 0.05 }, 'Unity');
-                        // }
-                        // else {
-                        //     this.addNewBonus({ x: item.pos.x, y: window.innerHeight * 0.05 }, 'Zoha');
-                        // }
                     }
                 }
                 if (this.Boss !== null && this.CheckBossHit(item)) {
@@ -328,11 +322,14 @@ class Game {
                         this.Boss.hp -= 60;
                     }
                     if (Math.random() < 0.0075 * this.TimeAlive) {
-                        if (Math.random() > 0.5) {
+                        if (Math.random() > 0.51) {
                             this.addNewBonus({ x: item.pos.x, y: window.innerHeight * 0.05 }, 'Pill');
                         }
-                        else {
+                        else if (Math.random() > 0.02) {
                             this.addNewBonus({ x: item.pos.x, y: window.innerHeight * 0.05 }, 'Shavuha');
+                        }
+                        else {
+                            this.addNewBonus({ x: item.pos.x, y: window.innerHeight * 0.05 }, 'Zoha');
                         }
                     }
                     if (this.Boss.hp < 0) {
@@ -482,7 +479,7 @@ class Enemy {
 class Ally {
     constructor(pos) {
         this.pos = pos;
-        this.hp = 300;
+        this.hp = 260;
         this.alive = true;
         let rand = Math.random();
         this.deadAnim = Math.floor(rand * 5);

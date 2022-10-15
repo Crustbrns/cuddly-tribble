@@ -9,6 +9,7 @@ import PillsImage from './Resources/pills.png';
 import NeedleImage from './Resources/Шприц.png';
 import ShavuhaImage from './Resources/Шавуха.png';
 import ZohaImage from './Resources/Zoha.png';
+import ZohaDeadImage from './Resources/ZohaDead.png';
 import ZohaBoostedImage from './Resources/ZohaBoosted.png';
 import ZohaHead from './Resources/ZohaHead.png';
 import ZohaDeadHead from './Resources/ZohaDeadHead.png';
@@ -184,7 +185,7 @@ const Yarik = function () {
         if (event.code === 'Space') {
             setMovement(movement.shooting = truth);
         }
-        if ((event.key === 'r' || event.key === 'к') && game.Over && truth) {
+        if ((event.key === 'r' || event.key === 'к') && game.Over && truth && (document.activeElement.id !== null && document.activeElement.id !== 'nameInput')) {
             StartAgain();
         }
     }
@@ -212,6 +213,7 @@ const Yarik = function () {
         setGame(game, game.Win = false);
         setGame(game, game.Boss = null);
         setGame(game, game.NeedleTime = 0);
+        setGame(game, game.Allies = []);
         setPos(pos, pos.x = -55);
         CreateEnemy();
     }
@@ -276,6 +278,7 @@ const Yarik = function () {
     }
 
     function UpdateName(evt) {
+        console.log('qwe');
         let tempname = evt.target.value;
         setName(tempname);
         Cookies.set('user', tempname);
@@ -290,12 +293,12 @@ const Yarik = function () {
                         <div className={classes.keybutton}>D</div>
                     </div>
                 </div>
-                <div className={`${classes.deadtitle} ${game.Over ? classes.show : ''}`}>
+                <div className={`${classes.deadtitle} ${game.Over ? classes.show : classes.hide}`}>
                     <div className={classes.background}>
                         {game.Over && game.Win && <Confetti launchPoints={launchPoints} burstAmount={100} afterBurstAmount={30} />}
                         {game.Over && game.Win && <Confetti launchPoints={launchPoints2} burstAmount={100} afterBurstAmount={30} />}
                         <div style={{ marginBottom: '1vh' }}>{game.Win ? 'Ярик победил)' : 'Денчик выиграл)'}</div>
-                        <input style={{ marginBottom: '2vh' }} className={classes.input} value={name} onChange={evt => UpdateName(evt)} maxLength={20} placeholder='Your name..' />
+                        <input id={'nameInput'} style={{ marginBottom: '2vh' }} className={classes.input} value={name} onChange={event => UpdateName(event)} maxLength={20} placeholder='Your name..' />
                         <div>Очки: <span className={classes.counter}>{game.Points}</span></div>
                         <div>Накормлено: <span className={classes.counter}>{game.killedCount}</span></div>
                         <div>Плюшечек: <span className={classes.counter}>{game.BulletsCount}</span></div>
@@ -307,17 +310,10 @@ const Yarik = function () {
                         <div>Одноразок: <span className={classes.counter}>{game.OdnorazkaCount}</span></div>
                         <div>Прожито: <span className={classes.counter}>{calcTimeAlive()}</span></div>
                         <div style={{ marginTop: '4vh' }} className={`${classes.keybutton}`}>R</div>
-                        {/* </div>
-                        <div>
-                            {result?.map((item, index) => {
-                                return <div>{item.name} {item.score}</div>
-                            })}
-                        </div> */}
-                        {/* <div className={classes.button} onClick={StartAgain}>Начать заново</div> */}
                     </div>
                 </div>
                 {game.Allies.map((item, index) => {
-                    return <img key={index} style={{ transform: `translate(${item.pos.x}px` }} className={`${classes.zoha}  ${item.alive ? '' : getDeadAnim(item)}`} src={item.BusterTime === 0 ? ZohaImage : ZohaBoostedImage} />
+                    return <img key={index} style={{ transform: `translate(${item.pos.x}px` }} className={`${classes.zoha}  ${item.alive ? '' : getDeadAnim(item)}`} src={!item.alive? ZohaDeadImage : item.BusterTime === 0 ? ZohaImage : ZohaBoostedImage} />
                 })}
                 <img style={{ transform: `translate(${pos.x}px)`, height: `calc(18%)`, width: `5%` }} className={`${classes.yarik} ${game.Over ? classes.gameOver : ''}`} alt='yarik' src={getPlayerImage()} />
                 {game.Drops.map((item, index) => {
@@ -338,8 +334,8 @@ const Yarik = function () {
                                 <div className={classes.allyTitle}>
                                     <div className={classes.allyName}>Зоха</div>
                                     <div className={classes.allyHp}>
-                                        <div className={classes.hpAlly} style={{ width: `${item.hp / 3}%`, borderTopRightRadius: 0, borderBottomRightRadius: 0 }}></div>
-                                        <div className={classes.hpAbsence} style={{ width: `${100 - (item.hp / 3)}%` }}></div>
+                                        <div className={classes.hpAlly} style={{ width: `${item.hp / 2.6}%`, borderTopRightRadius: 0, borderBottomRightRadius: 0 }}></div>
+                                        <div className={classes.hpAbsence} style={{ width: `${100 - (item.hp / 2.6)}%` }}></div>
                                     </div>
                                 </div>
                             </div>
