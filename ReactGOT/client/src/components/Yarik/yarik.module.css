@@ -7,13 +7,13 @@
 }
 
 .darken {
-     background-color: rgba(36, 36, 36, 0.8);
-     position: absolute;
-     transition: .4s;
-     width: 100vw;
-     height: 100vh;
-     top: 0;
-     left: 0;
+    background-color: rgba(36, 36, 36, 0.8);
+    position: absolute;
+    transition: .4s;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
 }
 
 .yarik {
@@ -28,6 +28,60 @@
     height: 16%;
 }
 
+.allies {
+    position: absolute;
+    top: 4%;
+    right: 3%;
+    display: flex;
+    flex-direction: column;
+}
+
+.allyImage {
+    height: 5vh;
+    margin-right: 0.3vw;
+}
+
+.allyContainer {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1vh;
+    animation: zohaEncounter;
+    animation-duration: 0.5s;
+}
+
+@keyframes zohaEncounter {
+    from{
+        opacity: 0;
+        transform: translateY(20%);
+    }
+    to{
+        opacity: 1;
+        transform: translateY(0%);
+    }
+}
+
+.allyTitle {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.allyName {
+    display: flex;
+    text-align: start;
+    margin-left: 0;
+    margin-right: auto;
+    font-size: 0.9vw;
+}
+
+.allyHp {
+    height: 1vh;
+    background-color: gray;
+    width: 5vw;
+    border-radius: 0.2vh;
+    display: flex;
+}
+
 .drop {
     position: absolute;
     width: 2%;
@@ -40,7 +94,7 @@
     animation: encounter;
 }
 
-.bossEnemy{
+.bossEnemy {
     animation-duration: 2s !important;
 }
 
@@ -69,7 +123,7 @@
     flex-direction: column;
 }
 
-.stat{
+.stat {
     display: flex;
     flex-direction: column;
 }
@@ -190,7 +244,7 @@
     justify-content: space-between;
 }
 
-.input{
+.input {
     padding: 1vh;
     border-radius: 0.4vw;
     border: 0;
@@ -198,7 +252,7 @@
     height: 2vh;
 }
 
-.input::placeholder{
+.input::placeholder {
     font-family: 'e-Ukraine-UL';
     font-size: 0.7vw;
 }
@@ -309,59 +363,84 @@
     }
 }
 
-.bossArived{
+.bossArived {
     animation: dizzy;
     animation-duration: 2s;
 }
 
 @keyframes dizzy {
-    0%{
+    0% {
         transform: scale(1) rotate(0deg);
     }
 
-    3%{
+    3% {
         transform: scale(1.2) rotate(5deg);
     }
-    
-    6%{
+
+    6% {
         transform: scale(1.16) rotate(-2deg);
     }
-    
-    15%{
+
+    15% {
         transform: scale(1.1) rotate(0deg);
     }
 
-    100%{
+    100% {
         transform: scale(1) rotate(0deg);
     }
 }
 
-.barContainer{
+.barContainer {
     margin: auto;
     margin-top: 85vh;
 }
 
-.bossTitle{
+.bossTitle {
     font-size: 1.5vw;
     font-family: 'e-Ukraine-M';
     margin-bottom: 2vh;
 }
 
-.hpContainer{
+.hpContainer {
     width: 40%;
     background-color: rgb(5, 5, 5);
     height: 2.3vh;
     border-radius: 0.5vh;
     display: flex;
-    padding: 0.3vw;
+    padding: 0.2vw;
     margin: auto;
 }
 
-.hp{
+.hp {
     background-color: #911930;
     border-radius: 0.5vh;
 }
 
-.hpAbsence{
+.hpAlly {
+    background-color: #911930;
+    border-radius: 0.2vh;
+}
+
+.hpAbsence {
     background-color: #3a3a3a;
+}
+
+.zohadead{
+    animation: zohaDied;
+    animation-duration: 0.4s;
+}
+
+@keyframes zohaDied {
+    0%{
+        transform: rotate(0deg);
+    }
+    20%{
+        transform: rotate(25deg);
+    }
+    60%{
+        transform: rotate(-25deg);
+    }
+    80%{
+        transform: rotate(0deg);
+    }
 }

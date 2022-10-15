@@ -28,7 +28,6 @@ const Odnorazki =
     { image: img13, type: '12' }]
 
 function getOdnorazka(type) {
-    console.log(type,type.slice(4) );
     return Odnorazki.find(x => x.type === type.slice(4)).image;
 }
 

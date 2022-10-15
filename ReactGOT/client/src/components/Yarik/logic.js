@@ -108,6 +108,7 @@ class Game {
                         let pos = leftBorder + rightBorder * 2 * Math.random();
 
                         this.Allies.push(new Ally({ x: pos }));
+                        this.ZohaCount++;
                     }
                     else if (item.type === 'Unity') {
                         this.UnityCount++;
@@ -131,7 +132,7 @@ class Game {
 
                 if (item.type === 'Pill' || item.type === 'Unity') {
                     for (const ally of this.Allies) {
-                        if (this.checkZohaCollision(item, ally)){
+                        if (this.checkZohaCollision(item, ally.pos)) {
                             if (item.type === 'Pill') {
                                 ally.BusterTime = 3;
                                 this.PillsCount++;
@@ -218,6 +219,19 @@ class Game {
                     saveResult(this.Points);
                     GameRadio.ToggleSomething();
                 }
+                for (const ally of this.Allies) {
+                    if (this.CheckPlayerKill(item, ally.pos)) {
+                        this.Balls.splice(this.Balls.findIndex(x => x == item), 1);
+                        ally.hp -= 20;
+                        console.log(ally.hp);
+                        if (ally.hp <= 0) {
+                            ally.alive = false;
+                            setTimeout(() => {
+                                this.Allies.splice(this.Allies.findIndex(x => x == ally), 1);
+                            }, 500);
+                        }
+                    }
+                }
             }
         }
     }
@@ -239,18 +253,25 @@ class Game {
         }
     }
 
+    UpdateAlliesBoosters() {
+        for (const key in this.Allies) {
+            if (Object.hasOwnProperty.call(this.Allies, key)) {
+                const item = this.Allies[key];
+                item.Update();
+            }
+        }
+    }
+
     UpdateAllies() {
         for (const key in this.Allies) {
             if (Object.hasOwnProperty.call(this.Allies, key)) {
                 const item = this.Allies[key];
                 item.Move();
-                item.Update();
-                if (item.BusterTime === 0 ? Math.random() < 0.2 : Math.random() < 0.4) {
+                if (item.BusterTime === 0 ? Math.random() < 0.2 : Math.random() < 0.6) {
                     this.addZohaDrop({ x: item.pos.x + window.innerWidth * 0.01, y: window.innerHeight * 0.86 });
                 }
             }
         }
-        console.log(this.Allies);
     }
 
     UpdateDrops() {
@@ -297,7 +318,7 @@ class Game {
                     }
                 }
                 if (this.Boss !== null && this.CheckBossHit(item)) {
-                    if (item.type === 'Shishka' || item.type.includes('Odnorazka')) {
+                    if (item.type === 'Shishka' || item.type.includes('cgrt')) {
                         this.Drops.splice(this.Drops.findIndex(x => x == item), 1);
                         this.Boss.hp -= 20;
                     }
@@ -462,6 +483,7 @@ class Ally {
     constructor(pos) {
         this.pos = pos;
         this.hp = 300;
+        this.alive = true;
         let rand = Math.random();
         this.deadAnim = Math.floor(rand * 5);
         this.direction = rand > 0.5 ? 1 : 2;
@@ -493,7 +515,8 @@ class Ally {
 
     Move() {
         if (this.direction != 0) {
-            this.direction == 1 ? this.pos.x -= window.innerWidth / 1000 : this.pos.x += window.innerWidth / 1000;
+            let speed = this.BusterTime === 0 ? window.innerWidth / 1000 : window.innerWidth / 600
+            this.direction == 1 ? this.pos.x -= speed : this.pos.x += speed;
         }
         if (Math.random() < 0.001) {
             this.ChangeDirection();

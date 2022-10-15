@@ -10,6 +10,9 @@ import NeedleImage from './Resources/Шприц.png';
 import ShavuhaImage from './Resources/Шавуха.png';
 import ZohaImage from './Resources/Zoha.png';
 import ZohaBoostedImage from './Resources/ZohaBoosted.png';
+import ZohaHead from './Resources/ZohaHead.png';
+import ZohaDeadHead from './Resources/ZohaDeadHead.png';
+import ZohaBoostedHead from './Resources/ZohaBoostedHead.png';
 import OdnorazkaImage from './Resources/odnorazka.png';
 import UnityImage from './Resources/unity.png';
 import BossImage from './Resources/Boss.png';
@@ -102,6 +105,7 @@ const Yarik = function () {
                 setGame(game, game.BusterTime > 0 ? game.BusterTime -= 1 : game.BusterTime = 0);
                 setGame(game, game.TolikTime > 0 ? game.TolikTime -= 1 : game.TolikTime = 0);
                 setGame(game, game.NeedleTime > 0 ? game.NeedleTime -= 1 : game.NeedleTime = 0);
+                setGame(game, game.UpdateAlliesBoosters());
             }
         }, 1000);
 
@@ -255,7 +259,7 @@ const Yarik = function () {
             return <div className={classes.barContainer}>
                 <div className={classes.bossTitle}>Big Papa</div>
                 <div className={classes.hpContainer}>
-                    <div className={classes.hp} style={{ width: `${game.Boss.hp / 10}%` }}></div>
+                    <div className={classes.hp} style={{ width: `${game.Boss.hp / 10}%`, borderTopRightRadius: 0, borderBottomRightRadius: 0 }}></div>
                     <div className={classes.hpAbsence} style={{ width: `${100 - (game.Boss.hp / 10)}%` }}></div>
                 </div>
             </div>
@@ -313,7 +317,7 @@ const Yarik = function () {
                     </div>
                 </div>
                 {game.Allies.map((item, index) => {
-                    return <img key={index} style={{ transform: `translate(${item.pos.x}px` }} className={`${classes.zoha}`} src={item.BusterTime === 0 ? ZohaImage : ZohaBoostedImage} />
+                    return <img key={index} style={{ transform: `translate(${item.pos.x}px` }} className={`${classes.zoha}  ${item.alive ? '' : getDeadAnim(item)}`} src={item.BusterTime === 0 ? ZohaImage : ZohaBoostedImage} />
                 })}
                 <img style={{ transform: `translate(${pos.x}px)`, height: `calc(18%)`, width: `5%` }} className={`${classes.yarik} ${game.Over ? classes.gameOver : ''}`} alt='yarik' src={getPlayerImage()} />
                 {game.Drops.map((item, index) => {
@@ -324,8 +328,24 @@ const Yarik = function () {
                         <img key={index} style={{ transform: `translate(${item.pos.x}px` }} className={`${classes.enemy} ${item.alive ? '' : getDeadAnim(item)}`} src={item.alive ? EnemyImage : EnemyDeadImage} />
                         {game.NeedleTime > 0 && <img key={index} style={{ transform: `translate(${item.pos.x - window.innerWidth * 0.05}px, ${window.innerHeight * 0.82}px` }} className={`${classes.enemy} ${item.alive ? '' : getDeadAnim(item)}`} src={item.alive ? EnemyImage : EnemyDeadImage} />}
                     </>
-
                 })}
+
+                <div className={classes.allies}>
+                    {game.Allies.map((item, index) => {
+                        return <>
+                            <div className={classes.allyContainer}>
+                                <img key={index} className={`${classes.allyImage} ${item.alive ? '' : classes.zohadead}`} src={!item.alive ? ZohaDeadHead : item.BusterTime === 0 ? ZohaHead : ZohaBoostedHead} />
+                                <div className={classes.allyTitle}>
+                                    <div className={classes.allyName}>Зоха</div>
+                                    <div className={classes.allyHp}>
+                                        <div className={classes.hpAlly} style={{ width: `${item.hp / 3}%`, borderTopRightRadius: 0, borderBottomRightRadius: 0 }}></div>
+                                        <div className={classes.hpAbsence} style={{ width: `${100 - (item.hp / 3)}%` }}></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </>
+                    })}
+                </div>
                 {game.Balls.map((item, index) => {
                     return <img key={index} style={{ transform: `translate(${item.pos.x}px, ${item.pos.y}px)` }} className={classes.drop} src={BallImage} />
                 })}
