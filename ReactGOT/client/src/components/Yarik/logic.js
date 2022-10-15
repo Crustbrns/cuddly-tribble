@@ -25,6 +25,11 @@ const zohadamage4 = require('./Resources/Sounds/урон4.mp3');
 const zohadamage5 = require('./Resources/Sounds/урон5.mp3');
 const zohadamage6 = require('./Resources/Sounds/урон6.mp3');
 
+const zohaevent1 = require('./Resources/Sounds/фуллтильт.mp3');
+const zohaevent2 = require('./Resources/Sounds/Юнити.mp3');
+const zohaevent3 = require('./Resources/Sounds/Появление.mp3');
+const zohaevent4 = require('./Resources/Sounds/Таблетка.mp3');
+
 const junkie = require('./Resources/Sounds/junkie.mp3');
 
 const shavuha1 = require('./Resources/Sounds/shavuha1.mp3');
@@ -50,6 +55,7 @@ const shotshavuha = [new Audio(shavuha1), new Audio(shavuha2)];
 const bossDefeated = new Audio(bossdefeated);
 const zohashot = [new Audio(zoha1), new Audio(zoha2), new Audio(zoha3), new Audio(zoha4)];
 const zohadamage = [new Audio(zohadamage1), new Audio(zohadamage2), new Audio(zohadamage3), new Audio(zohadamage4), new Audio(zohadamage5), new Audio(zohadamage6)];
+const zohaevents = [new Audio(zohaevent1), new Audio(zohaevent2), new Audio(zohaevent3), new Audio(zohaevent4),];
 
 class Game {
     constructor(drops, enemies, balls, spawnTime, points, killedCount) {
@@ -87,7 +93,10 @@ class Game {
         zohashot[3].volume = 0.25;
 
         for (const item of zohadamage) {
-            item.volume = 0.4;
+            item.volume = 0.35;
+        }
+        for (const item of zohaevents) {
+            item.volume = 0.54;
         }
     }
 
@@ -131,6 +140,7 @@ class Game {
                         let pos = leftBorder + rightBorder * 2 * Math.random();
 
                         this.Allies.push(new Ally({ x: pos }));
+                        zohaevents[2].play();
                         this.ZohaCount++;
                     }
                     else if (item.type === 'Unity') {
@@ -158,11 +168,13 @@ class Game {
                         if (this.checkZohaCollision(item, ally.pos)) {
                             this.Bonuses.splice(this.Bonuses.findIndex(x => x == item), 1);
                             if (item.type === 'Pill') {
+                                zohaevents[3].play();
                                 ally.BusterTime = 3;
                                 this.PillsCount++;
                             }
                             else if (item.type === 'Unity') {
                                 this.UnityCount++;
+                                zohaevents[1].play();
                                 for (const item of this.Enemies) {
                                     this.Points += this.MultiplyPoints();
                                     item.alive = false;
@@ -251,6 +263,7 @@ class Game {
                         ally.hp -= 20;
                         console.log(ally.hp);
                         if (ally.hp <= 0) {
+                            zohaevents[0].play();
                             ally.alive = false;
                             setTimeout(() => {
                                 this.Allies.splice(this.Allies.findIndex(x => x == ally), 1);
