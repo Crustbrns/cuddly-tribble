@@ -153,7 +153,7 @@
     transition: .4s;
     z-index: 1000;
     animation: bgshow;
-    animation-duration: .6s;
+    animation-duration: .5s;
 }
 
 @keyframes encounter {
@@ -171,7 +171,7 @@
     transition: .4s;
     z-index: 1000;
     animation: bgfade;
-    animation-duration: .6s;
+    animation-duration: .5s;
 }
 
 @keyframes bgfade {
@@ -191,36 +191,6 @@
     font-size: 1.4vw;
     user-select: none;
     z-index: 1001;
-}
-
-.dead1 {
-    opacity: 0;
-    animation: deadanim1;
-    animation-duration: .5s;
-}
-
-.dead2 {
-    opacity: 0;
-    animation: deadanim2;
-    animation-duration: .5s;
-}
-
-.dead3 {
-    opacity: 0;
-    animation: deadanim3;
-    animation-duration: .5s;
-}
-
-.dead4 {
-    opacity: 0;
-    animation: deadanim4;
-    animation-duration: .5s;
-}
-
-.dead5 {
-    opacity: 0;
-    animation: deadanim5;
-    animation-duration: .3s;
 }
 
 .gameOver {
@@ -274,11 +244,15 @@
 }
 
 .input {
-    padding: 1vh;
+    padding: 1vh 1vw;
     border-radius: 0.4vw;
     border: 0;
-    width: 16vw;
+    width: 20vw;
     height: 2vh;
+}
+
+.input:focus{
+    outline: none;
 }
 
 .input::placeholder {
@@ -325,60 +299,6 @@
 
     100% {
         transform: scale(0.8);
-    }
-}
-
-@keyframes deadanim1 {
-    from {
-        opacity: 1;
-    }
-
-    to {
-        opacity: 0;
-        transform: scale(0.2);
-    }
-}
-
-@keyframes deadanim2 {
-    from {
-        opacity: 1;
-    }
-
-    to {
-        opacity: 0;
-        transform: rotate(780deg);
-    }
-}
-
-@keyframes deadanim3 {
-    from {
-        opacity: 1;
-    }
-
-    to {
-        opacity: 0;
-        transform: rotate(-780deg);
-    }
-}
-
-@keyframes deadanim4 {
-    from {
-        opacity: 1;
-    }
-
-    to {
-        opacity: 0;
-    }
-}
-
-@keyframes deadanim5 {
-    from {
-        opacity: 1;
-    }
-
-    to {
-        opacity: 0;
-        transform: scale(1.4);
     }
 }
 

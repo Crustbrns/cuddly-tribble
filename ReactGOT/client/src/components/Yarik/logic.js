@@ -13,12 +13,18 @@ const yarik = require('./Resources/Sounds/yarik.ogg');
 const yarik2 = require('./Resources/Sounds/yarikboosted.mp3');
 const yarik3 = require('./Resources/Sounds/shavuha.mp3');
 
+const zoha1 = require('./Resources/Sounds/выстрел1.mp3');
+const zoha2 = require('./Resources/Sounds/выстрел2.mp3');
+const zoha3 = require('./Resources/Sounds/выстрел3.mp3');
+const zoha4 = require('./Resources/Sounds/выстрел4.mp3');
+
 const junkie = require('./Resources/Sounds/junkie.mp3');
 
 const shavuha1 = require('./Resources/Sounds/shavuha1.mp3');
 const shavuha2 = require('./Resources/Sounds/shavuha2.mp3');
 const { saveResult } = require('./result');
 
+const Cookies = require('js-cookie');
 
 const DeadAnim = {
     Rotate: 0,
@@ -35,6 +41,7 @@ const needle = new Audio(junkie);
 const bossArrival = [new Audio(boss), new Audio(boss1), new Audio(boss2)];
 const shotshavuha = [new Audio(shavuha1), new Audio(shavuha2)];
 const bossDefeated = new Audio(bossdefeated);
+const zohashot = [new Audio(zoha1), new Audio(zoha2), new Audio(zoha3), new Audio(zoha4)];
 
 class Game {
     constructor(drops, enemies, balls, spawnTime, points, killedCount) {
@@ -66,6 +73,10 @@ class Game {
         needle.volume = 0.5;
         shotshavuha[0].volume = 0.35;
         shotshavuha[1].volume = 0.20;
+        zohashot[0].volume = 0.25;
+        zohashot[1].volume = 0.25;
+        zohashot[2].volume = 0.25;
+        zohashot[3].volume = 0.25;
     }
 
     addNewEnemy() {
@@ -171,7 +182,7 @@ class Game {
     }
 
     getWinConditions() {
-        return (this.Enemies.length === 0 && this.Points > 20000);
+        return (this.Enemies.length === 0 && this.Points > 30000);
     }
 
     getBulletType() {
@@ -183,6 +194,7 @@ class Game {
 
     addZohaDrop(pos) {
         if (Math.random() < 0.02) {
+            zohashot.at(Math.floor(Math.random() * zohashot.length)).play();
             this.Drops.push(new Drop(pos, `cgrt${Math.floor(Math.random() * 12)}`));
             this.OdnorazkaCount++;
         }
@@ -248,7 +260,7 @@ class Game {
         if (this.Boss !== null && this.Boss.alive) {
             this.Boss.Move();
 
-            if (this.Boss.hp > 200 ? Math.random() < 0.012 : Math.random() < 0.021) {
+            if (this.Boss.hp > 300 ? Math.random() < 0.012 : Math.random() < 0.024) {
                 this.Balls.push(this.Boss.Shot());
             }
         }
@@ -269,7 +281,7 @@ class Game {
                 const item = this.Allies[key];
                 if (item.alive) {
                     item.Move();
-                    if (item.BusterTime === 0 ? Math.random() < 0.2 : Math.random() < 0.6) {
+                    if (item.BusterTime === 0 ? Math.random() < 0.25 : Math.random() < 0.75) {
                         this.addZohaDrop({ x: item.pos.x + window.innerWidth * 0.01, y: window.innerHeight * 0.86 });
                     }
                 }
@@ -322,13 +334,20 @@ class Game {
                         this.Boss.hp -= 60;
                     }
                     if (Math.random() < 0.0075 * this.TimeAlive) {
-                        if (Math.random() > 0.51) {
+                        let choice = Math.random();
+                        if (choice > 0.76) {
                             this.addNewBonus({ x: item.pos.x, y: window.innerHeight * 0.05 }, 'Pill');
                         }
-                        else if (Math.random() > 0.02) {
+                        else if (choice > 0.54) {
                             this.addNewBonus({ x: item.pos.x, y: window.innerHeight * 0.05 }, 'Shavuha');
                         }
-                        else {
+                        else if (choice > 0.32) {
+                            this.addNewBonus({ x: item.pos.x, y: window.innerHeight * 0.05 }, 'Needle');
+                        }
+                        else if (choice > 0.10) {
+                            this.addNewBonus({ x: item.pos.x, y: window.innerHeight * 0.05 }, 'Unity');
+                        }
+                        else if (this.Allies.length < 3) {
                             this.addNewBonus({ x: item.pos.x, y: window.innerHeight * 0.05 }, 'Zoha');
                         }
                     }
@@ -394,7 +413,7 @@ class Game {
             }
         }
 
-        if (this.Points >= 20000 && this.Enemies.length === 0 && this.Boss !== null && this.Boss.alive === false) {
+        if (this.Points >= 30000 && this.Enemies.length === 0 && this.Boss !== null && this.Boss.alive === false) {
             this.Over = true;
             GameRadio.ReduceVolume();
             GameRadio.PlayWinSound(true);
@@ -405,6 +424,7 @@ class Game {
     }
 
     BossInit() {
+        GameRadio.PlayBoss();
         let leftBorder = - window.innerWidth / 2;
         let rightBorder = window.innerWidth / 2 - window.innerWidth * 0.05;
         let pos = leftBorder + rightBorder * 2 * Math.random();
@@ -433,6 +453,9 @@ class Game {
         if (!this.Started) {
             this.addNewEnemy();
             this.Started = true;
+
+            let attempts = parseInt(Cookies.get('attempts'));
+            Cookies.set('attempts', isNaN(attempts) ? 0 : attempts + 1);
         }
     }
 }
@@ -530,7 +553,7 @@ class Boss {
         let rand = Math.random();
         this.deadAnim = Math.floor(rand * 5);
         this.direction = rand > 0.5 ? 1 : 2;
-        this.hp = 1000;
+        this.hp = 1500;
     }
 
     ChangeDirection = () => {

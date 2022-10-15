@@ -29,6 +29,7 @@ import { GameRadio } from './radio';
 import { saveResult } from './result';
 import { Confetti, __esModule } from 'react-confetti-cannon';
 import { getOdnorazka } from './odnorazka';
+import Denchik from './Denchik/Denchik';
 
 const Cookies = require('js-cookie');
 
@@ -118,7 +119,7 @@ const Yarik = function () {
 
     function CreateEnemy() {
         if (!game.Over) {
-            if (game.Points < 20000) {
+            if (game.Points < 30000) {
                 if (game.Started) {
                     if (game.Enemies.length < 12) {
                         game.addNewEnemy();
@@ -210,6 +211,8 @@ const Yarik = function () {
         setGame(game, game.PillsCount = 0);
         setGame(game, game.UnityCount = 0);
         setGame(game, game.NeedlesCount = 0);
+        setGame(game, game.OdnorazkaCount = 0);
+        setGame(game, game.ZohaCount = 0);
         setGame(game, game.Win = false);
         setGame(game, game.Boss = null);
         setGame(game, game.NeedleTime = 0);
@@ -261,8 +264,8 @@ const Yarik = function () {
             return <div className={classes.barContainer}>
                 <div className={classes.bossTitle}>Big Papa</div>
                 <div className={classes.hpContainer}>
-                    <div className={classes.hp} style={{ width: `${game.Boss.hp / 10}%`, borderTopRightRadius: 0, borderBottomRightRadius: 0 }}></div>
-                    <div className={classes.hpAbsence} style={{ width: `${100 - (game.Boss.hp / 10)}%` }}></div>
+                    <div className={classes.hp} style={{ width: `${game.Boss.hp / 15}%`, borderTopRightRadius: 0, borderBottomRightRadius: 0 }}></div>
+                    <div className={classes.hpAbsence} style={{ width: `${100 - (game.Boss.hp / 15)}%` }}></div>
                 </div>
             </div>
         }
@@ -284,6 +287,10 @@ const Yarik = function () {
         Cookies.set('user', tempname);
     }
 
+    function getAttempts() {
+        return isNaN(parseInt(Cookies.get('attempts'))) ? 0 : parseInt(Cookies.get('attempts'));
+    }
+
     return (
         <div style={getBack()} className={`${classes.container} ${game.Boss !== null ? classes.bossArived : ''}`}>
             <div className={classes.darken}>
@@ -298,7 +305,7 @@ const Yarik = function () {
                         {game.Over && game.Win && <Confetti launchPoints={launchPoints} burstAmount={100} afterBurstAmount={30} />}
                         {game.Over && game.Win && <Confetti launchPoints={launchPoints2} burstAmount={100} afterBurstAmount={30} />}
                         <div style={{ marginBottom: '1vh' }}>{game.Win ? 'Ярик победил)' : 'Денчик выиграл)'}</div>
-                        <input id={'nameInput'} style={{ marginBottom: '2vh' }} className={classes.input} value={name} onChange={event => UpdateName(event)} maxLength={20} placeholder='Your name..' />
+                        <input id={'nameInput'} style={{ marginBottom: '2vh' }} className={classes.input} value={name} onChange={event => UpdateName(event)} maxLength={20} placeholder='Введите имя, чтобы попасть в таблицу лидеров..' />
                         <div>Очки: <span className={classes.counter}>{game.Points}</span></div>
                         <div>Накормлено: <span className={classes.counter}>{game.killedCount}</span></div>
                         <div>Плюшечек: <span className={classes.counter}>{game.BulletsCount}</span></div>
@@ -308,29 +315,27 @@ const Yarik = function () {
                         <div>Юнити: <span className={classes.counter}>{game.UnityCount}</span></div>
                         <div>Зох: <span className={classes.counter}>{game.ZohaCount}</span></div>
                         <div>Одноразок: <span className={classes.counter}>{game.OdnorazkaCount}</span></div>
+                        <div>Попыток: <span className={classes.counter}>{getAttempts()}</span></div>
                         <div>Прожито: <span className={classes.counter}>{calcTimeAlive()}</span></div>
                         <div style={{ marginTop: '4vh' }} className={`${classes.keybutton}`}>R</div>
                     </div>
                 </div>
                 {game.Allies.map((item, index) => {
-                    return <img key={index} style={{ transform: `translate(${item.pos.x}px` }} className={`${classes.zoha}  ${item.alive ? '' : getDeadAnim(item)}`} src={!item.alive? ZohaDeadImage : item.BusterTime === 0 ? ZohaImage : ZohaBoostedImage} />
+                    return <img key={index} style={{ transform: `translate(${item.pos.x}px` }} className={`${classes.zoha}  ${item.alive ? '' : getDeadAnim(item)}`} src={!item.alive ? ZohaDeadImage : item.BusterTime === 0 ? ZohaImage : ZohaBoostedImage} />
                 })}
                 <img style={{ transform: `translate(${pos.x}px)`, height: `calc(18%)`, width: `5%` }} className={`${classes.yarik} ${game.Over ? classes.gameOver : ''}`} alt='yarik' src={getPlayerImage()} />
                 {game.Drops.map((item, index) => {
                     return <img key={index} style={{ transform: `translate(${item.pos.x}px, ${item.pos.y}px)` }} className={classes.drop} src={item.type === 'Shishka' ? DropImage : item.type === 'Shavuha' ? ShavuhaImage : getOdnorazka(item.type)} />
                 })}
                 {game.Enemies.map((item, index) => {
-                    return <>
-                        <img key={index} style={{ transform: `translate(${item.pos.x}px` }} className={`${classes.enemy} ${item.alive ? '' : getDeadAnim(item)}`} src={item.alive ? EnemyImage : EnemyDeadImage} />
-                        {game.NeedleTime > 0 && <img key={index} style={{ transform: `translate(${item.pos.x - window.innerWidth * 0.05}px, ${window.innerHeight * 0.82}px` }} className={`${classes.enemy} ${item.alive ? '' : getDeadAnim(item)}`} src={item.alive ? EnemyImage : EnemyDeadImage} />}
-                    </>
+                    return <Denchik key={`${item}${index}`} item={item} game={game} />
                 })}
 
                 <div className={classes.allies}>
                     {game.Allies.map((item, index) => {
                         return <>
-                            <div className={classes.allyContainer}>
-                                <img key={index} className={`${classes.allyImage} ${item.alive ? '' : classes.zohadead}`} src={!item.alive ? ZohaDeadHead : item.BusterTime === 0 ? ZohaHead : ZohaBoostedHead} />
+                            <div key={index} className={classes.allyContainer}>
+                                <img className={`${classes.allyImage} ${item.alive ? '' : classes.zohadead}`} src={!item.alive ? ZohaDeadHead : item.BusterTime === 0 ? ZohaHead : ZohaBoostedHead} />
                                 <div className={classes.allyTitle}>
                                     <div className={classes.allyName}>Зоха</div>
                                     <div className={classes.allyHp}>
