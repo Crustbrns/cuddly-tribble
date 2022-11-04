@@ -7,10 +7,12 @@ body {
     color: white;
     user-select: none;
     overflow: hidden;
+    pointer-events: none;
 }
 
 .bulb{
     width: 100px;
+    position: absolute;
 }
 
 #game{
@@ -19,9 +21,14 @@ body {
     width: 1920px;
 }
 
-.hand{
+#hand{
     height: 20%;
     position: absolute;
     top: 80%;
     left: 45%;
+}
+
+.fire{
+    width: 80px;
+    position: absolute;
 }
