@@ -7,17 +7,17 @@ body {
     color: white;
 }
 
-.bg-image {
+#bg-image {
     position: absolute;
     top: 0;
     left: 0;
-    z-index: -1;
+    z-index: -1000;
     background-image: url("https://media.tenor.com/_ORGJLIoHVQAAAAM/dancing-cat.gif");
     background-repeat: no-repeat;
     background-size: cover;
     width: 100%;
     height: 100%;
-    opacity: 0.05;
+    opacity: 0.25;
     filter: blur(150px);
 }
 
@@ -32,8 +32,15 @@ body {
     border-radius: 20px;
 }
 
-.container>button {
+.container>input{
     margin-top: 20px;
+    padding: 20px;
+    border-radius: 10px;
+    border: 0;
+    z-index: 10;
+}
+
+.container>button {
     padding: 20px;
     border-radius: 10px;
     border: 0;
@@ -43,12 +50,23 @@ body {
     transition: .2s ease;
     opacity: 0.98;
     backdrop-filter: blur(100px);
+    opacity: 0;
+    transform: translateY(-30%);
+    pointer-events: none;
 }
 
-.container>button:hover {
+.container>button.active:hover {
     transition: .2s ease;
     background-color: #ff68a2;
     cursor: pointer;
+}
+
+.container>button.active{
+    /* display: block; */
+    transition: .2s ease;
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: all;
 }
 
 @media screen and (max-width: 660px) {
@@ -65,8 +83,11 @@ body {
         border-radius: 0.6vw;
     }
 
-    .container>button{
+    .container>input{
         margin-top: 2vw;
+    }
+
+    .container>button{
         border-radius: 0.6vw;
         padding: 1vw;
         font-size: 1vw;
