@@ -22,9 +22,9 @@ Suits.set(Suit.CLUB, { type: 2, name: 'club' });
 Suits.set(Suit.SPADE, { type: 3, name: 'spade' });
 
 class Card {
+    id: number;
     readonly suit: SuitName;
     readonly force: number;
-    readonly id: number;
 
     constructor(type: number, suit: string, force: number, id: number) {
         this.suit = new SuitName(type, suit);
@@ -76,13 +76,37 @@ class Deck {
             this.cards[i] = temp;
         }
 
+        for(let i = 0; i < 36; i++){
+            this.cards[i].id = i;
+        }
+
         return this.cards[0];
     }
 
     InitPlayer(): void {
         for (let i = 0; i < 6; i++) {
-            this.player.AddCard(this.cards.find(x => x.id === this.lastCard)!);
-            this.cards.splice(this.cards.findIndex(x => x.id === this.lastCard)!, 1);
+            this.player.AddCard(this.cards[1]!);
+            this.cards.splice(1, 1);
+        }
+    }
+}
+
+class Player {
+    cards: Array<Card> = [];
+
+    constructor(){
+
+    }
+
+    AddCard(card: Card) : void{
+        if(!this.cards.includes(card)){
+            this.cards.push(card);
+        }
+    }
+
+    RemoveCard(card: Card) : void{
+        if(this.cards.includes(card)){
+            this.cards.splice(this.cards.indexOf(card), 1);
         }
     }
 }

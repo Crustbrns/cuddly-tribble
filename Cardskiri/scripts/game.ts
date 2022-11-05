@@ -41,13 +41,24 @@ function start() {
         cardItem.style.zIndex = '0';
 
         showCard(0);
-    }, 1400);
 
-    setTimeout(() => {
-        let cardItem = document.getElementById(`card0`)!;
-        cardItem.style.zIndex = '0';
-        cardItem.style.transform = `translate(-450%, -7%) rotate(${86 + Math.floor(Math.random() * 10)}deg)`;
-    }, 2100);
+        setTimeout(() => {
+            let cardItem = document.getElementById(`card0`)!;
+            cardItem.style.zIndex = '0';
+            cardItem.style.transform = `translate(-450%, -7%) rotate(${86 + Math.floor(Math.random() * 10)}deg)`;
+        }, 700);
+
+        setTimeout(() => {
+            deck.InitPlayer();
+
+            for (let i = 0; i < 6; i++) {
+                let cardItem = document.getElementById(`card${i + 1}`)!;
+                cardItem.style.transform = 'translate(0%, 120%)';
+                cardItem.style.transition = `${0.55 + i / 5}s`;
+            }
+            console.log(deck);
+        }, 1400);
+    }, 1400);
 
     game?.appendChild(gameDeck);
 }

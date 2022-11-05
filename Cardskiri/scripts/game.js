@@ -34,12 +34,21 @@ function start() {
         var cardItem = document.getElementById("card0");
         cardItem.style.zIndex = '0';
         showCard(0);
+        setTimeout(function () {
+            var cardItem = document.getElementById("card0");
+            cardItem.style.zIndex = '0';
+            cardItem.style.transform = "translate(-450%, -7%) rotate(".concat(86 + Math.floor(Math.random() * 10), "deg)");
+        }, 700);
+        setTimeout(function () {
+            deck.InitPlayer();
+            for (var i = 0; i < 6; i++) {
+                var cardItem_2 = document.getElementById("card".concat(i + 1));
+                cardItem_2.style.transform = 'translate(0%, 120%)';
+                cardItem_2.style.transition = "".concat(0.55 + i / 5, "s");
+            }
+            console.log(deck);
+        }, 1400);
     }, 1400);
-    setTimeout(function () {
-        var cardItem = document.getElementById("card0");
-        cardItem.style.zIndex = '0';
-        cardItem.style.transform = "translate(-450%, -7%) rotate(".concat(86 + Math.floor(Math.random() * 10), "deg)");
-    }, 2100);
     game === null || game === void 0 ? void 0 : game.appendChild(gameDeck);
 }
 window.onload = function () {

@@ -65,14 +65,32 @@ var Deck = /** @class */ (function () {
             this.cards[randcard] = this.cards[i];
             this.cards[i] = temp;
         }
+        for (var i = 0; i < 36; i++) {
+            this.cards[i].id = i;
+        }
         return this.cards[0];
     };
     Deck.prototype.InitPlayer = function () {
-        var _this = this;
         for (var i = 0; i < 6; i++) {
-            this.player.AddCard(this.cards.find(function (x) { return x.id === _this.lastCard; }));
-            this.cards.splice(this.cards.findIndex(function (x) { return x.id === _this.lastCard; }), 1);
+            this.player.AddCard(this.cards[1]);
+            this.cards.splice(1, 1);
         }
     };
     return Deck;
+}());
+var Player = /** @class */ (function () {
+    function Player() {
+        this.cards = [];
+    }
+    Player.prototype.AddCard = function (card) {
+        if (!this.cards.includes(card)) {
+            this.cards.push(card);
+        }
+    };
+    Player.prototype.RemoveCard = function (card) {
+        if (this.cards.includes(card)) {
+            this.cards.splice(this.cards.indexOf(card), 1);
+        }
+    };
+    return Player;
 }());
