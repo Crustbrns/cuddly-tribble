@@ -85,6 +85,14 @@ function start() {
                         cardItem.style.transform = `translate(${Card.position!.x}%, 120%) rotate(${Card.position!.angle}deg)`;
                     })
                 }
+
+                cardNum  = 0;
+                for (const Card of deck.bot.cards) {
+                    let cardItem = document.getElementById(`card${Card.id}`)!;
+                    Card.position = new Position(-10 * (deck.bot.cards.length-1) + (cardNum * 20), -200, -5 * (deck.bot.cards.length-1) + (cardNum++ * 10));
+                    cardItem.style.transform = `translate(${Card.position.x}%, ${Card.position.y}%) rotate(${-Card.position.angle!}deg)`;
+                    cardItem.style.transition = `0.55s`;
+                }
             }, 1200);
         }, 1400);
     }, 1400);

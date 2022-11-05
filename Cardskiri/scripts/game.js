@@ -80,6 +80,14 @@ function start() {
                     var Card = _c[_b];
                     _loop_1(Card);
                 }
+                cardNum = 0;
+                for (var _d = 0, _e = deck.bot.cards; _d < _e.length; _d++) {
+                    var Card = _e[_d];
+                    var cardItem_5 = document.getElementById("card".concat(Card.id));
+                    Card.position = new Position(-10 * (deck.bot.cards.length - 1) + (cardNum * 20), -200, -5 * (deck.bot.cards.length - 1) + (cardNum++ * 10));
+                    cardItem_5.style.transform = "translate(".concat(Card.position.x, "%, ").concat(Card.position.y, "%) rotate(").concat(-Card.position.angle, "deg)");
+                    cardItem_5.style.transition = "0.55s";
+                }
             }, 1200);
         }, 1400);
     }, 1400);
