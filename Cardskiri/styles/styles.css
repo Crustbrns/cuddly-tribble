@@ -1,0 +1,55 @@
+body{
+    background-color: #282b30;;
+}
+
+.card{
+    width: 146px;
+    height: 196px;
+    position: absolute;
+    display: inline-block;
+    animation: cardappearance;
+    animation-duration: .2s;
+    border-radius: 5px;
+    left: -1.9375rem;
+    top: -2.75rem;
+    transition: .55s ease;
+    background-color: white;
+}
+
+.card.red{
+    background-image: url('../images/redsuit.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.card.black{
+    background-image: url('../images/blacksuit.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#container{
+    position: fixed;
+    top: calc(50% + 1.5rem);
+    left: 48%;
+    -webkit-transform: translate3d(-50%, -50%, 0);
+    -moz-transform: translate3d(-50%, -50%, 0);
+    -o-transform: translate3d(-50%, -50%, 0);
+    -ms-transform: translate3d(-50%, -50%, 0);
+    transform: translate3d(-50%, -50%, 0);
+}
+
+@keyframes cardappearance {
+    from{
+        transform: translateY(10%);
+    }
+    to{
+        transform: translateY(0);
+    }
+}
+
+.back-side{
+    background-image: url('../images/cardsuit.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+}

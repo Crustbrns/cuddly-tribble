@@ -22,12 +22,19 @@ Suits.set(Suit.CLUB, { type: 2, name: 'Креста' });
 Suits.set(Suit.SPADE, { type: 3, name: 'Пика' });
 
 class Card {
-    readonly suit: string;
+    readonly suit: SuitName;
     readonly force: number;
 
-    constructor(suit: string, force: number) {
-        this.suit = suit;
+    constructor(type: number, suit: string, force: number) {
+        this.suit = new SuitName(type, suit);
         this.force = force;
+    }
+
+    GetSuitType() : string {
+        if(this.suit.type === 0 || this.suit.type === 1){
+            return 'red';
+        }
+        return 'black';
     }
 }
 
@@ -39,23 +46,21 @@ class Deck {
         for (let i = 0; i < 4; i++) {
             let suit: string = Suits.get(i)?.name!;
             for (let j = 0; j < 9; j++) {
-                this.cards.push(new Card(suit, 6 + j));
+                this.cards.push(new Card(i, suit, 6 + j));
             }
         }
 
-        this.trumps = Suits.get(Math.floor(Math.random() * 4))!;
+        this.trumps = this.Shuffle().suit;
     }
 
-    Mix() {
+    Shuffle() : Card{
         for (let i = 0; i < 36; i++) {
             let randcard = Math.floor(Math.random() * 36);
             let temp = this.cards.at(randcard)!;
             this.cards[randcard] = this.cards[i];
             this.cards[i] = temp;
         }
+
+        return this.cards[0];
     }
 }
-
-const deck = new Deck();
-deck.Mix();
-console.log(deck);
