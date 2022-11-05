@@ -62,7 +62,7 @@ function start() {
                 var cardNum = 0;
                 var _loop_1 = function (Card) {
                     var cardItem_4 = document.getElementById("card".concat(Card.id));
-                    Card.position = new Position(-10 * (deck.player.cards.length - 1) + (cardNum * 20), 120, -5 * (deck.player.cards.length - 1) + (cardNum++ * 10));
+                    Card.position = new Position(-10 * (deck.player.cards.length - 1) + (cardNum * 20), 130 - 6 * (cardNum < (deck.player.cards.length / 2) ? (deck.player.cards.length / 2 - ((deck.player.cards.length - cardNum) / 2)) : (((deck.player.cards.length - cardNum) - 1) / 2)), -5 * (deck.player.cards.length - 1) + (cardNum++ * 10));
                     cardItem_4.style.transform = "translate(".concat(Card.position.x, "%, ").concat(Card.position.y, "%) rotate(").concat(Card.position.angle, "deg)");
                     cardItem_4.style.zIndex = cardNum.toString();
                     cardItem_4.style.transition = "0.55s";
@@ -73,7 +73,7 @@ function start() {
                     });
                     cardItem_4.addEventListener('mouseleave', function (event) {
                         console.log(Card.position);
-                        cardItem_4.style.transform = "translate(".concat(Card.position.x, "%, 120%) rotate(").concat(Card.position.angle, "deg)");
+                        cardItem_4.style.transform = "translate(".concat(Card.position.x, "%, ").concat(Card.position.y, "%) rotate(").concat(Card.position.angle, "deg)");
                     });
                 };
                 for (var _b = 0, _c = deck.player.cards; _b < _c.length; _b++) {
@@ -84,7 +84,7 @@ function start() {
                 for (var _d = 0, _e = deck.bot.cards; _d < _e.length; _d++) {
                     var Card = _e[_d];
                     var cardItem_5 = document.getElementById("card".concat(Card.id));
-                    Card.position = new Position(-10 * (deck.bot.cards.length - 1) + (cardNum * 20), -200, -5 * (deck.bot.cards.length - 1) + (cardNum++ * 10));
+                    Card.position = new Position(-10 * (deck.player.cards.length - 1) + (cardNum * 20), -210 + 6 * (cardNum < (deck.player.cards.length / 2) ? (deck.player.cards.length / 2 - ((deck.player.cards.length - cardNum) / 2)) : (((deck.player.cards.length - cardNum) - 1) / 2)), -5 * (deck.player.cards.length - 1) + (cardNum++ * 10));
                     cardItem_5.style.transform = "translate(".concat(Card.position.x, "%, ").concat(Card.position.y, "%) rotate(").concat(-Card.position.angle, "deg)");
                     cardItem_5.style.transition = "0.55s";
                 }

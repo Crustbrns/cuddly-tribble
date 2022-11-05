@@ -26,7 +26,7 @@ class Position {
     y?: number | null | undefined;
     angle?: number | null | undefined;
 
-    constructor(x: number | null | undefined, y: number | null | undefined, angle: number | null | undefined){
+    constructor(x: number | null | undefined, y: number | null | undefined, angle: number | null | undefined) {
         this.x = x;
         this.y = y;
         this.angle = angle;
@@ -90,7 +90,7 @@ class Deck {
             this.cards[i] = temp;
         }
 
-        for(let i = 0; i < 36; i++){
+        for (let i = 0; i < 36; i++) {
             this.cards[i].id = i;
         }
 
@@ -99,7 +99,7 @@ class Deck {
 
     InitPlayer(): void {
         console.log(this.cards);
-        for (let i = 0; i < Math.floor(Math.random()*17); i++) {
+        for (let i = 0; i < 6; i++) {
             this.player.AddCard(this.cards[1]!);
             this.cards.splice(1, 1);
 
@@ -117,19 +117,19 @@ interface IPlayer {
 
 class Player implements IPlayer {
     cards: Array<Card>;
-    
-    constructor(){
+
+    constructor() {
         this.cards = [];
     }
 
-    AddCard(card: Card) : void{
-        if(!this.cards.includes(card)){
+    AddCard(card: Card): void {
+        if (!this.cards.includes(card)) {
             this.cards.push(card);
         }
     }
 
-    RemoveCard(card: Card) : void{
-        if(this.cards.includes(card)){
+    RemoveCard(card: Card): void {
+        if (this.cards.includes(card)) {
             this.cards.splice(this.cards.indexOf(card), 1);
         }
     }
@@ -137,19 +137,19 @@ class Player implements IPlayer {
 
 class Bot implements IPlayer {
     cards: Array<Card>;
-    
-    constructor(){
+
+    constructor() {
         this.cards = [];
     }
 
-    AddCard(card: Card) : void{
-        if(!this.cards.includes(card)){
+    AddCard(card: Card): void {
+        if (!this.cards.includes(card)) {
             this.cards.push(card);
         }
     }
 
-    RemoveCard(card: Card) : void{
-        if(this.cards.includes(card)){
+    RemoveCard(card: Card): void {
+        if (this.cards.includes(card)) {
             this.cards.splice(this.cards.indexOf(card), 1);
         }
     }

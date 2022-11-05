@@ -72,7 +72,11 @@ function start() {
                 let cardNum: number = 0;
                 for (const Card of deck.player.cards) {
                     let cardItem = document.getElementById(`card${Card.id}`)!;
-                    Card.position = new Position(-10 * (deck.player.cards.length-1) + (cardNum * 20), 120, -5 * (deck.player.cards.length-1) + (cardNum++ * 10));
+
+                    Card.position = new Position(-10 * (deck.player.cards.length - 1) + (cardNum * 20),
+                        130 - 6 * (cardNum < (deck.player.cards.length / 2) ? (deck.player.cards.length / 2 - ((deck.player.cards.length - cardNum) / 2)) : (((deck.player.cards.length - cardNum) - 1) / 2)),
+                        -5 * (deck.player.cards.length - 1) + (cardNum++ * 10));
+
                     cardItem.style.transform = `translate(${Card.position.x}%, ${Card.position.y}%) rotate(${Card.position.angle}deg)`;
                     cardItem.style.zIndex = cardNum.toString();
                     cardItem.style.transition = `0.55s`;
@@ -82,14 +86,18 @@ function start() {
                     })
                     cardItem.addEventListener('mouseleave', (event) => {
                         console.log(Card.position);
-                        cardItem.style.transform = `translate(${Card.position!.x}%, 120%) rotate(${Card.position!.angle}deg)`;
+                        cardItem.style.transform = `translate(${Card.position!.x}%, ${Card.position!.y}%) rotate(${Card.position!.angle}deg)`;
                     })
                 }
 
-                cardNum  = 0;
+                cardNum = 0;
                 for (const Card of deck.bot.cards) {
                     let cardItem = document.getElementById(`card${Card.id}`)!;
-                    Card.position = new Position(-10 * (deck.bot.cards.length-1) + (cardNum * 20), -200, -5 * (deck.bot.cards.length-1) + (cardNum++ * 10));
+                    
+                    Card.position = new Position(-10 * (deck.player.cards.length - 1) + (cardNum * 20),
+                        -210 + 6 * (cardNum < (deck.player.cards.length / 2) ? (deck.player.cards.length / 2 - ((deck.player.cards.length - cardNum) / 2)) : (((deck.player.cards.length - cardNum) - 1) / 2)),
+                        -5 * (deck.player.cards.length - 1) + (cardNum++ * 10));
+                    
                     cardItem.style.transform = `translate(${Card.position.x}%, ${Card.position.y}%) rotate(${-Card.position.angle!}deg)`;
                     cardItem.style.transition = `0.55s`;
                 }
