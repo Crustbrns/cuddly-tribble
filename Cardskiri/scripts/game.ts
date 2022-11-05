@@ -1,11 +1,11 @@
 const deck = new Deck();
 
-function showCard(cardid: number): void {
-    let cardItem = document.getElementById(`card${cardid}`)!;
+function showCard(card: Card): void {
+    let cardItem = document.getElementById(`card${card.id}`)!;
     cardItem.classList.remove('back-side');
-    cardItem.classList.add(deck.cards[cardid].GetSuitType());
-    cardItem.title = deck.cards[cardid].GetSuitForce();
-    cardItem.classList.add(deck.cards[cardid].suit.name);
+    cardItem.classList.add(card.GetSuitType());
+    cardItem.title = card.GetSuitForce();
+    cardItem.classList.add(card.suit.name);
 }
 
 function start() {
@@ -17,7 +17,7 @@ function start() {
         let cardItem = document.createElement('div');
         cardItem.classList.add('card');
         cardItem.classList.add('back-side');
-        cardItem.id = `card${i}`
+        cardItem.id = `card${deck.cards[i].id}`
         cardItem.style.zIndex = (35 - i).toString();
 
         let randdelay: number = Math.random() * 5;
@@ -40,7 +40,7 @@ function start() {
         let cardItem = document.getElementById(`card0`)!;
         cardItem.style.zIndex = '0';
 
-        showCard(0);
+        showCard(deck.cards[0]);
 
         setTimeout(() => {
             let cardItem = document.getElementById(`card0`)!;
@@ -56,13 +56,36 @@ function start() {
                 cardItem.style.transform = 'translate(0%, 120%)';
                 cardItem.style.transition = `${0.55 + Card.id / 15}s`;
             }
-            
+
             for (const Card of deck.bot.cards) {
                 let cardItem = document.getElementById(`card${Card.id}`)!;
                 cardItem.style.transform = 'translate(0%, -200%)';
                 cardItem.style.transition = `${0.55 + Card.id / 15}s`;
             }
             console.log(deck);
+
+            setTimeout(() => {
+                for (const Card of deck.player.cards) {
+                    showCard(Card);
+                }
+
+                let cardNum: number = 0;
+                for (const Card of deck.player.cards) {
+                    let cardItem = document.getElementById(`card${Card.id}`)!;
+                    Card.position = new Position(-25 + cardNum * 20, 120, -25 + cardNum++ * 10);
+                    cardItem.style.transform = `translate(${Card.position.x}%, ${Card.position.y}%) rotate(${Card.position.angle}deg)`;
+                    cardItem.style.zIndex = cardNum.toString();
+                    cardItem.style.transition = `0.55s`;
+                    cardItem.addEventListener('mouseenter', (event) => {
+                        console.log(Card.position, Card.position!.angle! * Math.PI / 180, Card.position?.angle);
+                        cardItem.style.transform = `translate(${Card.position!.x! - Math.cos((90 + Card.position!.angle!) * Math.PI / 180) * 100}%, ${Card.position!.y! - Math.sin((90 + Card.position!.angle!) * Math.PI / 180) * 50}%) rotate(${Card.position!.angle}deg)`;
+                    })
+                    cardItem.addEventListener('mouseleave', (event) => {
+                        console.log(Card.position);
+                        cardItem.style.transform = `translate(${Card.position!.x}%, 120%) rotate(${Card.position!.angle}deg)`;
+                    })
+                }
+            }, 1200);
         }, 1400);
     }, 1400);
 

@@ -21,10 +21,23 @@ Suits.set(Suit.HEART, { type: 1, name: 'heart' });
 Suits.set(Suit.CLUB, { type: 2, name: 'club' });
 Suits.set(Suit.SPADE, { type: 3, name: 'spade' });
 
+class Position {
+    x?: number | null | undefined;;
+    y?: number | null | undefined;
+    angle?: number | null | undefined;
+
+    constructor(x: number | null | undefined, y: number | null | undefined, angle: number | null | undefined){
+        this.x = x;
+        this.y = y;
+        this.angle = angle;
+    }
+}
+
 class Card {
     id: number;
     readonly suit: SuitName;
     readonly force: number;
+    position?: Position;
 
     constructor(type: number, suit: string, force: number, id: number) {
         this.suit = new SuitName(type, suit);
@@ -85,10 +98,11 @@ class Deck {
     }
 
     InitPlayer(): void {
+        console.log(this.cards);
         for (let i = 0; i < 6; i++) {
             this.player.AddCard(this.cards[1]!);
             this.cards.splice(1, 1);
-            
+
             this.bot.AddCard(this.cards[1]!);
             this.cards.splice(1, 1);
         }

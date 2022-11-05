@@ -1,10 +1,10 @@
 var deck = new Deck();
-function showCard(cardid) {
-    var cardItem = document.getElementById("card".concat(cardid));
+function showCard(card) {
+    var cardItem = document.getElementById("card".concat(card.id));
     cardItem.classList.remove('back-side');
-    cardItem.classList.add(deck.cards[cardid].GetSuitType());
-    cardItem.title = deck.cards[cardid].GetSuitForce();
-    cardItem.classList.add(deck.cards[cardid].suit.name);
+    cardItem.classList.add(card.GetSuitType());
+    cardItem.title = card.GetSuitForce();
+    cardItem.classList.add(card.suit.name);
 }
 function start() {
     console.log(deck);
@@ -15,7 +15,7 @@ function start() {
         var cardItem = document.createElement('div');
         cardItem.classList.add('card');
         cardItem.classList.add('back-side');
-        cardItem.id = "card".concat(i);
+        cardItem.id = "card".concat(deck.cards[i].id);
         cardItem.style.zIndex = (35 - i).toString();
         var randdelay = Math.random() * 5;
         // cardItem.style.transform = `translateY(${i*40 + Math.floor(Math.random()*15)}%)`;
@@ -33,7 +33,7 @@ function start() {
         }
         var cardItem = document.getElementById("card0");
         cardItem.style.zIndex = '0';
-        showCard(0);
+        showCard(deck.cards[0]);
         setTimeout(function () {
             var cardItem = document.getElementById("card0");
             cardItem.style.zIndex = '0';
@@ -54,6 +54,33 @@ function start() {
                 cardItem_3.style.transition = "".concat(0.55 + Card.id / 15, "s");
             }
             console.log(deck);
+            setTimeout(function () {
+                for (var _i = 0, _a = deck.player.cards; _i < _a.length; _i++) {
+                    var Card = _a[_i];
+                    showCard(Card);
+                }
+                var cardNum = 0;
+                var _loop_1 = function (Card) {
+                    var cardItem_4 = document.getElementById("card".concat(Card.id));
+                    Card.position = new Position(-25 + cardNum * 20, 120, -25 + cardNum++ * 10);
+                    cardItem_4.style.transform = "translate(".concat(Card.position.x, "%, ").concat(Card.position.y, "%) rotate(").concat(Card.position.angle, "deg)");
+                    cardItem_4.style.zIndex = cardNum.toString();
+                    cardItem_4.style.transition = "0.55s";
+                    cardItem_4.addEventListener('mouseenter', function (event) {
+                        var _a;
+                        console.log(Card.position, Card.position.angle * Math.PI / 180, (_a = Card.position) === null || _a === void 0 ? void 0 : _a.angle);
+                        cardItem_4.style.transform = "translate(".concat(Card.position.x - Math.cos((90 + Card.position.angle) * Math.PI / 180) * 100, "%, ").concat(Card.position.y - Math.sin((90 + Card.position.angle) * Math.PI / 180) * 50, "%) rotate(").concat(Card.position.angle, "deg)");
+                    });
+                    cardItem_4.addEventListener('mouseleave', function (event) {
+                        console.log(Card.position);
+                        cardItem_4.style.transform = "translate(".concat(Card.position.x, "%, 120%) rotate(").concat(Card.position.angle, "deg)");
+                    });
+                };
+                for (var _b = 0, _c = deck.player.cards; _b < _c.length; _b++) {
+                    var Card = _c[_b];
+                    _loop_1(Card);
+                }
+            }, 1200);
         }, 1400);
     }, 1400);
     game === null || game === void 0 ? void 0 : game.appendChild(gameDeck);

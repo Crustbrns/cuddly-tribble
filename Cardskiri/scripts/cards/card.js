@@ -17,6 +17,15 @@ Suits.set(Suit.DIAMOND, { type: 0, name: 'diamond' });
 Suits.set(Suit.HEART, { type: 1, name: 'heart' });
 Suits.set(Suit.CLUB, { type: 2, name: 'club' });
 Suits.set(Suit.SPADE, { type: 3, name: 'spade' });
+var Position = /** @class */ (function () {
+    function Position(x, y, angle) {
+        this.x = x;
+        this.y = y;
+        this.angle = angle;
+    }
+    ;
+    return Position;
+}());
 var Card = /** @class */ (function () {
     function Card(type, suit, force, id) {
         this.suit = new SuitName(type, suit);
@@ -72,6 +81,7 @@ var Deck = /** @class */ (function () {
         return this.cards[0];
     };
     Deck.prototype.InitPlayer = function () {
+        console.log(this.cards);
         for (var i = 0; i < 6; i++) {
             this.player.AddCard(this.cards[1]);
             this.cards.splice(1, 1);
