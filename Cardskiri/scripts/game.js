@@ -27,7 +27,7 @@ function start() {
     setTimeout(function () {
         for (var i = 0; i < deck.cards.length; i++) {
             var cardItem_1 = document.getElementById("card".concat(i));
-            cardItem_1.style.transform = "translate(-500%,".concat(10 - i / 2 > 0 ? (10 - i / 2) * -1 : 10 - i / 2, "%)");
+            cardItem_1.style.transform = "translate(-500%,".concat(-40 + ((10 - i / 2) > 0 ? (10 - i / 2) * -1 : 10 - i / 2), "%)");
             cardItem_1.style.animationDelay = '';
             cardItem_1.style.animationName = '';
         }
@@ -37,14 +37,21 @@ function start() {
         setTimeout(function () {
             var cardItem = document.getElementById("card0");
             cardItem.style.zIndex = '0';
-            cardItem.style.transform = "translate(-450%, -7%) rotate(".concat(86 + Math.floor(Math.random() * 10), "deg)");
+            cardItem.style.transform = "translate(-450%, -47%) rotate(".concat(86 + Math.floor(Math.random() * 10), "deg)");
         }, 700);
         setTimeout(function () {
             deck.InitPlayer();
-            for (var i = 0; i < 6; i++) {
-                var cardItem_2 = document.getElementById("card".concat(i + 1));
+            for (var _i = 0, _a = deck.player.cards; _i < _a.length; _i++) {
+                var Card = _a[_i];
+                var cardItem_2 = document.getElementById("card".concat(Card.id));
                 cardItem_2.style.transform = 'translate(0%, 120%)';
-                cardItem_2.style.transition = "".concat(0.55 + i / 5, "s");
+                cardItem_2.style.transition = "".concat(0.55 + Card.id / 15, "s");
+            }
+            for (var _b = 0, _c = deck.bot.cards; _b < _c.length; _b++) {
+                var Card = _c[_b];
+                var cardItem_3 = document.getElementById("card".concat(Card.id));
+                cardItem_3.style.transform = 'translate(0%, -200%)';
+                cardItem_3.style.transition = "".concat(0.55 + Card.id / 15, "s");
             }
             console.log(deck);
         }, 1400);

@@ -50,6 +50,7 @@ var Deck = /** @class */ (function () {
         this.cards = [];
         this.lastCard = 1;
         this.player = new Player();
+        this.bot = new Bot();
         for (var i = 0; i < 4; i++) {
             var suit = (_a = Suits.get(i)) === null || _a === void 0 ? void 0 : _a.name;
             for (var j = 0; j < 9; j++) {
@@ -74,6 +75,8 @@ var Deck = /** @class */ (function () {
         for (var i = 0; i < 6; i++) {
             this.player.AddCard(this.cards[1]);
             this.cards.splice(1, 1);
+            this.bot.AddCard(this.cards[1]);
+            this.cards.splice(1, 1);
         }
     };
     return Deck;
@@ -93,4 +96,20 @@ var Player = /** @class */ (function () {
         }
     };
     return Player;
+}());
+var Bot = /** @class */ (function () {
+    function Bot() {
+        this.cards = [];
+    }
+    Bot.prototype.AddCard = function (card) {
+        if (!this.cards.includes(card)) {
+            this.cards.push(card);
+        }
+    };
+    Bot.prototype.RemoveCard = function (card) {
+        if (this.cards.includes(card)) {
+            this.cards.splice(this.cards.indexOf(card), 1);
+        }
+    };
+    return Bot;
 }());

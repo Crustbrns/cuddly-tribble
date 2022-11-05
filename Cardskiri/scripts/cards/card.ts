@@ -56,6 +56,7 @@ class Deck {
     lastCard: number = 1;
 
     player: Player = new Player();
+    bot: Bot = new Bot();
 
     constructor() {
         for (let i = 0; i < 4; i++) {
@@ -87,15 +88,44 @@ class Deck {
         for (let i = 0; i < 6; i++) {
             this.player.AddCard(this.cards[1]!);
             this.cards.splice(1, 1);
+            
+            this.bot.AddCard(this.cards[1]!);
+            this.cards.splice(1, 1);
         }
     }
 }
 
-class Player {
-    cards: Array<Card> = [];
+interface IPlayer {
+    cards: Array<Card>;
+    AddCard: (card: Card) => void;
+    RemoveCard: (card: Card) => void;
+}
 
+class Player implements IPlayer {
+    cards: Array<Card>;
+    
     constructor(){
+        this.cards = [];
+    }
 
+    AddCard(card: Card) : void{
+        if(!this.cards.includes(card)){
+            this.cards.push(card);
+        }
+    }
+
+    RemoveCard(card: Card) : void{
+        if(this.cards.includes(card)){
+            this.cards.splice(this.cards.indexOf(card), 1);
+        }
+    }
+}
+
+class Bot implements IPlayer {
+    cards: Array<Card>;
+    
+    constructor(){
+        this.cards = [];
     }
 
     AddCard(card: Card) : void{
