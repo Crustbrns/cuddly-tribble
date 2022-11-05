@@ -7,7 +7,6 @@ body{
     height: 196px;
     position: absolute;
     display: inline-block;
-    animation: cardappearance;
     animation-duration: .2s;
     border-radius: 5px;
     left: -1.9375rem;
@@ -28,6 +27,67 @@ body{
     background-size: cover;
 }
 
+.card.red.diamond{
+    background-image: url('../images/cardsuit_diamond.png');
+}
+
+.card.red.heart{
+    background-image: url('../images/cardsuit_heart.png');
+}
+
+.card.black.spade{
+    background-image: url('../images/cardsuit_spade.png');
+}
+
+.card.black.club{
+    background-image: url('../images/cardsuit_club.png');
+}
+
+.card:before, .card:after {
+    position: absolute;
+    font-size: 1.4rem;
+    text-align: center;
+    line-height: 0.7rem;
+    font-weight: 600;
+    font-family: 'e-Ukraine-R';
+    white-space: pre-line;
+    width: 0.55rem;
+    letter-spacing: -0.1rem;
+}
+
+.card:before {
+    top: 0.9rem;
+    left: 0.8rem;
+}
+
+.card:after {
+    bottom: 0.9rem;
+    right: 0.8rem;
+    -webkit-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+    transform: rotate(180deg);
+}
+
+.card.red:after{
+    color: #d6494c;
+}
+.card.black:after{
+    color: #2c4d72;
+}
+
+.card.red:before{
+    color: #d6494c;
+}
+.card.black:before{
+    color: #2c4d72;
+}
+
+.card:before, .card:after {
+    content: attr(title);
+}
+
 #container{
     position: fixed;
     top: calc(50% + 1.5rem);
@@ -39,12 +99,26 @@ body{
     transform: translate3d(-50%, -50%, 0);
 }
 
-@keyframes cardappearance {
-    from{
-        transform: translateY(10%);
+@keyframes shuffleleft {
+    0%{
+        transform: translateX(0);
     }
-    to{
-        transform: translateY(0);
+    50%{
+        transform: translateX(-35%);
+    }
+    100%{
+        transform: translateX(0);
+    }
+}
+@keyframes shuffleright {
+    0%{
+        transform: translateX(0);
+    }
+    50%{
+        transform: translateX(35%);
+    }
+    100%{
+        transform: translateX(0);
     }
 }
 
