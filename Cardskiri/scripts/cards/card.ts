@@ -99,7 +99,7 @@ class Deck {
 
     InitPlayer(): void {
         console.log(this.cards);
-        for (let i = 0; i < 6; i++) {
+        for (let i = 0; i < Math.floor(Math.random()*17); i++) {
             this.player.AddCard(this.cards[1]!);
             this.cards.splice(1, 1);
 
