@@ -187,6 +187,7 @@ window.onmousedown = function (event) {
     var item = document.elementFromPoint(event.x, event.y);
     if ((item === null || item === void 0 ? void 0 : item.classList.contains('card')) && deck.player.cards.findIndex(function (x) { return x.id === parseInt(item.id.slice(4)); }) !== -1) {
         item.classList.add('dragging');
+        document.getElementsByTagName('html')[0].style.cursor = 'none';
     }
     // console.log(item, deck.player.cards.findIndex(x => x.id === parseInt(item.id.slice(0, 4))), deck.player.cards);
 };
@@ -198,6 +199,7 @@ window.onmouseup = function (event) {
             var card = document.getElementById(elementId);
             card.style.transform = "translate(".concat(deck.player.cards.find(function (x) { return x.id === parseInt(elementId.slice(4)); }).position.x, "%, ").concat(deck.player.cards.find(function (x) { return x.id === parseInt(elementId.slice(4)); }).position.y, "%) rotate(").concat(deck.player.cards.find(function (x) { return x.id === parseInt(elementId.slice(4)); }).position.angle, "deg)");
             item.classList.remove('dragging');
+            document.getElementsByTagName('html')[0].style.cursor = 'default';
         };
         for (var _i = 0, draggings_1 = draggings; _i < draggings_1.length; _i++) {
             var item = draggings_1[_i];
@@ -209,7 +211,14 @@ window.onmousemove = function (event) {
     if (document.getElementsByClassName('dragging').length !== 0) {
         var elementId = document.getElementsByClassName('dragging')[0].id;
         var card = document.getElementById(elementId);
-        card.style.transform = "translate(".concat(event.x, "%, ").concat(event.y, "%)");
+        card.style.transform = "translate(".concat(event.x - window.innerWidth * 0.52 * window.innerWidth / 1920, "px, ").concat(event.y - window.innerHeight * 0.525, "px)");
+        if ((event.y - window.innerHeight * 0.525) < -280) {
+            card.style.border = '3px solid #f50537';
+        }
+        else {
+            card.style.border = '0px';
+        }
+        document.getElementsByTagName('html')[0].style.cursor = 'none';
     }
 };
 function NormalizeCard(Card, cardItem) {
