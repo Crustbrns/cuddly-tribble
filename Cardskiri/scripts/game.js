@@ -7,6 +7,8 @@ var timeoutShowCards;
 var timeoutHideCard;
 var timeoutCenterCards;
 var timeoutRestart;
+var timeoutSmoothCenter;
+var timeoutStrictSmooth;
 function showCard(card) {
     var cardItem = document.getElementById("card".concat(card.id));
     cardItem.classList.remove('back-side');
@@ -219,7 +221,7 @@ function Restart() {
         Card.position = new Position(0, 0, 0);
         cardItem.style.transform = "translate(0%, 0%) rotate(0deg)";
     }
-    setTimeout(function () {
+    timeoutSmoothCenter = setTimeout(function () {
         var cards = document.getElementsByClassName('card');
         while (cards.length > 0) {
             cards[0].parentNode.removeChild(cards[0]);
@@ -244,5 +246,35 @@ function StrictRestart() {
     clearTimeout(timeoutHideCard);
     clearTimeout(timeoutCenterCards);
     clearTimeout(timeoutRestart);
+    clearTimeout(timeoutSmoothCenter);
+    clearTimeout(timeoutStrictSmooth);
     start();
+}
+function StrictSmoothRestart() {
+    HideInfoBox();
+    clearTimeout(timeoutShuffle);
+    clearTimeout(timeoutTrumpCard);
+    clearTimeout(timeoutInitCards);
+    clearTimeout(timeoutShowCards);
+    clearTimeout(timeoutHideCard);
+    clearTimeout(timeoutCenterCards);
+    clearTimeout(timeoutRestart);
+    clearTimeout(timeoutSmoothCenter);
+    clearTimeout(timeoutStrictSmooth);
+    deck.CardsToDeck();
+    console.log(deck.cards.length, deck);
+    for (var i = 0; i < deck.cards.length; i++) {
+        var cardItem = document.getElementById("card".concat(deck.cards[i].id));
+        cardItem.style.transform = "translateY(".concat(-40 + i / 3.5, "%)");
+        cardItem.style.transition = ".4s ease";
+    }
+    timeoutStrictSmooth = setTimeout(function () {
+        var cards = document.getElementsByClassName('card');
+        while (cards.length > 0) {
+            cards[0].parentNode.removeChild(cards[0]);
+        }
+        var gameDeck = document.getElementById('container');
+        gameDeck === null || gameDeck === void 0 ? void 0 : gameDeck.remove();
+        start();
+    }, 800);
 }

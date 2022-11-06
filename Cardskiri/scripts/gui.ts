@@ -11,7 +11,7 @@ function GuiInit(): void {
 
     let restartButton = document.createElement('div');
     restartButton.textContent = 'Start again';
-    restartButton.addEventListener('click', StrictRestart, true);
+    restartButton.addEventListener('click', StrictSmoothRestart, true);
     restartButton.id = 'btn-restart';
 
     let infoLabel = document.createElement('div');
@@ -24,7 +24,7 @@ function GuiInit(): void {
 
 function UpdateInfoBox() : void{
     let infoLabel = document.getElementById('btn-info')!;
-    infoLabel.textContent = `Trumps: ${deck.trumps.name}, it's ${deck.isFirstPlayerMoving?'yours':'bot\'s'} move now`;
+    infoLabel.textContent = `Trumps: ${deck.trumps.name}, it's ${deck.isFirstPlayerMoving?'your':'bot\'s'} move now`;
     infoLabel.classList.add('visible');
 }
 

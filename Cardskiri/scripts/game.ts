@@ -8,6 +8,8 @@ let timeoutShowCards: NodeJS.Timeout;
 let timeoutHideCard: NodeJS.Timeout;
 let timeoutCenterCards: NodeJS.Timeout;
 let timeoutRestart: NodeJS.Timeout;
+let timeoutSmoothCenter: NodeJS.Timeout;
+let timeoutStrictSmooth: NodeJS.Timeout;
 
 function showCard(card: Card): void {
     let cardItem = document.getElementById(`card${card.id}`)!;
@@ -244,7 +246,7 @@ function Restart(): void {
         Card.position = new Position(0, 0, 0);
         cardItem.style.transform = `translate(0%, 0%) rotate(0deg)`;
     }
-    setTimeout(() => {
+    timeoutSmoothCenter = setTimeout(() => {
         let cards = document.getElementsByClassName('card');
         while (cards.length > 0) {
             cards[0].parentNode!.removeChild(cards[0]);
@@ -263,7 +265,7 @@ function StrictRestart(): void {
     }
     let gameDeck = document.getElementById('container');
     gameDeck?.remove();
-    
+
     clearTimeout(timeoutShuffle);
     clearTimeout(timeoutTrumpCard);
     clearTimeout(timeoutInitCards);
@@ -271,6 +273,41 @@ function StrictRestart(): void {
     clearTimeout(timeoutHideCard);
     clearTimeout(timeoutCenterCards);
     clearTimeout(timeoutRestart);
+    clearTimeout(timeoutSmoothCenter);
+    clearTimeout(timeoutStrictSmooth);
 
     start();
+}
+
+function StrictSmoothRestart(): void {
+    HideInfoBox();
+
+    clearTimeout(timeoutShuffle);
+    clearTimeout(timeoutTrumpCard);
+    clearTimeout(timeoutInitCards);
+    clearTimeout(timeoutShowCards);
+    clearTimeout(timeoutHideCard);
+    clearTimeout(timeoutCenterCards);
+    clearTimeout(timeoutRestart);
+    clearTimeout(timeoutSmoothCenter);
+    clearTimeout(timeoutStrictSmooth);
+
+    deck.CardsToDeck();
+    console.log(deck.cards.length, deck);
+    for (let i = 0; i < deck.cards.length; i++) {
+        let cardItem = document.getElementById(`card${deck.cards[i].id}`)!;
+        cardItem.style.transform = `translateY(${-40 + i / 3.5}%)`;
+        cardItem.style.transition = `.4s ease`;
+    }
+
+    timeoutStrictSmooth = setTimeout(() => {
+        let cards = document.getElementsByClassName('card');
+        while (cards.length > 0) {
+            cards[0].parentNode!.removeChild(cards[0]);
+        }
+        let gameDeck = document.getElementById('container');
+        gameDeck?.remove();
+
+        start();
+    }, 800);
 }

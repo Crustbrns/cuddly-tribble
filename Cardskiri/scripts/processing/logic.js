@@ -115,6 +115,17 @@ var Deck = /** @class */ (function () {
         else
             return null;
     };
+    Deck.prototype.CardsToDeck = function () {
+        while (this.player.cards.length > 0) {
+            var Card_1 = this.player.cards.pop();
+            this.cards.push(Card_1);
+        }
+        while (this.bot.cards.length > 0) {
+            var Card_2 = this.bot.cards.pop();
+            this.cards.push(Card_2);
+        }
+        console.log(this.cards, this.player.cards, this.bot.cards);
+    };
     return Deck;
 }());
 var Player = /** @class */ (function () {

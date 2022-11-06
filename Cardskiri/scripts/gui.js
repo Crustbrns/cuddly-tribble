@@ -11,7 +11,7 @@ function GuiInit() {
     });
     var restartButton = document.createElement('div');
     restartButton.textContent = 'Start again';
-    restartButton.addEventListener('click', StrictRestart, true);
+    restartButton.addEventListener('click', StrictSmoothRestart, true);
     restartButton.id = 'btn-restart';
     var infoLabel = document.createElement('div');
     infoLabel.id = 'btn-info';
@@ -21,7 +21,7 @@ function GuiInit() {
 }
 function UpdateInfoBox() {
     var infoLabel = document.getElementById('btn-info');
-    infoLabel.textContent = "Trumps: ".concat(deck.trumps.name, ", it's ").concat(deck.isFirstPlayerMoving ? 'yours' : 'bot\'s', " move now");
+    infoLabel.textContent = "Trumps: ".concat(deck.trumps.name, ", it's ").concat(deck.isFirstPlayerMoving ? 'your' : 'bot\'s', " move now");
     infoLabel.classList.add('visible');
 }
 function HideInfoBox() {
