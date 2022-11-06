@@ -24,6 +24,11 @@ function UpdateInfoBox() {
     infoLabel.textContent = "Trumps: ".concat(deck.trumps.name, ", it's ").concat(deck.isFirstPlayerMoving ? 'your' : 'bot\'s', " move now");
     infoLabel.classList.add('visible');
 }
+function AlertInfoBox() {
+    var infoLabel = document.getElementById('btn-info');
+    infoLabel.textContent = "Trumps: ".concat(deck.trumps.name, ", no trumps detected in both hands, shuffle is required..");
+    infoLabel.classList.add('visible');
+}
 function HideInfoBox() {
     var infoLabel = document.getElementById('btn-info');
     infoLabel.classList.remove('visible');

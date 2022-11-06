@@ -28,6 +28,12 @@ function UpdateInfoBox() : void{
     infoLabel.classList.add('visible');
 }
 
+function AlertInfoBox() : void{
+    let infoLabel = document.getElementById('btn-info')!;
+    infoLabel.textContent = `Trumps: ${deck.trumps.name}, no trumps detected in both hands, shuffle is required..`;
+    infoLabel.classList.add('visible');
+}
+
 function HideInfoBox(): void {
     let infoLabel = document.getElementById('btn-info')!;
     infoLabel.classList.remove('visible');

@@ -20,7 +20,9 @@ var AudioResources = [
     new AudioResource('shuffle', 1, './sounds/cards-shuffle.mp3'),
     new AudioResource('start', 0.6, './sounds/cards-start.mp3'),
     new AudioResource('appear', 0.6, './sounds/cards-appear.mp3'),
-    new AudioResource('moving', 0.8, './sounds/cards-moving.mp3')
+    new AudioResource('moving', 0.8, './sounds/cards-moving.mp3'),
+    new AudioResource('sweep0', 0.35, './sounds/cards-sweep0.mp3'),
+    new AudioResource('sweep1', 0.35, './sounds/cards-sweep1.mp3')
 ];
 var AudioManager = /** @class */ (function () {
     function AudioManager() {
@@ -32,13 +34,16 @@ var AudioManager = /** @class */ (function () {
         }
     }
     AudioManager.prototype.Play = function (key) {
-        var _a, _b;
+        var _a, _b, _c;
         if (this.SoundsToggle) {
             if (key === 'hover') {
                 (_a = this.Audios.find(function (x) { return x.key === "hover".concat(Math.floor(Math.random() * 3)); })) === null || _a === void 0 ? void 0 : _a.Play();
             }
+            else if (key === 'sweep') {
+                (_b = this.Audios.find(function (x) { return x.key === "sweep".concat(Math.floor(Math.random() * 2)); })) === null || _b === void 0 ? void 0 : _b.Play();
+            }
             else {
-                (_b = this.Audios.find(function (x) { return x.key === key; })) === null || _b === void 0 ? void 0 : _b.Play();
+                (_c = this.Audios.find(function (x) { return x.key === key; })) === null || _c === void 0 ? void 0 : _c.Play();
             }
         }
     };

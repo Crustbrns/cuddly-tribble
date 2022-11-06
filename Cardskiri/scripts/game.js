@@ -9,6 +9,7 @@ var timeoutCenterCards;
 var timeoutRestart;
 var timeoutSmoothCenter;
 var timeoutStrictSmooth;
+var timeoutAccurateShuffle;
 function showCard(card) {
     var cardItem = document.getElementById("card".concat(card.id));
     cardItem.classList.remove('back-side');
@@ -37,7 +38,6 @@ function start() {
         cardItem.id = "card".concat(deck.cards[i].id);
         cardItem.style.zIndex = (35 - i).toString();
         var randdelay = Math.random() * 2.2;
-        // cardItem.style.transform = `translateY(${i*40 + Math.floor(Math.random()*15)}%)`;
         cardItem.style.animationName = Math.random() > 0.5 ? 'shuffleleft' : 'shuffleright';
         cardItem.style.animationDelay = "0.".concat(i * randdelay < 10 ? "0".concat(Math.floor(i * randdelay)) : Math.floor(i * randdelay), "s");
         gameDeck === null || gameDeck === void 0 ? void 0 : gameDeck.appendChild(cardItem);
@@ -104,8 +104,8 @@ function start() {
                     cardItem_5.style.transition = "0.55s";
                 }
                 var DisplayingCard = deck.ProcessFirstMove();
-                UpdateInfoBox();
                 if (DisplayingCard !== null && DisplayingCard != undefined) {
+                    UpdateInfoBox();
                     var cardItem_6 = document.getElementById("card".concat(DisplayingCard.id));
                     if (cardItem_6 === null || cardItem_6 === void 0 ? void 0 : cardItem_6.classList.contains('back-side')) {
                         showCard(DisplayingCard);
@@ -143,6 +143,7 @@ function start() {
                     }, 2000);
                 }
                 else {
+                    AlertInfoBox();
                     timeoutCenterCards = setTimeout(function () {
                         for (var _i = 0, _a = deck.bot.cards; _i < _a.length; _i++) {
                             var Card = _a[_i];
@@ -151,25 +152,22 @@ function start() {
                             cardItem_9.style.transform = "translate(".concat(Card.position.x, "%, ").concat(Card.position.y, "%) rotate(").concat(-Card.position.angle, "deg)");
                             cardItem_9.style.transition = "0.35s";
                         }
-                        var _loop_2 = function (Card) {
+                        for (var _b = 0, _c = deck.player.cards; _b < _c.length; _b++) {
+                            var Card = _c[_b];
                             var cardItem_10 = document.getElementById("card".concat(Card.id));
                             Card.position = new Position(0, 120, 0);
                             cardItem_10.style.transform = "translate(".concat(Card.position.x, "%, ").concat(Card.position.y, "%) rotate(").concat(Card.position.angle, "deg)");
                             cardItem_10.style.transition = "0.35s";
                             hideCard(Card);
-                            cardItem_10.removeEventListener('mouseenter', function (event) { return ScaleCard(Card, cardItem_10); }, true);
-                            cardItem_10.removeEventListener('mouseleave', function (event) { return NormalizeCard(Card, cardItem_10); }, true);
-                        };
-                        for (var _b = 0, _c = deck.player.cards; _b < _c.length; _b++) {
-                            var Card = _c[_b];
-                            _loop_2(Card);
+                            // cardItem.removeEventListener('mouseenter', (event) => ScaleCard(Card, cardItem), true);
+                            // cardItem.removeEventListener('mouseleave', (event) => NormalizeCard(Card, cardItem), true);
                         }
                         hideCard(deck.cards[0]);
                         document.getElementById("card".concat(deck.cards[0].id)).style.transition = "0.35s";
                         document.getElementById("card".concat(deck.cards[0].id)).style.transform = "translate(-500%, -44%) rotate(0deg)";
                     }, 1200);
                     timeoutRestart = setTimeout(function () {
-                        Restart();
+                        StrictSmoothRestart();
                     }, 1800);
                 }
             }, 1200);
@@ -184,6 +182,35 @@ window.onload = function () {
 };
 window.onresize = function (event) {
     Resize();
+};
+window.onmousedown = function (event) {
+    var item = document.elementFromPoint(event.x, event.y);
+    if ((item === null || item === void 0 ? void 0 : item.classList.contains('card')) && deck.player.cards.findIndex(function (x) { return x.id === parseInt(item.id.slice(4)); }) !== -1) {
+        item.classList.add('dragging');
+    }
+    // console.log(item, deck.player.cards.findIndex(x => x.id === parseInt(item.id.slice(0, 4))), deck.player.cards);
+};
+window.onmouseup = function (event) {
+    var draggings = document.getElementsByClassName('dragging');
+    if (draggings.length > 0) {
+        var _loop_2 = function (item) {
+            var elementId = document.getElementsByClassName('dragging')[0].id;
+            var card = document.getElementById(elementId);
+            card.style.transform = "translate(".concat(deck.player.cards.find(function (x) { return x.id === parseInt(elementId.slice(4)); }).position.x, "%, ").concat(deck.player.cards.find(function (x) { return x.id === parseInt(elementId.slice(4)); }).position.y, "%) rotate(").concat(deck.player.cards.find(function (x) { return x.id === parseInt(elementId.slice(4)); }).position.angle, "deg)");
+            item.classList.remove('dragging');
+        };
+        for (var _i = 0, draggings_1 = draggings; _i < draggings_1.length; _i++) {
+            var item = draggings_1[_i];
+            _loop_2(item);
+        }
+    }
+};
+window.onmousemove = function (event) {
+    if (document.getElementsByClassName('dragging').length !== 0) {
+        var elementId = document.getElementsByClassName('dragging')[0].id;
+        var card = document.getElementById(elementId);
+        card.style.transform = "translate(".concat(event.x, "%, ").concat(event.y, "%)");
+    }
 };
 function NormalizeCard(Card, cardItem) {
     cardItem.style.transform = "translate(".concat(Card.position.x, "%, ").concat(Card.position.y, "%) rotate(").concat(Card.position.angle, "deg)");
@@ -261,20 +288,29 @@ function StrictSmoothRestart() {
     clearTimeout(timeoutRestart);
     clearTimeout(timeoutSmoothCenter);
     clearTimeout(timeoutStrictSmooth);
+    clearTimeout(timeoutAccurateShuffle);
     deck.CardsToDeck();
+    audioPlayer.Play('sweep');
     console.log(deck.cards.length, deck);
     for (var i = 0; i < deck.cards.length; i++) {
         var cardItem = document.getElementById("card".concat(deck.cards[i].id));
-        cardItem.style.transform = "translateY(".concat(-40 + i / 3.5, "%)");
+        cardItem.style.transform = "translate(0, ".concat(-40 + i / 3.5, "%) rotate(").concat(-10 + Math.floor(Math.random() * 20), "deg)");
         cardItem.style.transition = ".4s ease";
     }
     timeoutStrictSmooth = setTimeout(function () {
-        var cards = document.getElementsByClassName('card');
-        while (cards.length > 0) {
-            cards[0].parentNode.removeChild(cards[0]);
+        for (var i = 0; i < deck.cards.length; i++) {
+            var cardItem = document.getElementById("card".concat(deck.cards[i].id));
+            cardItem.style.transform = "translate(0, ".concat(-40 + i / 3.5, "%) rotate(0deg)");
+            cardItem.style.transition = ".35s ease";
         }
-        var gameDeck = document.getElementById('container');
-        gameDeck === null || gameDeck === void 0 ? void 0 : gameDeck.remove();
-        start();
-    }, 800);
+        timeoutAccurateShuffle = setTimeout(function () {
+            var cards = document.getElementsByClassName('card');
+            while (cards.length > 0) {
+                cards[0].parentNode.removeChild(cards[0]);
+            }
+            var gameDeck = document.getElementById('container');
+            gameDeck === null || gameDeck === void 0 ? void 0 : gameDeck.remove();
+            start();
+        }, 400);
+    }, 600);
 }

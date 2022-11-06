@@ -1,5 +1,6 @@
 body{
-    background-color: #282b30;;
+    background-color: #282b30;
+    user-select: none;
 }
 
 .card{
@@ -94,7 +95,7 @@ body{
 
 #container{
     position: fixed;
-    top: calc(50% + 1.5rem);
+    top: calc(52.5%);
     left: 48%;
     -webkit-transform: translate3d(-50%, -50%, 0);
     -moz-transform: translate3d(-50%, -50%, 0);
@@ -106,16 +107,16 @@ body{
 
 #gui{
     position: fixed;
-    top: 0;
-    left: 0;
+    top: calc(52.5%);
+    left: 48%;
 }
 
 #btn-volume{
+    position: absolute;
+    top: -30rem;
+    left: -55rem;
     transform: scale(1.5);
     fill: white;
-    position: absolute;
-    top: 2rem;
-    left: 3rem;
     transition: .2s ease;
 }
 #btn-volume:hover{
@@ -126,8 +127,9 @@ body{
 
 #btn-restart{
     position: absolute;
-    top: 2rem;
-    left: 7rem;
+    top: -29.9rem;
+    left: -51.5rem;
+    transform: scale(1);
     color: white;
     width: 6.1rem;
     font-family: 'e-Ukraine-R';
@@ -144,9 +146,9 @@ body{
     user-select: none;
     pointer-events: none;
     position: absolute;
-    top: 56rem;
-    left: 3rem;
-    width: 30rem;
+    top: 25rem;
+    left: -55.5rem;
+    width: 38rem;
     color: white;
     opacity: 0;
     font-family: 'e-Ukraine-L';
@@ -156,6 +158,10 @@ body{
 #btn-info.visible{
     opacity: 0.3;
     transition: .8s ease;
+}
+
+.dragging{
+    cursor: grab !important;
 }
 
 @keyframes shuffleleft {
