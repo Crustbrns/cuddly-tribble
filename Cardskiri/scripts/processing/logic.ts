@@ -71,6 +71,8 @@ class Deck {
     player: Player = new Player();
     bot: Bot = new Bot();
 
+    CurrentMove?: boolean; 
+
     constructor() {
         for (let i = 0; i < 4; i++) {
             let suit: string = Suits.get(i)?.name!;

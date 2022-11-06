@@ -101,6 +101,7 @@ body{
     -o-transform: translate3d(-50%, -50%, 0);
     -ms-transform: translate3d(-50%, -50%, 0);
     transform: translate3d(-50%, -50%, 0);
+    margin: auto;
 }
 
 @keyframes shuffleleft {

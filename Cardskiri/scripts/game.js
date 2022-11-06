@@ -7,6 +7,7 @@ function showCard(card) {
     cardItem.classList.add(card.suit.name);
 }
 function start() {
+    document.addEventListener('contextmenu', function (event) { return event.preventDefault(); });
     console.log(deck);
     var game = document.getElementById('game');
     var gameDeck = document.createElement('div');
@@ -92,7 +93,16 @@ function start() {
         }, 1400);
     }, 1400);
     game === null || game === void 0 ? void 0 : game.appendChild(gameDeck);
+    Resize();
 }
 window.onload = function () {
     start();
 };
+window.onresize = function (event) {
+    Resize();
+};
+function Resize() {
+    var width = window.innerWidth;
+    var gameDoc = document.getElementById('container');
+    gameDoc.style.scale = "".concat(width / 1920);
+}

@@ -9,6 +9,7 @@ function showCard(card: Card): void {
 }
 
 function start() {
+    document.addEventListener('contextmenu', event => event.preventDefault());
     console.log(deck);
     let game = document.getElementById('game');
     let gameDeck = document.createElement('div');
@@ -93,11 +94,11 @@ function start() {
                 cardNum = 0;
                 for (const Card of deck.bot.cards) {
                     let cardItem = document.getElementById(`card${Card.id}`)!;
-                    
+
                     Card.position = new Position(-10 * (deck.player.cards.length - 1) + (cardNum * 20),
                         -210 + 6 * (cardNum < (deck.player.cards.length / 2) ? (deck.player.cards.length / 2 - ((deck.player.cards.length - cardNum) / 2)) : (((deck.player.cards.length - cardNum) - 1) / 2)),
                         -5 * (deck.player.cards.length - 1) + (cardNum++ * 10));
-                    
+
                     cardItem.style.transform = `translate(${Card.position.x}%, ${Card.position.y}%) rotate(${-Card.position.angle!}deg)`;
                     cardItem.style.transition = `0.55s`;
                 }
@@ -106,8 +107,19 @@ function start() {
     }, 1400);
 
     game?.appendChild(gameDeck);
+    Resize();
 }
 
 window.onload = () => {
     start();
+}
+
+window.onresize = (event) => {
+    Resize();
+}
+
+function Resize(): void {
+    let width: number = window.innerWidth!;
+    let gameDoc = document.getElementById('container')!;
+    gameDoc.style.scale = `${width / 1920}`;
 }
