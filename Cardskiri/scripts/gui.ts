@@ -8,4 +8,28 @@ function GuiInit(): void {
             volumeButton?.children[0].setAttribute('d', 'M5 17h-5v-10h5v10zm2-10v10l9 5v-20l-9 5zm15.324 4.993l1.646-1.659-1.324-1.324-1.651 1.67-1.665-1.648-1.316 1.318 1.67 1.657-1.65 1.669 1.318 1.317 1.658-1.672 1.666 1.653 1.324-1.325-1.676-1.656z');
         }
     })
+
+    let restartButton = document.createElement('div');
+    restartButton.textContent = 'Start again';
+    restartButton.addEventListener('click', StrictRestart, true);
+    restartButton.id = 'btn-restart';
+
+    let infoLabel = document.createElement('div');
+    infoLabel.id = 'btn-info';
+
+    let gui = document.getElementById('gui');
+    gui?.appendChild(restartButton);
+    gui?.appendChild(infoLabel);
+}
+
+function UpdateInfoBox() : void{
+    let infoLabel = document.getElementById('btn-info')!;
+    infoLabel.textContent = `Trumps: ${deck.trumps.name}, it's ${deck.isFirstPlayerMoving?'yours':'bot\'s'} move now`;
+    infoLabel.classList.add('visible');
+}
+
+function HideInfoBox(): void {
+    let infoLabel = document.getElementById('btn-info')!;
+    infoLabel.classList.remove('visible');
+
 }

@@ -124,26 +124,60 @@ body{
     transition: .2s ease;
 }
 
+#btn-restart{
+    position: absolute;
+    top: 2rem;
+    left: 7rem;
+    color: white;
+    width: 6.1rem;
+    font-family: 'e-Ukraine-R';
+    cursor: pointer;
+    transition: .2s ease;
+}
+
+#btn-restart:hover{
+    transform: scale(0.9);
+    transition: .2s ease;
+}
+
+#btn-info{
+    user-select: none;
+    pointer-events: none;
+    position: absolute;
+    top: 56rem;
+    left: 3rem;
+    width: 30rem;
+    color: white;
+    opacity: 0;
+    font-family: 'e-Ukraine-L';
+    transition: .8s ease;
+}
+
+#btn-info.visible{
+    opacity: 0.3;
+    transition: .8s ease;
+}
+
 @keyframes shuffleleft {
     0%{
-        transform: translateX(0);
+        transform: translate(0, -40%);
     }
     50%{
-        transform: translateX(-35%);
+        transform: translate(-35%, -40%);
     }
     100%{
-        transform: translateX(0);
+        transform: translate(0, -40%);
     }
 }
 @keyframes shuffleright {
     0%{
-        transform: translateX(0);
+        transform: translate(0, -40%);
     }
     50%{
-        transform: translateX(35%);
+        transform: translate(35%, -40%);
     }
     100%{
-        transform: translateX(0);
+        transform: translate(0, -40%);
     }
 }
 
