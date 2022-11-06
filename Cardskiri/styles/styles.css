@@ -120,7 +120,7 @@ body{
 }
 #btn-volume:hover{
     cursor: pointer;
-    transform: scale(0.95);
+    transform: scale(1);
     transition: .2s ease;
 }
 

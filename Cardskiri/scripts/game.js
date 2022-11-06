@@ -13,6 +13,7 @@ function start() {
     var game = document.getElementById('game');
     var gameDeck = document.createElement('div');
     gameDeck.id = 'container';
+    audioPlayer.Play('start');
     for (var i = 0; i < deck.cards.length; i++) {
         var cardItem = document.createElement('div');
         cardItem.classList.add('card');
@@ -27,6 +28,7 @@ function start() {
         cardItem.style.transform = "translateY(".concat(i / 3.5, "%)");
     }
     setTimeout(function () {
+        audioPlayer.Play('moving');
         for (var i = 0; i < deck.cards.length; i++) {
             var cardItem_1 = document.getElementById("card".concat(i));
             cardItem_1.style.transform = "translate(-500%,".concat(-40 + ((10 - i / 2) > 0 ? (10 - i / 2) * -1 : 10 - i / 2), "%)");
@@ -43,6 +45,7 @@ function start() {
         }, 700);
         setTimeout(function () {
             deck.InitPlayer();
+            audioPlayer.Play('shuffle');
             for (var _i = 0, _a = deck.player.cards; _i < _a.length; _i++) {
                 var Card = _a[_i];
                 var cardItem_2 = document.getElementById("card".concat(Card.id));
@@ -57,6 +60,7 @@ function start() {
             }
             console.log(deck);
             setTimeout(function () {
+                audioPlayer.Play('appear');
                 for (var _i = 0, _a = deck.player.cards; _i < _a.length; _i++) {
                     var Card = _a[_i];
                     showCard(Card);

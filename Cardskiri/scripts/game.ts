@@ -15,6 +15,7 @@ function start() {
     let game = document.getElementById('game');
     let gameDeck = document.createElement('div');
     gameDeck.id = 'container'
+    audioPlayer.Play('start');
     for (let i = 0; i < deck.cards.length; i++) {
         let cardItem = document.createElement('div');
         cardItem.classList.add('card');
@@ -32,6 +33,7 @@ function start() {
     }
 
     setTimeout(() => {
+        audioPlayer.Play('moving');
         for (let i = 0; i < deck.cards.length; i++) {
             let cardItem = document.getElementById(`card${i}`)!;
             cardItem.style.transform = `translate(-500%,${-40 + ((10 - i / 2) > 0 ? (10 - i / 2) * -1 : 10 - i / 2)}%)`
@@ -52,6 +54,7 @@ function start() {
 
         setTimeout(() => {
             deck.InitPlayer();
+            audioPlayer.Play('shuffle');
 
             for (const Card of deck.player.cards) {
                 let cardItem = document.getElementById(`card${Card.id}`)!;
@@ -67,6 +70,7 @@ function start() {
             console.log(deck);
 
             setTimeout(() => {
+                audioPlayer.Play('appear');
                 for (const Card of deck.player.cards) {
                     showCard(Card);
                 }
