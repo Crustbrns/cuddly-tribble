@@ -104,6 +104,26 @@ body{
     margin: auto;
 }
 
+#gui{
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+#btn-volume{
+    transform: scale(1.5);
+    fill: white;
+    position: absolute;
+    top: 2rem;
+    left: 3rem;
+    transition: .2s ease;
+}
+#btn-volume:hover{
+    cursor: pointer;
+    transform: scale(0.95);
+    transition: .2s ease;
+}
+
 @keyframes shuffleleft {
     0%{
         transform: translateX(0);

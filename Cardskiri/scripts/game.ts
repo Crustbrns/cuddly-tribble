@@ -1,4 +1,5 @@
 const deck = new Deck();
+const audioPlayer = new AudioManager();
 
 function showCard(card: Card): void {
     let cardItem = document.getElementById(`card${card.id}`)!;
@@ -82,6 +83,7 @@ function start() {
                     cardItem.style.zIndex = cardNum.toString();
                     cardItem.style.transition = `0.55s`;
                     cardItem.addEventListener('mouseenter', (event) => {
+                        audioPlayer.Play('hover');
                         console.log(Card.position, Card.position!.angle! * Math.PI / 180, Card.position?.angle);
                         cardItem.style.transform = `translate(${Card.position!.x! - Math.cos((90 + Card.position!.angle!) * Math.PI / 180) * 100}%, ${Card.position!.y! - Math.sin((90 + Card.position!.angle!) * Math.PI / 180) * 50}%) rotate(${Card.position!.angle}deg)`;
                     })
@@ -108,6 +110,7 @@ function start() {
 
     game?.appendChild(gameDeck);
     Resize();
+    GuiInit();
 }
 
 window.onload = () => {
@@ -122,4 +125,7 @@ function Resize(): void {
     let width: number = window.innerWidth!;
     let gameDoc = document.getElementById('container')!;
     gameDoc.style.scale = `${width / 1920}`;
+
+    let guiDoc = document.getElementById('gui')!;
+    guiDoc.style.scale = `${width / 1920}`;
 }

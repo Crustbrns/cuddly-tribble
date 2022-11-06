@@ -1,4 +1,5 @@
 var deck = new Deck();
+var audioPlayer = new AudioManager();
 function showCard(card) {
     var cardItem = document.getElementById("card".concat(card.id));
     cardItem.classList.remove('back-side');
@@ -69,6 +70,7 @@ function start() {
                     cardItem_4.style.transition = "0.55s";
                     cardItem_4.addEventListener('mouseenter', function (event) {
                         var _a;
+                        audioPlayer.Play('hover');
                         console.log(Card.position, Card.position.angle * Math.PI / 180, (_a = Card.position) === null || _a === void 0 ? void 0 : _a.angle);
                         cardItem_4.style.transform = "translate(".concat(Card.position.x - Math.cos((90 + Card.position.angle) * Math.PI / 180) * 100, "%, ").concat(Card.position.y - Math.sin((90 + Card.position.angle) * Math.PI / 180) * 50, "%) rotate(").concat(Card.position.angle, "deg)");
                     });
@@ -94,6 +96,7 @@ function start() {
     }, 1400);
     game === null || game === void 0 ? void 0 : game.appendChild(gameDeck);
     Resize();
+    GuiInit();
 }
 window.onload = function () {
     start();
@@ -105,4 +108,6 @@ function Resize() {
     var width = window.innerWidth;
     var gameDoc = document.getElementById('container');
     gameDoc.style.scale = "".concat(width / 1920);
+    var guiDoc = document.getElementById('gui');
+    guiDoc.style.scale = "".concat(width / 1920);
 }
