@@ -89,6 +89,32 @@ var Deck = /** @class */ (function () {
             this.cards.splice(1, 1);
         }
     };
+    Deck.prototype.ProcessFirstMove = function () {
+        var _this = this;
+        var BotCard = this.bot.cards.filter(function (x) { return x.suit.type === _this.trumps.type; }).sort(function (a, b) { return a.force - b.force; });
+        var PlayerCard = this.player.cards.filter(function (x) { return x.suit.type === _this.trumps.type; }).sort(function (a, b) { return a.force - b.force; });
+        console.log(BotCard, PlayerCard);
+        if (BotCard.length === 0 && PlayerCard.length !== 0) {
+            this.isFirstPlayerMoving = true;
+            return PlayerCard[0];
+        }
+        else if (PlayerCard.length === 0 && BotCard.length !== 0) {
+            this.isFirstPlayerMoving = false;
+            return BotCard[0];
+        }
+        else if (PlayerCard.length !== 0 && BotCard.length !== 0) {
+            if (PlayerCard[0].force < BotCard[0].force) {
+                this.isFirstPlayerMoving = true;
+                return PlayerCard[0];
+            }
+            else {
+                this.isFirstPlayerMoving = false;
+                return BotCard[0];
+            }
+        }
+        else
+            return null;
+    };
     return Deck;
 }());
 var Player = /** @class */ (function () {

@@ -1,4 +1,4 @@
-const deck = new Deck();
+let deck = new Deck();
 const audioPlayer = new AudioManager();
 
 function showCard(card: Card): void {
@@ -9,7 +9,15 @@ function showCard(card: Card): void {
     cardItem.classList.add(card.suit.name);
 }
 
+function hideCard(card: Card): void {
+    let cardItem = document.getElementById(`card${card.id}`)!;
+    cardItem.classList.remove('red', 'black', 'diamond', 'spade', 'club', 'heart');
+    cardItem.classList.add('back-side');
+    cardItem.title = '';
+}
+
 function start() {
+    deck = new Deck();
     document.addEventListener('contextmenu', event => event.preventDefault());
     console.log(deck);
     let game = document.getElementById('game');
@@ -86,15 +94,8 @@ function start() {
                     cardItem.style.transform = `translate(${Card.position.x}%, ${Card.position.y}%) rotate(${Card.position.angle}deg)`;
                     cardItem.style.zIndex = cardNum.toString();
                     cardItem.style.transition = `0.55s`;
-                    cardItem.addEventListener('mouseenter', (event) => {
-                        audioPlayer.Play('hover');
-                        console.log(Card.position, Card.position!.angle! * Math.PI / 180, Card.position?.angle);
-                        cardItem.style.transform = `translate(${Card.position!.x! - Math.cos((90 + Card.position!.angle!) * Math.PI / 180) * 100}%, ${Card.position!.y! - Math.sin((90 + Card.position!.angle!) * Math.PI / 180) * 50}%) rotate(${Card.position!.angle}deg)`;
-                    })
-                    cardItem.addEventListener('mouseleave', (event) => {
-                        console.log(Card.position);
-                        cardItem.style.transform = `translate(${Card.position!.x}%, ${Card.position!.y}%) rotate(${Card.position!.angle}deg)`;
-                    })
+                    cardItem.addEventListener('mouseenter', (event) => ScaleCard(Card, cardItem), true);
+                    cardItem.addEventListener('mouseleave', (event) => NormalizeCard(Card, cardItem), true);
                 }
 
                 cardNum = 0;
@@ -108,21 +109,130 @@ function start() {
                     cardItem.style.transform = `translate(${Card.position.x}%, ${Card.position.y}%) rotate(${-Card.position.angle!}deg)`;
                     cardItem.style.transition = `0.55s`;
                 }
+
+                let DisplayingCard = deck.ProcessFirstMove();
+                if (DisplayingCard !== null && DisplayingCard != undefined) {
+                    let cardItem = document.getElementById(`card${DisplayingCard.id}`)!;
+                    if (cardItem?.classList.contains('back-side')) {
+                        showCard(DisplayingCard);
+                    }
+
+                    let tempPosition = new Position(DisplayingCard.position!.x, DisplayingCard.position!.y, DisplayingCard.position!.angle);
+
+                    DisplayingCard.position!.x = 0;
+                    DisplayingCard.position!.y = -37;
+                    DisplayingCard.position!.angle = 0;
+
+                    cardItem.style.transform = `translate(${DisplayingCard.position!.x}%, ${DisplayingCard.position!.y}%) rotate(${DisplayingCard.position!.angle}deg)`;
+
+                    setTimeout(() => {
+                        DisplayingCard!.position = tempPosition;
+                        if (deck.bot.cards.find(x => x.id === DisplayingCard?.id)) {
+                            hideCard(DisplayingCard!);
+
+                            let cardNum: number = 0;
+                            for (const Card of deck.bot.cards) {
+                                let cardItem = document.getElementById(`card${Card.id}`)!;
+
+                                Card.position = new Position(-10 * (deck.player.cards.length - 1) + (cardNum * 20),
+                                    -210 + 6 * (cardNum < (deck.player.cards.length / 2) ? (deck.player.cards.length / 2 - ((deck.player.cards.length - cardNum) / 2)) : (((deck.player.cards.length - cardNum) - 1) / 2)),
+                                    -5 * (deck.player.cards.length - 1) + (cardNum++ * 10));
+
+                                cardItem.style.transform = `translate(${Card.position.x}%, ${Card.position.y}%) rotate(${-Card.position.angle!}deg)`;
+                                cardItem.style.transition = `0.55s`;
+                            }
+                        }
+                        else {
+                            let cardNum: number = 0;
+                            for (const Card of deck.player.cards) {
+                                let cardItem = document.getElementById(`card${Card.id}`)!;
+
+                                Card.position = new Position(-10 * (deck.player.cards.length - 1) + (cardNum * 20),
+                                    130 - 6 * (cardNum < (deck.player.cards.length / 2) ? (deck.player.cards.length / 2 - ((deck.player.cards.length - cardNum) / 2)) : (((deck.player.cards.length - cardNum) - 1) / 2)),
+                                    -5 * (deck.player.cards.length - 1) + (cardNum++ * 10));
+
+                                cardItem.style.transform = `translate(${Card.position.x}%, ${Card.position.y}%) rotate(${Card.position.angle}deg)`;
+                                cardItem.style.zIndex = cardNum.toString();
+                                cardItem.style.transition = `0.55s`;
+                            }
+                        }
+                    }, 2000);
+                }
+                else {
+                    setTimeout(() => {
+                        for (const Card of deck.bot.cards) {
+                            let cardItem = document.getElementById(`card${Card.id}`)!;
+                            Card.position = new Position(0, -200, 0);
+                            cardItem.style.transform = `translate(${Card.position.x}%, ${Card.position.y}%) rotate(${-Card.position.angle!}deg)`;
+                            cardItem.style.transition = `0.35s`;
+                        }
+                        for (const Card of deck.player.cards) {
+                            let cardItem = document.getElementById(`card${Card.id}`)!;
+                            Card.position = new Position(0, 120, 0);
+                            cardItem.style.transform = `translate(${Card.position.x}%, ${Card.position.y}%) rotate(${Card.position.angle}deg)`;
+                            cardItem.style.transition = `0.35s`;
+                            hideCard(Card);
+                            cardItem.removeEventListener('mouseenter', (event) => ScaleCard(Card, cardItem), true);
+                            cardItem.removeEventListener('mouseleave', (event) => NormalizeCard(Card, cardItem), true);
+                        }
+                        hideCard(deck.cards[0]);
+                        document.getElementById(`card${deck.cards[0].id}`)!.style.transition = `0.35s`;
+                        document.getElementById(`card${deck.cards[0].id}`)!.style.transform = `translate(-500%, -44%) rotate(0deg)`;
+                    }, 1200);
+
+                    setTimeout(() => {
+                        for (const Card of deck.bot.cards) {
+                            let cardItem = document.getElementById(`card${Card.id}`)!;
+                            Card.position = new Position(0, 0, 0);
+                            cardItem.style.transform = `translate(0%, 0%) rotate(0deg)`;
+                        }
+                        for (const Card of deck.player.cards) {
+                            let cardItem = document.getElementById(`card${Card.id}`)!;
+                            Card.position = new Position(0, 0, 0);
+                            cardItem.style.transform = `translate(0%, 0%) rotate(0deg)`;
+                        }
+                        for (const Card of deck.cards) {
+                            let cardItem = document.getElementById(`card${Card.id}`)!;
+                            Card.position = new Position(0, 0, 0);
+                            cardItem.style.transform = `translate(0%, 0%) rotate(0deg)`;
+                        }
+                        setTimeout(()=>{
+                            let cards = document.getElementsByClassName('card');
+                            while(cards.length > 0){
+                                cards[0].parentNode!.removeChild(cards[0]);
+                            }
+                            let gameDeck = document.getElementById('container');
+                            gameDeck?.remove();
+                            
+                            start();
+                        }, 800);
+                    }, 1800);
+                }
             }, 1200);
         }, 1400);
     }, 1400);
 
     game?.appendChild(gameDeck);
-    Resize();
-    GuiInit();
 }
 
 window.onload = () => {
     start();
+    Resize();
+    GuiInit();
 }
 
 window.onresize = (event) => {
     Resize();
+}
+
+function NormalizeCard(Card: Card, cardItem: HTMLElement): void {
+    cardItem.style.transform = `translate(${Card.position!.x}%, ${Card.position!.y}%) rotate(${Card.position!.angle}deg)`;
+}
+
+function ScaleCard(Card: Card, cardItem: HTMLElement): void {
+    audioPlayer.Play('hover');
+    console.log(Card.position, Card.position!.angle! * Math.PI / 180, Card.position?.angle);
+    cardItem.style.transform = `translate(${Card.position!.x! - Math.cos((90 + Card.position!.angle!) * Math.PI / 180) * 100}%, ${Card.position!.y! - Math.sin((90 + Card.position!.angle!) * Math.PI / 180) * 50}%) rotate(${Card.position!.angle}deg)`;
 }
 
 function Resize(): void {

@@ -71,7 +71,7 @@ class Deck {
     player: Player = new Player();
     bot: Bot = new Bot();
 
-    CurrentMove?: boolean; 
+    isFirstPlayerMoving?: boolean;
 
     constructor() {
         for (let i = 0; i < 4; i++) {
@@ -108,6 +108,32 @@ class Deck {
             this.bot.AddCard(this.cards[1]!);
             this.cards.splice(1, 1);
         }
+    }
+
+    ProcessFirstMove(): Card | null | undefined {
+        let BotCard = this.bot.cards.filter(x => x.suit.type === this.trumps.type).sort(function (a, b) { return a.force - b.force });
+        let PlayerCard = this.player.cards.filter(x => x.suit.type === this.trumps.type).sort(function (a, b) { return a.force - b.force });
+        console.log(BotCard, PlayerCard);
+
+        if (BotCard.length === 0 && PlayerCard.length !== 0) {
+            this.isFirstPlayerMoving = true;
+            return PlayerCard[0];
+        }
+        else if (PlayerCard.length === 0 && BotCard.length !== 0) {
+            this.isFirstPlayerMoving = false;
+            return BotCard[0];
+        }
+        else if (PlayerCard.length !== 0 && BotCard.length !== 0) {
+            if (PlayerCard[0].force < BotCard[0].force) {
+                this.isFirstPlayerMoving = true;
+                return PlayerCard[0];
+            }
+            else {
+                this.isFirstPlayerMoving = false;
+                return BotCard[0];
+            }
+        }
+        else return null;
     }
 }
 
