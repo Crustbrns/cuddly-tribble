@@ -218,7 +218,7 @@ window.onresize = (event) => {
 window.onmousedown = (event) => {
     let item = document.elementFromPoint(event.x, event.y)!;
     if (item?.classList.contains('card') && deck.player.cards.findIndex(x => x.id === parseInt(item.id.slice(4))) !== -1) {
-        item.classList.add('dragging');        
+        item.classList.add('dragging');
         document.getElementsByTagName('html')[0].style.cursor = 'none';
     }
     // console.log(item, deck.player.cards.findIndex(x => x.id === parseInt(item.id.slice(0, 4))), deck.player.cards);
@@ -230,8 +230,8 @@ window.onmouseup = (event) => {
         for (const item of draggings) {
             const elementId = document.getElementsByClassName('dragging')[0].id;
             const card = document.getElementById(elementId)!;
-            card!.style.transform = `translate(${deck.player.cards.find(x=>x.id === parseInt(elementId.slice(4)))!.position!.x}%, ${deck.player.cards.find(x=>x.id === parseInt(elementId.slice(4)))!.position!.y}%) rotate(${deck.player.cards.find(x=>x.id === parseInt(elementId.slice(4)))!.position!.angle}deg)`;
-            
+            card!.style.transform = `translate(${deck.player.cards.find(x => x.id === parseInt(elementId.slice(4)))!.position!.x}%, ${deck.player.cards.find(x => x.id === parseInt(elementId.slice(4)))!.position!.y}%) rotate(${deck.player.cards.find(x => x.id === parseInt(elementId.slice(4)))!.position!.angle}deg)`;
+
             item.classList.remove('dragging');
             document.getElementsByTagName('html')[0].style.cursor = 'default';
         }
@@ -242,11 +242,11 @@ window.onmousemove = (event) => {
     if (document.getElementsByClassName('dragging').length !== 0) {
         const elementId = document.getElementsByClassName('dragging')[0].id;
         const card = document.getElementById(elementId)!;
-        card!.style.transform = `translate(${event.x - window.innerWidth * 0.52 * window.innerWidth / 1920}px, ${event.y - window.innerHeight*0.525}px)`;
-        if((event.y - window.innerHeight*0.525) < -280){
+        card!.style.transform = `translate(${(event.x - window.innerWidth * 0.52) / window.innerWidth * 1920}px, ${(event.y - window.innerHeight * 0.52) / window.innerHeight * 1080}px)`;
+        if ((event.y - window.innerHeight * 0.525) < -280) {
             card!.style.border = '3px solid #f50537';
         }
-        else{
+        else {
             card!.style.border = '0px';
         }
         document.getElementsByTagName('html')[0].style.cursor = 'none';

@@ -211,7 +211,7 @@ window.onmousemove = function (event) {
     if (document.getElementsByClassName('dragging').length !== 0) {
         var elementId = document.getElementsByClassName('dragging')[0].id;
         var card = document.getElementById(elementId);
-        card.style.transform = "translate(".concat(event.x - window.innerWidth * 0.52 * window.innerWidth / 1920, "px, ").concat(event.y - window.innerHeight * 0.525, "px)");
+        card.style.transform = "translate(".concat((event.x - window.innerWidth * 0.52) / window.innerWidth * 1920, "px, ").concat((event.y - window.innerHeight * 0.52) / window.innerHeight * 1080, "px)");
         if ((event.y - window.innerHeight * 0.525) < -280) {
             card.style.border = '3px solid #f50537';
         }
