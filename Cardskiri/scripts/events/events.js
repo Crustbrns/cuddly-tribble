@@ -21,9 +21,24 @@ window.onmouseup = function (event) {
             item.classList.remove('dragging');
             document.getElementsByTagName('html')[0].style.cursor = 'default';
             var y = (event.y - window.innerHeight * 0.52) / window.innerHeight * 1080 - 40;
-            if (y < 0 && deck.isFirstPlayerMoving) {
+            if (y < 0 && deck.isFirstPlayerMoving && (deck.heap.discardIndex !== 0 || (deck.heap.discardIndex === 0 && deck.heap.attackingCards < 5))) {
                 if (deck.heap.TryAddAttackingCard(cardObject)) {
+                    var botcard_1 = deck.bot.TryBeatCard(deck.player.cards.find(function (x) { return x.id === (cardObject === null || cardObject === void 0 ? void 0 : cardObject.id); }), deck.trumps);
                     deck.player.cards.splice(deck.player.cards.findIndex(function (x) { return x.id === (cardObject === null || cardObject === void 0 ? void 0 : cardObject.id); }), 1);
+                    console.log(botcard_1);
+                    if (botcard_1 !== null || botcard_1 !== undefined) {
+                        setTimeout(function () {
+                            var _a, _b, _c;
+                            showCard(botcard_1);
+                            botcard_1.position = new Position(((_a = cardObject === null || cardObject === void 0 ? void 0 : cardObject.position) === null || _a === void 0 ? void 0 : _a.x) + 17, ((_b = cardObject === null || cardObject === void 0 ? void 0 : cardObject.position) === null || _b === void 0 ? void 0 : _b.y) + 15, ((_c = cardObject === null || cardObject === void 0 ? void 0 : cardObject.position) === null || _c === void 0 ? void 0 : _c.angle) + 5);
+                            var cardItem = document.getElementById("card".concat(botcard_1 === null || botcard_1 === void 0 ? void 0 : botcard_1.id));
+                            cardItem.style.transform = "translate(".concat(botcard_1.position.x, "%, ").concat(botcard_1.position.y, "%) rotate(").concat(botcard_1 === null || botcard_1 === void 0 ? void 0 : botcard_1.position.angle, "deg)");
+                            cardItem.style.transition = '.2s ease';
+                            deck.heap.activeCards.push(botcard_1);
+                            deck.bot.RemoveCard(botcard_1);
+                            ArrangeCards(deck.bot.cards, false);
+                        }, 400);
+                    }
                 }
                 for (var _a = 0, _b = deck.heap.activeCards; _a < _b.length; _a++) {
                     var card_1 = _b[_a];

@@ -78,13 +78,16 @@ class Heap {
     }
 
     TryAddAttackingCard(card: Card): boolean {
-        card.position!.angle = -5 + Math.floor(Math.random() * 10);
-        this.activeCards.push(card);
+        if (this.activeCards.length === 0 || this.activeCards.filter(x => x.force === card.force).length !== 0) {
+            card.position!.angle = -5 + Math.floor(Math.random() * 10);
+            this.activeCards.push(card);
 
-        this.attackingCards++;
-        this.CalcPosition();
+            this.attackingCards++;
+            this.CalcPosition();
 
-        return true;
+            return true;
+        }
+        return false;
     }
 
     private CalcPosition(): void {
@@ -156,7 +159,7 @@ class Deck {
 
     InitPlayer(): void {
         console.log(this.cards);
-        
+
         for (let i = 0; i < 6; i++) {
             this.player.AddCard(this.cards[1]!);
             this.cards.splice(1, 1);
@@ -200,7 +203,7 @@ class Deck {
             let Card = this.bot.cards.pop();
             this.cards.push(Card!);
         }
-        while(this.heap.activeCards.length > 0){
+        while (this.heap.activeCards.length > 0) {
             let Card = this.heap.activeCards.pop();
             this.cards.push(Card!);
         }
@@ -251,5 +254,22 @@ class Bot implements IPlayer {
         if (this.cards.includes(card)) {
             this.cards.splice(this.cards.indexOf(card), 1);
         }
+    }
+
+    TryBeatCard(card: Card, trump: SuitName): Card | null | undefined {
+        if (this.cards.filter(x => x.suit.type === card.suit.type)
+            .filter(x => x.force > card.force).length !== 0) {
+
+            return this.cards.filter(x => x.suit.type === card.suit.type)
+                .filter(x => x.force > card.force)
+                .sort(function (a, b) { return a.force - b.force })[0];
+        }
+        else if (card.suit.type !== trump.type &&
+            this.cards.filter(x => x.suit.type === trump.type).length !== 0) {
+
+            return this.cards.filter(x => x.suit.type === trump.type)
+                .sort(function (a, b) { return a.force - b.force })[0];
+        }
+        return null;
     }
 }

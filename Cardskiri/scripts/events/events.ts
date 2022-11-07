@@ -27,9 +27,27 @@ window.onmouseup = (event) => {
             document.getElementsByTagName('html')[0].style.cursor = 'default';
 
             let y = (event.y - window.innerHeight * 0.52) / window.innerHeight * 1080 - 40;
-            if (y < 0 && deck.isFirstPlayerMoving) {
+            if (y < 0 && deck.isFirstPlayerMoving && (deck.heap.discardIndex !== 0 || (deck.heap.discardIndex === 0 && deck.heap.attackingCards < 5))) {
                 if (deck.heap.TryAddAttackingCard(cardObject!)) {
+                    let botcard = deck.bot.TryBeatCard(deck.player.cards.find(x => x.id === cardObject?.id)!, deck.trumps);
                     deck.player.cards.splice(deck.player.cards.findIndex(x => x.id === cardObject?.id), 1);
+
+                    console.log(botcard);
+                    if (botcard !== null || botcard !== undefined) {
+                        setTimeout(() => {
+
+                            showCard(botcard!);
+                            botcard!.position = new Position(cardObject?.position?.x! + 17, cardObject?.position?.y! + 15, cardObject?.position?.angle! + 5);
+
+                            let cardItem = document.getElementById(`card${botcard?.id}`);
+                            cardItem!.style.transform = `translate(${botcard!.position!.x}%, ${botcard!.position!.y}%) rotate(${botcard?.position.angle}deg)`;
+                            cardItem!.style.transition = '.2s ease';
+
+                            deck.heap.activeCards.push(botcard!);
+                            deck.bot.RemoveCard(botcard!);
+                            ArrangeCards(deck.bot.cards, false);
+                        }, 400);
+                    }
                 }
 
                 for (const card of deck.heap.activeCards) {

@@ -61,11 +61,14 @@ var Heap = /** @class */ (function () {
         this.discardedCards = [];
     }
     Heap.prototype.TryAddAttackingCard = function (card) {
-        card.position.angle = -5 + Math.floor(Math.random() * 10);
-        this.activeCards.push(card);
-        this.attackingCards++;
-        this.CalcPosition();
-        return true;
+        if (this.activeCards.length === 0 || this.activeCards.filter(function (x) { return x.force === card.force; }).length !== 0) {
+            card.position.angle = -5 + Math.floor(Math.random() * 10);
+            this.activeCards.push(card);
+            this.attackingCards++;
+            this.CalcPosition();
+            return true;
+        }
+        return false;
     };
     Heap.prototype.CalcPosition = function () {
         var _a;
@@ -203,6 +206,20 @@ var Bot = /** @class */ (function () {
         if (this.cards.includes(card)) {
             this.cards.splice(this.cards.indexOf(card), 1);
         }
+    };
+    Bot.prototype.TryBeatCard = function (card, trump) {
+        if (this.cards.filter(function (x) { return x.suit.type === card.suit.type; })
+            .filter(function (x) { return x.force > card.force; }).length !== 0) {
+            return this.cards.filter(function (x) { return x.suit.type === card.suit.type; })
+                .filter(function (x) { return x.force > card.force; })
+                .sort(function (a, b) { return a.force - b.force; })[0];
+        }
+        else if (card.suit.type !== trump.type &&
+            this.cards.filter(function (x) { return x.suit.type === trump.type; }).length !== 0) {
+            return this.cards.filter(function (x) { return x.suit.type === trump.type; })
+                .sort(function (a, b) { return a.force - b.force; })[0];
+        }
+        return null;
     };
     return Bot;
 }());
