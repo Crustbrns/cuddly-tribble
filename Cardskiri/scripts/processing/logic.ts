@@ -38,6 +38,7 @@ class Card {
     readonly suit: SuitName;
     readonly force: number;
     position?: Position;
+    bundle?: number;
 
     constructor(type: number, suit: string, force: number, id: number) {
         this.suit = new SuitName(type, suit);
@@ -95,15 +96,21 @@ class Heap {
         let startPosX: number;
 
         if (isEven) {
-            startPosX = 0 - (Math.floor(this.attackingCards / 2) - 0.5) * 120;
+            startPosX = 0 - (Math.floor(this.attackingCards / 2) - 0.5) * 140;
         }
         else {
-            startPosX = 0 - Math.floor(this.attackingCards / 2) * 120;
+            startPosX = 0 - Math.floor(this.attackingCards / 2) * 140;
         }
 
-        for (const item of this.activeCards) {
+        for (const item of this.activeCards.filter(x => x.bundle === undefined)) {
             item.position = new Position(startPosX, -45, item.position?.angle || 0);
-            startPosX += 120;
+
+            let cardBundle = this.activeCards.find(x => x.bundle === item.id);
+            if (cardBundle != null) {
+                cardBundle!.position = new Position(item?.position?.x! + 14, item?.position?.y! + 9, item?.position?.angle! + 5);
+            }
+
+            startPosX += 140;
         }
     }
 

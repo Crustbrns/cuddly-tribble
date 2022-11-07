@@ -1,6 +1,9 @@
 body {
     background-color: #282b30;
     user-select: none;
+    background-image: url('../images/background.png');
+    background-repeat: repeat;
+    background-size: cover;
 }
 
 .card {

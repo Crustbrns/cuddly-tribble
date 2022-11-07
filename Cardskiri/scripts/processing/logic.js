@@ -71,19 +71,27 @@ var Heap = /** @class */ (function () {
         return false;
     };
     Heap.prototype.CalcPosition = function () {
-        var _a;
+        var _a, _b, _c, _d;
         var isEven = this.attackingCards % 2 === 0;
         var startPosX;
         if (isEven) {
-            startPosX = 0 - (Math.floor(this.attackingCards / 2) - 0.5) * 120;
+            startPosX = 0 - (Math.floor(this.attackingCards / 2) - 0.5) * 140;
         }
         else {
-            startPosX = 0 - Math.floor(this.attackingCards / 2) * 120;
+            startPosX = 0 - Math.floor(this.attackingCards / 2) * 140;
         }
-        for (var _i = 0, _b = this.activeCards; _i < _b.length; _i++) {
-            var item = _b[_i];
+        var _loop_1 = function (item) {
             item.position = new Position(startPosX, -45, ((_a = item.position) === null || _a === void 0 ? void 0 : _a.angle) || 0);
-            startPosX += 120;
+            var cardBundle = this_1.activeCards.find(function (x) { return x.bundle === item.id; });
+            if (cardBundle != null) {
+                cardBundle.position = new Position(((_b = item === null || item === void 0 ? void 0 : item.position) === null || _b === void 0 ? void 0 : _b.x) + 14, ((_c = item === null || item === void 0 ? void 0 : item.position) === null || _c === void 0 ? void 0 : _c.y) + 9, ((_d = item === null || item === void 0 ? void 0 : item.position) === null || _d === void 0 ? void 0 : _d.angle) + 5);
+            }
+            startPosX += 140;
+        };
+        var this_1 = this;
+        for (var _i = 0, _e = this.activeCards.filter(function (x) { return x.bundle === undefined; }); _i < _e.length; _i++) {
+            var item = _e[_i];
+            _loop_1(item);
         }
     };
     Heap.prototype.Discard = function () {
