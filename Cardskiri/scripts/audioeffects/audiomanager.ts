@@ -28,7 +28,12 @@ const AudioResources = [
     new AudioResource('moving', 0.8, './sounds/cards-moving.mp3'),
     new AudioResource('sweep0', 0.35, './sounds/cards-sweep0.mp3'),
     new AudioResource('sweep1', 0.35, './sounds/cards-sweep1.mp3'),
-    new AudioResource('trump', 0.5, './sounds/cards-trump.mp3')
+    new AudioResource('trump', 0.5, './sounds/cards-trump.mp3'),
+    new AudioResource('placed0', 0.2, './sounds/cards-placed0.mp3'),
+    new AudioResource('placed1', 0.5, './sounds/cards-placed1.mp3'),
+    new AudioResource('placed2', 0.5, './sounds/cards-placed2.mp3'),
+    new AudioResource('placed3', 0.5, './sounds/cards-placed3.mp3'),
+    new AudioResource('placed4', 0.5, './sounds/cards-placed4.mp3')
 ];
 
 class AudioManager {
@@ -48,6 +53,12 @@ class AudioManager {
             }
             else if(key === 'sweep'){
                 this.Audios.find(x => x.key === `sweep${Math.floor(Math.random() * 2)}`)?.Play();
+            }
+            else if(key === 'placed'){
+                let index: number = Math.floor(Math.random() * 5);
+                console.log(index!);
+                
+                this.Audios.find(x => x.key === `placed${index}`)?.Play();
             }
             else {
                 this.Audios.find(x => x.key === key)?.Play();

@@ -23,12 +23,14 @@ window.onmouseup = function (event) {
             var y = (event.y - window.innerHeight * 0.52) / window.innerHeight * 1080 - 40;
             if (y < 0 && deck.isFirstPlayerMoving && (deck.heap.discardIndex !== 0 || (deck.heap.discardIndex === 0 && deck.heap.attackingCards < 5))) {
                 if (deck.heap.TryAddAttackingCard(cardObject)) {
+                    audioPlayer.Play('placed');
                     var botcard_1 = deck.bot.TryBeatCard(deck.player.cards.find(function (x) { return x.id === (cardObject === null || cardObject === void 0 ? void 0 : cardObject.id); }), deck.trumps);
                     deck.player.cards.splice(deck.player.cards.findIndex(function (x) { return x.id === (cardObject === null || cardObject === void 0 ? void 0 : cardObject.id); }), 1);
                     console.log(botcard_1);
                     if (botcard_1 !== null) {
                         setTimeout(function () {
                             var _a, _b, _c;
+                            audioPlayer.Play('placed');
                             showCard(botcard_1);
                             botcard_1.position = new Position(((_a = cardObject === null || cardObject === void 0 ? void 0 : cardObject.position) === null || _a === void 0 ? void 0 : _a.x) + 14, ((_b = cardObject === null || cardObject === void 0 ? void 0 : cardObject.position) === null || _b === void 0 ? void 0 : _b.y) + 9, ((_c = cardObject === null || cardObject === void 0 ? void 0 : cardObject.position) === null || _c === void 0 ? void 0 : _c.angle) + 5);
                             botcard_1.bundle = cardObject === null || cardObject === void 0 ? void 0 : cardObject.id;

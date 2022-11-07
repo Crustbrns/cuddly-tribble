@@ -29,13 +29,14 @@ window.onmouseup = (event) => {
             let y = (event.y - window.innerHeight * 0.52) / window.innerHeight * 1080 - 40;
             if (y < 0 && deck.isFirstPlayerMoving && (deck.heap.discardIndex !== 0 || (deck.heap.discardIndex === 0 && deck.heap.attackingCards < 5))) {
                 if (deck.heap.TryAddAttackingCard(cardObject!)) {
+                    audioPlayer.Play('placed');
                     let botcard = deck.bot.TryBeatCard(deck.player.cards.find(x => x.id === cardObject?.id)!, deck.trumps);
                     deck.player.cards.splice(deck.player.cards.findIndex(x => x.id === cardObject?.id), 1);
 
                     console.log(botcard);
                     if (botcard !== null) {
                         setTimeout(() => {
-
+                            audioPlayer.Play('placed');
                             showCard(botcard!);
                             botcard!.position = new Position(cardObject?.position?.x! + 14, cardObject?.position?.y! + 9, cardObject?.position?.angle! + 5);
                             botcard!.bundle = cardObject?.id;
