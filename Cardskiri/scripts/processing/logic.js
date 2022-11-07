@@ -154,8 +154,8 @@ var Deck = /** @class */ (function () {
                 return BotCard[0];
             }
         }
-        this.isFirstPlayerMoving = true;
-        return null;
+        else
+            return null;
     };
     Deck.prototype.CardsToDeck = function () {
         while (this.player.cards.length > 0) {
@@ -165,6 +165,10 @@ var Deck = /** @class */ (function () {
         while (this.bot.cards.length > 0) {
             var Card_2 = this.bot.cards.pop();
             this.cards.push(Card_2);
+        }
+        while (this.heap.activeCards.length > 0) {
+            var Card_3 = this.heap.activeCards.pop();
+            this.cards.push(Card_3);
         }
         console.log(this.cards, this.player.cards, this.bot.cards);
     };

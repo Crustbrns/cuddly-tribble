@@ -156,6 +156,7 @@ class Deck {
 
     InitPlayer(): void {
         console.log(this.cards);
+        
         for (let i = 0; i < 6; i++) {
             this.player.AddCard(this.cards[1]!);
             this.cards.splice(1, 1);
@@ -187,10 +188,7 @@ class Deck {
                 this.isFirstPlayerMoving = false;
                 return BotCard[0];
             }
-        }
-        this.isFirstPlayerMoving = true;
-
-        return null;
+        } else return null;
     }
 
     CardsToDeck(): void {
@@ -200,6 +198,10 @@ class Deck {
         }
         while (this.bot.cards.length > 0) {
             let Card = this.bot.cards.pop();
+            this.cards.push(Card!);
+        }
+        while(this.heap.activeCards.length > 0){
+            let Card = this.heap.activeCards.pop();
             this.cards.push(Card!);
         }
         console.log(this.cards, this.player.cards, this.bot.cards);

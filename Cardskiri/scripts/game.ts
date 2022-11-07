@@ -95,33 +95,9 @@ function start() {
                     showCard(Card);
                 }
 
-                let cardNum: number = 0;
-                for (const Card of deck.player.cards) {
-                    let cardItem = document.getElementById(`card${Card.id}`)!;
-
-                    Card.position = new Position(-10 * (deck.player.cards.length - 1) + (cardNum * 20),
-                        130 - 6 * (cardNum < (deck.player.cards.length / 2) ? (deck.player.cards.length / 2 - ((deck.player.cards.length - cardNum) / 2)) : (((deck.player.cards.length - cardNum) - 1) / 2)),
-                        -5 * (deck.player.cards.length - 1) + (cardNum++ * 10));
-
-                    cardItem.style.transform = `translate(${Card.position.x}%, ${Card.position.y}%) rotate(${Card.position.angle}deg)`;
-                    cardItem.style.zIndex = cardNum.toString();
-                    cardItem.style.transition = `0.55s`;
-
-                    cardItem.addEventListener('mouseenter', (event) => ScaleCard(Card, cardItem), true);
-                    cardItem.addEventListener('mouseleave', (event) => NormalizeCard(Card, cardItem), true);
-                }
-
-                cardNum = 0;
-                for (const Card of deck.bot.cards) {
-                    let cardItem = document.getElementById(`card${Card.id}`)!;
-
-                    Card.position = new Position(-10 * (deck.player.cards.length - 1) + (cardNum * 20),
-                        -210 + 6 * (cardNum < (deck.player.cards.length / 2) ? (deck.player.cards.length / 2 - ((deck.player.cards.length - cardNum) / 2)) : (((deck.player.cards.length - cardNum) - 1) / 2)),
-                        -5 * (deck.player.cards.length - 1) + (cardNum++ * 10));
-
-                    cardItem.style.transform = `translate(${Card.position.x}%, ${Card.position.y}%) rotate(${-Card.position.angle!}deg)`;
-                    cardItem.style.transition = `0.55s`;
-                }
+                InitializeCards();
+                ArrangeCards(deck.player.cards, true);
+                ArrangeCards(deck.bot.cards, false)
 
                 let DisplayingCard = deck.ProcessFirstMove();
                 if (DisplayingCard !== null && DisplayingCard != undefined) {
@@ -144,32 +120,10 @@ function start() {
                         audioPlayer.Play('moving');
                         if (deck.bot.cards.find(x => x.id === DisplayingCard?.id)) {
                             hideCard(DisplayingCard!);
-
-                            let cardNum: number = 0;
-                            for (const Card of deck.bot.cards) {
-                                let cardItem = document.getElementById(`card${Card.id}`)!;
-
-                                Card.position = new Position(-10 * (deck.player.cards.length - 1) + (cardNum * 20),
-                                    -210 + 6 * (cardNum < (deck.player.cards.length / 2) ? (deck.player.cards.length / 2 - ((deck.player.cards.length - cardNum) / 2)) : (((deck.player.cards.length - cardNum) - 1) / 2)),
-                                    -5 * (deck.player.cards.length - 1) + (cardNum++ * 10));
-
-                                cardItem.style.transform = `translate(${Card.position.x}%, ${Card.position.y}%) rotate(${-Card.position.angle!}deg)`;
-                                cardItem.style.transition = `0.55s`;
-                            }
+                            ArrangeCards(deck.bot.cards, false);
                         }
                         else {
-                            let cardNum: number = 0;
-                            for (const Card of deck.player.cards) {
-                                let cardItem = document.getElementById(`card${Card.id}`)!;
-
-                                Card.position = new Position(-10 * (deck.player.cards.length - 1) + (cardNum * 20),
-                                    130 - 6 * (cardNum < (deck.player.cards.length / 2) ? (deck.player.cards.length / 2 - ((deck.player.cards.length - cardNum) / 2)) : (((deck.player.cards.length - cardNum) - 1) / 2)),
-                                    -5 * (deck.player.cards.length - 1) + (cardNum++ * 10));
-
-                                cardItem.style.transform = `translate(${Card.position.x}%, ${Card.position.y}%) rotate(${Card.position.angle}deg)`;
-                                cardItem.style.zIndex = cardNum.toString();
-                                cardItem.style.transition = `0.55s`;
-                            }
+                            ArrangeCards(deck.player.cards, true);
                         }
                     }, 2000);
                 }
@@ -227,9 +181,9 @@ window.onmousedown = (event) => {
         for (const Card of deck.player.cards.filter(x => x.id !== parseInt(item.id.slice(4)))) {
             let cardItem = document.getElementById(`card${Card.id}`)!;
 
-            Card.position = new Position(-10 * (deck.player.cards.length - 1) + (cardNum * 20),
+            Card.position = new Position(-10 * (deck.player.cards.length - 2) + (cardNum * 20),
                 130 - 6 * (cardNum < (deck.player.cards.length / 2) ? (deck.player.cards.length / 2 - ((deck.player.cards.length - cardNum) / 2)) : (((deck.player.cards.length - cardNum) - 1) / 2)),
-                -5 * (deck.player.cards.length - 1) + (cardNum++ * 10));
+                -5 * (deck.player.cards.length - 2) + (cardNum++ * 10));
 
             cardItem.style.transform = `translate(${Card.position.x}%, ${Card.position.y}%) rotate(${Card.position.angle}deg)`;
         }
@@ -249,17 +203,6 @@ window.onmouseup = (event) => {
             item.classList.remove('dragging');
             document.getElementsByTagName('html')[0].style.cursor = 'default';
 
-            let cardNum: number = 0;
-            for (const Card of deck.player.cards) {
-                let cardItem = document.getElementById(`card${Card.id}`)!;
-
-                Card.position = new Position(-10 * (deck.player.cards.length - 1) + (cardNum * 20),
-                    130 - 6 * (cardNum < (deck.player.cards.length / 2) ? (deck.player.cards.length / 2 - ((deck.player.cards.length - cardNum) / 2)) : (((deck.player.cards.length - cardNum) - 1) / 2)),
-                    -5 * (deck.player.cards.length - 1) + (cardNum++ * 10));
-
-                cardItem.style.transform = `translate(${Card.position.x}%, ${Card.position.y}%) rotate(${Card.position.angle}deg)`;
-            }
-
             let y = (event.y - window.innerHeight * 0.52) / window.innerHeight * 1080 - 40;
             if (y < 0 && deck.isFirstPlayerMoving) {
                 if (deck.heap.TryAddAttackingCard(cardObject!)) {
@@ -270,7 +213,17 @@ window.onmouseup = (event) => {
                     let cardItem = document.getElementById(`card${card.id}`)!;
                     cardItem.style.transform = `translate(${card.position!.x}%, ${card.position!.y}%) rotate(${card.position!.angle}deg)`;
                 }
+            }
 
+            let cardNum: number = 0;
+            for (const Card of deck.player.cards) {
+                let cardItem = document.getElementById(`card${Card.id}`)!;
+
+                Card.position = new Position(-10 * (deck.player.cards.length - 1) + (cardNum * 20),
+                    130 - 6 * (cardNum < (deck.player.cards.length / 2) ? (deck.player.cards.length / 2 - ((deck.player.cards.length - cardNum) / 2)) : (((deck.player.cards.length - cardNum) - 1) / 2)),
+                    -5 * (deck.player.cards.length - 1) + (cardNum++ * 10));
+
+                cardItem.style.transform = `translate(${Card.position.x}%, ${Card.position.y}%) rotate(${Card.position.angle}deg)`;
             }
         }
     }
@@ -291,15 +244,50 @@ window.onmousemove = (event) => {
     }
 }
 
+function InitializeCards() : void {
+    for (const Card of deck.player.cards) {
+        let cardItem = document.getElementById(`card${Card.id}`)!;
+
+        cardItem.addEventListener('mouseenter', (event) => ScaleCard(Card, cardItem), true);
+        cardItem.addEventListener('mouseleave', (event) => NormalizeCard(Card, cardItem), true);
+        cardItem.style.transition = `0.55s`;
+    }
+
+    for (const Card of deck.bot.cards) {
+        let cardItem = document.getElementById(`card${Card.id}`)!;
+        cardItem.style.transition = `0.55s`;
+    }
+}
+
+function ArrangeCards(Cards: Array<Card>, isPlayer: boolean): void {
+    let cardNum: number = 0;
+    for (const Card of Cards) {
+        let cardItem = document.getElementById(`card${Card.id}`)!;
+
+        let multiplier = 6 / Cards.length;
+        Card.position = new Position((-10 * (Cards.length - 1) + (cardNum * 20)) * (multiplier >= 1 ? 1 : multiplier / 0.8),
+            ((isPlayer ? 130 : -210) - 6 * (cardNum < (Cards.length / 2) ? (Cards.length / 2 - ((Cards.length - cardNum) / 2)) : (((Cards.length - cardNum) - 1) / 2))),
+            (-5 * (Cards.length - 1) + (cardNum++ * 10)) * (multiplier >= 1 ? 1 : multiplier * 1.5));
+
+        cardItem.style.transform = `translate(${Card.position.x}%, ${Card.position.y}%) rotate(${isPlayer ? Card.position.angle : -Card.position.angle!}deg)`;
+        cardItem.style.zIndex = cardNum.toString();
+    }
+}
+
 function NormalizeCard(Card: Card, cardItem: HTMLElement): void {
-    cardItem.style.transform = `translate(${Card.position!.x}%, ${Card.position!.y}%) rotate(${Card.position!.angle}deg)`;
+    if (deck.player.cards.find(x => x.id === Card.id)) {
+        cardItem.style.transform = `translate(${Card.position!.x}%, ${Card.position!.y}%) rotate(${Card.position!.angle}deg)`;
+    }
 }
 function ScaleCard(Card: Card, cardItem: HTMLElement): void {
-    if (!cardItem.classList.contains('dragging')) {
+    if (!cardItem.classList.contains('dragging') && deck.player.cards.find(x => x.id === Card.id)) {
         audioPlayer.Play('hover');
         console.log(Card.position, Card.position!.angle! * Math.PI / 180, Card.position?.angle);
         cardItem.style.cursor = 'grab';
         cardItem.style.transform = `translate(${Card.position!.x! - Math.cos((90 + Card.position!.angle!) * Math.PI / 180) * 70}%, ${Card.position!.y! - Math.sin((90 + Card.position!.angle!) * Math.PI / 180) * 35}%) rotate(${Card.position!.angle}deg)`;
+    }
+    else {
+        cardItem.style.cursor = 'default';
     }
 }
 function Resize(): void {
