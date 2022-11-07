@@ -211,12 +211,16 @@ window.onmousemove = function (event) {
     if (document.getElementsByClassName('dragging').length !== 0) {
         var elementId = document.getElementsByClassName('dragging')[0].id;
         var card = document.getElementById(elementId);
-        card.style.transform = "translate(".concat((event.x - window.innerWidth * 0.52) / window.innerWidth * 1920, "px, ").concat((event.y - window.innerHeight * 0.52) / window.innerHeight * 1080, "px)");
-        if ((event.y - window.innerHeight * 0.525) < -280) {
-            card.style.border = '3px solid #f50537';
+        var x = (event.x - window.innerWidth * 0.52) / window.innerWidth * 1920 + 30;
+        var y = (event.y - window.innerHeight * 0.52) / window.innerHeight * 1080 - 40;
+        var angle = Math.atan2(0 - x, 1500 - y);
+        card.style.transform = "translate(".concat(x, "px, ").concat(y, "px) rotate(").concat(-(angle * 180 / Math.PI) / 2, "deg)");
+        if (y < 0 && deck.isFirstPlayerMoving) {
+            // card!.style.boxShadow = '0px 0px 75px 28px rgba(240,39,39,0.48) !important';
+            console.log('yes');
         }
         else {
-            card.style.border = '0px';
+            // card!.style.boxShadow = '0px 0px 0px 0px';
         }
         document.getElementsByTagName('html')[0].style.cursor = 'none';
     }
@@ -226,9 +230,12 @@ function NormalizeCard(Card, cardItem) {
 }
 function ScaleCard(Card, cardItem) {
     var _a;
-    audioPlayer.Play('hover');
-    console.log(Card.position, Card.position.angle * Math.PI / 180, (_a = Card.position) === null || _a === void 0 ? void 0 : _a.angle);
-    cardItem.style.transform = "translate(".concat(Card.position.x - Math.cos((90 + Card.position.angle) * Math.PI / 180) * 100, "%, ").concat(Card.position.y - Math.sin((90 + Card.position.angle) * Math.PI / 180) * 50, "%) rotate(").concat(Card.position.angle, "deg)");
+    if (!cardItem.classList.contains('dragging')) {
+        audioPlayer.Play('hover');
+        console.log(Card.position, Card.position.angle * Math.PI / 180, (_a = Card.position) === null || _a === void 0 ? void 0 : _a.angle);
+        cardItem.style.cursor = 'grab';
+        cardItem.style.transform = "translate(".concat(Card.position.x - Math.cos((90 + Card.position.angle) * Math.PI / 180) * 100, "%, ").concat(Card.position.y - Math.sin((90 + Card.position.angle) * Math.PI / 180) * 50, "%) rotate(").concat(Card.position.angle, "deg)");
+    }
 }
 function Resize() {
     var width = window.innerWidth;

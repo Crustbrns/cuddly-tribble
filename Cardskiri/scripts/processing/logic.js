@@ -53,11 +53,40 @@ var Card = /** @class */ (function () {
     };
     return Card;
 }());
+var Heap = /** @class */ (function () {
+    function Heap() {
+        this.discardIndex = 0;
+        this.attackingCards = 0;
+        this.activeCards = [];
+        this.discardedCards = [];
+    }
+    Heap.prototype.TryAddAttackingCard = function (card) {
+        this.activeCards.push(card);
+        var lastCard = this.activeCards.find(function (x) { return x === card; });
+        lastCard.position = this.CalcPosition();
+        this.attackingCards++;
+        return true;
+    };
+    Heap.prototype.CalcPosition = function () {
+        return new Position(0, 0, 0);
+    };
+    Heap.prototype.Discard = function () {
+    };
+    Heap.prototype.Abandon = function () {
+        return [];
+    };
+    Heap.prototype.ClearTurn = function (isAbandoned) {
+        this.attackingCards = 0;
+        this.discardIndex += isAbandoned ? 0 : 1;
+    };
+    return Heap;
+}());
 var Deck = /** @class */ (function () {
     function Deck() {
         var _a;
         this.cards = [];
         this.lastCard = 1;
+        this.heap = new Heap();
         this.player = new Player();
         this.bot = new Bot();
         for (var i = 0; i < 4; i++) {

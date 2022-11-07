@@ -220,6 +220,14 @@ window.onmousedown = (event) => {
     if (item?.classList.contains('card') && deck.player.cards.findIndex(x => x.id === parseInt(item.id.slice(4))) !== -1) {
         item.classList.add('dragging');
         document.getElementsByTagName('html')[0].style.cursor = 'none';
+
+        // for (const Card of deck.player.cards) {
+        //     let cardItem = document.getElementById(`card${Card.id}`)!;
+        //     Card.position = new Position(0, 120, 0);
+        //     cardItem.style.transform = `translate(${Card.position.x}%, ${Card.position.y}%) rotate(${Card.position.angle}deg)`;
+        //     cardItem.style.transition = `0.35s`;
+        //     hideCard(Card);
+        // }
     }
     // console.log(item, deck.player.cards.findIndex(x => x.id === parseInt(item.id.slice(0, 4))), deck.player.cards);
 }
@@ -242,12 +250,18 @@ window.onmousemove = (event) => {
     if (document.getElementsByClassName('dragging').length !== 0) {
         const elementId = document.getElementsByClassName('dragging')[0].id;
         const card = document.getElementById(elementId)!;
-        card!.style.transform = `translate(${(event.x - window.innerWidth * 0.52) / window.innerWidth * 1920}px, ${(event.y - window.innerHeight * 0.52) / window.innerHeight * 1080}px)`;
-        if ((event.y - window.innerHeight * 0.525) < -280) {
-            card!.style.border = '3px solid #f50537';
+
+        let x = (event.x - window.innerWidth * 0.52) / window.innerWidth * 1920 + 30;
+        let y = (event.y - window.innerHeight * 0.52) / window.innerHeight * 1080 - 40;
+        let angle = Math.atan2(0 - x, 1500 - y);
+
+        card!.style.transform = `translate(${x}px, ${y}px) rotate(${-(angle * 180 / Math.PI) / 2}deg)`;
+        if (y < 0 && deck.isFirstPlayerMoving) {
+            // card!.style.boxShadow = '0px 0px 75px 28px rgba(240,39,39,0.48) !important';
+            console.log('yes');
         }
         else {
-            card!.style.border = '0px';
+            // card!.style.boxShadow = '0px 0px 0px 0px';
         }
         document.getElementsByTagName('html')[0].style.cursor = 'none';
     }
@@ -257,9 +271,12 @@ function NormalizeCard(Card: Card, cardItem: HTMLElement): void {
     cardItem.style.transform = `translate(${Card.position!.x}%, ${Card.position!.y}%) rotate(${Card.position!.angle}deg)`;
 }
 function ScaleCard(Card: Card, cardItem: HTMLElement): void {
-    audioPlayer.Play('hover');
-    console.log(Card.position, Card.position!.angle! * Math.PI / 180, Card.position?.angle);
-    cardItem.style.transform = `translate(${Card.position!.x! - Math.cos((90 + Card.position!.angle!) * Math.PI / 180) * 100}%, ${Card.position!.y! - Math.sin((90 + Card.position!.angle!) * Math.PI / 180) * 50}%) rotate(${Card.position!.angle}deg)`;
+    if (!cardItem.classList.contains('dragging')) {
+        audioPlayer.Play('hover');
+        console.log(Card.position, Card.position!.angle! * Math.PI / 180, Card.position?.angle);
+        cardItem.style.cursor = 'grab';
+        cardItem.style.transform = `translate(${Card.position!.x! - Math.cos((90 + Card.position!.angle!) * Math.PI / 180) * 100}%, ${Card.position!.y! - Math.sin((90 + Card.position!.angle!) * Math.PI / 180) * 50}%) rotate(${Card.position!.angle}deg)`;
+    }
 }
 function Resize(): void {
     let width: number = window.innerWidth!;

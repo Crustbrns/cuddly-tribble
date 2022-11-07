@@ -63,11 +63,53 @@ class Card {
     }
 }
 
+class Heap {
+    discardIndex: number;
+    activeCards: Array<Card>;
+    attackingCards: number;
+
+    discardedCards: Array<Card>;
+
+    constructor() {
+        this.discardIndex = 0;
+        this.attackingCards = 0;
+        this.activeCards = [];
+        this.discardedCards = [];
+    }
+
+    TryAddAttackingCard(card: Card): boolean {
+        this.activeCards.push(card);
+
+        let lastCard = this.activeCards.find(x => x === card)!;
+        lastCard.position = this.CalcPosition();
+
+        this.attackingCards++;
+        return true;
+    }
+
+    private CalcPosition(): Position {
+        return new Position(0, 0, 0);
+    }
+
+    Discard(): void {
+    }
+
+    Abandon(): Array<Card> {
+        return [];
+    }
+
+    private ClearTurn(isAbandoned: boolean): void {
+        this.attackingCards = 0;
+        this.discardIndex += isAbandoned ? 0 : 1;
+    }
+}
+
 class Deck {
     cards: Array<Card> = [];
     readonly trumps: SuitName;
     lastCard: number = 1;
 
+    heap: Heap = new Heap();
     player: Player = new Player();
     bot: Bot = new Bot();
 
@@ -136,12 +178,12 @@ class Deck {
         else return null;
     }
 
-    CardsToDeck(): void{
-        while(this.player.cards.length > 0){
+    CardsToDeck(): void {
+        while (this.player.cards.length > 0) {
             let Card = this.player.cards.pop();
             this.cards.push(Card!);
         }
-        while(this.bot.cards.length > 0){
+        while (this.bot.cards.length > 0) {
             let Card = this.bot.cards.pop();
             this.cards.push(Card!);
         }

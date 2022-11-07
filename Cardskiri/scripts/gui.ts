@@ -24,7 +24,7 @@ function GuiInit(): void {
 
 function UpdateInfoBox() : void{
     let infoLabel = document.getElementById('btn-info')!;
-    infoLabel.textContent = `Trumps: ${deck.trumps.name}, it's ${deck.isFirstPlayerMoving?'your':'bot\'s'} move now`;
+    infoLabel.textContent = `Trumps: ${deck.trumps.name}, ${deck.isFirstPlayerMoving?'you\'re attacker':'you\'re defender'}, it's ${deck.isFirstPlayerMoving?'your':'bot\'s'} turn now`;
     infoLabel.classList.add('visible');
 }
 

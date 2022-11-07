@@ -21,7 +21,7 @@ function GuiInit() {
 }
 function UpdateInfoBox() {
     var infoLabel = document.getElementById('btn-info');
-    infoLabel.textContent = "Trumps: ".concat(deck.trumps.name, ", it's ").concat(deck.isFirstPlayerMoving ? 'your' : 'bot\'s', " move now");
+    infoLabel.textContent = "Trumps: ".concat(deck.trumps.name, ", ").concat(deck.isFirstPlayerMoving ? 'you\'re attacker' : 'you\'re defender', ", it's ").concat(deck.isFirstPlayerMoving ? 'your' : 'bot\'s', " turn now");
     infoLabel.classList.add('visible');
 }
 function AlertInfoBox() {

@@ -1,9 +1,9 @@
-body{
+body {
     background-color: #282b30;
     user-select: none;
 }
 
-.card{
+.card {
     width: 146px;
     height: 196px;
     position: absolute;
@@ -16,39 +16,46 @@ body{
     background-color: white;
 }
 
-.playable:hover{
+.playable:hover {
     transform: scale(1.1) !important;
 }
 
-.card.red{
+.card.red {
     background-image: url('../images/redsuit.png');
     background-repeat: no-repeat;
     background-size: cover;
+    -webkit-box-shadow: 0px 0px 33px -7px rgba(0, 0, 0, 0.31);
+    -moz-box-shadow: 0px 0px 33px -7px rgba(0, 0, 0, 0.31);
+    box-shadow: 0px 0px 33px -7px rgba(0, 0, 0, 0.31);
 }
 
-.card.black{
+.card.black {
     background-image: url('../images/blacksuit.png');
     background-repeat: no-repeat;
     background-size: cover;
+    -webkit-box-shadow: 0px 0px 33px -7px rgba(0, 0, 0, 0.31);
+    -moz-box-shadow: 0px 0px 33px -7px rgba(0, 0, 0, 0.31);
+    box-shadow: 0px 0px 33px -7px rgba(0, 0, 0, 0.31);
 }
 
-.card.red.diamond{
+.card.red.diamond {
     background-image: url('../images/cardsuit_diamond.png');
 }
 
-.card.red.heart{
+.card.red.heart {
     background-image: url('../images/cardsuit_heart.png');
 }
 
-.card.black.spade{
+.card.black.spade {
     background-image: url('../images/cardsuit_spade.png');
 }
 
-.card.black.club{
+.card.black.club {
     background-image: url('../images/cardsuit_club.png');
 }
 
-.card:before, .card:after {
+.card:before,
+.card:after {
     position: absolute;
     font-size: 1.4rem;
     text-align: center;
@@ -75,25 +82,28 @@ body{
     transform: rotate(180deg);
 }
 
-.card.red:after{
+.card.red:after {
     color: #d6494c;
 }
-.card.black:after{
+
+.card.black:after {
     color: #2c4d72;
 }
 
-.card.red:before{
+.card.red:before {
     color: #d6494c;
 }
-.card.black:before{
+
+.card.black:before {
     color: #2c4d72;
 }
 
-.card:before, .card:after {
+.card:before,
+.card:after {
     content: attr(title);
 }
 
-#container{
+#container {
     position: fixed;
     top: calc(52.5%);
     left: 48%;
@@ -105,13 +115,13 @@ body{
     margin: auto;
 }
 
-#gui{
+#gui {
     position: fixed;
     top: calc(52.5%);
     left: 48%;
 }
 
-#btn-volume{
+#btn-volume {
     position: absolute;
     top: -30rem;
     left: -55rem;
@@ -119,13 +129,14 @@ body{
     fill: white;
     transition: .2s ease;
 }
-#btn-volume:hover{
+
+#btn-volume:hover {
     cursor: pointer;
     transform: scale(1);
     transition: .2s ease;
 }
 
-#btn-restart{
+#btn-restart {
     position: absolute;
     top: -29.9rem;
     left: -51.5rem;
@@ -137,12 +148,12 @@ body{
     transition: .2s ease;
 }
 
-#btn-restart:hover{
+#btn-restart:hover {
     transform: scale(0.9);
     transition: .2s ease;
 }
 
-#btn-info{
+#btn-info {
     user-select: none;
     pointer-events: none;
     position: absolute;
@@ -155,41 +166,46 @@ body{
     transition: .8s ease;
 }
 
-#btn-info.visible{
+#btn-info.visible {
     opacity: 0.3;
     transition: .8s ease;
 }
 
-.dragging{
+.dragging {
     cursor: none !important;
     transition: 0s !important;
     z-index: 1000 !important;
 }
 
 @keyframes shuffleleft {
-    0%{
+    0% {
         transform: translate(0, -40%);
     }
-    50%{
+
+    50% {
         transform: translate(-35%, -40%);
     }
-    100%{
-        transform: translate(0, -40%);
-    }
-}
-@keyframes shuffleright {
-    0%{
-        transform: translate(0, -40%);
-    }
-    50%{
-        transform: translate(35%, -40%);
-    }
-    100%{
+
+    100% {
         transform: translate(0, -40%);
     }
 }
 
-.back-side{
+@keyframes shuffleright {
+    0% {
+        transform: translate(0, -40%);
+    }
+
+    50% {
+        transform: translate(35%, -40%);
+    }
+
+    100% {
+        transform: translate(0, -40%);
+    }
+}
+
+.back-side {
     background-image: url('../images/cardsuit.png');
     background-repeat: no-repeat;
     background-size: cover;
