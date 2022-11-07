@@ -47,17 +47,19 @@ function start() {
         audioPlayer.Play('moving');
         for (var i = 0; i < deck.cards.length; i++) {
             var cardItem_1 = document.getElementById("card".concat(i));
-            cardItem_1.style.transform = "translate(-500%,".concat(-40 + ((10 - i / 2) > 0 ? (10 - i / 2) * -1 : 10 - i / 2), "%)");
+            cardItem_1.style.transform = "translate(-560%,".concat(-40 + ((10 - i / 2) > 0 ? (10 - i / 2) * -1 : 10 - i / 2), "%)");
             cardItem_1.style.animationDelay = '';
             cardItem_1.style.animationName = '';
+            // cardItem.style.transition = '0.4s ease-in-out';
         }
         var cardItem = document.getElementById("card0");
         cardItem.style.zIndex = '0';
         showCard(deck.cards[0]);
         timeoutTrumpCard = setTimeout(function () {
+            audioPlayer.Play('trump');
             var cardItem = document.getElementById("card0");
             cardItem.style.zIndex = '0';
-            cardItem.style.transform = "translate(-450%, -47%) rotate(".concat(86 + Math.floor(Math.random() * 10), "deg)");
+            cardItem.style.transform = "translate(-510%, -47%) rotate(".concat(86 + Math.floor(Math.random() * 10), "deg)");
         }, 700);
         timeoutInitCards = setTimeout(function () {
             deck.InitPlayer();
@@ -164,7 +166,7 @@ function start() {
                         }
                         hideCard(deck.cards[0]);
                         document.getElementById("card".concat(deck.cards[0].id)).style.transition = "0.35s";
-                        document.getElementById("card".concat(deck.cards[0].id)).style.transform = "translate(-500%, -44%) rotate(0deg)";
+                        document.getElementById("card".concat(deck.cards[0].id)).style.transform = "translate(-560%, -44%) rotate(0deg)";
                     }, 1200);
                     timeoutRestart = setTimeout(function () {
                         StrictSmoothRestart();
@@ -188,6 +190,13 @@ window.onmousedown = function (event) {
     if ((item === null || item === void 0 ? void 0 : item.classList.contains('card')) && deck.player.cards.findIndex(function (x) { return x.id === parseInt(item.id.slice(4)); }) !== -1) {
         item.classList.add('dragging');
         document.getElementsByTagName('html')[0].style.cursor = 'none';
+        var cardNum = 0;
+        for (var _i = 0, _a = deck.player.cards.filter(function (x) { return x.id !== parseInt(item.id.slice(4)); }); _i < _a.length; _i++) {
+            var Card = _a[_i];
+            var cardItem = document.getElementById("card".concat(Card.id));
+            Card.position = new Position(-10 * (deck.player.cards.length - 1) + (cardNum * 20), 130 - 6 * (cardNum < (deck.player.cards.length / 2) ? (deck.player.cards.length / 2 - ((deck.player.cards.length - cardNum) / 2)) : (((deck.player.cards.length - cardNum) - 1) / 2)), -5 * (deck.player.cards.length - 1) + (cardNum++ * 10));
+            cardItem.style.transform = "translate(".concat(Card.position.x, "%, ").concat(Card.position.y, "%) rotate(").concat(Card.position.angle, "deg)");
+        }
     }
     // console.log(item, deck.player.cards.findIndex(x => x.id === parseInt(item.id.slice(0, 4))), deck.player.cards);
 };
@@ -197,9 +206,28 @@ window.onmouseup = function (event) {
         var _loop_2 = function (item) {
             var elementId = document.getElementsByClassName('dragging')[0].id;
             var card = document.getElementById(elementId);
-            card.style.transform = "translate(".concat(deck.player.cards.find(function (x) { return x.id === parseInt(elementId.slice(4)); }).position.x, "%, ").concat(deck.player.cards.find(function (x) { return x.id === parseInt(elementId.slice(4)); }).position.y, "%) rotate(").concat(deck.player.cards.find(function (x) { return x.id === parseInt(elementId.slice(4)); }).position.angle, "deg)");
+            var cardObject = deck.player.cards.find(function (x) { return x.id === parseInt(elementId.slice(4)); });
+            card.style.transform = "translate(".concat(cardObject.position.x, "%, ").concat(cardObject.position.y, "%) rotate(").concat(deck.player.cards.find(function (x) { return x.id === parseInt(elementId.slice(4)); }).position.angle, "deg)");
             item.classList.remove('dragging');
             document.getElementsByTagName('html')[0].style.cursor = 'default';
+            var cardNum = 0;
+            for (var _a = 0, _b = deck.player.cards; _a < _b.length; _a++) {
+                var Card = _b[_a];
+                var cardItem = document.getElementById("card".concat(Card.id));
+                Card.position = new Position(-10 * (deck.player.cards.length - 1) + (cardNum * 20), 130 - 6 * (cardNum < (deck.player.cards.length / 2) ? (deck.player.cards.length / 2 - ((deck.player.cards.length - cardNum) / 2)) : (((deck.player.cards.length - cardNum) - 1) / 2)), -5 * (deck.player.cards.length - 1) + (cardNum++ * 10));
+                cardItem.style.transform = "translate(".concat(Card.position.x, "%, ").concat(Card.position.y, "%) rotate(").concat(Card.position.angle, "deg)");
+            }
+            var y = (event.y - window.innerHeight * 0.52) / window.innerHeight * 1080 - 40;
+            if (y < 0 && deck.isFirstPlayerMoving) {
+                if (deck.heap.TryAddAttackingCard(cardObject)) {
+                    deck.player.cards.splice(deck.player.cards.findIndex(function (x) { return x.id === (cardObject === null || cardObject === void 0 ? void 0 : cardObject.id); }), 1);
+                }
+                for (var _c = 0, _d = deck.heap.activeCards; _c < _d.length; _c++) {
+                    var card_1 = _d[_c];
+                    var cardItem = document.getElementById("card".concat(card_1.id));
+                    cardItem.style.transform = "translate(".concat(card_1.position.x, "%, ").concat(card_1.position.y, "%) rotate(").concat(card_1.position.angle, "deg)");
+                }
+            }
         };
         for (var _i = 0, draggings_1 = draggings; _i < draggings_1.length; _i++) {
             var item = draggings_1[_i];
@@ -215,13 +243,6 @@ window.onmousemove = function (event) {
         var y = (event.y - window.innerHeight * 0.52) / window.innerHeight * 1080 - 40;
         var angle = Math.atan2(0 - x, 1500 - y);
         card.style.transform = "translate(".concat(x, "px, ").concat(y, "px) rotate(").concat(-(angle * 180 / Math.PI) / 2, "deg)");
-        if (y < 0 && deck.isFirstPlayerMoving) {
-            // card!.style.boxShadow = '0px 0px 75px 28px rgba(240,39,39,0.48) !important';
-            console.log('yes');
-        }
-        else {
-            // card!.style.boxShadow = '0px 0px 0px 0px';
-        }
         document.getElementsByTagName('html')[0].style.cursor = 'none';
     }
 };
@@ -234,7 +255,7 @@ function ScaleCard(Card, cardItem) {
         audioPlayer.Play('hover');
         console.log(Card.position, Card.position.angle * Math.PI / 180, (_a = Card.position) === null || _a === void 0 ? void 0 : _a.angle);
         cardItem.style.cursor = 'grab';
-        cardItem.style.transform = "translate(".concat(Card.position.x - Math.cos((90 + Card.position.angle) * Math.PI / 180) * 100, "%, ").concat(Card.position.y - Math.sin((90 + Card.position.angle) * Math.PI / 180) * 50, "%) rotate(").concat(Card.position.angle, "deg)");
+        cardItem.style.transform = "translate(".concat(Card.position.x - Math.cos((90 + Card.position.angle) * Math.PI / 180) * 70, "%, ").concat(Card.position.y - Math.sin((90 + Card.position.angle) * Math.PI / 180) * 35, "%) rotate(").concat(Card.position.angle, "deg)");
     }
 }
 function Resize() {

@@ -78,17 +78,30 @@ class Heap {
     }
 
     TryAddAttackingCard(card: Card): boolean {
+        card.position!.angle = -5 + Math.floor(Math.random() * 10);
         this.activeCards.push(card);
 
-        let lastCard = this.activeCards.find(x => x === card)!;
-        lastCard.position = this.CalcPosition();
-
         this.attackingCards++;
+        this.CalcPosition();
+
         return true;
     }
 
-    private CalcPosition(): Position {
-        return new Position(0, 0, 0);
+    private CalcPosition(): void {
+        let isEven: boolean = this.attackingCards % 2 === 0;
+        let startPosX: number;
+
+        if (isEven) {
+            startPosX = 0 - (Math.floor(this.attackingCards / 2) - 0.5) * 120;
+        }
+        else {
+            startPosX = 0 - Math.floor(this.attackingCards / 2) * 120;
+        }
+
+        for (const item of this.activeCards) {
+            item.position = new Position(startPosX, -45, item.position?.angle || 0);
+            startPosX += 120;
+        }
     }
 
     Discard(): void {
@@ -175,7 +188,9 @@ class Deck {
                 return BotCard[0];
             }
         }
-        else return null;
+        this.isFirstPlayerMoving = true;
+
+        return null;
     }
 
     CardsToDeck(): void {

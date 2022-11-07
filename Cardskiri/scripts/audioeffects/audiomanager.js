@@ -22,7 +22,8 @@ var AudioResources = [
     new AudioResource('appear', 0.6, './sounds/cards-appear.mp3'),
     new AudioResource('moving', 0.8, './sounds/cards-moving.mp3'),
     new AudioResource('sweep0', 0.35, './sounds/cards-sweep0.mp3'),
-    new AudioResource('sweep1', 0.35, './sounds/cards-sweep1.mp3')
+    new AudioResource('sweep1', 0.35, './sounds/cards-sweep1.mp3'),
+    new AudioResource('trump', 0.5, './sounds/cards-trump.mp3')
 ];
 var AudioManager = /** @class */ (function () {
     function AudioManager() {

@@ -54,9 +54,10 @@ function start() {
         audioPlayer.Play('moving');
         for (let i = 0; i < deck.cards.length; i++) {
             let cardItem = document.getElementById(`card${i}`)!;
-            cardItem.style.transform = `translate(-500%,${-40 + ((10 - i / 2) > 0 ? (10 - i / 2) * -1 : 10 - i / 2)}%)`
+            cardItem.style.transform = `translate(-560%,${-40 + ((10 - i / 2) > 0 ? (10 - i / 2) * -1 : 10 - i / 2)}%)`
             cardItem.style.animationDelay = '';
             cardItem.style.animationName = '';
+            // cardItem.style.transition = '0.4s ease-in-out';
         }
 
         let cardItem = document.getElementById(`card0`)!;
@@ -65,9 +66,10 @@ function start() {
         showCard(deck.cards[0]);
 
         timeoutTrumpCard = setTimeout(() => {
+            audioPlayer.Play('trump');
             let cardItem = document.getElementById(`card0`)!;
             cardItem.style.zIndex = '0';
-            cardItem.style.transform = `translate(-450%, -47%) rotate(${86 + Math.floor(Math.random() * 10)}deg)`;
+            cardItem.style.transform = `translate(-510%, -47%) rotate(${86 + Math.floor(Math.random() * 10)}deg)`;
         }, 700);
 
         timeoutInitCards = setTimeout(() => {
@@ -191,7 +193,7 @@ function start() {
                         }
                         hideCard(deck.cards[0]);
                         document.getElementById(`card${deck.cards[0].id}`)!.style.transition = `0.35s`;
-                        document.getElementById(`card${deck.cards[0].id}`)!.style.transform = `translate(-500%, -44%) rotate(0deg)`;
+                        document.getElementById(`card${deck.cards[0].id}`)!.style.transform = `translate(-560%, -44%) rotate(0deg)`;
                     }, 1200);
 
                     timeoutRestart = setTimeout(() => {
@@ -221,13 +223,16 @@ window.onmousedown = (event) => {
         item.classList.add('dragging');
         document.getElementsByTagName('html')[0].style.cursor = 'none';
 
-        // for (const Card of deck.player.cards) {
-        //     let cardItem = document.getElementById(`card${Card.id}`)!;
-        //     Card.position = new Position(0, 120, 0);
-        //     cardItem.style.transform = `translate(${Card.position.x}%, ${Card.position.y}%) rotate(${Card.position.angle}deg)`;
-        //     cardItem.style.transition = `0.35s`;
-        //     hideCard(Card);
-        // }
+        let cardNum: number = 0;
+        for (const Card of deck.player.cards.filter(x => x.id !== parseInt(item.id.slice(4)))) {
+            let cardItem = document.getElementById(`card${Card.id}`)!;
+
+            Card.position = new Position(-10 * (deck.player.cards.length - 1) + (cardNum * 20),
+                130 - 6 * (cardNum < (deck.player.cards.length / 2) ? (deck.player.cards.length / 2 - ((deck.player.cards.length - cardNum) / 2)) : (((deck.player.cards.length - cardNum) - 1) / 2)),
+                -5 * (deck.player.cards.length - 1) + (cardNum++ * 10));
+
+            cardItem.style.transform = `translate(${Card.position.x}%, ${Card.position.y}%) rotate(${Card.position.angle}deg)`;
+        }
     }
     // console.log(item, deck.player.cards.findIndex(x => x.id === parseInt(item.id.slice(0, 4))), deck.player.cards);
 }
@@ -238,12 +243,38 @@ window.onmouseup = (event) => {
         for (const item of draggings) {
             const elementId = document.getElementsByClassName('dragging')[0].id;
             const card = document.getElementById(elementId)!;
-            card!.style.transform = `translate(${deck.player.cards.find(x => x.id === parseInt(elementId.slice(4)))!.position!.x}%, ${deck.player.cards.find(x => x.id === parseInt(elementId.slice(4)))!.position!.y}%) rotate(${deck.player.cards.find(x => x.id === parseInt(elementId.slice(4)))!.position!.angle}deg)`;
+            const cardObject = deck.player.cards.find(x => x.id === parseInt(elementId.slice(4)))
+            card!.style.transform = `translate(${cardObject!.position!.x}%, ${cardObject!.position!.y}%) rotate(${deck.player.cards.find(x => x.id === parseInt(elementId.slice(4)))!.position!.angle}deg)`;
 
             item.classList.remove('dragging');
             document.getElementsByTagName('html')[0].style.cursor = 'default';
+
+            let cardNum: number = 0;
+            for (const Card of deck.player.cards) {
+                let cardItem = document.getElementById(`card${Card.id}`)!;
+
+                Card.position = new Position(-10 * (deck.player.cards.length - 1) + (cardNum * 20),
+                    130 - 6 * (cardNum < (deck.player.cards.length / 2) ? (deck.player.cards.length / 2 - ((deck.player.cards.length - cardNum) / 2)) : (((deck.player.cards.length - cardNum) - 1) / 2)),
+                    -5 * (deck.player.cards.length - 1) + (cardNum++ * 10));
+
+                cardItem.style.transform = `translate(${Card.position.x}%, ${Card.position.y}%) rotate(${Card.position.angle}deg)`;
+            }
+
+            let y = (event.y - window.innerHeight * 0.52) / window.innerHeight * 1080 - 40;
+            if (y < 0 && deck.isFirstPlayerMoving) {
+                if (deck.heap.TryAddAttackingCard(cardObject!)) {
+                    deck.player.cards.splice(deck.player.cards.findIndex(x => x.id === cardObject?.id), 1);
+                }
+
+                for (const card of deck.heap.activeCards) {
+                    let cardItem = document.getElementById(`card${card.id}`)!;
+                    cardItem.style.transform = `translate(${card.position!.x}%, ${card.position!.y}%) rotate(${card.position!.angle}deg)`;
+                }
+
+            }
         }
     }
+
 }
 
 window.onmousemove = (event) => {
@@ -256,13 +287,6 @@ window.onmousemove = (event) => {
         let angle = Math.atan2(0 - x, 1500 - y);
 
         card!.style.transform = `translate(${x}px, ${y}px) rotate(${-(angle * 180 / Math.PI) / 2}deg)`;
-        if (y < 0 && deck.isFirstPlayerMoving) {
-            // card!.style.boxShadow = '0px 0px 75px 28px rgba(240,39,39,0.48) !important';
-            console.log('yes');
-        }
-        else {
-            // card!.style.boxShadow = '0px 0px 0px 0px';
-        }
         document.getElementsByTagName('html')[0].style.cursor = 'none';
     }
 }
@@ -275,7 +299,7 @@ function ScaleCard(Card: Card, cardItem: HTMLElement): void {
         audioPlayer.Play('hover');
         console.log(Card.position, Card.position!.angle! * Math.PI / 180, Card.position?.angle);
         cardItem.style.cursor = 'grab';
-        cardItem.style.transform = `translate(${Card.position!.x! - Math.cos((90 + Card.position!.angle!) * Math.PI / 180) * 100}%, ${Card.position!.y! - Math.sin((90 + Card.position!.angle!) * Math.PI / 180) * 50}%) rotate(${Card.position!.angle}deg)`;
+        cardItem.style.transform = `translate(${Card.position!.x! - Math.cos((90 + Card.position!.angle!) * Math.PI / 180) * 70}%, ${Card.position!.y! - Math.sin((90 + Card.position!.angle!) * Math.PI / 180) * 35}%) rotate(${Card.position!.angle}deg)`;
     }
 }
 function Resize(): void {

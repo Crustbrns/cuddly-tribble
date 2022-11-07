@@ -61,14 +61,27 @@ var Heap = /** @class */ (function () {
         this.discardedCards = [];
     }
     Heap.prototype.TryAddAttackingCard = function (card) {
+        card.position.angle = -5 + Math.floor(Math.random() * 10);
         this.activeCards.push(card);
-        var lastCard = this.activeCards.find(function (x) { return x === card; });
-        lastCard.position = this.CalcPosition();
         this.attackingCards++;
+        this.CalcPosition();
         return true;
     };
     Heap.prototype.CalcPosition = function () {
-        return new Position(0, 0, 0);
+        var _a;
+        var isEven = this.attackingCards % 2 === 0;
+        var startPosX;
+        if (isEven) {
+            startPosX = 0 - (Math.floor(this.attackingCards / 2) - 0.5) * 120;
+        }
+        else {
+            startPosX = 0 - Math.floor(this.attackingCards / 2) * 120;
+        }
+        for (var _i = 0, _b = this.activeCards; _i < _b.length; _i++) {
+            var item = _b[_i];
+            item.position = new Position(startPosX, -45, ((_a = item.position) === null || _a === void 0 ? void 0 : _a.angle) || 0);
+            startPosX += 120;
+        }
     };
     Heap.prototype.Discard = function () {
     };
@@ -141,8 +154,8 @@ var Deck = /** @class */ (function () {
                 return BotCard[0];
             }
         }
-        else
-            return null;
+        this.isFirstPlayerMoving = true;
+        return null;
     };
     Deck.prototype.CardsToDeck = function () {
         while (this.player.cards.length > 0) {
