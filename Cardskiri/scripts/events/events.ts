@@ -33,6 +33,8 @@ window.onmouseup = (event) => {
                     let botcard = deck.bot.TryBeatCard(deck.player.cards.find(x => x.id === cardObject?.id)!, deck.trumps);
                     deck.player.cards.splice(deck.player.cards.findIndex(x => x.id === cardObject?.id), 1);
 
+                    toggleActionButtonContext(true, 'Done');
+
                     console.log(botcard);
                     if (botcard !== null) {
                         setTimeout(() => {

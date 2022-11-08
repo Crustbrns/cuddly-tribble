@@ -17,18 +17,25 @@ function GuiInit(): void {
     let infoLabel = document.createElement('div');
     infoLabel.id = 'btn-info';
 
+    let actionButton = document.createElement('div');
+    actionButton.textContent = '...';
+    actionButton.addEventListener('click', makeAction, true);
+    actionButton.id = 'btn-action';
+    actionButton.classList.add('button');
+
     let gui = document.getElementById('gui');
     gui?.appendChild(restartButton);
     gui?.appendChild(infoLabel);
+    gui?.appendChild(actionButton);
 }
 
-function UpdateInfoBox() : void{
+function UpdateInfoBox(): void {
     let infoLabel = document.getElementById('btn-info')!;
-    infoLabel.textContent = `Trumps: ${deck.trumps.name}, ${deck.isFirstPlayerMoving?'you\'re attacker':'you\'re defender'}, it's ${deck.isFirstPlayerMoving?'your':'bot\'s'} turn now`;
+    infoLabel.textContent = `Trumps: ${deck.trumps.name}, ${deck.isFirstPlayerMoving ? 'you\'re attacker' : 'you\'re defender'}, it's ${deck.isFirstPlayerMoving ? 'your' : 'bot\'s'} turn now`;
     infoLabel.classList.add('visible');
 }
 
-function AlertInfoBox() : void{
+function AlertInfoBox(): void {
     let infoLabel = document.getElementById('btn-info')!;
     infoLabel.textContent = `Trumps: ${deck.trumps.name}, no trumps detected in both hands, shuffle is required..`;
     infoLabel.classList.add('visible');
@@ -37,5 +44,32 @@ function AlertInfoBox() : void{
 function HideInfoBox(): void {
     let infoLabel = document.getElementById('btn-info')!;
     infoLabel.classList.remove('visible');
+}
 
+function makeAction(): void {
+    deck.TurnOver();
+}
+
+function toggleActionButton(makeVisible: boolean) {
+    let actionbtn = document.getElementById('btn-action');
+
+    if (actionbtn !== null && makeVisible) {
+        actionbtn?.classList.add('visible');
+    }
+    else {
+        actionbtn?.classList.remove('visible');
+        actionbtn!.textContent = '...';
+    }
+}
+function toggleActionButtonContext(makeVisible: boolean, context: string) {
+    let actionbtn = document.getElementById('btn-action');
+
+    if (actionbtn !== null && makeVisible) {
+        actionbtn?.classList.add('visible');
+        actionbtn!.textContent = context;
+    }
+    else {
+        actionbtn?.classList.remove('visible');
+        actionbtn!.textContent = '...';
+    }
 }

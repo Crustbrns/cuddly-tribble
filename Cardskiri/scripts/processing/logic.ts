@@ -216,6 +216,19 @@ class Deck {
         }
         console.log(this.cards, this.player.cards, this.bot.cards);
     }
+
+    TurnOver(): void {
+        // console.log(this.heap.activeCards.length,
+        //     this.heap.activeCards.length % 2 == 0,
+        //     this.heap.activeCards.filter(x => x.bundle !== undefined),
+        //     this.heap.activeCards.filter(x => x.bundle !== undefined).length === this.heap.activeCards.length / 2);
+
+        if (this.heap.activeCards.length !== 0) {
+            if (this.heap.activeCards.length % 2 == 0 && this.heap.activeCards.filter(x => x.bundle !== undefined).length === this.heap.activeCards.length / 2) {
+                toggleActionButton(false);
+            }
+        }
+    }
 }
 
 interface IPlayer {

@@ -183,6 +183,14 @@ var Deck = /** @class */ (function () {
         }
         console.log(this.cards, this.player.cards, this.bot.cards);
     };
+    Deck.prototype.TurnOver = function () {
+        console.log(this.heap.activeCards.length, this.heap.activeCards.length % 2 == 0, this.heap.activeCards.filter(function (x) { return x.bundle !== undefined; }), this.heap.activeCards.filter(function (x) { return x.bundle !== undefined; }).length === this.heap.activeCards.length / 2);
+        if (this.heap.activeCards.length !== 0) {
+            if (this.heap.activeCards.length % 2 == 0 && this.heap.activeCards.filter(function (x) { return x.bundle !== undefined; }).length === this.heap.activeCards.length / 2) {
+                console.log('done');
+            }
+        }
+    };
     return Deck;
 }());
 var Player = /** @class */ (function () {

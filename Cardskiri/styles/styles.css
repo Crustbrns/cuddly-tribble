@@ -180,6 +180,37 @@ body {
     z-index: 1000 !important;
 }
 
+#btn-action{
+    user-select: none;
+    position: absolute;
+    top: 24.2rem;
+    left: 17.5rem;
+    width: 5rem;
+    text-align: center;
+    font-family: 'e-Ukraine-L';
+}
+
+.button {
+    padding: 8px 15px;
+    border-radius: 10px;
+    background-color: #ea4c89;
+    color: white;
+    transition: .2s ease;
+    pointer-events: none;
+    opacity: 0;
+}
+
+.button:hover{
+    cursor: pointer;
+    transition: .2s ease;
+}
+
+.button.visible{
+    pointer-events: all;
+    transition: .2s ease;
+    opacity: 1;
+}
+
 @keyframes shuffleleft {
     0% {
         transform: translate(0, -40%);

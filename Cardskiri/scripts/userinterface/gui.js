@@ -15,9 +15,15 @@ function GuiInit() {
     restartButton.id = 'btn-restart';
     var infoLabel = document.createElement('div');
     infoLabel.id = 'btn-info';
+    var actionButton = document.createElement('div');
+    actionButton.textContent = '...';
+    actionButton.addEventListener('click', makeAction, true);
+    actionButton.id = 'btn-action';
+    actionButton.classList.add('button');
     var gui = document.getElementById('gui');
     gui === null || gui === void 0 ? void 0 : gui.appendChild(restartButton);
     gui === null || gui === void 0 ? void 0 : gui.appendChild(infoLabel);
+    gui === null || gui === void 0 ? void 0 : gui.appendChild(actionButton);
 }
 function UpdateInfoBox() {
     var infoLabel = document.getElementById('btn-info');
@@ -32,4 +38,28 @@ function AlertInfoBox() {
 function HideInfoBox() {
     var infoLabel = document.getElementById('btn-info');
     infoLabel.classList.remove('visible');
+}
+function makeAction() {
+    deck.TurnOver();
+}
+function toggleActionButton(makeVisible) {
+    var actionbtn = document.getElementById('btn-action');
+    if (actionbtn !== null && makeVisible) {
+        actionbtn === null || actionbtn === void 0 ? void 0 : actionbtn.classList.add('visible');
+    }
+    else {
+        actionbtn === null || actionbtn === void 0 ? void 0 : actionbtn.classList.remove('visible');
+        actionbtn.textContent = '...';
+    }
+}
+function toggleActionButtonContext(makeVisible, context) {
+    var actionbtn = document.getElementById('btn-action');
+    if (actionbtn !== null && makeVisible) {
+        actionbtn === null || actionbtn === void 0 ? void 0 : actionbtn.classList.add('visible');
+        actionbtn.textContent = context;
+    }
+    else {
+        actionbtn === null || actionbtn === void 0 ? void 0 : actionbtn.classList.remove('visible');
+        actionbtn.textContent = '...';
+    }
 }
