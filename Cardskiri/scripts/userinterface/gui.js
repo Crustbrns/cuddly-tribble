@@ -42,6 +42,7 @@ function HideInfoBox() {
 function makeAction() {
     if (deck.TurnOver()) {
         var cardIndex = 0;
+        audioPlayer.Play('shoved');
         for (var _i = 0, _a = deck.heap.discardedCards; _i < _a.length; _i++) {
             var card = _a[_i];
             var cardItem = document.getElementById("card".concat(card.id));

@@ -49,6 +49,7 @@ function HideInfoBox(): void {
 function makeAction(): void {
     if (deck.TurnOver()) {
         let cardIndex = 0;
+        audioPlayer.Play('shoved');
         for (const card of deck.heap.discardedCards) {
             let cardItem = document.getElementById(`card${card.id}`);
             cardItem!.style.transform = `translate(${card!.position!.x}%, ${card!.position!.y}%) rotate(${card!.position!.angle}deg)`;

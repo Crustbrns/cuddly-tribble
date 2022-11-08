@@ -28,7 +28,15 @@ var AudioResources = [
     new AudioResource('placed1', 0.5, './sounds/cards-placed1.mp3'),
     new AudioResource('placed2', 0.5, './sounds/cards-placed2.mp3'),
     new AudioResource('placed3', 0.5, './sounds/cards-placed3.mp3'),
-    new AudioResource('placed4', 0.5, './sounds/cards-placed4.mp3')
+    new AudioResource('placed4', 0.5, './sounds/cards-placed4.mp3'),
+    new AudioResource('placed5', 0.5, './sounds/cards-placed5.mp3'),
+    new AudioResource('placed6', 0.5, './sounds/cards-placed6.mp3'),
+    new AudioResource('placed7', 0.5, './sounds/cards-placed7.mp3'),
+    new AudioResource('placed8', 0.5, './sounds/cards-placed8.mp3'),
+    new AudioResource('shoved0', 0.5, './sounds/cards-shoved0.mp3'),
+    new AudioResource('shoved1', 0.5, './sounds/cards-shoved1.mp3'),
+    new AudioResource('shoved2', 0.5, './sounds/cards-shoved2.mp3'),
+    new AudioResource('shoved3', 0.5, './sounds/cards-shoved3.mp3')
 ];
 var AudioManager = /** @class */ (function () {
     function AudioManager() {
@@ -40,7 +48,7 @@ var AudioManager = /** @class */ (function () {
         }
     }
     AudioManager.prototype.Play = function (key) {
-        var _a, _b, _c, _d;
+        var _a, _b, _c, _d, _e;
         if (this.SoundsToggle) {
             if (key === 'hover') {
                 (_a = this.Audios.find(function (x) { return x.key === "hover".concat(Math.floor(Math.random() * 3)); })) === null || _a === void 0 ? void 0 : _a.Play();
@@ -49,12 +57,17 @@ var AudioManager = /** @class */ (function () {
                 (_b = this.Audios.find(function (x) { return x.key === "sweep".concat(Math.floor(Math.random() * 2)); })) === null || _b === void 0 ? void 0 : _b.Play();
             }
             else if (key === 'placed') {
-                var index_1 = Math.floor(Math.random() * 5);
+                var index_1 = Math.floor(Math.random() * this.Audios.filter(function (x) { return x.key.includes('placed'); }).length);
                 console.log(index_1);
                 (_c = this.Audios.find(function (x) { return x.key === "placed".concat(index_1); })) === null || _c === void 0 ? void 0 : _c.Play();
             }
+            else if (key === 'shoved') {
+                var index_2 = Math.floor(Math.random() * this.Audios.filter(function (x) { return x.key.includes('shoved'); }).length);
+                console.log(index_2);
+                (_d = this.Audios.find(function (x) { return x.key === "shoved".concat(index_2); })) === null || _d === void 0 ? void 0 : _d.Play();
+            }
             else {
-                (_d = this.Audios.find(function (x) { return x.key === key; })) === null || _d === void 0 ? void 0 : _d.Play();
+                (_e = this.Audios.find(function (x) { return x.key === key; })) === null || _e === void 0 ? void 0 : _e.Play();
             }
         }
     };

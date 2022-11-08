@@ -33,7 +33,15 @@ const AudioResources = [
     new AudioResource('placed1', 0.5, './sounds/cards-placed1.mp3'),
     new AudioResource('placed2', 0.5, './sounds/cards-placed2.mp3'),
     new AudioResource('placed3', 0.5, './sounds/cards-placed3.mp3'),
-    new AudioResource('placed4', 0.5, './sounds/cards-placed4.mp3')
+    new AudioResource('placed4', 0.5, './sounds/cards-placed4.mp3'),
+    new AudioResource('placed5', 0.5, './sounds/cards-placed5.mp3'),
+    new AudioResource('placed6', 0.5, './sounds/cards-placed6.mp3'),
+    new AudioResource('placed7', 0.5, './sounds/cards-placed7.mp3'),
+    new AudioResource('placed8', 0.5, './sounds/cards-placed8.mp3'),
+    new AudioResource('shoved0', 0.5, './sounds/cards-shoved0.mp3'),
+    new AudioResource('shoved1', 0.5, './sounds/cards-shoved1.mp3'),
+    new AudioResource('shoved2', 0.5, './sounds/cards-shoved2.mp3'),
+    new AudioResource('shoved3', 0.5, './sounds/cards-shoved3.mp3')
 ];
 
 class AudioManager {
@@ -51,14 +59,20 @@ class AudioManager {
             if (key === 'hover') {
                 this.Audios.find(x => x.key === `hover${Math.floor(Math.random() * 3)}`)?.Play();
             }
-            else if(key === 'sweep'){
+            else if (key === 'sweep') {
                 this.Audios.find(x => x.key === `sweep${Math.floor(Math.random() * 2)}`)?.Play();
             }
-            else if(key === 'placed'){
-                let index: number = Math.floor(Math.random() * 5);
+            else if (key === 'placed') {
+                let index: number = Math.floor(Math.random() * this.Audios.filter(x => x.key.includes('placed')).length);
                 console.log(index!);
-                
+
                 this.Audios.find(x => x.key === `placed${index}`)?.Play();
+            }
+            else if (key === 'shoved') {
+                let index: number = Math.floor(Math.random() * this.Audios.filter(x => x.key.includes('shoved')).length);
+                console.log(index!);
+
+                this.Audios.find(x => x.key === `shoved${index}`)?.Play();
             }
             else {
                 this.Audios.find(x => x.key === key)?.Play();
