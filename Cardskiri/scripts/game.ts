@@ -11,6 +11,8 @@ let timeoutRestart: NodeJS.Timeout;
 let timeoutSmoothCenter: NodeJS.Timeout;
 let timeoutStrictSmooth: NodeJS.Timeout;
 let timeoutAccurateShuffle: NodeJS.Timeout;
+let timeoutbotbeat: NodeJS.Timeout;
+let timeoutBotAttack: NodeJS.Timeout;
 
 function showCard(card: Card): void {
     let cardItem = document.getElementById(`card${card.id}`)!;
@@ -121,6 +123,23 @@ function start() {
                         if (deck.bot.cards.find(x => x.id === DisplayingCard?.id)) {
                             hideCard(DisplayingCard!);
                             ArrangeCards(deck.bot.cards, false);
+
+                            timeoutBotAttack = setTimeout(() => {
+                                let cardAttack = deck.bot.ProcessCardToAttack(deck.trumps);
+                                if (cardAttack !== null) {
+                                    if (deck.heap.TryAddAttackingCard(cardAttack!)) {
+                                        audioPlayer.Play('placed');
+
+                                        showCard(cardAttack!);
+                                        deck.bot.RemoveCard(cardAttack!);
+
+                                        for (const card of deck.heap.activeCards) {
+                                            let cardItem = document.getElementById(`card${card.id}`)!;
+                                            cardItem.style.transform = `translate(${card.position!.x}%, ${card.position!.y}%) rotate(${card.position!.angle}deg)`;
+                                        }
+                                    }
+                                }
+                            }, 1000);
                         }
                         else {
                             ArrangeCards(deck.player.cards, true);
@@ -193,7 +212,7 @@ function ArrangeCards(Cards: Array<Card>, isPlayer: boolean): void {
             (-5 * (Cards.length - 1) + (cardNum++ * 10)) * (multiplier >= 1 ? 1 : multiplier * 1.5));
 
         cardItem.style.transform = `translate(${Card.position.x}%, ${Card.position.y}%) rotate(${isPlayer ? Card.position.angle : -Card.position.angle!}deg)`;
-        cardItem.style.zIndex = isPlayer ? cardNum.toString() : ((cardNum*-1)+40).toString();
+        cardItem.style.zIndex = isPlayer ? cardNum.toString() : ((cardNum * -1) + 40).toString();
     }
 }
 

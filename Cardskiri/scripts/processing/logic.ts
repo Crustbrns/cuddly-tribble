@@ -39,6 +39,7 @@ class Card {
     readonly force: number;
     position?: Position;
     bundle?: number;
+    hidden?: boolean;
 
     constructor(type: number, suit: string, force: number, id: number) {
         this.suit = new SuitName(type, suit);
@@ -201,6 +202,32 @@ class Deck {
         } else return null;
     }
 
+    TryPushPlayersCards(): void {
+        if (this.cards.length > 0) {
+            while (this.player.cards.length < 6 && this.cards.length > 0) {
+                if (this.cards.length > 1) {
+                    this.player.AddCard(this.cards[1]!);
+                    this.cards.splice(1, 1);
+                }
+                else {
+                    this.player.AddCard(this.cards[0]!);
+                    this.cards.splice(0, 0);
+                }
+            }
+
+            while (this.bot.cards.length < 6 && this.cards.length > 0) {
+                if (this.cards.length > 1) {
+                    this.bot.AddCard(this.cards[1]!);
+                    this.cards.splice(1, 1);
+                }
+                else {
+                    this.bot.AddCard(this.cards[0]!);
+                    this.cards.splice(0, 0);
+                }
+            }
+        }
+    }
+
     CardsToDeck(): void {
         while (this.player.cards.length > 0) {
             let Card = this.player.cards.pop();
@@ -240,12 +267,20 @@ class Deck {
                         -25 + Math.random() * 50
                     );
 
+                    if (Math.random() > 0.5) {
+                        discardedCard.hidden = true;
+                    }
+
                     this.heap.discardedCards.push(discardedCard);
                 }
 
+                this.isFirstPlayerMoving = !this.isFirstPlayerMoving;
                 this.heap.attackingCards = 0;
+                this.TryPushPlayersCards();
                 toggleActionButton(false);
                 toggleBotsDecision(false);
+                UpdateInfoBox();
+
                 return true;
             }
             else if (this.heap.attackingCards !== this.heap.activeCards.length / 2 &&
@@ -258,8 +293,11 @@ class Deck {
                 }
 
                 this.heap.attackingCards = 0;
+
+                this.TryPushPlayersCards();
                 toggleActionButton(false);
                 toggleBotsDecision(false);
+                UpdateInfoBox();
 
                 return true;
             }
@@ -329,6 +367,19 @@ class Bot implements IPlayer {
             return this.cards.filter(x => x.suit.type === trump.type)
                 .sort(function (a, b) { return a.force - b.force })[0];
         }
+
+        return null;
+    }
+
+    ProcessCardToAttack(trump: SuitName): Card | null | undefined {
+        if (this.cards.length > 0) {
+            if (this.cards.filter(x => x.suit.type !== trump.type).length > 0) {
+                return this.cards.filter(x => x.suit.type !== trump.type)
+                    .sort(function (a, b) { return a.force - b.force })[0];
+            }
+            else return this.cards.sort(function (a, b) { return a.force - b.force })[0];
+        }
+
         return null;
     }
 }

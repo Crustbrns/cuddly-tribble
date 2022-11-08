@@ -168,6 +168,30 @@ var Deck = /** @class */ (function () {
         else
             return null;
     };
+    Deck.prototype.TryPushPlayersCards = function () {
+        if (this.cards.length > 0) {
+            while (this.player.cards.length < 6 && this.cards.length > 0) {
+                if (this.cards.length > 1) {
+                    this.player.AddCard(this.cards[1]);
+                    this.cards.splice(1, 1);
+                }
+                else {
+                    this.player.AddCard(this.cards[0]);
+                    this.cards.splice(0, 0);
+                }
+            }
+            while (this.bot.cards.length < 6 && this.cards.length > 0) {
+                if (this.cards.length > 1) {
+                    this.bot.AddCard(this.cards[1]);
+                    this.cards.splice(1, 1);
+                }
+                else {
+                    this.bot.AddCard(this.cards[0]);
+                    this.cards.splice(0, 0);
+                }
+            }
+        }
+    };
     Deck.prototype.CardsToDeck = function () {
         while (this.player.cards.length > 0) {
             var Card_1 = this.player.cards.pop();
@@ -198,11 +222,17 @@ var Deck = /** @class */ (function () {
                 while (this.heap.activeCards.length > 0) {
                     var discardedCard = this.heap.activeCards.pop();
                     discardedCard.position = new Position(610 + Math.random() * 100, -130 + Math.random() * 160, -25 + Math.random() * 50);
+                    if (Math.random() > 0.5) {
+                        discardedCard.hidden = true;
+                    }
                     this.heap.discardedCards.push(discardedCard);
                 }
+                this.isFirstPlayerMoving = !this.isFirstPlayerMoving;
                 this.heap.attackingCards = 0;
+                this.TryPushPlayersCards();
                 toggleActionButton(false);
                 toggleBotsDecision(false);
+                UpdateInfoBox();
                 return true;
             }
             else if (this.heap.attackingCards !== this.heap.activeCards.length / 2 &&
@@ -212,8 +242,10 @@ var Deck = /** @class */ (function () {
                     this.bot.AddCard(this.heap.activeCards.pop());
                 }
                 this.heap.attackingCards = 0;
+                this.TryPushPlayersCards();
                 toggleActionButton(false);
                 toggleBotsDecision(false);
+                UpdateInfoBox();
                 return true;
             }
         }
@@ -262,6 +294,17 @@ var Bot = /** @class */ (function () {
             this.cards.filter(function (x) { return x.suit.type === trump.type; }).length !== 0) {
             return this.cards.filter(function (x) { return x.suit.type === trump.type; })
                 .sort(function (a, b) { return a.force - b.force; })[0];
+        }
+        return null;
+    };
+    Bot.prototype.ProcessCardToAttack = function (trump) {
+        if (this.cards.length > 0) {
+            if (this.cards.filter(function (x) { return x.suit.type !== trump.type; }).length > 0) {
+                return this.cards.filter(function (x) { return x.suit.type !== trump.type; })
+                    .sort(function (a, b) { return a.force - b.force; })[0];
+            }
+            else
+                return this.cards.sort(function (a, b) { return a.force - b.force; })[0];
         }
         return null;
     };

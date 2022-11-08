@@ -54,10 +54,23 @@ function makeAction(): void {
             cardItem!.style.transform = `translate(${card!.position!.x}%, ${card!.position!.y}%) rotate(${card!.position!.angle}deg)`;
             cardItem!.style.transition = '.5s ease-in-out';
             cardItem!.style.zIndex = `${cardIndex++}`;
+            if (card.hidden === true) {
+                hideCard(card);
+            }
         }
-        
+
         for (const card of deck.bot.cards) {
             hideCard(card);
+        }
+
+        for (const card of deck.player.cards) {
+            let cardItem = document.getElementById(`card${card.id}`)!;
+
+            if (cardItem.classList.contains('back-side')) {
+                showCard(card);
+                cardItem.addEventListener('mouseenter', (event) => ScaleCard(card, cardItem), true);
+                cardItem.addEventListener('mouseleave', (event) => NormalizeCard(card, cardItem), true);
+            }
         }
 
         ArrangeCards(deck.bot.cards, false);

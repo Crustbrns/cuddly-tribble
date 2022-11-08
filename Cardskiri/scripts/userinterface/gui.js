@@ -48,10 +48,25 @@ function makeAction() {
             cardItem.style.transform = "translate(".concat(card.position.x, "%, ").concat(card.position.y, "%) rotate(").concat(card.position.angle, "deg)");
             cardItem.style.transition = '.5s ease-in-out';
             cardItem.style.zIndex = "".concat(cardIndex++);
+            if (card.hidden === true) {
+                hideCard(card);
+            }
         }
         for (var _b = 0, _c = deck.bot.cards; _b < _c.length; _b++) {
             var card = _c[_b];
             hideCard(card);
+        }
+        var _loop_1 = function (card) {
+            var cardItem = document.getElementById("card".concat(card.id));
+            if (cardItem.classList.contains('back-side')) {
+                showCard(card);
+                cardItem.addEventListener('mouseenter', function (event) { return ScaleCard(card, cardItem); }, true);
+                cardItem.addEventListener('mouseleave', function (event) { return NormalizeCard(card, cardItem); }, true);
+            }
+        };
+        for (var _d = 0, _e = deck.player.cards; _d < _e.length; _d++) {
+            var card = _e[_d];
+            _loop_1(card);
         }
         ArrangeCards(deck.bot.cards, false);
         ArrangeCards(deck.player.cards, true);

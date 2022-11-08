@@ -221,6 +221,10 @@ body {
     transition: .2s ease;
 }
 
+.no-shadow{
+    box-shadow: none !important;
+}
+
 #bot-action>svg{
     position: absolute;
     fill: white;

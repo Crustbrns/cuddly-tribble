@@ -28,7 +28,7 @@ window.onmouseup = function (event) {
                     deck.player.cards.splice(deck.player.cards.findIndex(function (x) { return x.id === (cardObject === null || cardObject === void 0 ? void 0 : cardObject.id); }), 1);
                     console.log(botcard_1);
                     if (botcard_1 !== null) {
-                        setTimeout(function () {
+                        timeoutbotbeat = setTimeout(function () {
                             var _a, _b, _c;
                             audioPlayer.Play('placed');
                             showCard(botcard_1);

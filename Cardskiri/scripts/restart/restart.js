@@ -59,6 +59,7 @@ function StrictSmoothRestart() {
     clearTimeout(timeoutSmoothCenter);
     clearTimeout(timeoutStrictSmooth);
     clearTimeout(timeoutAccurateShuffle);
+    clearTimeout(timeoutbotbeat);
     toggleActionButton(false);
     deck.CardsToDeck();
     audioPlayer.Play('sweep');
@@ -67,6 +68,7 @@ function StrictSmoothRestart() {
         var cardItem = document.getElementById("card".concat(deck.cards[i].id));
         cardItem.style.transform = "translate(0, ".concat(-40 + i / 3.5, "%) rotate(").concat(-10 + Math.floor(Math.random() * 20), "deg)");
         cardItem.style.transition = ".4s ease";
+        cardItem.classList.add('no-shadow');
     }
     timeoutStrictSmooth = setTimeout(function () {
         for (var i = 0; i < deck.cards.length; i++) {

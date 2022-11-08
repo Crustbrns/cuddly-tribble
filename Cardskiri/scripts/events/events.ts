@@ -35,7 +35,7 @@ window.onmouseup = (event) => {
 
                     console.log(botcard);
                     if (botcard !== null) {
-                        setTimeout(() => {
+                        timeoutbotbeat = setTimeout(() => {
                             audioPlayer.Play('placed');
                             showCard(botcard!);
                             botcard!.position = new Position(cardObject?.position?.x! + 14, cardObject?.position?.y! + 9, cardObject?.position?.angle! + 5);

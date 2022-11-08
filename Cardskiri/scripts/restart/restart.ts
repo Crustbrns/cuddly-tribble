@@ -61,6 +61,7 @@ function StrictSmoothRestart(): void {
     clearTimeout(timeoutSmoothCenter);
     clearTimeout(timeoutStrictSmooth);
     clearTimeout(timeoutAccurateShuffle);
+    clearTimeout(timeoutbotbeat);
 
     toggleActionButton(false);
 
@@ -71,6 +72,7 @@ function StrictSmoothRestart(): void {
         let cardItem = document.getElementById(`card${deck.cards[i].id}`)!;
         cardItem.style.transform = `translate(0, ${-40 + i / 3.5}%) rotate(${-10 + Math.floor(Math.random() * 20)}deg)`;
         cardItem.style.transition = `.4s ease`;
+        cardItem.classList.add('no-shadow');
     }
 
     timeoutStrictSmooth = setTimeout(() => {
