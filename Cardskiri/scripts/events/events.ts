@@ -26,6 +26,7 @@ window.onmouseup = (event) => {
             item.classList.remove('dragging');
             document.getElementsByTagName('html')[0].style.cursor = 'default';
 
+            let x = (event.x - window.innerWidth * 0.52) / window.innerWidth * 1920 + 30;
             let y = (event.y - window.innerHeight * 0.52) / window.innerHeight * 1080 - 40;
             if (y < 0 && deck.isFirstPlayerMoving && (deck.heap.discardIndex !== 0 || (deck.heap.discardIndex === 0 && deck.heap.attackingCards < 5))) {
                 if (deck.heap.TryAddAttackingCard(cardObject!)) {
@@ -65,6 +66,50 @@ window.onmouseup = (event) => {
                     cardItem.style.transform = `translate(${card.position!.x}%, ${card.position!.y}%) rotate(${card.position!.angle}deg)`;
                 }
             }
+            else if (!deck.isFirstPlayerMoving) {
+                for (const card of deck.heap.activeCards.filter(x => x.bundle === undefined)) {
+                    let intersected = Intersects.boxPoint(card.position!.x! * 100 / 70 - 90, card.position!.y! * 140 / 45 - 20, 170, 200, x, y);
+                    // console.log('card x', card.position!.x! * 100 / 70 - 70, 'card y', card.position!.y! * 140 / 45, `x:${x}, y${y}`, intersected);
+                    if (intersected && deck.heap.activeCards.filter(x => x.bundle === card.id).length === 0 &&
+                        (card.suit.type === cardObject?.suit.type && card.force < cardObject.force)
+                        || (card.suit.type !== deck.trumps.type && cardObject?.suit.type == deck.trumps.type)) {
+
+                        audioPlayer.Play('placed');
+                        cardObject!.position = new Position(card?.position?.x! + 14, card?.position?.y! + 9, card?.position?.angle! + 5);
+                        cardObject!.bundle = card?.id;
+
+                        let cardItem = document.getElementById(`card${cardObject?.id}`);
+                        cardItem!.style.transform = `translate(${cardObject!.position!.x}%, ${cardObject!.position!.y}%) rotate(${cardObject?.position.angle}deg)`;
+                        // cardItem!.style.transition = '.2s ease';
+
+                        deck.heap.activeCards.push(cardObject!);
+                        deck.player.RemoveCard(cardObject!);
+                        ArrangeCards(deck.player.cards, true);
+
+                        let cardIndex = 1;
+                        for (const card of deck.heap.activeCards) {
+                            let cardItem = document.getElementById(`card${card.id}`)!;
+                            cardItem.style.transform = `translate(${card.position!.x}%, ${card.position!.y}%) rotate(${card.position!.angle}deg)`;
+                            if (card.bundle !== undefined) {
+                                cardItem.style.zIndex = `${cardIndex + 50}`;
+                            }
+                            else {
+                                cardItem.style.zIndex = `${cardIndex}`;
+                            }
+                            cardIndex++;
+                        }
+                    }
+                    else {
+                        let cardItem = document.getElementById(`card${card.id}`)!;
+                        cardItem.classList.remove('bordered');
+                    }
+                }
+            }
+
+            let cardsBordered = document.getElementsByClassName('bordered');
+            for (const card of cardsBordered) {
+                card.classList.remove('bordered');
+            }
 
             let cardNum: number = 0;
             for (const Card of deck.player.cards) {
@@ -78,6 +123,7 @@ window.onmouseup = (event) => {
             }
         }
     }
+
 }
 
 window.onmousemove = (event) => {
@@ -96,11 +142,11 @@ window.onmousemove = (event) => {
             for (const card of deck.heap.activeCards.filter(x => x.bundle === undefined)) {
                 let intersected = Intersects.boxPoint(card.position!.x! * 100 / 70 - 90, card.position!.y! * 140 / 45 - 20, 170, 200, x, y);
                 // console.log('card x', card.position!.x! * 100 / 70 - 70, 'card y', card.position!.y! * 140 / 45, `x:${x}, y${y}`, intersected);
-                if(intersected){
+                if (intersected && deck.heap.activeCards.filter(x => x.bundle === card.id).length === 0) {
                     let cardItem = document.getElementById(`card${card.id}`)!;
                     cardItem.classList.add('bordered');
                 }
-                else{
+                else {
                     let cardItem = document.getElementById(`card${card.id}`)!;
                     cardItem.classList.remove('bordered');
                 }
