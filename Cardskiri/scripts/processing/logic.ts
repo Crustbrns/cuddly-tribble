@@ -214,10 +214,14 @@ class Deck {
             let Card = this.heap.activeCards.pop();
             this.cards.push(Card!);
         }
+        while (this.heap.discardedCards.length > 0) {
+            let Card = this.heap.discardedCards.pop();
+            this.cards.push(Card!);
+        }
         console.log(this.cards, this.player.cards, this.bot.cards);
     }
 
-    TurnOver(): void {
+    TurnOver(): boolean {
         // console.log(this.heap.activeCards.length,
         //     this.heap.activeCards.length % 2 == 0,
         //     this.heap.activeCards.filter(x => x.bundle !== undefined),
@@ -225,9 +229,25 @@ class Deck {
 
         if (this.heap.activeCards.length !== 0) {
             if (this.heap.activeCards.length % 2 == 0 && this.heap.activeCards.filter(x => x.bundle !== undefined).length === this.heap.activeCards.length / 2) {
+                while (this.heap.activeCards.length > 0) {
+                    let discardedCard = this.heap.activeCards.pop()!;
+
+                    discardedCard.position = new Position(
+                        610 + Math.random() * 100,
+                        -130 + Math.random() * 160,
+                        -25 + Math.random() * 50
+                    );
+
+                    this.heap.discardedCards.push(discardedCard);
+                }
+
+                this.heap.attackingCards = 0;
                 toggleActionButton(false);
+                return true;
             }
         }
+
+        return false;
     }
 }
 

@@ -200,6 +200,34 @@ body {
     opacity: 0;
 }
 
+#bot-action{
+    width: 8rem;
+    height: 4rem;
+    background-color: white;
+    border-radius: 8px 8px 0 8px;
+    position: absolute;
+    top: -29rem;
+    left: -16.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'e-Ukraine-L';
+    opacity: 0;
+    transition: .2s ease;
+}
+
+#bot-action.visible{
+    opacity: 1;
+    transition: .2s ease;
+}
+
+#bot-action>svg{
+    position: absolute;
+    fill: white;
+    left: 99.5%;
+    bottom: -5%;
+}
+
 .button:hover{
     cursor: pointer;
     transition: .2s ease;

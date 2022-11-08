@@ -40,7 +40,16 @@ function HideInfoBox() {
     infoLabel.classList.remove('visible');
 }
 function makeAction() {
-    deck.TurnOver();
+    if (deck.TurnOver()) {
+        var cardIndex = 0;
+        for (var _i = 0, _a = deck.heap.discardedCards; _i < _a.length; _i++) {
+            var card = _a[_i];
+            var cardItem = document.getElementById("card".concat(card.id));
+            cardItem.style.transform = "translate(".concat(card.position.x, "%, ").concat(card.position.y, "%) rotate(").concat(card.position.angle, "deg)");
+            cardItem.style.transition = '.5s ease-in-out';
+            cardItem.style.zIndex = "".concat(cardIndex++);
+        }
+    }
 }
 function toggleActionButton(makeVisible) {
     var actionbtn = document.getElementById('btn-action');

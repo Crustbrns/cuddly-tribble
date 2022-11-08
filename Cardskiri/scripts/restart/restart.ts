@@ -62,6 +62,8 @@ function StrictSmoothRestart(): void {
     clearTimeout(timeoutStrictSmooth);
     clearTimeout(timeoutAccurateShuffle);
 
+    toggleActionButton(false);
+
     deck.CardsToDeck();
     audioPlayer.Play('sweep');
     console.log(deck.cards.length, deck);

@@ -47,7 +47,15 @@ function HideInfoBox(): void {
 }
 
 function makeAction(): void {
-    deck.TurnOver();
+    if (deck.TurnOver()) {
+        let cardIndex = 0;
+        for (const card of deck.heap.discardedCards) {
+            let cardItem = document.getElementById(`card${card.id}`);
+            cardItem!.style.transform = `translate(${card!.position!.x}%, ${card!.position!.y}%) rotate(${card!.position!.angle}deg)`;
+            cardItem!.style.transition = '.5s ease-in-out';
+            cardItem!.style.zIndex = `${cardIndex++}`;
+        }
+    }
 }
 
 function toggleActionButton(makeVisible: boolean) {

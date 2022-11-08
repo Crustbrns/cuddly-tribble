@@ -26,7 +26,6 @@ window.onmouseup = function (event) {
                     audioPlayer.Play('placed');
                     var botcard_1 = deck.bot.TryBeatCard(deck.player.cards.find(function (x) { return x.id === (cardObject === null || cardObject === void 0 ? void 0 : cardObject.id); }), deck.trumps);
                     deck.player.cards.splice(deck.player.cards.findIndex(function (x) { return x.id === (cardObject === null || cardObject === void 0 ? void 0 : cardObject.id); }), 1);
-                    toggleActionButtonContext(true, 'Done');
                     console.log(botcard_1);
                     if (botcard_1 !== null) {
                         setTimeout(function () {
@@ -41,7 +40,11 @@ window.onmouseup = function (event) {
                             deck.heap.activeCards.push(botcard_1);
                             deck.bot.RemoveCard(botcard_1);
                             ArrangeCards(deck.bot.cards, false);
+                            toggleActionButtonContext(true, 'Done');
                         }, 600);
+                    }
+                    else {
+                        toggleActionButtonContext(true, 'Pass');
                     }
                 }
                 for (var _a = 0, _b = deck.heap.activeCards; _a < _b.length; _a++) {
