@@ -88,6 +88,14 @@ window.onmouseup = function (event) {
                             }
                             cardIndex++;
                         }
+                        BotAttackNext();
+                        for (var _o = 0, _p = deck.heap.activeCards; _o < _p.length; _o++) {
+                            var card_4 = _p[_o];
+                            var cardItem_2 = document.getElementById("card".concat(card_4.id));
+                            cardItem_2.style.transform = "translate(".concat(card_4.position.x, "%, ").concat(card_4.position.y, "%) rotate(").concat(card_4.position.angle, "deg)");
+                        }
+                        console.log('After bot attack');
+                        return "break";
                     }
                     else {
                         var cardItem = document.getElementById("card".concat(card_2.id));
@@ -96,13 +104,15 @@ window.onmouseup = function (event) {
                 };
                 for (var _f = 0, _g = deck.heap.activeCards.filter(function (x) { return x.bundle === undefined; }); _f < _g.length; _f++) {
                     var card_2 = _g[_f];
-                    _loop_2(card_2);
+                    var state_1 = _loop_2(card_2);
+                    if (state_1 === "break")
+                        break;
                 }
             }
             var cardsBordered = document.getElementsByClassName('bordered');
             for (var _h = 0, cardsBordered_1 = cardsBordered; _h < cardsBordered_1.length; _h++) {
-                var card_4 = cardsBordered_1[_h];
-                card_4.classList.remove('bordered');
+                var card_5 = cardsBordered_1[_h];
+                card_5.classList.remove('bordered');
             }
             var cardNum = 0;
             for (var _j = 0, _k = deck.player.cards; _j < _k.length; _j++) {
@@ -128,21 +138,21 @@ window.onmousemove = function (event) {
         card.style.transform = "translate(".concat(x, "px, ").concat(y, "px) rotate(").concat(-(angle * 180 / Math.PI) / 2, "deg)");
         document.getElementsByTagName('html')[0].style.cursor = 'none';
         if (!deck.isFirstPlayerMoving) {
-            var _loop_3 = function (card_5) {
-                var intersected = Intersects.boxPoint(card_5.position.x * 100 / 70 - 90, card_5.position.y * 140 / 45 - 20, 170, 200, x, y);
+            var _loop_3 = function (card_6) {
+                var intersected = Intersects.boxPoint(card_6.position.x * 100 / 70 - 90, card_6.position.y * 140 / 45 - 20, 170, 200, x, y);
                 // console.log('card x', card.position!.x! * 100 / 70 - 70, 'card y', card.position!.y! * 140 / 45, `x:${x}, y${y}`, intersected);
-                if (intersected && deck.heap.activeCards.filter(function (x) { return x.bundle === card_5.id; }).length === 0) {
-                    var cardItem = document.getElementById("card".concat(card_5.id));
+                if (intersected && deck.heap.activeCards.filter(function (x) { return x.bundle === card_6.id; }).length === 0) {
+                    var cardItem = document.getElementById("card".concat(card_6.id));
                     cardItem.classList.add('bordered');
                 }
                 else {
-                    var cardItem = document.getElementById("card".concat(card_5.id));
+                    var cardItem = document.getElementById("card".concat(card_6.id));
                     cardItem.classList.remove('bordered');
                 }
             };
             for (var _i = 0, _a = deck.heap.activeCards.filter(function (x) { return x.bundle === undefined; }); _i < _a.length; _i++) {
-                var card_5 = _a[_i];
-                _loop_3(card_5);
+                var card_6 = _a[_i];
+                _loop_3(card_6);
             }
         }
     }

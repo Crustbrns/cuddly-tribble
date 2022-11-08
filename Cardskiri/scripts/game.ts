@@ -175,6 +175,7 @@ window.onload = () => {
 
 function BotAttack(): void {
     let cardAttack = deck.bot.ProcessCardToAttack(deck.trumps);
+
     if (cardAttack !== null) {
         if (deck.heap.TryAddAttackingCard(cardAttack!)) {
             audioPlayer.Play('placed');
@@ -189,6 +190,42 @@ function BotAttack(): void {
 
             ArrangeCards(deck.bot.cards, false);
         }
+    }
+    else {
+        toggleBotsDecision(true, 'Done');
+        toggleActionButtonContext(true, 'Done');
+    }
+}
+
+function BotAttackNext(): void {
+    let cardAttack: Card | null = null;
+
+    for (const card of deck.heap.activeCards) {
+        if (deck.bot.cards.filter(x => x.force === card.force).length !== 0) {
+            cardAttack = deck.bot.cards.filter(x => x.force === card.force)[0];
+            break;
+        }
+    }
+
+    if (cardAttack !== null) {
+        if (deck.heap.TryAddAttackingCard(cardAttack!)) {
+            audioPlayer.Play('placed');
+
+            showCard(cardAttack!);
+            deck.bot.RemoveCard(cardAttack!);
+
+            for (const card of deck.heap.activeCards) {
+                let cardItem = document.getElementById(`card${card.id}`)!;
+                cardItem.style.transform = `translate(${card.position!.x}%, ${card.position!.y}%) rotate(${card.position!.angle}deg)`;
+            }
+
+            ArrangeCards(deck.bot.cards, false);
+        }
+    }
+    else {
+        toggleBotsDecision(true, 'Done');
+        makeAction();
+        // toggleActionButtonContext(true, 'Done');
     }
 }
 

@@ -98,6 +98,15 @@ window.onmouseup = (event) => {
                             }
                             cardIndex++;
                         }
+
+                        BotAttackNext();
+                        for (const card of deck.heap.activeCards) {
+                            let cardItem = document.getElementById(`card${card.id}`)!;
+                            cardItem.style.transform = `translate(${card.position!.x}%, ${card.position!.y}%) rotate(${card.position!.angle}deg)`;
+                        }
+                        console.log('After bot attack');
+                        
+                        break;
                     }
                     else {
                         let cardItem = document.getElementById(`card${card.id}`)!;

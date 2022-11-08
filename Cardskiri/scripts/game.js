@@ -168,9 +168,46 @@ function BotAttack() {
             ArrangeCards(deck.bot.cards, false);
         }
     }
+    else {
+        toggleBotsDecision(true, 'Done');
+        toggleActionButtonContext(true, 'Done');
+    }
+}
+function BotAttackNext() {
+    var cardAttack = null;
+    var _loop_1 = function (card) {
+        if (deck.bot.cards.filter(function (x) { return x.force === card.force; }).length !== 0) {
+            cardAttack = deck.bot.cards.filter(function (x) { return x.force === card.force; })[0];
+            return "break";
+        }
+    };
+    for (var _i = 0, _a = deck.heap.activeCards; _i < _a.length; _i++) {
+        var card = _a[_i];
+        var state_1 = _loop_1(card);
+        if (state_1 === "break")
+            break;
+    }
+    if (cardAttack !== null) {
+        if (deck.heap.TryAddAttackingCard(cardAttack)) {
+            audioPlayer.Play('placed');
+            showCard(cardAttack);
+            deck.bot.RemoveCard(cardAttack);
+            for (var _b = 0, _c = deck.heap.activeCards; _b < _c.length; _b++) {
+                var card = _c[_b];
+                var cardItem = document.getElementById("card".concat(card.id));
+                cardItem.style.transform = "translate(".concat(card.position.x, "%, ").concat(card.position.y, "%) rotate(").concat(card.position.angle, "deg)");
+            }
+            ArrangeCards(deck.bot.cards, false);
+        }
+    }
+    else {
+        toggleBotsDecision(true, 'Done');
+        makeAction();
+        // toggleActionButtonContext(true, 'Done');
+    }
 }
 function InitializeCards() {
-    var _loop_1 = function (Card) {
+    var _loop_2 = function (Card) {
         var cardItem = document.getElementById("card".concat(Card.id));
         cardItem.addEventListener('mouseenter', function (event) { return ScaleCard(Card, cardItem); }, true);
         cardItem.addEventListener('mouseleave', function (event) { return NormalizeCard(Card, cardItem); }, true);
@@ -178,7 +215,7 @@ function InitializeCards() {
     };
     for (var _i = 0, _a = deck.player.cards; _i < _a.length; _i++) {
         var Card = _a[_i];
-        _loop_1(Card);
+        _loop_2(Card);
     }
     for (var _b = 0, _c = deck.bot.cards; _b < _c.length; _b++) {
         var Card = _c[_b];
