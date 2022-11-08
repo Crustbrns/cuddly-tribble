@@ -44,6 +44,8 @@ window.onmouseup = function (event) {
                         }, 600);
                     }
                     else {
+                        deck.bot.shouldTake = true;
+                        toggleBotsDecision(true, 'I take');
                         toggleActionButtonContext(true, 'Pass');
                     }
                 }

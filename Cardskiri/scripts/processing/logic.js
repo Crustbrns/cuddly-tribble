@@ -193,7 +193,8 @@ var Deck = /** @class */ (function () {
         //     this.heap.activeCards.filter(x => x.bundle !== undefined),
         //     this.heap.activeCards.filter(x => x.bundle !== undefined).length === this.heap.activeCards.length / 2);
         if (this.heap.activeCards.length !== 0) {
-            if (this.heap.activeCards.length % 2 == 0 && this.heap.activeCards.filter(function (x) { return x.bundle !== undefined; }).length === this.heap.activeCards.length / 2) {
+            if (this.heap.activeCards.length % 2 == 0 &&
+                this.heap.activeCards.filter(function (x) { return x.bundle !== undefined; }).length === this.heap.activeCards.length / 2) {
                 while (this.heap.activeCards.length > 0) {
                     var discardedCard = this.heap.activeCards.pop();
                     discardedCard.position = new Position(610 + Math.random() * 100, -130 + Math.random() * 160, -25 + Math.random() * 50);
@@ -201,6 +202,18 @@ var Deck = /** @class */ (function () {
                 }
                 this.heap.attackingCards = 0;
                 toggleActionButton(false);
+                toggleBotsDecision(false);
+                return true;
+            }
+            else if (this.heap.attackingCards !== this.heap.activeCards.length / 2 &&
+                this.bot.shouldTake !== undefined && this.bot.shouldTake) {
+                this.bot.shouldTake == undefined;
+                while (this.heap.activeCards.length > 0) {
+                    this.bot.AddCard(this.heap.activeCards.pop());
+                }
+                this.heap.attackingCards = 0;
+                toggleActionButton(false);
+                toggleBotsDecision(false);
                 return true;
             }
         }

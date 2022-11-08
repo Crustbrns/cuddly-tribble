@@ -49,6 +49,12 @@ function makeAction() {
             cardItem.style.transition = '.5s ease-in-out';
             cardItem.style.zIndex = "".concat(cardIndex++);
         }
+        for (var _b = 0, _c = deck.bot.cards; _b < _c.length; _b++) {
+            var card = _c[_b];
+            hideCard(card);
+        }
+        ArrangeCards(deck.bot.cards, false);
+        ArrangeCards(deck.player.cards, true);
     }
 }
 function toggleActionButton(makeVisible) {
@@ -70,5 +76,19 @@ function toggleActionButtonContext(makeVisible, context) {
     else {
         actionbtn === null || actionbtn === void 0 ? void 0 : actionbtn.classList.remove('visible');
         actionbtn.textContent = '...';
+    }
+}
+function toggleBotsDecision(makeVisible, context) {
+    var botAction = document.getElementById('bot-action');
+    var botActionDecision = document.getElementById('bot-action-decision');
+    if (botAction !== null && botActionDecision !== null) {
+        if (makeVisible && (context !== null && context !== undefined)) {
+            botActionDecision.textContent = context;
+            botAction.classList.add('visible');
+        }
+        else {
+            botActionDecision.textContent = '...';
+            botAction.classList.remove('visible');
+        }
     }
 }

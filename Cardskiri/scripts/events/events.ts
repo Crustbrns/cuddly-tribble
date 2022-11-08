@@ -51,7 +51,9 @@ window.onmouseup = (event) => {
                             toggleActionButtonContext(true, 'Done');
                         }, 600);
                     }
-                    else{
+                    else {
+                        deck.bot.shouldTake = true;
+                        toggleBotsDecision(true, 'I take');
                         toggleActionButtonContext(true, 'Pass');
                     }
                 }

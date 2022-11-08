@@ -228,7 +228,9 @@ class Deck {
         //     this.heap.activeCards.filter(x => x.bundle !== undefined).length === this.heap.activeCards.length / 2);
 
         if (this.heap.activeCards.length !== 0) {
-            if (this.heap.activeCards.length % 2 == 0 && this.heap.activeCards.filter(x => x.bundle !== undefined).length === this.heap.activeCards.length / 2) {
+            if (this.heap.activeCards.length % 2 == 0 &&
+                this.heap.activeCards.filter(x => x.bundle !== undefined).length === this.heap.activeCards.length / 2) {
+
                 while (this.heap.activeCards.length > 0) {
                     let discardedCard = this.heap.activeCards.pop()!;
 
@@ -243,6 +245,22 @@ class Deck {
 
                 this.heap.attackingCards = 0;
                 toggleActionButton(false);
+                toggleBotsDecision(false);
+                return true;
+            }
+            else if (this.heap.attackingCards !== this.heap.activeCards.length / 2 &&
+                this.bot.shouldTake !== undefined && this.bot.shouldTake) {
+
+                this.bot.shouldTake == undefined;
+
+                while (this.heap.activeCards.length > 0) {
+                    this.bot.AddCard(this.heap.activeCards.pop()!);
+                }
+
+                this.heap.attackingCards = 0;
+                toggleActionButton(false);
+                toggleBotsDecision(false);
+
                 return true;
             }
         }
@@ -279,6 +297,7 @@ class Player implements IPlayer {
 
 class Bot implements IPlayer {
     cards: Array<Card>;
+    shouldTake?: boolean;
 
     constructor() {
         this.cards = [];
