@@ -75,6 +75,13 @@ function makeAction(): void {
 
         ArrangeCards(deck.bot.cards, false);
         ArrangeCards(deck.player.cards, true);
+
+        if (!deck.isFirstPlayerMoving) {
+            console.log('attacked');
+            timeoutBotAttack = setTimeout(() => {
+                BotAttack();
+            }, 1000);
+        }
     }
 }
 

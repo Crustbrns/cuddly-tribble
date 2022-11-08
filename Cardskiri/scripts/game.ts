@@ -125,20 +125,7 @@ function start() {
                             ArrangeCards(deck.bot.cards, false);
 
                             timeoutBotAttack = setTimeout(() => {
-                                let cardAttack = deck.bot.ProcessCardToAttack(deck.trumps);
-                                if (cardAttack !== null) {
-                                    if (deck.heap.TryAddAttackingCard(cardAttack!)) {
-                                        audioPlayer.Play('placed');
-
-                                        showCard(cardAttack!);
-                                        deck.bot.RemoveCard(cardAttack!);
-
-                                        for (const card of deck.heap.activeCards) {
-                                            let cardItem = document.getElementById(`card${card.id}`)!;
-                                            cardItem.style.transform = `translate(${card.position!.x}%, ${card.position!.y}%) rotate(${card.position!.angle}deg)`;
-                                        }
-                                    }
-                                }
+                                BotAttack();
                             }, 1000);
                         }
                         else {
@@ -184,6 +171,25 @@ window.onload = () => {
     start();
     Resize();
     GuiInit();
+}
+
+function BotAttack(): void {
+    let cardAttack = deck.bot.ProcessCardToAttack(deck.trumps);
+    if (cardAttack !== null) {
+        if (deck.heap.TryAddAttackingCard(cardAttack!)) {
+            audioPlayer.Play('placed');
+
+            showCard(cardAttack!);
+            deck.bot.RemoveCard(cardAttack!);
+
+            for (const card of deck.heap.activeCards) {
+                let cardItem = document.getElementById(`card${card.id}`)!;
+                cardItem.style.transform = `translate(${card.position!.x}%, ${card.position!.y}%) rotate(${card.position!.angle}deg)`;
+            }
+            
+            ArrangeCards(deck.bot.cards, false);
+        }
+    }
 }
 
 function InitializeCards(): void {

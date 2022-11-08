@@ -27,26 +27,28 @@ window.onmouseup = function (event) {
                     var botcard_1 = deck.bot.TryBeatCard(deck.player.cards.find(function (x) { return x.id === (cardObject === null || cardObject === void 0 ? void 0 : cardObject.id); }), deck.trumps);
                     deck.player.cards.splice(deck.player.cards.findIndex(function (x) { return x.id === (cardObject === null || cardObject === void 0 ? void 0 : cardObject.id); }), 1);
                     console.log(botcard_1);
-                    if (botcard_1 !== null) {
-                        timeoutbotbeat = setTimeout(function () {
-                            var _a, _b, _c;
-                            audioPlayer.Play('placed');
-                            showCard(botcard_1);
-                            botcard_1.position = new Position(((_a = cardObject === null || cardObject === void 0 ? void 0 : cardObject.position) === null || _a === void 0 ? void 0 : _a.x) + 14, ((_b = cardObject === null || cardObject === void 0 ? void 0 : cardObject.position) === null || _b === void 0 ? void 0 : _b.y) + 9, ((_c = cardObject === null || cardObject === void 0 ? void 0 : cardObject.position) === null || _c === void 0 ? void 0 : _c.angle) + 5);
-                            botcard_1.bundle = cardObject === null || cardObject === void 0 ? void 0 : cardObject.id;
-                            var cardItem = document.getElementById("card".concat(botcard_1 === null || botcard_1 === void 0 ? void 0 : botcard_1.id));
-                            cardItem.style.transform = "translate(".concat(botcard_1.position.x, "%, ").concat(botcard_1.position.y, "%) rotate(").concat(botcard_1 === null || botcard_1 === void 0 ? void 0 : botcard_1.position.angle, "deg)");
-                            // cardItem!.style.transition = '.2s ease';
-                            deck.heap.activeCards.push(botcard_1);
-                            deck.bot.RemoveCard(botcard_1);
-                            ArrangeCards(deck.bot.cards, false);
-                            toggleActionButtonContext(true, 'Done');
-                        }, 600);
-                    }
-                    else {
-                        deck.bot.shouldTake = true;
-                        toggleBotsDecision(true, 'I take');
-                        toggleActionButtonContext(true, 'Pass');
+                    if (!deck.bot.shouldTake) {
+                        if (botcard_1 !== null) {
+                            timeoutbotbeat = setTimeout(function () {
+                                var _a, _b, _c;
+                                audioPlayer.Play('placed');
+                                showCard(botcard_1);
+                                botcard_1.position = new Position(((_a = cardObject === null || cardObject === void 0 ? void 0 : cardObject.position) === null || _a === void 0 ? void 0 : _a.x) + 14, ((_b = cardObject === null || cardObject === void 0 ? void 0 : cardObject.position) === null || _b === void 0 ? void 0 : _b.y) + 9, ((_c = cardObject === null || cardObject === void 0 ? void 0 : cardObject.position) === null || _c === void 0 ? void 0 : _c.angle) + 5);
+                                botcard_1.bundle = cardObject === null || cardObject === void 0 ? void 0 : cardObject.id;
+                                var cardItem = document.getElementById("card".concat(botcard_1 === null || botcard_1 === void 0 ? void 0 : botcard_1.id));
+                                cardItem.style.transform = "translate(".concat(botcard_1.position.x, "%, ").concat(botcard_1.position.y, "%) rotate(").concat(botcard_1 === null || botcard_1 === void 0 ? void 0 : botcard_1.position.angle, "deg)");
+                                // cardItem!.style.transition = '.2s ease';
+                                deck.heap.activeCards.push(botcard_1);
+                                deck.bot.RemoveCard(botcard_1);
+                                ArrangeCards(deck.bot.cards, false);
+                                toggleActionButtonContext(true, 'Done');
+                            }, 600);
+                        }
+                        else {
+                            deck.bot.shouldTake = true;
+                            toggleBotsDecision(true, 'I take');
+                            toggleActionButtonContext(true, 'Pass');
+                        }
                     }
                 }
                 for (var _a = 0, _b = deck.heap.activeCards; _a < _b.length; _a++) {

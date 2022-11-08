@@ -34,27 +34,29 @@ window.onmouseup = (event) => {
                     deck.player.cards.splice(deck.player.cards.findIndex(x => x.id === cardObject?.id), 1);
 
                     console.log(botcard);
-                    if (botcard !== null) {
-                        timeoutbotbeat = setTimeout(() => {
-                            audioPlayer.Play('placed');
-                            showCard(botcard!);
-                            botcard!.position = new Position(cardObject?.position?.x! + 14, cardObject?.position?.y! + 9, cardObject?.position?.angle! + 5);
-                            botcard!.bundle = cardObject?.id;
+                    if (!deck.bot.shouldTake) {
+                        if (botcard !== null) {
+                            timeoutbotbeat = setTimeout(() => {
+                                audioPlayer.Play('placed');
+                                showCard(botcard!);
+                                botcard!.position = new Position(cardObject?.position?.x! + 14, cardObject?.position?.y! + 9, cardObject?.position?.angle! + 5);
+                                botcard!.bundle = cardObject?.id;
 
-                            let cardItem = document.getElementById(`card${botcard?.id}`);
-                            cardItem!.style.transform = `translate(${botcard!.position!.x}%, ${botcard!.position!.y}%) rotate(${botcard?.position.angle}deg)`;
-                            // cardItem!.style.transition = '.2s ease';
+                                let cardItem = document.getElementById(`card${botcard?.id}`);
+                                cardItem!.style.transform = `translate(${botcard!.position!.x}%, ${botcard!.position!.y}%) rotate(${botcard?.position.angle}deg)`;
+                                // cardItem!.style.transition = '.2s ease';
 
-                            deck.heap.activeCards.push(botcard!);
-                            deck.bot.RemoveCard(botcard!);
-                            ArrangeCards(deck.bot.cards, false);
-                            toggleActionButtonContext(true, 'Done');
-                        }, 600);
-                    }
-                    else {
-                        deck.bot.shouldTake = true;
-                        toggleBotsDecision(true, 'I take');
-                        toggleActionButtonContext(true, 'Pass');
+                                deck.heap.activeCards.push(botcard!);
+                                deck.bot.RemoveCard(botcard!);
+                                ArrangeCards(deck.bot.cards, false);
+                                toggleActionButtonContext(true, 'Done');
+                            }, 600);
+                        }
+                        else {
+                            deck.bot.shouldTake = true;
+                            toggleBotsDecision(true, 'I take');
+                            toggleActionButtonContext(true, 'Pass');
+                        }
                     }
                 }
 

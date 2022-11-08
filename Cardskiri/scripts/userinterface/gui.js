@@ -70,6 +70,12 @@ function makeAction() {
         }
         ArrangeCards(deck.bot.cards, false);
         ArrangeCards(deck.player.cards, true);
+        if (!deck.isFirstPlayerMoving) {
+            console.log('attacked');
+            timeoutBotAttack = setTimeout(function () {
+                BotAttack();
+            }, 1000);
+        }
     }
 }
 function toggleActionButton(makeVisible) {

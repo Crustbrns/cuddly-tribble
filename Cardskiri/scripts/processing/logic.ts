@@ -286,7 +286,7 @@ class Deck {
             else if (this.heap.attackingCards !== this.heap.activeCards.length / 2 &&
                 this.bot.shouldTake !== undefined && this.bot.shouldTake) {
 
-                this.bot.shouldTake == undefined;
+                this.bot.shouldTake = undefined;
 
                 while (this.heap.activeCards.length > 0) {
                     this.bot.AddCard(this.heap.activeCards.pop()!);
