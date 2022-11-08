@@ -17,6 +17,7 @@ body {
     top: -2.75rem;
     transition: .55s ease;
     background-color: white;
+    border: 0;
 }
 
 .playable:hover {
@@ -223,6 +224,13 @@ body {
 
 .no-shadow{
     box-shadow: none !important;
+}
+
+.bordered{
+    border: 3px solid #ff3034 !important;
+    transition: .1s ease !important;
+    box-sizing: border-box;
+    border-radius: 8px;
 }
 
 #bot-action>svg{

@@ -80,6 +80,21 @@ window.onmousemove = function (event) {
         var angle = Math.atan2(0 - x, 1500 - y);
         card.style.transform = "translate(".concat(x, "px, ").concat(y, "px) rotate(").concat(-(angle * 180 / Math.PI) / 2, "deg)");
         document.getElementsByTagName('html')[0].style.cursor = 'none';
+        if (!deck.isFirstPlayerMoving) {
+            for (var _i = 0, _a = deck.heap.activeCards.filter(function (x) { return x.bundle === undefined; }); _i < _a.length; _i++) {
+                var card_2 = _a[_i];
+                var intersected = Intersects.boxPoint(card_2.position.x * 100 / 70 - 90, card_2.position.y * 140 / 45 - 20, 170, 200, x, y);
+                // console.log('card x', card.position!.x! * 100 / 70 - 70, 'card y', card.position!.y! * 140 / 45, `x:${x}, y${y}`, intersected);
+                if (intersected) {
+                    var cardItem = document.getElementById("card".concat(card_2.id));
+                    cardItem.classList.add('bordered');
+                }
+                else {
+                    var cardItem = document.getElementById("card".concat(card_2.id));
+                    cardItem.classList.remove('bordered');
+                }
+            }
+        }
     }
 };
 function Resize() {

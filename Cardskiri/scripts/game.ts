@@ -186,7 +186,7 @@ function BotAttack(): void {
                 let cardItem = document.getElementById(`card${card.id}`)!;
                 cardItem.style.transform = `translate(${card.position!.x}%, ${card.position!.y}%) rotate(${card.position!.angle}deg)`;
             }
-            
+
             ArrangeCards(deck.bot.cards, false);
         }
     }

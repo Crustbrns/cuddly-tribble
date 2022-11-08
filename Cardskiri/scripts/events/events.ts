@@ -91,6 +91,21 @@ window.onmousemove = (event) => {
 
         card!.style.transform = `translate(${x}px, ${y}px) rotate(${-(angle * 180 / Math.PI) / 2}deg)`;
         document.getElementsByTagName('html')[0].style.cursor = 'none';
+
+        if (!deck.isFirstPlayerMoving) {
+            for (const card of deck.heap.activeCards.filter(x => x.bundle === undefined)) {
+                let intersected = Intersects.boxPoint(card.position!.x! * 100 / 70 - 90, card.position!.y! * 140 / 45 - 20, 170, 200, x, y);
+                // console.log('card x', card.position!.x! * 100 / 70 - 70, 'card y', card.position!.y! * 140 / 45, `x:${x}, y${y}`, intersected);
+                if(intersected){
+                    let cardItem = document.getElementById(`card${card.id}`)!;
+                    cardItem.classList.add('bordered');
+                }
+                else{
+                    let cardItem = document.getElementById(`card${card.id}`)!;
+                    cardItem.classList.remove('bordered');
+                }
+            }
+        }
     }
 }
 
