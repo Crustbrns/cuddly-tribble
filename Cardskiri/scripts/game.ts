@@ -248,6 +248,23 @@ function BotAttackNext(): void {
     }
 }
 
+function TryPushMoreCards(): Card | null {
+    if (deck.heap.attackingCards !== deck.heap.activeCards.length / 2 && deck.heap.attackingCards < 6 &&
+        deck.player.cards.length > deck.heap.attackingCards - deck.heap.activeCards.filter(x => x.bundle !== undefined).length) {
+        for (const card of deck.heap.activeCards) {
+            if (deck.bot.cards.filter(x => x.suit.type !== deck.trumps.type)
+                .filter(x => x.force <= 10).filter(x => x.force == card.force)
+                .sort(function (a, b) { return a.force - b.force }).length !== 0) {
+                return deck.bot.cards.filter(x => x.suit.type !== deck.trumps.type)
+                    .filter(x => x.force <= 10).filter(x => x.force == card.force)
+                    .sort(function (a, b) { return a.force - b.force })[0];
+            }
+        }
+    }
+
+    return null;
+}
+
 function InitializeCards(): void {
     for (const Card of deck.player.cards) {
         let cardItem = document.getElementById(`card${Card.id}`)!;

@@ -168,7 +168,7 @@ class Deck {
     InitPlayer(): void {
         console.log(this.cards);
 
-        for (let i = 0; i < 6; i++) {
+        for (let i = 0; i < 14; i++) {
             this.player.AddCard(this.cards[1]!);
             this.cards.splice(1, 1);
 
@@ -307,16 +307,59 @@ class Deck {
 
                 this.bot.shouldTake = undefined;
 
-                while (this.heap.activeCards.length > 0) {
-                    this.player.AddCard(this.heap.activeCards.pop()!);
+                let additionalCard: Card | null = TryPushMoreCards();
+                if (additionalCard !== null) {
+                    while (additionalCard !== null) {
+                        if (additionalCard !== null &&
+                            ((deck.heap.discardIndex === 0 && deck.heap.attackingCards < 5
+                                || (deck.heap.discardIndex !== 0 && deck.heap.attackingCards < 6)))) {
+
+                            if (deck.heap.TryAddAttackingCard(additionalCard!)) {
+                                showCard(additionalCard!);
+                                deck.bot.RemoveCard(additionalCard!);
+
+                                for (const card of deck.heap.activeCards) {
+                                    let cardItem = document.getElementById(`card${card.id}`)!;
+                                    cardItem.style.transform = `translate(${card.position!.x}%, ${card.position!.y}%) rotate(${card.position!.angle}deg)`;
+                                }
+
+                                ArrangeCards(deck.bot.cards, false);
+                                toggleActionButtonContext(true, 'Take');
+                            }
+                        }
+
+                        additionalCard = TryPushMoreCards();
+                    }
+                    setTimeout(() => {
+                        audioPlayer.Play('placed');
+                        
+                        while (this.heap.activeCards.length > 0) {
+                            this.player.AddCard(this.heap.activeCards.pop()!);
+                        }
+
+                        this.heap.attackingCards = 0;
+
+                        this.TryPushPlayersCards();
+                        toggleActionButton(false);
+                        toggleBotsDecision(false);
+                        UpdateInfoBox();
+
+
+                        ArrangeCards(deck.player.cards, true);
+                        ArrangeCards(deck.bot.cards, false);
+                    }, 550);
+                } else {
+                    while (this.heap.activeCards.length > 0) {
+                        this.player.AddCard(this.heap.activeCards.pop()!);
+                    }
+
+                    this.heap.attackingCards = 0;
+
+                    this.TryPushPlayersCards();
+                    toggleActionButton(false);
+                    toggleBotsDecision(false);
+                    UpdateInfoBox();
                 }
-
-                this.heap.attackingCards = 0;
-
-                this.TryPushPlayersCards();
-                toggleActionButton(false);
-                toggleBotsDecision(false);
-                UpdateInfoBox();
 
                 return true;
             }

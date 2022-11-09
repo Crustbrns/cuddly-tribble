@@ -224,8 +224,29 @@ function BotAttackNext() {
         makeAction();
     }
 }
+function TryPushMoreCards() {
+    if (deck.heap.attackingCards !== deck.heap.activeCards.length / 2 && deck.heap.attackingCards < 6 &&
+        deck.player.cards.length > deck.heap.attackingCards - deck.heap.activeCards.filter(function (x) { return x.bundle !== undefined; }).length) {
+        var _loop_2 = function (card) {
+            if (deck.bot.cards.filter(function (x) { return x.suit.type !== deck.trumps.type; })
+                .filter(function (x) { return x.force <= 10; }).filter(function (x) { return x.force == card.force; })
+                .sort(function (a, b) { return a.force - b.force; }).length !== 0) {
+                return { value: deck.bot.cards.filter(function (x) { return x.suit.type !== deck.trumps.type; })
+                        .filter(function (x) { return x.force <= 10; }).filter(function (x) { return x.force == card.force; })
+                        .sort(function (a, b) { return a.force - b.force; })[0] };
+            }
+        };
+        for (var _i = 0, _a = deck.heap.activeCards; _i < _a.length; _i++) {
+            var card = _a[_i];
+            var state_2 = _loop_2(card);
+            if (typeof state_2 === "object")
+                return state_2.value;
+        }
+    }
+    return null;
+}
 function InitializeCards() {
-    var _loop_2 = function (Card) {
+    var _loop_3 = function (Card) {
         var cardItem = document.getElementById("card".concat(Card.id));
         cardItem.addEventListener('mouseenter', function (event) { return ScaleCard(Card, cardItem); }, true);
         cardItem.addEventListener('mouseleave', function (event) { return NormalizeCard(Card, cardItem); }, true);
@@ -233,7 +254,7 @@ function InitializeCards() {
     };
     for (var _i = 0, _a = deck.player.cards; _i < _a.length; _i++) {
         var Card = _a[_i];
-        _loop_2(Card);
+        _loop_3(Card);
     }
     for (var _b = 0, _c = deck.bot.cards; _b < _c.length; _b++) {
         var Card = _c[_b];

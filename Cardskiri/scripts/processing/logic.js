@@ -135,7 +135,7 @@ var Deck = /** @class */ (function () {
     };
     Deck.prototype.InitPlayer = function () {
         console.log(this.cards);
-        for (var i = 0; i < 6; i++) {
+        for (var i = 0; i < 14; i++) {
             this.player.AddCard(this.cards[1]);
             this.cards.splice(1, 1);
             this.bot.AddCard(this.cards[1]);
@@ -216,6 +216,7 @@ var Deck = /** @class */ (function () {
         //     this.heap.activeCards.length % 2 == 0,
         //     this.heap.activeCards.filter(x => x.bundle !== undefined),
         //     this.heap.activeCards.filter(x => x.bundle !== undefined).length === this.heap.activeCards.length / 2);
+        var _this = this;
         if (this.heap.activeCards.length !== 0) {
             if (this.heap.activeCards.length % 2 == 0 &&
                 this.heap.activeCards.filter(function (x) { return x.bundle !== undefined; }).length === this.heap.activeCards.length / 2) {
@@ -252,14 +253,50 @@ var Deck = /** @class */ (function () {
             else if (this.heap.attackingCards !== this.heap.activeCards.length / 2
                 && !this.isFirstPlayerMoving) {
                 this.bot.shouldTake = undefined;
-                while (this.heap.activeCards.length > 0) {
-                    this.player.AddCard(this.heap.activeCards.pop());
+                var additionalCard = TryPushMoreCards();
+                if (additionalCard !== null) {
+                    while (additionalCard !== null) {
+                        if (additionalCard !== null &&
+                            ((deck.heap.discardIndex === 0 && deck.heap.attackingCards < 5
+                                || (deck.heap.discardIndex !== 0 && deck.heap.attackingCards < 6)))) {
+                            if (deck.heap.TryAddAttackingCard(additionalCard)) {
+                                showCard(additionalCard);
+                                deck.bot.RemoveCard(additionalCard);
+                                for (var _i = 0, _a = deck.heap.activeCards; _i < _a.length; _i++) {
+                                    var card = _a[_i];
+                                    var cardItem = document.getElementById("card".concat(card.id));
+                                    cardItem.style.transform = "translate(".concat(card.position.x, "%, ").concat(card.position.y, "%) rotate(").concat(card.position.angle, "deg)");
+                                }
+                                ArrangeCards(deck.bot.cards, false);
+                                toggleActionButtonContext(true, 'Take');
+                            }
+                        }
+                        additionalCard = TryPushMoreCards();
+                    }
+                    setTimeout(function () {
+                        audioPlayer.Play('placed');
+                        while (_this.heap.activeCards.length > 0) {
+                            _this.player.AddCard(_this.heap.activeCards.pop());
+                        }
+                        _this.heap.attackingCards = 0;
+                        _this.TryPushPlayersCards();
+                        toggleActionButton(false);
+                        toggleBotsDecision(false);
+                        UpdateInfoBox();
+                        ArrangeCards(deck.player.cards, true);
+                        ArrangeCards(deck.bot.cards, false);
+                    }, 550);
                 }
-                this.heap.attackingCards = 0;
-                this.TryPushPlayersCards();
-                toggleActionButton(false);
-                toggleBotsDecision(false);
-                UpdateInfoBox();
+                else {
+                    while (this.heap.activeCards.length > 0) {
+                        this.player.AddCard(this.heap.activeCards.pop());
+                    }
+                    this.heap.attackingCards = 0;
+                    this.TryPushPlayersCards();
+                    toggleActionButton(false);
+                    toggleBotsDecision(false);
+                    UpdateInfoBox();
+                }
                 return true;
             }
         }
