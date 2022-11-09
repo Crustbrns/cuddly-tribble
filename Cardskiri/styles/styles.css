@@ -235,10 +235,10 @@ body {
 }
 
 .bordered {
-    border: 3px solid #ff3034 !important;
-    transition: .05s ease !important;
+    border: 4px solid #ff3034 !important;
+    transition: .075s ease !important;
     box-sizing: border-box;
-    border-radius: 8px;
+    border-radius: 9px;
 }
 
 #winner {
