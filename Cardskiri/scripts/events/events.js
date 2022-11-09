@@ -28,7 +28,7 @@ window.onmouseup = function (event) {
                     audioPlayer.Play('placed');
                     var botcard_1 = deck.bot.TryBeatCard(deck.player.cards.find(function (x) { return x.id === (cardObject === null || cardObject === void 0 ? void 0 : cardObject.id); }), deck.trumps);
                     deck.player.cards.splice(deck.player.cards.findIndex(function (x) { return x.id === (cardObject === null || cardObject === void 0 ? void 0 : cardObject.id); }), 1);
-                    console.log(botcard_1);
+                    // console.log(botcard);
                     if (!deck.bot.shouldTake) {
                         if (botcard_1 !== null) {
                             timeoutbotbeat = setTimeout(function () {
@@ -67,7 +67,7 @@ window.onmouseup = function (event) {
             else if (!deck.isFirstPlayerMoving) {
                 var card_2 = deck.heap.activeCards.filter(function (x) { return x.bundle === undefined; }).filter(function (x) { return deck.heap.activeCards.filter(function (y) { return y.bundle === x.id; }).length === 0; })
                     .find(function (card) { return Intersects.boxPoint(card.position.x * 100 / 70 - 90, card.position.y * 140 / 45 - 20, 170, 200, x, y); });
-                console.log(card_2);
+                // console.log(card);
                 if (card_2 !== undefined && ((card_2.suit.type === (cardObject === null || cardObject === void 0 ? void 0 : cardObject.suit.type) && card_2.force < cardObject.force)
                     || (card_2.suit.type !== deck.trumps.type && (cardObject === null || cardObject === void 0 ? void 0 : cardObject.suit.type) == deck.trumps.type))) {
                     toggleActionButton(false);
@@ -102,7 +102,7 @@ window.onmouseup = function (event) {
                         var cardItem_2 = document.getElementById("card".concat(card_4.id));
                         cardItem_2.style.transform = "translate(".concat(card_4.position.x, "%, ").concat(card_4.position.y, "%) rotate(").concat(card_4.position.angle, "deg)");
                     }
-                    console.log('After bot attack');
+                    // console.log('After bot attack');
                 }
                 else {
                     var cardItems = document.getElementsByClassName('bordered');

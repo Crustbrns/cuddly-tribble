@@ -65,13 +65,13 @@ class AudioManager {
             }
             else if (key === 'placed') {
                 let index: number = Math.floor(Math.random() * this.Audios.filter(x => x.key.includes('placed')).length);
-                console.log(index!);
+                // console.log(index!);
 
                 this.Audios.find(x => x.key === `placed${index}`)?.Play();
             }
             else if (key === 'shoved') {
                 let index: number = Math.floor(Math.random() * this.Audios.filter(x => x.key.includes('shoved')).length);
-                console.log(index!);
+                // console.log(index!);
 
                 this.Audios.find(x => x.key === `shoved${index}`)?.Play();
             }

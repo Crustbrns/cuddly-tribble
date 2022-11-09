@@ -28,7 +28,7 @@ function hideCard(card) {
 function start() {
     deck = new Deck();
     document.addEventListener('contextmenu', function (event) { return event.preventDefault(); });
-    console.log(deck);
+    // console.log(deck);
     var game = document.getElementById('game');
     var gameDeck = document.createElement('div');
     gameDeck.id = 'container';
@@ -78,7 +78,7 @@ function start() {
                 cardItem_3.style.transform = 'translate(0%, -200%)';
                 cardItem_3.style.transition = "".concat(0.55 + Card.id / 15, "s");
             }
-            console.log(deck);
+            // console.log(deck);
             timeoutShowCards = setTimeout(function () {
                 audioPlayer.Play('appear');
                 for (var _i = 0, _a = deck.player.cards; _i < _a.length; _i++) {
@@ -279,12 +279,11 @@ function NormalizeCard(Card, cardItem) {
     }
 }
 function ScaleCard(Card, cardItem) {
-    var _a;
     if (!cardItem.classList.contains('dragging') && deck.player.cards.find(function (x) { return x.id === Card.id; })) {
         audioPlayer.Play('hover');
-        console.log(Card.position, Card.position.angle * Math.PI / 180, (_a = Card.position) === null || _a === void 0 ? void 0 : _a.angle);
         cardItem.style.cursor = 'grab';
         cardItem.style.transform = "translate(".concat(Card.position.x - Math.cos((90 + Card.position.angle) * Math.PI / 180) * 70, "%, ").concat(Card.position.y - Math.sin((90 + Card.position.angle) * Math.PI / 180) * 35, "%) rotate(").concat(Card.position.angle, "deg)");
+        // console.log(Card.position, Card.position!.angle! * Math.PI / 180, Card.position?.angle);
     }
     else {
         cardItem.style.cursor = 'default';

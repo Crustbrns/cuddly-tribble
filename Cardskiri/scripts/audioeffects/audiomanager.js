@@ -59,12 +59,12 @@ var AudioManager = /** @class */ (function () {
             }
             else if (key === 'placed') {
                 var index_1 = Math.floor(Math.random() * this.Audios.filter(function (x) { return x.key.includes('placed'); }).length);
-                console.log(index_1);
+                // console.log(index!);
                 (_c = this.Audios.find(function (x) { return x.key === "placed".concat(index_1); })) === null || _c === void 0 ? void 0 : _c.Play();
             }
             else if (key === 'shoved') {
                 var index_2 = Math.floor(Math.random() * this.Audios.filter(function (x) { return x.key.includes('shoved'); }).length);
-                console.log(index_2);
+                // console.log(index!);
                 (_d = this.Audios.find(function (x) { return x.key === "shoved".concat(index_2); })) === null || _d === void 0 ? void 0 : _d.Play();
             }
             else {

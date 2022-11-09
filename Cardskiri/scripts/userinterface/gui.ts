@@ -93,7 +93,7 @@ function makeAction(): void {
         }
         else {
             if (!deck.isFirstPlayerMoving) {
-                console.log('attacked');
+                // console.log('attacked');
                 timeoutBotAttack = setTimeout(() => {
                     BotAttack();
                 }, 1000);

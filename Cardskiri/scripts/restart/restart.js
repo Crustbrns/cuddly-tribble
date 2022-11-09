@@ -64,7 +64,7 @@ function StrictSmoothRestart() {
     toggleBotsDecision(false, '...');
     deck.CardsToDeck();
     audioPlayer.Play('sweep');
-    console.log(deck.cards.length, deck);
+    // console.log(deck.cards.length, deck);
     for (var i = 0; i < deck.cards.length; i++) {
         var cardItem = document.getElementById("card".concat(deck.cards[i].id));
         cardItem.style.transform = "translate(0, ".concat(-40 + i / 3.5, "%) rotate(").concat(-10 + Math.floor(Math.random() * 20), "deg)");

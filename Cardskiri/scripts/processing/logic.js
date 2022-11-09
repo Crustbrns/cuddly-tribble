@@ -134,8 +134,8 @@ var Deck = /** @class */ (function () {
         return this.cards[0];
     };
     Deck.prototype.InitPlayer = function () {
-        console.log(this.cards);
-        for (var i = 0; i < 14; i++) {
+        // console.log(this.cards);
+        for (var i = 0; i < 6; i++) {
             this.player.AddCard(this.cards[1]);
             this.cards.splice(1, 1);
             this.bot.AddCard(this.cards[1]);
@@ -146,7 +146,7 @@ var Deck = /** @class */ (function () {
         var _this = this;
         var BotCard = this.bot.cards.filter(function (x) { return x.suit.type === _this.trumps.type; }).sort(function (a, b) { return a.force - b.force; });
         var PlayerCard = this.player.cards.filter(function (x) { return x.suit.type === _this.trumps.type; }).sort(function (a, b) { return a.force - b.force; });
-        console.log(BotCard, PlayerCard);
+        // console.log(BotCard, PlayerCard);
         if (BotCard.length === 0 && PlayerCard.length !== 0) {
             this.isFirstPlayerMoving = true;
             return PlayerCard[0];
@@ -209,7 +209,7 @@ var Deck = /** @class */ (function () {
             var Card_4 = this.heap.discardedCards.pop();
             this.cards.push(Card_4);
         }
-        console.log(this.cards, this.player.cards, this.bot.cards);
+        // console.log(this.cards, this.player.cards, this.bot.cards);
     };
     Deck.prototype.TurnOver = function () {
         // console.log(this.heap.activeCards.length,

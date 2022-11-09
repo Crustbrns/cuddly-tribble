@@ -32,7 +32,7 @@ function hideCard(card: Card): void {
 function start() {
     deck = new Deck();
     document.addEventListener('contextmenu', event => event.preventDefault());
-    console.log(deck);
+    // console.log(deck);
     let game = document.getElementById('game');
     let gameDeck = document.createElement('div');
     gameDeck.id = 'container'
@@ -89,7 +89,7 @@ function start() {
                 cardItem.style.transform = 'translate(0%, -200%)';
                 cardItem.style.transition = `${0.55 + Card.id / 15}s`;
             }
-            console.log(deck);
+            // console.log(deck);
 
             timeoutShowCards = setTimeout(() => {
                 audioPlayer.Play('appear');
@@ -304,9 +304,9 @@ function NormalizeCard(Card: Card, cardItem: HTMLElement): void {
 function ScaleCard(Card: Card, cardItem: HTMLElement): void {
     if (!cardItem.classList.contains('dragging') && deck.player.cards.find(x => x.id === Card.id)) {
         audioPlayer.Play('hover');
-        console.log(Card.position, Card.position!.angle! * Math.PI / 180, Card.position?.angle);
         cardItem.style.cursor = 'grab';
         cardItem.style.transform = `translate(${Card.position!.x! - Math.cos((90 + Card.position!.angle!) * Math.PI / 180) * 70}%, ${Card.position!.y! - Math.sin((90 + Card.position!.angle!) * Math.PI / 180) * 35}%) rotate(${Card.position!.angle}deg)`;
+        // console.log(Card.position, Card.position!.angle! * Math.PI / 180, Card.position?.angle);
     }
     else {
         cardItem.style.cursor = 'default';

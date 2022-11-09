@@ -166,9 +166,9 @@ class Deck {
     }
 
     InitPlayer(): void {
-        console.log(this.cards);
+        // console.log(this.cards);
 
-        for (let i = 0; i < 14; i++) {
+        for (let i = 0; i < 6; i++) {
             this.player.AddCard(this.cards[1]!);
             this.cards.splice(1, 1);
 
@@ -180,7 +180,7 @@ class Deck {
     ProcessFirstMove(): Card | null | undefined {
         let BotCard = this.bot.cards.filter(x => x.suit.type === this.trumps.type).sort(function (a, b) { return a.force - b.force });
         let PlayerCard = this.player.cards.filter(x => x.suit.type === this.trumps.type).sort(function (a, b) { return a.force - b.force });
-        console.log(BotCard, PlayerCard);
+        // console.log(BotCard, PlayerCard);
 
         if (BotCard.length === 0 && PlayerCard.length !== 0) {
             this.isFirstPlayerMoving = true;
@@ -245,7 +245,7 @@ class Deck {
             let Card = this.heap.discardedCards.pop();
             this.cards.push(Card!);
         }
-        console.log(this.cards, this.player.cards, this.bot.cards);
+        // console.log(this.cards, this.player.cards, this.bot.cards);
     }
 
     TurnOver(): boolean {
@@ -332,7 +332,7 @@ class Deck {
                     }
                     setTimeout(() => {
                         audioPlayer.Play('placed');
-                        
+
                         while (this.heap.activeCards.length > 0) {
                             this.player.AddCard(this.heap.activeCards.pop()!);
                         }

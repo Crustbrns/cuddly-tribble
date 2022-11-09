@@ -34,7 +34,7 @@ window.onmouseup = (event) => {
                     let botcard = deck.bot.TryBeatCard(deck.player.cards.find(x => x.id === cardObject?.id)!, deck.trumps);
                     deck.player.cards.splice(deck.player.cards.findIndex(x => x.id === cardObject?.id), 1);
 
-                    console.log(botcard);
+                    // console.log(botcard);
                     if (!deck.bot.shouldTake) {
                         if (botcard !== null) {
                             timeoutbotbeat = setTimeout(() => {
@@ -76,7 +76,7 @@ window.onmouseup = (event) => {
                 let card = deck.heap.activeCards.filter(x => x.bundle === undefined).filter(x => deck.heap.activeCards.filter(y => y.bundle === x.id).length === 0)
                     .find(card => Intersects.boxPoint(card.position!.x! * 100 / 70 - 90, card.position!.y! * 140 / 45 - 20, 170, 200, x, y));
 
-                console.log(card);
+                // console.log(card);
 
                 if (card !== undefined && ((card.suit.type === cardObject?.suit.type && card.force < cardObject.force)
                     || (card!.suit.type !== deck.trumps.type && cardObject?.suit.type == deck.trumps.type))) {
@@ -117,7 +117,7 @@ window.onmouseup = (event) => {
                         cardItem.style.transform = `translate(${card.position!.x}%, ${card.position!.y}%) rotate(${card.position!.angle}deg)`;
                     }
 
-                    console.log('After bot attack');
+                    // console.log('After bot attack');
                 }
                 else {
                     let cardItems = document.getElementsByClassName('bordered');
