@@ -71,11 +71,26 @@ function makeAction() {
         }
         ArrangeCards(deck.bot.cards, false);
         ArrangeCards(deck.player.cards, true);
-        if (!deck.isFirstPlayerMoving) {
-            console.log('attacked');
-            timeoutBotAttack = setTimeout(function () {
-                BotAttack();
-            }, 1000);
+        if (deck.cards.length === 0 &&
+            (deck.bot.cards.length === 0
+                || deck.player.cards.length === 0)) {
+            if (deck.bot.cards.length === 0 && deck.player.cards.length === 0) {
+                DisplayWinner('tie');
+            }
+            else if (deck.bot.cards.length === 0 && deck.player.cards.length !== 0) {
+                DisplayWinner('bot');
+            }
+            else if (deck.bot.cards.length !== 0 && deck.player.cards.length === 0) {
+                DisplayWinner('player');
+            }
+        }
+        else {
+            if (!deck.isFirstPlayerMoving) {
+                console.log('attacked');
+                timeoutBotAttack = setTimeout(function () {
+                    BotAttack();
+                }, 1000);
+            }
         }
     }
 }
@@ -132,6 +147,9 @@ function toggleBotsDecision(makeVisible, context) {
     if (botAction !== null && botActionDecision !== null) {
         if (makeVisible && (context !== null && context !== undefined)) {
             botActionDecision.textContent = context;
+            if (!botAction.classList.contains('visible')) {
+                audioPlayer.Play('alert');
+            }
             botAction.classList.add('visible');
         }
         else {

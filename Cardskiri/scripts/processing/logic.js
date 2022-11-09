@@ -135,7 +135,7 @@ var Deck = /** @class */ (function () {
     };
     Deck.prototype.InitPlayer = function () {
         console.log(this.cards);
-        for (var i = 0; i < 6; i++) {
+        for (var i = 0; i < 17; i++) {
             this.player.AddCard(this.cards[1]);
             this.cards.splice(1, 1);
             this.bot.AddCard(this.cards[1]);
@@ -226,6 +226,7 @@ var Deck = /** @class */ (function () {
                         discardedCard.hidden = true;
                     }
                     this.heap.discardedCards.push(discardedCard);
+                    this.heap.discardIndex++;
                 }
                 this.isFirstPlayerMoving = !this.isFirstPlayerMoving;
                 this.heap.attackingCards = 0;

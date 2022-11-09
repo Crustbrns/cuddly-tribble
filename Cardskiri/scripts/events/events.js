@@ -23,7 +23,7 @@ window.onmouseup = function (event) {
             document.getElementsByTagName('html')[0].style.cursor = 'default';
             var x = (event.x - window.innerWidth * 0.52) / window.innerWidth * 1920 + 30;
             var y = (event.y - window.innerHeight * 0.52) / window.innerHeight * 1080 - 40;
-            if (y < 0 && deck.isFirstPlayerMoving && ((deck.heap.discardIndex !== 0 && deck.heap.attackingCards < 6) || (deck.heap.discardIndex === 0 && deck.heap.attackingCards < 5))) {
+            if (y < 0 && deck.isFirstPlayerMoving && deck.bot.cards.length !== 0 && ((deck.heap.discardIndex === 0 && deck.heap.attackingCards < 5) || (deck.heap.discardIndex !== 0 && deck.heap.attackingCards < 6))) {
                 if (deck.heap.TryAddAttackingCard(cardObject)) {
                     audioPlayer.Play('placed');
                     var botcard_1 = deck.bot.TryBeatCard(deck.player.cards.find(function (x) { return x.id === (cardObject === null || cardObject === void 0 ? void 0 : cardObject.id); }), deck.trumps);
@@ -42,6 +42,9 @@ window.onmouseup = function (event) {
                                 // cardItem!.style.transition = '.2s ease';
                                 deck.heap.activeCards.push(botcard_1);
                                 deck.bot.RemoveCard(botcard_1);
+                                if (deck.bot.cards.length === 0) {
+                                    makeAction();
+                                }
                                 ArrangeCards(deck.bot.cards, false);
                                 toggleActionButtonContext(true, 'Done');
                             }, 600);
@@ -80,6 +83,9 @@ window.onmouseup = function (event) {
                     deck.heap.activeCards.push(cardObject);
                     deck.player.RemoveCard(cardObject);
                     ArrangeCards(deck.player.cards, true);
+                    if (deck.player.cards.length === 0 && deck.cards.length === 0) {
+                        makeAction();
+                    }
                     var cardIndex = 1;
                     for (var _f = 0, _g = deck.heap.activeCards; _f < _g.length; _f++) {
                         var card_3 = _g[_f];

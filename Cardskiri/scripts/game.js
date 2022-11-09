@@ -170,7 +170,7 @@ function BotAttack() {
         }
     }
     else if (cardAttack === null && deck.bot.cards.length === 0) {
-        DisplayWinner('bot');
+        makeAction();
     }
     else {
         toggleBotsDecision(true, 'Done');
@@ -192,7 +192,9 @@ function BotAttackNext() {
             if (state_1 === "break")
                 break;
         }
-        if (cardAttack !== null) {
+        if (cardAttack !== null &&
+            ((deck.heap.discardIndex === 0 && deck.heap.attackingCards < 5
+                || (deck.heap.discardIndex !== 0 && deck.heap.attackingCards < 6)))) {
             if (deck.heap.TryAddAttackingCard(cardAttack)) {
                 audioPlayer.Play('placed');
                 showCard(cardAttack);
@@ -219,12 +221,7 @@ function BotAttackNext() {
         }
     }
     else {
-        if (deck.bot.cards.length !== 0) {
-            DisplayWinner('player');
-        }
-        else {
-            DisplayWinner('tie');
-        }
+        makeAction();
     }
 }
 function InitializeCards() {

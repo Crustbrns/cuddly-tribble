@@ -28,7 +28,7 @@ window.onmouseup = (event) => {
 
             let x = (event.x - window.innerWidth * 0.52) / window.innerWidth * 1920 + 30;
             let y = (event.y - window.innerHeight * 0.52) / window.innerHeight * 1080 - 40;
-            if (y < 0 && deck.isFirstPlayerMoving && ((deck.heap.discardIndex !== 0 && deck.heap.attackingCards < 6) || (deck.heap.discardIndex === 0 && deck.heap.attackingCards < 5))) {
+            if (y < 0 && deck.isFirstPlayerMoving && deck.bot.cards.length !== 0 && ((deck.heap.discardIndex === 0 && deck.heap.attackingCards < 5) || (deck.heap.discardIndex !== 0 && deck.heap.attackingCards < 6))) {
                 if (deck.heap.TryAddAttackingCard(cardObject!)) {
                     audioPlayer.Play('placed');
                     let botcard = deck.bot.TryBeatCard(deck.player.cards.find(x => x.id === cardObject?.id)!, deck.trumps);
@@ -49,6 +49,11 @@ window.onmouseup = (event) => {
 
                                 deck.heap.activeCards.push(botcard!);
                                 deck.bot.RemoveCard(botcard!);
+
+                                if (deck.bot.cards.length === 0) {
+                                    makeAction();
+                                }
+
                                 ArrangeCards(deck.bot.cards, false);
                                 toggleActionButtonContext(true, 'Done');
                             }, 600);
@@ -92,6 +97,10 @@ window.onmouseup = (event) => {
                     deck.heap.activeCards.push(cardObject!);
                     deck.player.RemoveCard(cardObject!);
                     ArrangeCards(deck.player.cards, true);
+
+                    if (deck.player.cards.length === 0 && deck.cards.length === 0) {
+                        makeAction();
+                    }
 
                     let cardIndex = 1;
                     for (const card of deck.heap.activeCards) {

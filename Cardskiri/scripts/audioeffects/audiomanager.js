@@ -38,7 +38,8 @@ var AudioResources = [
     new AudioResource('shoved2', 0.5, './sounds/cards-shoved2.mp3'),
     new AudioResource('shoved3', 0.5, './sounds/cards-shoved3.mp3'),
     new AudioResource('win', 0.5, './sounds/cards-win.mp3'),
-    new AudioResource('lose', 0.35, './sounds/cards-lose.mp3')
+    new AudioResource('lose', 0.35, './sounds/cards-lose.mp3'),
+    new AudioResource('alert', 0.08, './sounds/cards-alert.mp3')
 ];
 var AudioManager = /** @class */ (function () {
     function AudioManager() {
