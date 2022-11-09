@@ -59,6 +59,11 @@ window.onmouseup = (event) => {
                             toggleActionButtonContext(true, 'Pass');
                         }
                     }
+                    else {
+                        deck.bot.shouldTake = true;
+                        toggleBotsDecision(true, 'I take');
+                        toggleActionButtonContext(true, 'Pass');
+                    }
                 }
 
                 for (const card of deck.heap.activeCards) {
@@ -120,17 +125,7 @@ window.onmouseup = (event) => {
             for (const card of cardsBordered) {
                 card.classList.remove('bordered');
             }
-
-            let cardNum: number = 0;
-            for (const Card of deck.player.cards) {
-                let cardItem = document.getElementById(`card${Card.id}`)!;
-
-                Card.position = new Position(-10 * (deck.player.cards.length - 1) + (cardNum * 20),
-                    130 - 6 * (cardNum < (deck.player.cards.length / 2) ? (deck.player.cards.length / 2 - ((deck.player.cards.length - cardNum) / 2)) : (((deck.player.cards.length - cardNum) - 1) / 2)),
-                    -5 * (deck.player.cards.length - 1) + (cardNum++ * 10));
-
-                cardItem.style.transform = `translate(${Card.position.x}%, ${Card.position.y}%) rotate(${Card.position.angle}deg)`;
-            }
+            ArrangeCards(deck.player.cards, true);
         }
     }
 

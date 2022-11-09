@@ -61,6 +61,7 @@ function StrictSmoothRestart() {
     clearTimeout(timeoutAccurateShuffle);
     clearTimeout(timeoutbotbeat);
     toggleActionButton(false);
+    toggleBotsDecision(false, '...');
     deck.CardsToDeck();
     audioPlayer.Play('sweep');
     console.log(deck.cards.length, deck);
@@ -86,4 +87,8 @@ function StrictSmoothRestart() {
             start();
         }, 400);
     }, 600);
+    var winner = document.getElementById('winner');
+    if (winner !== null) {
+        winner.remove();
+    }
 }

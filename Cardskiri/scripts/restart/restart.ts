@@ -64,6 +64,7 @@ function StrictSmoothRestart(): void {
     clearTimeout(timeoutbotbeat);
 
     toggleActionButton(false);
+    toggleBotsDecision(false, '...');
 
     deck.CardsToDeck();
     audioPlayer.Play('sweep');
@@ -92,4 +93,9 @@ function StrictSmoothRestart(): void {
             start();
         }, 400);
     }, 600);
+
+    let winner = document.getElementById('winner');
+    if (winner !== null) {
+        winner.remove();
+    }
 }

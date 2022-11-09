@@ -4,6 +4,7 @@ body {
     background-image: url('../images/background.png');
     background-repeat: repeat;
     background-size: cover;
+    overflow: hidden; 
 }
 
 .card {
@@ -181,7 +182,7 @@ body {
     z-index: 1000 !important;
 }
 
-#btn-action{
+#btn-action {
     user-select: none;
     position: absolute;
     top: 24.2rem;
@@ -201,7 +202,7 @@ body {
     opacity: 0;
 }
 
-#bot-action{
+#bot-action {
     width: 8rem;
     height: 4rem;
     background-color: white;
@@ -217,35 +218,60 @@ body {
     transition: .2s ease;
 }
 
-#bot-action.visible{
+#bot-action.visible {
     opacity: 1;
     transition: .2s ease;
 }
 
-.no-shadow{
+#game {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 96vh;
+}
+
+.no-shadow {
     box-shadow: none !important;
 }
 
-.bordered{
+.bordered {
     border: 3px solid #ff3034 !important;
     transition: .05s ease !important;
     box-sizing: border-box;
     border-radius: 8px;
 }
 
-#bot-action>svg{
+#winner {
+    font-family: 'e-Ukraine-B';
+    color: white;
+    font-size: 6vw;
+    animation: winneranim;
+    animation-duration: 1s;
+    animation-timing-function: ease;
+}
+
+@keyframes winneranim {
+    from{
+        transform: scale(0);
+    }
+    to{
+        transform: scale(1);
+    }
+}
+
+#bot-action>svg {
     position: absolute;
     fill: white;
     left: 99.5%;
     bottom: -5%;
 }
 
-.button:hover{
+.button:hover {
     cursor: pointer;
     transition: .2s ease;
 }
 
-.button.visible{
+.button.visible {
     pointer-events: all;
     transition: .2s ease;
     opacity: 1;

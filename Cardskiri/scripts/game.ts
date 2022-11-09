@@ -192,6 +192,9 @@ function BotAttack(): void {
             toggleActionButtonContext(true, 'Take');
         }
     }
+    else if (cardAttack === null && deck.bot.cards.length === 0) {
+        DisplayWinner('bot');
+    }
     else {
         toggleBotsDecision(true, 'Done');
         toggleActionButtonContext(true, 'Done');
@@ -225,9 +228,9 @@ function BotAttackNext(): void {
         }
     }
     else {
-        setTimeout(()=>{
+        setTimeout(() => {
             toggleBotsDecision(true, 'Done');
-            setTimeout(()=>{
+            setTimeout(() => {
                 makeAction();
             }, 1200);
         }, 500);

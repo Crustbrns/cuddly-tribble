@@ -60,11 +60,10 @@ function makeAction() {
         }
         var _loop_1 = function (card) {
             var cardItem = document.getElementById("card".concat(card.id));
-            if (cardItem.classList.contains('back-side')) {
-                showCard(card);
-                cardItem.addEventListener('mouseenter', function (event) { return ScaleCard(card, cardItem); }, true);
-                cardItem.addEventListener('mouseleave', function (event) { return NormalizeCard(card, cardItem); }, true);
-            }
+            // if (cardItem.classList.contains('back-side')) {
+            showCard(card);
+            cardItem.addEventListener('mouseenter', function (event) { return ScaleCard(card, cardItem); }, true);
+            cardItem.addEventListener('mouseleave', function (event) { return NormalizeCard(card, cardItem); }, true);
         };
         for (var _d = 0, _e = deck.player.cards; _d < _e.length; _d++) {
             var card = _e[_d];
@@ -78,6 +77,24 @@ function makeAction() {
                 BotAttack();
             }, 1000);
         }
+    }
+}
+function DisplayWinner(player) {
+    if (player === 'bot') {
+        audioPlayer.Play('lose');
+        var winner = document.createElement('div');
+        winner.textContent = 'BOT WINS';
+        winner.id = 'winner';
+        var game = document.getElementById('game');
+        game === null || game === void 0 ? void 0 : game.appendChild(winner);
+    }
+    else if (player === 'user') {
+        audioPlayer.Play('win');
+        var winner = document.createElement('div');
+        winner.textContent = 'PLAYER WINS';
+        winner.id = 'winner';
+        var game = document.getElementById('game');
+        game === null || game === void 0 ? void 0 : game.appendChild(winner);
     }
 }
 function toggleActionButton(makeVisible) {

@@ -52,6 +52,11 @@ window.onmouseup = function (event) {
                             toggleActionButtonContext(true, 'Pass');
                         }
                     }
+                    else {
+                        deck.bot.shouldTake = true;
+                        toggleBotsDecision(true, 'I take');
+                        toggleActionButtonContext(true, 'Pass');
+                    }
                 }
                 for (var _d = 0, _e = deck.heap.activeCards; _d < _e.length; _d++) {
                     var card_1 = _e[_d];
@@ -77,8 +82,8 @@ window.onmouseup = function (event) {
                         deck.player.RemoveCard(cardObject);
                         ArrangeCards(deck.player.cards, true);
                         var cardIndex = 1;
-                        for (var _l = 0, _m = deck.heap.activeCards; _l < _m.length; _l++) {
-                            var card_3 = _m[_l];
+                        for (var _j = 0, _k = deck.heap.activeCards; _j < _k.length; _j++) {
+                            var card_3 = _k[_j];
                             var cardItem_1 = document.getElementById("card".concat(card_3.id));
                             cardItem_1.style.transform = "translate(".concat(card_3.position.x, "%, ").concat(card_3.position.y, "%) rotate(").concat(card_3.position.angle, "deg)");
                             if (card_3.bundle !== undefined) {
@@ -90,8 +95,8 @@ window.onmouseup = function (event) {
                             cardIndex++;
                         }
                         BotAttackNext();
-                        for (var _o = 0, _p = deck.heap.activeCards; _o < _p.length; _o++) {
-                            var card_4 = _p[_o];
+                        for (var _l = 0, _m = deck.heap.activeCards; _l < _m.length; _l++) {
+                            var card_4 = _m[_l];
                             var cardItem_2 = document.getElementById("card".concat(card_4.id));
                             cardItem_2.style.transform = "translate(".concat(card_4.position.x, "%, ").concat(card_4.position.y, "%) rotate(").concat(card_4.position.angle, "deg)");
                         }
@@ -115,13 +120,7 @@ window.onmouseup = function (event) {
                 var card_5 = cardsBordered_1[_h];
                 card_5.classList.remove('bordered');
             }
-            var cardNum = 0;
-            for (var _j = 0, _k = deck.player.cards; _j < _k.length; _j++) {
-                var Card = _k[_j];
-                var cardItem = document.getElementById("card".concat(Card.id));
-                Card.position = new Position(-10 * (deck.player.cards.length - 1) + (cardNum * 20), 130 - 6 * (cardNum < (deck.player.cards.length / 2) ? (deck.player.cards.length / 2 - ((deck.player.cards.length - cardNum) / 2)) : (((deck.player.cards.length - cardNum) - 1) / 2)), -5 * (deck.player.cards.length - 1) + (cardNum++ * 10));
-                cardItem.style.transform = "translate(".concat(Card.position.x, "%, ").concat(Card.position.y, "%) rotate(").concat(Card.position.angle, "deg)");
-            }
+            ArrangeCards(deck.player.cards, true);
         };
         for (var _i = 0, draggings_1 = draggings; _i < draggings_1.length; _i++) {
             var item = draggings_1[_i];

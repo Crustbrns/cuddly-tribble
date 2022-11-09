@@ -68,11 +68,11 @@ function makeAction(): void {
         for (const card of deck.player.cards) {
             let cardItem = document.getElementById(`card${card.id}`)!;
 
-            if (cardItem.classList.contains('back-side')) {
-                showCard(card);
-                cardItem.addEventListener('mouseenter', (event) => ScaleCard(card, cardItem), true);
-                cardItem.addEventListener('mouseleave', (event) => NormalizeCard(card, cardItem), true);
-            }
+            // if (cardItem.classList.contains('back-side')) {
+            showCard(card);
+            cardItem.addEventListener('mouseenter', (event) => ScaleCard(card, cardItem), true);
+            cardItem.addEventListener('mouseleave', (event) => NormalizeCard(card, cardItem), true);
+            // }
         }
 
         ArrangeCards(deck.bot.cards, false);
@@ -84,6 +84,27 @@ function makeAction(): void {
                 BotAttack();
             }, 1000);
         }
+    }
+}
+
+function DisplayWinner(player: string) {
+    if (player === 'bot') {
+        audioPlayer.Play('lose');
+        let winner = document.createElement('div');
+        winner.textContent = 'BOT WINS';
+        winner.id = 'winner';
+
+        let game = document.getElementById('game');
+        game?.appendChild(winner);
+    }
+    else if (player === 'user') {
+        audioPlayer.Play('win');
+        let winner = document.createElement('div');
+        winner.textContent = 'PLAYER WINS';
+        winner.id = 'winner';
+
+        let game = document.getElementById('game');
+        game?.appendChild(winner);
     }
 }
 

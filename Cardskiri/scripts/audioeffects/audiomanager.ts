@@ -41,7 +41,9 @@ const AudioResources = [
     new AudioResource('shoved0', 0.5, './sounds/cards-shoved0.mp3'),
     new AudioResource('shoved1', 0.5, './sounds/cards-shoved1.mp3'),
     new AudioResource('shoved2', 0.5, './sounds/cards-shoved2.mp3'),
-    new AudioResource('shoved3', 0.5, './sounds/cards-shoved3.mp3')
+    new AudioResource('shoved3', 0.5, './sounds/cards-shoved3.mp3'),
+    new AudioResource('win', 0.5, './sounds/cards-win.mp3'),
+    new AudioResource('lose', 0.35, './sounds/cards-lose.mp3')
 ];
 
 class AudioManager {

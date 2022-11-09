@@ -169,6 +169,9 @@ function BotAttack() {
             toggleActionButtonContext(true, 'Take');
         }
     }
+    else if (cardAttack === null && deck.bot.cards.length === 0) {
+        DisplayWinner('bot');
+    }
     else {
         toggleBotsDecision(true, 'Done');
         toggleActionButtonContext(true, 'Done');
