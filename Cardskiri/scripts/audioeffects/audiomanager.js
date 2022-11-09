@@ -13,14 +13,14 @@ var AudioResource = /** @class */ (function () {
     return AudioResource;
 }());
 var AudioResources = [
-    new AudioResource('hover0', 0.8, './sounds/cards-hover0.mp3'),
-    new AudioResource('hover1', 0.7, './sounds/cards-hover1.mp3'),
+    new AudioResource('hover0', 0.65, './sounds/cards-hover0.mp3'),
+    new AudioResource('hover1', 0.55, './sounds/cards-hover1.mp3'),
     new AudioResource('shuffle', 1, './sounds/cards-shuffle.mp3'),
     new AudioResource('start', 0.6, './sounds/cards-start.mp3'),
     new AudioResource('appear', 0.6, './sounds/cards-appear.mp3'),
-    new AudioResource('moving', 0.8, './sounds/cards-moving.mp3'),
-    new AudioResource('sweep0', 0.35, './sounds/cards-sweep0.mp3'),
-    new AudioResource('sweep1', 0.35, './sounds/cards-sweep1.mp3'),
+    new AudioResource('moving', 0.7, './sounds/cards-moving.mp3'),
+    new AudioResource('sweep0', 0.7, './sounds/cards-sweep0.mp3'),
+    new AudioResource('sweep1', 0.55, './sounds/cards-sweep1.mp3'),
     new AudioResource('trump', 0.5, './sounds/cards-trump.mp3'),
     new AudioResource('placed0', 0.2, './sounds/cards-placed0.mp3'),
     new AudioResource('placed1', 0.5, './sounds/cards-placed1.mp3'),
