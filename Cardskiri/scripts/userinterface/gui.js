@@ -59,9 +59,9 @@ function makeAction() {
             card.bundle = undefined;
         }
         var _loop_1 = function (card) {
-            var cardItem = document.getElementById("card".concat(card.id));
-            // if (cardItem.classList.contains('back-side')) {
+            card.bundle = undefined;
             showCard(card);
+            var cardItem = document.getElementById("card".concat(card.id));
             cardItem.addEventListener('mouseenter', function (event) { return ScaleCard(card, cardItem); }, true);
             cardItem.addEventListener('mouseleave', function (event) { return NormalizeCard(card, cardItem); }, true);
         };

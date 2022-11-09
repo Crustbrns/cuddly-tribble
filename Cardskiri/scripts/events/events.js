@@ -23,7 +23,7 @@ window.onmouseup = function (event) {
             document.getElementsByTagName('html')[0].style.cursor = 'default';
             var x = (event.x - window.innerWidth * 0.52) / window.innerWidth * 1920 + 30;
             var y = (event.y - window.innerHeight * 0.52) / window.innerHeight * 1080 - 40;
-            if (y < 0 && deck.isFirstPlayerMoving && (deck.heap.discardIndex !== 0 || (deck.heap.discardIndex === 0 && deck.heap.attackingCards < 5))) {
+            if (y < 0 && deck.isFirstPlayerMoving && ((deck.heap.discardIndex !== 0 && deck.heap.attackingCards < 6) || (deck.heap.discardIndex === 0 && deck.heap.attackingCards < 5))) {
                 if (deck.heap.TryAddAttackingCard(cardObject)) {
                     audioPlayer.Play('placed');
                     var botcard_1 = deck.bot.TryBeatCard(deck.player.cards.find(function (x) { return x.id === (cardObject === null || cardObject === void 0 ? void 0 : cardObject.id); }), deck.trumps);
@@ -65,68 +65,62 @@ window.onmouseup = function (event) {
                 }
             }
             else if (!deck.isFirstPlayerMoving) {
-                var _loop_2 = function (card_2) {
-                    var intersected = Intersects.boxPoint(card_2.position.x * 100 / 70 - 90, card_2.position.y * 140 / 45 - 20, 170, 200, x, y);
-                    // console.log('card x', card.position!.x! * 100 / 70 - 70, 'card y', card.position!.y! * 140 / 45, `x:${x}, y${y}`, intersected);
-                    if (intersected && deck.heap.activeCards.filter(function (x) { return x.bundle === card_2.id; }).length === 0 &&
-                        (card_2.suit.type === (cardObject === null || cardObject === void 0 ? void 0 : cardObject.suit.type) && card_2.force < cardObject.force)
-                        || (card_2.suit.type !== deck.trumps.type && (cardObject === null || cardObject === void 0 ? void 0 : cardObject.suit.type) == deck.trumps.type)) {
-                        toggleActionButton(false);
-                        audioPlayer.Play('placed');
-                        cardObject.position = new Position(((_a = card_2 === null || card_2 === void 0 ? void 0 : card_2.position) === null || _a === void 0 ? void 0 : _a.x) + 14, ((_b = card_2 === null || card_2 === void 0 ? void 0 : card_2.position) === null || _b === void 0 ? void 0 : _b.y) + 9, ((_c = card_2 === null || card_2 === void 0 ? void 0 : card_2.position) === null || _c === void 0 ? void 0 : _c.angle) + 5);
-                        cardObject.bundle = card_2 === null || card_2 === void 0 ? void 0 : card_2.id;
-                        var cardItem = document.getElementById("card".concat(cardObject === null || cardObject === void 0 ? void 0 : cardObject.id));
-                        cardItem.style.transform = "translate(".concat(cardObject.position.x, "%, ").concat(cardObject.position.y, "%) rotate(").concat(cardObject === null || cardObject === void 0 ? void 0 : cardObject.position.angle, "deg)");
-                        // cardItem!.style.transition = '.2s ease';
-                        deck.heap.activeCards.push(cardObject);
-                        deck.player.RemoveCard(cardObject);
-                        ArrangeCards(deck.player.cards, true);
-                        var cardIndex = 1;
-                        for (var _j = 0, _k = deck.heap.activeCards; _j < _k.length; _j++) {
-                            var card_3 = _k[_j];
-                            var cardItem_1 = document.getElementById("card".concat(card_3.id));
-                            cardItem_1.style.transform = "translate(".concat(card_3.position.x, "%, ").concat(card_3.position.y, "%) rotate(").concat(card_3.position.angle, "deg)");
-                            if (card_3.bundle !== undefined) {
-                                cardItem_1.style.zIndex = "".concat(cardIndex + 50);
-                            }
-                            else {
-                                cardItem_1.style.zIndex = "".concat(cardIndex);
-                            }
-                            cardIndex++;
+                var card_2 = deck.heap.activeCards.filter(function (x) { return x.bundle === undefined; }).filter(function (x) { return deck.heap.activeCards.filter(function (y) { return y.bundle === x.id; }).length === 0; })
+                    .find(function (card) { return Intersects.boxPoint(card.position.x * 100 / 70 - 90, card.position.y * 140 / 45 - 20, 170, 200, x, y); });
+                console.log(card_2);
+                if (card_2 !== undefined && ((card_2.suit.type === (cardObject === null || cardObject === void 0 ? void 0 : cardObject.suit.type) && card_2.force < cardObject.force)
+                    || (card_2.suit.type !== deck.trumps.type && (cardObject === null || cardObject === void 0 ? void 0 : cardObject.suit.type) == deck.trumps.type))) {
+                    toggleActionButton(false);
+                    audioPlayer.Play('placed');
+                    cardObject.position = new Position(((_a = card_2 === null || card_2 === void 0 ? void 0 : card_2.position) === null || _a === void 0 ? void 0 : _a.x) + 14, ((_b = card_2 === null || card_2 === void 0 ? void 0 : card_2.position) === null || _b === void 0 ? void 0 : _b.y) + 9, ((_c = card_2 === null || card_2 === void 0 ? void 0 : card_2.position) === null || _c === void 0 ? void 0 : _c.angle) + 5);
+                    cardObject.bundle = card_2 === null || card_2 === void 0 ? void 0 : card_2.id;
+                    var cardItem = document.getElementById("card".concat(cardObject === null || cardObject === void 0 ? void 0 : cardObject.id));
+                    cardItem.style.transform = "translate(".concat(cardObject.position.x, "%, ").concat(cardObject.position.y, "%) rotate(").concat(cardObject === null || cardObject === void 0 ? void 0 : cardObject.position.angle, "deg)");
+                    // cardItem!.style.transition = '.2s ease';
+                    deck.heap.activeCards.push(cardObject);
+                    deck.player.RemoveCard(cardObject);
+                    ArrangeCards(deck.player.cards, true);
+                    var cardIndex = 1;
+                    for (var _f = 0, _g = deck.heap.activeCards; _f < _g.length; _f++) {
+                        var card_3 = _g[_f];
+                        var cardItem_1 = document.getElementById("card".concat(card_3.id));
+                        cardItem_1.style.transform = "translate(".concat(card_3.position.x, "%, ").concat(card_3.position.y, "%) rotate(").concat(card_3.position.angle, "deg)");
+                        if (card_3.bundle !== undefined) {
+                            cardItem_1.style.zIndex = "".concat(cardIndex + 50);
                         }
-                        BotAttackNext();
-                        for (var _l = 0, _m = deck.heap.activeCards; _l < _m.length; _l++) {
-                            var card_4 = _m[_l];
-                            var cardItem_2 = document.getElementById("card".concat(card_4.id));
-                            cardItem_2.style.transform = "translate(".concat(card_4.position.x, "%, ").concat(card_4.position.y, "%) rotate(").concat(card_4.position.angle, "deg)");
+                        else {
+                            cardItem_1.style.zIndex = "".concat(cardIndex);
                         }
-                        console.log('After bot attack');
-                        return "break";
+                        cardIndex++;
                     }
-                    else {
-                        var cardItem = document.getElementById("card".concat(card_2.id));
-                        cardItem.classList.remove('bordered');
+                    BotAttackNext();
+                    for (var _h = 0, _j = deck.heap.activeCards; _h < _j.length; _h++) {
+                        var card_4 = _j[_h];
+                        var cardItem_2 = document.getElementById("card".concat(card_4.id));
+                        cardItem_2.style.transform = "translate(".concat(card_4.position.x, "%, ").concat(card_4.position.y, "%) rotate(").concat(card_4.position.angle, "deg)");
                     }
-                };
-                for (var _f = 0, _g = deck.heap.activeCards.filter(function (x) { return x.bundle === undefined; }); _f < _g.length; _f++) {
-                    var card_2 = _g[_f];
-                    var state_1 = _loop_2(card_2);
-                    if (state_1 === "break")
-                        break;
+                    console.log('After bot attack');
+                }
+                else {
+                    var cardItems = document.getElementsByClassName('bordered');
+                    for (var _k = 0, cardItems_1 = cardItems; _k < cardItems_1.length; _k++) {
+                        var card_5 = cardItems_1[_k];
+                        card_5.classList.remove('bordered');
+                    }
                 }
             }
             var cardsBordered = document.getElementsByClassName('bordered');
-            for (var _h = 0, cardsBordered_1 = cardsBordered; _h < cardsBordered_1.length; _h++) {
-                var card_5 = cardsBordered_1[_h];
-                card_5.classList.remove('bordered');
+            for (var _l = 0, cardsBordered_1 = cardsBordered; _l < cardsBordered_1.length; _l++) {
+                var card_6 = cardsBordered_1[_l];
+                card_6.classList.remove('bordered');
             }
-            ArrangeCards(deck.player.cards, true);
         };
         for (var _i = 0, draggings_1 = draggings; _i < draggings_1.length; _i++) {
             var item = draggings_1[_i];
             _loop_1(item);
         }
     }
+    ArrangeCards(deck.player.cards, true);
 };
 window.onmousemove = function (event) {
     if (document.getElementsByClassName('dragging').length !== 0) {
@@ -138,21 +132,21 @@ window.onmousemove = function (event) {
         card.style.transform = "translate(".concat(x, "px, ").concat(y, "px) rotate(").concat(-(angle * 180 / Math.PI) / 2, "deg)");
         document.getElementsByTagName('html')[0].style.cursor = 'none';
         if (!deck.isFirstPlayerMoving) {
-            var _loop_3 = function (card_6) {
-                var intersected = Intersects.boxPoint(card_6.position.x * 100 / 70 - 90, card_6.position.y * 140 / 45 - 20, 170, 200, x, y);
+            var _loop_2 = function (card_7) {
+                var intersected = Intersects.boxPoint(card_7.position.x * 100 / 70 - 90, card_7.position.y * 140 / 45 - 20, 170, 200, x, y);
                 // console.log('card x', card.position!.x! * 100 / 70 - 70, 'card y', card.position!.y! * 140 / 45, `x:${x}, y${y}`, intersected);
-                if (intersected && deck.heap.activeCards.filter(function (x) { return x.bundle === card_6.id; }).length === 0) {
-                    var cardItem = document.getElementById("card".concat(card_6.id));
+                if (intersected && deck.heap.activeCards.filter(function (x) { return x.bundle === card_7.id; }).length === 0) {
+                    var cardItem = document.getElementById("card".concat(card_7.id));
                     cardItem.classList.add('bordered');
                 }
                 else {
-                    var cardItem = document.getElementById("card".concat(card_6.id));
+                    var cardItem = document.getElementById("card".concat(card_7.id));
                     cardItem.classList.remove('bordered');
                 }
             };
             for (var _i = 0, _a = deck.heap.activeCards.filter(function (x) { return x.bundle === undefined; }); _i < _a.length; _i++) {
-                var card_6 = _a[_i];
-                _loop_3(card_6);
+                var card_7 = _a[_i];
+                _loop_2(card_7);
             }
         }
     }

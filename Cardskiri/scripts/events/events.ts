@@ -28,7 +28,7 @@ window.onmouseup = (event) => {
 
             let x = (event.x - window.innerWidth * 0.52) / window.innerWidth * 1920 + 30;
             let y = (event.y - window.innerHeight * 0.52) / window.innerHeight * 1080 - 40;
-            if (y < 0 && deck.isFirstPlayerMoving && (deck.heap.discardIndex !== 0 || (deck.heap.discardIndex === 0 && deck.heap.attackingCards < 5))) {
+            if (y < 0 && deck.isFirstPlayerMoving && ((deck.heap.discardIndex !== 0 && deck.heap.attackingCards < 6) || (deck.heap.discardIndex === 0 && deck.heap.attackingCards < 5))) {
                 if (deck.heap.TryAddAttackingCard(cardObject!)) {
                     audioPlayer.Play('placed');
                     let botcard = deck.bot.TryBeatCard(deck.player.cards.find(x => x.id === cardObject?.id)!, deck.trumps);
@@ -72,51 +72,52 @@ window.onmouseup = (event) => {
                 }
             }
             else if (!deck.isFirstPlayerMoving) {
-                for (const card of deck.heap.activeCards.filter(x => x.bundle === undefined)) {
-                    let intersected = Intersects.boxPoint(card.position!.x! * 100 / 70 - 90, card.position!.y! * 140 / 45 - 20, 170, 200, x, y);
-                    // console.log('card x', card.position!.x! * 100 / 70 - 70, 'card y', card.position!.y! * 140 / 45, `x:${x}, y${y}`, intersected);
-                    if (intersected && deck.heap.activeCards.filter(x => x.bundle === card.id).length === 0 &&
-                        (card.suit.type === cardObject?.suit.type && card.force < cardObject.force)
-                        || (card.suit.type !== deck.trumps.type && cardObject?.suit.type == deck.trumps.type)) {
+                let card = deck.heap.activeCards.filter(x => x.bundle === undefined).filter(x => deck.heap.activeCards.filter(y => y.bundle === x.id).length === 0)
+                    .find(card => Intersects.boxPoint(card.position!.x! * 100 / 70 - 90, card.position!.y! * 140 / 45 - 20, 170, 200, x, y));
 
-                        toggleActionButton(false);
-                        audioPlayer.Play('placed');
-                        cardObject!.position = new Position(card?.position?.x! + 14, card?.position?.y! + 9, card?.position?.angle! + 5);
-                        cardObject!.bundle = card?.id;
+                console.log(card);
 
-                        let cardItem = document.getElementById(`card${cardObject?.id}`);
-                        cardItem!.style.transform = `translate(${cardObject!.position!.x}%, ${cardObject!.position!.y}%) rotate(${cardObject?.position.angle}deg)`;
-                        // cardItem!.style.transition = '.2s ease';
+                if (card !== undefined && ((card.suit.type === cardObject?.suit.type && card.force < cardObject.force)
+                    || (card!.suit.type !== deck.trumps.type && cardObject?.suit.type == deck.trumps.type))) {
 
-                        deck.heap.activeCards.push(cardObject!);
-                        deck.player.RemoveCard(cardObject!);
-                        ArrangeCards(deck.player.cards, true);
+                    toggleActionButton(false);
+                    audioPlayer.Play('placed');
+                    cardObject!.position = new Position(card?.position?.x! + 14, card?.position?.y! + 9, card?.position?.angle! + 5);
+                    cardObject!.bundle = card?.id;
 
-                        let cardIndex = 1;
-                        for (const card of deck.heap.activeCards) {
-                            let cardItem = document.getElementById(`card${card.id}`)!;
-                            cardItem.style.transform = `translate(${card.position!.x}%, ${card.position!.y}%) rotate(${card.position!.angle}deg)`;
-                            if (card.bundle !== undefined) {
-                                cardItem.style.zIndex = `${cardIndex + 50}`;
-                            }
-                            else {
-                                cardItem.style.zIndex = `${cardIndex}`;
-                            }
-                            cardIndex++;
-                        }
+                    let cardItem = document.getElementById(`card${cardObject?.id}`);
+                    cardItem!.style.transform = `translate(${cardObject!.position!.x}%, ${cardObject!.position!.y}%) rotate(${cardObject?.position.angle}deg)`;
+                    // cardItem!.style.transition = '.2s ease';
 
-                        BotAttackNext();
-                        for (const card of deck.heap.activeCards) {
-                            let cardItem = document.getElementById(`card${card.id}`)!;
-                            cardItem.style.transform = `translate(${card.position!.x}%, ${card.position!.y}%) rotate(${card.position!.angle}deg)`;
-                        }
-                        console.log('After bot attack');
+                    deck.heap.activeCards.push(cardObject!);
+                    deck.player.RemoveCard(cardObject!);
+                    ArrangeCards(deck.player.cards, true);
 
-                        break;
-                    }
-                    else {
+                    let cardIndex = 1;
+                    for (const card of deck.heap.activeCards) {
                         let cardItem = document.getElementById(`card${card.id}`)!;
-                        cardItem.classList.remove('bordered');
+                        cardItem.style.transform = `translate(${card.position!.x}%, ${card.position!.y}%) rotate(${card.position!.angle}deg)`;
+                        if (card.bundle !== undefined) {
+                            cardItem.style.zIndex = `${cardIndex + 50}`;
+                        }
+                        else {
+                            cardItem.style.zIndex = `${cardIndex}`;
+                        }
+                        cardIndex++;
+                    }
+
+                    BotAttackNext();
+                    for (const card of deck.heap.activeCards) {
+                        let cardItem = document.getElementById(`card${card.id}`)!;
+                        cardItem.style.transform = `translate(${card.position!.x}%, ${card.position!.y}%) rotate(${card.position!.angle}deg)`;
+                    }
+
+                    console.log('After bot attack');
+                }
+                else {
+                    let cardItems = document.getElementsByClassName('bordered');
+                    for (const card of cardItems) {
+                        card.classList.remove('bordered');
                     }
                 }
             }
@@ -125,10 +126,10 @@ window.onmouseup = (event) => {
             for (const card of cardsBordered) {
                 card.classList.remove('bordered');
             }
-            ArrangeCards(deck.player.cards, true);
         }
     }
 
+    ArrangeCards(deck.player.cards, true);
 }
 
 window.onmousemove = (event) => {

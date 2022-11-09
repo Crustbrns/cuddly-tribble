@@ -66,13 +66,12 @@ function makeAction(): void {
         }
 
         for (const card of deck.player.cards) {
-            let cardItem = document.getElementById(`card${card.id}`)!;
-
-            // if (cardItem.classList.contains('back-side')) {
+            card.bundle = undefined;
             showCard(card);
+
+            let cardItem = document.getElementById(`card${card.id}`)!;
             cardItem.addEventListener('mouseenter', (event) => ScaleCard(card, cardItem), true);
             cardItem.addEventListener('mouseleave', (event) => NormalizeCard(card, cardItem), true);
-            // }
         }
 
         ArrangeCards(deck.bot.cards, false);
