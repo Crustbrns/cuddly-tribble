@@ -283,6 +283,7 @@ function NormalizeCard(Card: Card, cardItem: HTMLElement): void {
         cardItem.style.transform = `translate(${Card.position!.x}%, ${Card.position!.y}%) rotate(${Card.position!.angle}deg)`;
     }
 }
+
 function ScaleCard(Card: Card, cardItem: HTMLElement): void {
     if (!cardItem.classList.contains('dragging') && deck.player.cards.find(x => x.id === Card.id)) {
         audioPlayer.Play('hover');

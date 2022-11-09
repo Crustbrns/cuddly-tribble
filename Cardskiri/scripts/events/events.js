@@ -42,9 +42,6 @@ window.onmouseup = function (event) {
                                 // cardItem!.style.transition = '.2s ease';
                                 deck.heap.activeCards.push(botcard_1);
                                 deck.bot.RemoveCard(botcard_1);
-                                if (deck.bot.cards.length === 0) {
-                                    makeAction();
-                                }
                                 ArrangeCards(deck.bot.cards, false);
                                 toggleActionButtonContext(true, 'Done');
                             }, 600);

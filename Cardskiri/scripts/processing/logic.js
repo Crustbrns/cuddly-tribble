@@ -135,7 +135,7 @@ var Deck = /** @class */ (function () {
     };
     Deck.prototype.InitPlayer = function () {
         console.log(this.cards);
-        for (var i = 0; i < 17; i++) {
+        for (var i = 0; i < 6; i++) {
             this.player.AddCard(this.cards[1]);
             this.cards.splice(1, 1);
             this.bot.AddCard(this.cards[1]);

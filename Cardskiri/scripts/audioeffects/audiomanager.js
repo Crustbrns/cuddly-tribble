@@ -13,10 +13,8 @@ var AudioResource = /** @class */ (function () {
     return AudioResource;
 }());
 var AudioResources = [
-    new AudioResource('hover0', 0.6, './sounds/cards-hover1.mp3'),
-    new AudioResource('hover1', 0.6, './sounds/cards-hover2.mp3'),
-    new AudioResource('hover2', 1, './sounds/cards-hover3.mp3'),
-    new AudioResource('hover3', 1, './sounds/cards-hover4.mp3'),
+    new AudioResource('hover0', 0.8, './sounds/cards-hover0.mp3'),
+    new AudioResource('hover1', 0.7, './sounds/cards-hover1.mp3'),
     new AudioResource('shuffle', 1, './sounds/cards-shuffle.mp3'),
     new AudioResource('start', 0.6, './sounds/cards-start.mp3'),
     new AudioResource('appear', 0.6, './sounds/cards-appear.mp3'),
@@ -39,7 +37,7 @@ var AudioResources = [
     new AudioResource('shoved3', 0.5, './sounds/cards-shoved3.mp3'),
     new AudioResource('win', 0.5, './sounds/cards-win.mp3'),
     new AudioResource('lose', 0.35, './sounds/cards-lose.mp3'),
-    new AudioResource('alert', 0.08, './sounds/cards-alert.mp3')
+    new AudioResource('alert', 0.06, './sounds/cards-alert.mp3')
 ];
 var AudioManager = /** @class */ (function () {
     function AudioManager() {
@@ -54,7 +52,7 @@ var AudioManager = /** @class */ (function () {
         var _a, _b, _c, _d, _e;
         if (this.SoundsToggle) {
             if (key === 'hover') {
-                (_a = this.Audios.find(function (x) { return x.key === "hover".concat(Math.floor(Math.random() * 3)); })) === null || _a === void 0 ? void 0 : _a.Play();
+                (_a = this.Audios.find(function (x) { return x.key === "hover".concat(Math.floor(Math.random() * 2)); })) === null || _a === void 0 ? void 0 : _a.Play();
             }
             else if (key === 'sweep') {
                 (_b = this.Audios.find(function (x) { return x.key === "sweep".concat(Math.floor(Math.random() * 2)); })) === null || _b === void 0 ? void 0 : _b.Play();

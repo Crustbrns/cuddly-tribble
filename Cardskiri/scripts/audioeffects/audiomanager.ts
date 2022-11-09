@@ -18,10 +18,8 @@ class AudioResource {
 }
 
 const AudioResources = [
-    new AudioResource('hover0', 0.6, './sounds/cards-hover1.mp3'),
-    new AudioResource('hover1', 0.6, './sounds/cards-hover2.mp3'),
-    new AudioResource('hover2', 1, './sounds/cards-hover3.mp3'),
-    new AudioResource('hover3', 1, './sounds/cards-hover4.mp3'),
+    new AudioResource('hover0', 0.8, './sounds/cards-hover0.mp3'),
+    new AudioResource('hover1', 0.7, './sounds/cards-hover1.mp3'),
     new AudioResource('shuffle', 1, './sounds/cards-shuffle.mp3'),
     new AudioResource('start', 0.6, './sounds/cards-start.mp3'),
     new AudioResource('appear', 0.6, './sounds/cards-appear.mp3'),
@@ -44,7 +42,7 @@ const AudioResources = [
     new AudioResource('shoved3', 0.5, './sounds/cards-shoved3.mp3'),
     new AudioResource('win', 0.5, './sounds/cards-win.mp3'),
     new AudioResource('lose', 0.35, './sounds/cards-lose.mp3'),
-    new AudioResource('alert', 0.08, './sounds/cards-alert.mp3')
+    new AudioResource('alert', 0.06, './sounds/cards-alert.mp3')
 ];
 
 class AudioManager {
@@ -60,7 +58,7 @@ class AudioManager {
     Play(key: string): void {
         if (this.SoundsToggle) {
             if (key === 'hover') {
-                this.Audios.find(x => x.key === `hover${Math.floor(Math.random() * 3)}`)?.Play();
+                this.Audios.find(x => x.key === `hover${Math.floor(Math.random() * 2)}`)?.Play();
             }
             else if (key === 'sweep') {
                 this.Audios.find(x => x.key === `sweep${Math.floor(Math.random() * 2)}`)?.Play();

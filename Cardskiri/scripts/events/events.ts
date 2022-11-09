@@ -50,10 +50,6 @@ window.onmouseup = (event) => {
                                 deck.heap.activeCards.push(botcard!);
                                 deck.bot.RemoveCard(botcard!);
 
-                                if (deck.bot.cards.length === 0) {
-                                    makeAction();
-                                }
-
                                 ArrangeCards(deck.bot.cards, false);
                                 toggleActionButtonContext(true, 'Done');
                             }, 600);
