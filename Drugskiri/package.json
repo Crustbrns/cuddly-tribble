@@ -21,7 +21,7 @@
     "express-handlebars": "^6.0.6",
     "express-validator": "^6.14.2",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^6.4.0"
+    "mongoose": "^6.4.6"
   },
   "devDependencies": {
     "concurrently": "^7.2.2",
