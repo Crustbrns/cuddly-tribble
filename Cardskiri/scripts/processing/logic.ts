@@ -321,6 +321,8 @@ class Deck {
                                 for (const card of deck.heap.activeCards) {
                                     let cardItem = document.getElementById(`card${card.id}`)!;
                                     cardItem.style.transform = `translate(${card.position!.x}%, ${card.position!.y}%) rotate(${card.position!.angle}deg)`;
+                                    cardItem.addEventListener('mouseenter', (event) => ScaleCard(card, cardItem), true);
+                                    cardItem.addEventListener('mouseleave', (event) => NormalizeCard(card, cardItem), true);
                                 }
 
                                 ArrangeCards(deck.bot.cards, false);

@@ -262,10 +262,15 @@ var Deck = /** @class */ (function () {
                             if (deck.heap.TryAddAttackingCard(additionalCard)) {
                                 showCard(additionalCard);
                                 deck.bot.RemoveCard(additionalCard);
-                                for (var _i = 0, _a = deck.heap.activeCards; _i < _a.length; _i++) {
-                                    var card = _a[_i];
+                                var _loop_2 = function (card) {
                                     var cardItem = document.getElementById("card".concat(card.id));
                                     cardItem.style.transform = "translate(".concat(card.position.x, "%, ").concat(card.position.y, "%) rotate(").concat(card.position.angle, "deg)");
+                                    cardItem.addEventListener('mouseenter', function (event) { return ScaleCard(card, cardItem); }, true);
+                                    cardItem.addEventListener('mouseleave', function (event) { return NormalizeCard(card, cardItem); }, true);
+                                };
+                                for (var _i = 0, _a = deck.heap.activeCards; _i < _a.length; _i++) {
+                                    var card = _a[_i];
+                                    _loop_2(card);
                                 }
                                 ArrangeCards(deck.bot.cards, false);
                                 toggleActionButtonContext(true, 'Take');
