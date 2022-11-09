@@ -119,8 +119,8 @@ window.onmouseup = function (event) {
             var item = draggings_1[_i];
             _loop_1(item);
         }
+        ArrangeCards(deck.player.cards, true);
     }
-    ArrangeCards(deck.player.cards, true);
 };
 window.onmousemove = function (event) {
     if (document.getElementsByClassName('dragging').length !== 0) {

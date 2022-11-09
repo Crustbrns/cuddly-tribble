@@ -179,40 +179,52 @@ function BotAttack() {
 }
 function BotAttackNext() {
     var cardAttack = null;
-    var _loop_1 = function (card) {
-        if (deck.bot.cards.filter(function (x) { return x.force === card.force; }).length !== 0) {
-            cardAttack = deck.bot.cards.filter(function (x) { return x.force === card.force; })[0];
-            return "break";
-        }
-    };
-    for (var _i = 0, _a = deck.heap.activeCards; _i < _a.length; _i++) {
-        var card = _a[_i];
-        var state_1 = _loop_1(card);
-        if (state_1 === "break")
-            break;
-    }
-    if (cardAttack !== null) {
-        if (deck.heap.TryAddAttackingCard(cardAttack)) {
-            audioPlayer.Play('placed');
-            showCard(cardAttack);
-            deck.bot.RemoveCard(cardAttack);
-            for (var _b = 0, _c = deck.heap.activeCards; _b < _c.length; _b++) {
-                var card = _c[_b];
-                var cardItem = document.getElementById("card".concat(card.id));
-                cardItem.style.transform = "translate(".concat(card.position.x, "%, ").concat(card.position.y, "%) rotate(").concat(card.position.angle, "deg)");
+    if (deck.player.cards.length !== 0) {
+        var _loop_1 = function (card) {
+            if (deck.bot.cards.filter(function (x) { return x.force === card.force; }).length !== 0) {
+                cardAttack = deck.bot.cards.filter(function (x) { return x.force === card.force; })[0];
+                return "break";
             }
-            ArrangeCards(deck.bot.cards, false);
-            toggleActionButtonContext(true, 'Take');
+        };
+        for (var _i = 0, _a = deck.heap.activeCards; _i < _a.length; _i++) {
+            var card = _a[_i];
+            var state_1 = _loop_1(card);
+            if (state_1 === "break")
+                break;
+        }
+        if (cardAttack !== null) {
+            if (deck.heap.TryAddAttackingCard(cardAttack)) {
+                audioPlayer.Play('placed');
+                showCard(cardAttack);
+                deck.bot.RemoveCard(cardAttack);
+                for (var _b = 0, _c = deck.heap.activeCards; _b < _c.length; _b++) {
+                    var card = _c[_b];
+                    var cardItem = document.getElementById("card".concat(card.id));
+                    cardItem.style.transform = "translate(".concat(card.position.x, "%, ").concat(card.position.y, "%) rotate(").concat(card.position.angle, "deg)");
+                }
+                ArrangeCards(deck.bot.cards, false);
+                toggleActionButtonContext(true, 'Take');
+            }
+        }
+        else {
+            setTimeout(function () {
+                if (deck.bot.cards.length > 0) {
+                    toggleBotsDecision(true, 'Done');
+                }
+                setTimeout(function () {
+                    makeAction();
+                }, 1200);
+            }, 500);
+            // toggleActionButtonContext(true, 'Done');
         }
     }
     else {
-        setTimeout(function () {
-            toggleBotsDecision(true, 'Done');
-            setTimeout(function () {
-                makeAction();
-            }, 1200);
-        }, 500);
-        // toggleActionButtonContext(true, 'Done');
+        if (deck.bot.cards.length !== 0) {
+            DisplayWinner('player');
+        }
+        else {
+            DisplayWinner('tie');
+        }
     }
 }
 function InitializeCards() {

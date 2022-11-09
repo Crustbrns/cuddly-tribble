@@ -88,10 +88,18 @@ function DisplayWinner(player) {
         var game = document.getElementById('game');
         game === null || game === void 0 ? void 0 : game.appendChild(winner);
     }
-    else if (player === 'user') {
+    else if (player === 'player') {
         audioPlayer.Play('win');
         var winner = document.createElement('div');
         winner.textContent = 'PLAYER WINS';
+        winner.id = 'winner';
+        var game = document.getElementById('game');
+        game === null || game === void 0 ? void 0 : game.appendChild(winner);
+    }
+    else if (player === 'tie') {
+        audioPlayer.Play('lose');
+        var winner = document.createElement('div');
+        winner.textContent = 'TIE';
         winner.id = 'winner';
         var game = document.getElementById('game');
         game === null || game === void 0 ? void 0 : game.appendChild(winner);

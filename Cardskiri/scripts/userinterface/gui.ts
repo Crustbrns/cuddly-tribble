@@ -96,10 +96,19 @@ function DisplayWinner(player: string) {
         let game = document.getElementById('game');
         game?.appendChild(winner);
     }
-    else if (player === 'user') {
+    else if (player === 'player') {
         audioPlayer.Play('win');
         let winner = document.createElement('div');
         winner.textContent = 'PLAYER WINS';
+        winner.id = 'winner';
+
+        let game = document.getElementById('game');
+        game?.appendChild(winner);
+    }
+    else if (player === 'tie') {
+        audioPlayer.Play('lose');
+        let winner = document.createElement('div');
+        winner.textContent = 'TIE';
         winner.id = 'winner';
 
         let game = document.getElementById('game');

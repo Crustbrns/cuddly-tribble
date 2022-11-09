@@ -127,9 +127,8 @@ window.onmouseup = (event) => {
                 card.classList.remove('bordered');
             }
         }
+        ArrangeCards(deck.player.cards, true);
     }
-
-    ArrangeCards(deck.player.cards, true);
 }
 
 window.onmousemove = (event) => {
