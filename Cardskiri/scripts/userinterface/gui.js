@@ -56,6 +56,7 @@ function makeAction() {
         for (var _b = 0, _c = deck.bot.cards; _b < _c.length; _b++) {
             var card = _c[_b];
             hideCard(card);
+            card.bundle = undefined;
         }
         var _loop_1 = function (card) {
             var cardItem = document.getElementById("card".concat(card.id));

@@ -74,6 +74,7 @@ window.onmouseup = (event) => {
                         (card.suit.type === cardObject?.suit.type && card.force < cardObject.force)
                         || (card.suit.type !== deck.trumps.type && cardObject?.suit.type == deck.trumps.type)) {
 
+                        toggleActionButton(false);
                         audioPlayer.Play('placed');
                         cardObject!.position = new Position(card?.position?.x! + 14, card?.position?.y! + 9, card?.position?.angle! + 5);
                         cardObject!.bundle = card?.id;
@@ -105,7 +106,7 @@ window.onmouseup = (event) => {
                             cardItem.style.transform = `translate(${card.position!.x}%, ${card.position!.y}%) rotate(${card.position!.angle}deg)`;
                         }
                         console.log('After bot attack');
-                        
+
                         break;
                     }
                     else {

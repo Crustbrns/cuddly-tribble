@@ -66,6 +66,7 @@ window.onmouseup = function (event) {
                     if (intersected && deck.heap.activeCards.filter(function (x) { return x.bundle === card_2.id; }).length === 0 &&
                         (card_2.suit.type === (cardObject === null || cardObject === void 0 ? void 0 : cardObject.suit.type) && card_2.force < cardObject.force)
                         || (card_2.suit.type !== deck.trumps.type && (cardObject === null || cardObject === void 0 ? void 0 : cardObject.suit.type) == deck.trumps.type)) {
+                        toggleActionButton(false);
                         audioPlayer.Play('placed');
                         cardObject.position = new Position(((_a = card_2 === null || card_2 === void 0 ? void 0 : card_2.position) === null || _a === void 0 ? void 0 : _a.x) + 14, ((_b = card_2 === null || card_2 === void 0 ? void 0 : card_2.position) === null || _b === void 0 ? void 0 : _b.y) + 9, ((_c = card_2 === null || card_2 === void 0 ? void 0 : card_2.position) === null || _c === void 0 ? void 0 : _c.angle) + 5);
                         cardObject.bundle = card_2 === null || card_2 === void 0 ? void 0 : card_2.id;

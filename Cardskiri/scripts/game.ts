@@ -189,6 +189,7 @@ function BotAttack(): void {
             }
 
             ArrangeCards(deck.bot.cards, false);
+            toggleActionButtonContext(true, 'Take');
         }
     }
     else {
@@ -220,11 +221,16 @@ function BotAttackNext(): void {
             }
 
             ArrangeCards(deck.bot.cards, false);
+            toggleActionButtonContext(true, 'Take');
         }
     }
     else {
-        toggleBotsDecision(true, 'Done');
-        makeAction();
+        setTimeout(()=>{
+            toggleBotsDecision(true, 'Done');
+            setTimeout(()=>{
+                makeAction();
+            }, 1200);
+        }, 500);
         // toggleActionButtonContext(true, 'Done');
     }
 }

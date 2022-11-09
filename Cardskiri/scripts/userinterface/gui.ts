@@ -62,6 +62,7 @@ function makeAction(): void {
 
         for (const card of deck.bot.cards) {
             hideCard(card);
+            card.bundle = undefined;
         }
 
         for (const card of deck.player.cards) {

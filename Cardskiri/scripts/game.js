@@ -166,6 +166,7 @@ function BotAttack() {
                 cardItem.style.transform = "translate(".concat(card.position.x, "%, ").concat(card.position.y, "%) rotate(").concat(card.position.angle, "deg)");
             }
             ArrangeCards(deck.bot.cards, false);
+            toggleActionButtonContext(true, 'Take');
         }
     }
     else {
@@ -198,11 +199,16 @@ function BotAttackNext() {
                 cardItem.style.transform = "translate(".concat(card.position.x, "%, ").concat(card.position.y, "%) rotate(").concat(card.position.angle, "deg)");
             }
             ArrangeCards(deck.bot.cards, false);
+            toggleActionButtonContext(true, 'Take');
         }
     }
     else {
-        toggleBotsDecision(true, 'Done');
-        makeAction();
+        setTimeout(function () {
+            toggleBotsDecision(true, 'Done');
+            setTimeout(function () {
+                makeAction();
+            }, 1200);
+        }, 500);
         // toggleActionButtonContext(true, 'Done');
     }
 }

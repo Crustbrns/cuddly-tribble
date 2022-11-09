@@ -209,9 +209,9 @@ class Deck {
                     this.player.AddCard(this.cards[1]!);
                     this.cards.splice(1, 1);
                 }
-                else {
+                else if (this.cards.length === 1) {
                     this.player.AddCard(this.cards[0]!);
-                    this.cards.splice(0, 0);
+                    this.cards.splice(0, 1);
                 }
             }
 
@@ -220,9 +220,9 @@ class Deck {
                     this.bot.AddCard(this.cards[1]!);
                     this.cards.splice(1, 1);
                 }
-                else {
+                else if (this.cards.length === 1) {
                     this.bot.AddCard(this.cards[0]!);
-                    this.cards.splice(0, 0);
+                    this.cards.splice(0, 1);
                 }
             }
         }
@@ -290,6 +290,24 @@ class Deck {
 
                 while (this.heap.activeCards.length > 0) {
                     this.bot.AddCard(this.heap.activeCards.pop()!);
+                }
+
+                this.heap.attackingCards = 0;
+
+                this.TryPushPlayersCards();
+                toggleActionButton(false);
+                toggleBotsDecision(false);
+                UpdateInfoBox();
+
+                return true;
+            }
+            else if (this.heap.attackingCards !== this.heap.activeCards.length / 2
+                && !this.isFirstPlayerMoving) {
+
+                this.bot.shouldTake = undefined;
+
+                while (this.heap.activeCards.length > 0) {
+                    this.player.AddCard(this.heap.activeCards.pop()!);
                 }
 
                 this.heap.attackingCards = 0;
