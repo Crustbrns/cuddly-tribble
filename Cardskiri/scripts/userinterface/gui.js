@@ -25,9 +25,26 @@ function GuiInit() {
     gui === null || gui === void 0 ? void 0 : gui.appendChild(infoLabel);
     gui === null || gui === void 0 ? void 0 : gui.appendChild(actionButton);
 }
+function GetDeckCardsInfo() {
+    if (deck.cards.length > 0) {
+        return ", ".concat(deck.cards.length, " cards left");
+    }
+    return '';
+}
+function GetTrumpType(trump) {
+    if (trump.type === 0)
+        return '♦';
+    else if (trump.type === 1)
+        return '♥';
+    else if (trump.type === 2)
+        return '♣';
+    else if (trump.type === 3)
+        return '♠';
+    return '';
+}
 function UpdateInfoBox() {
     var infoLabel = document.getElementById('btn-info');
-    infoLabel.textContent = "Trumps: ".concat(deck.trumps.name, ", ").concat(deck.isFirstPlayerMoving ? 'you\'re attacker' : 'you\'re defender', ", it's ").concat(deck.isFirstPlayerMoving ? 'your' : 'bot\'s', " turn now");
+    infoLabel.textContent = "Trumps: ".concat(deck.trumps.name, " (").concat(GetTrumpType(deck.trumps), "), ").concat(deck.isFirstPlayerMoving ? 'you\'re attacker' : 'you\'re defender', ", it's ").concat(deck.isFirstPlayerMoving ? 'your' : 'bot\'s', " turn now").concat(GetDeckCardsInfo());
     infoLabel.classList.add('visible');
 }
 function AlertInfoBox() {

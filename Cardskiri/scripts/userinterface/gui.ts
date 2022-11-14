@@ -29,9 +29,25 @@ function GuiInit(): void {
     gui?.appendChild(actionButton);
 }
 
+function GetDeckCardsInfo(): string {
+    if (deck.cards.length > 0) {
+        return `, ${deck.cards.length} cards left`
+    }
+
+    return '';
+}
+
+function GetTrumpType(trump: SuitName): string {
+    if (trump.type === 0) return '♦';
+    else if (trump.type === 1) return '♥';
+    else if (trump.type === 2) return '♣';
+    else if (trump.type === 3) return '♠';
+    return '';
+}
+
 function UpdateInfoBox(): void {
     let infoLabel = document.getElementById('btn-info')!;
-    infoLabel.textContent = `Trumps: ${deck.trumps.name}, ${deck.isFirstPlayerMoving ? 'you\'re attacker' : 'you\'re defender'}, it's ${deck.isFirstPlayerMoving ? 'your' : 'bot\'s'} turn now`;
+    infoLabel.textContent = `Trumps: ${deck.trumps.name} (${GetTrumpType(deck.trumps)}), ${deck.isFirstPlayerMoving ? 'you\'re attacker' : 'you\'re defender'}, it's ${deck.isFirstPlayerMoving ? 'your' : 'bot\'s'} turn now${GetDeckCardsInfo()}`;
     infoLabel.classList.add('visible');
 }
 
