@@ -5,19 +5,37 @@ class Platform {
     }
 }
 class Ball {
-    constructor(x, y) {
-        this.x = x;
-        this.y = y;
+    constructor() {
+        this.x = window.innerWidth / 2;
+        this.y = window.innerHeight * 0.93;
+        this.angle = 90 - Math.random() * 180;
+        this.speed = 2;
+    }
+    UpdateBall() {
+        let ballElement = document.getElementById('ball');
+        ballElement.style.transform = `translate(${this.x}px, ${this.y}px)`;
+        this.y -= this.speed;
     }
 }
 class Game {
     constructor() {
         this.player = new Platform(960);
-        this.ball = new Ball(960, 1080);
+        this.ball = new Ball();
     }
     UpdatePlatform(e) {
         this.player.x = e.x;
+        this.CheckBorders();
+        let player = document.getElementById('player');
+        player.style.transform = `translateX(${this.player.x - 128}px)`;
         console.log(this.player);
+    }
+    CheckBorders() {
+        if (this.player.x < 128) {
+            this.player.x = 128;
+        }
+        else if (this.player.x > window.innerWidth - 128) {
+            this.player.x = window.innerWidth - 128;
+        }
     }
 }
 class Tile {
