@@ -8,23 +8,40 @@ class Ball {
     constructor() {
         this.x = window.innerWidth / 2;
         this.y = window.innerHeight * 0.93;
-        this.angle = 90 - Math.random() * 180;
+        this.angle = 0;
         this.speed = 2;
+        this.rotate = 0;
+        this.rotatespeed = 0;
     }
     UpdateBall() {
         let ballElement = document.getElementById('ball');
-        ballElement.style.transform = `translate(${this.x}px, ${this.y}px)`;
-        this.y -= this.speed;
+        ballElement.style.transform = `translate(${this.x}px, ${this.y}px) rotate(${this.rotate}deg)`;
         this.CheckBorders();
+        this.MoveBall();
+    }
+    MoveBall() {
+        this.x -= Math.cos(this.angle * Math.PI / 180) * this.speed;
+        this.y -= Math.sin(this.angle * Math.PI / 180) * this.speed;
+        this.speed += 0.001;
+        this.rotate += this.rotatespeed;
+        this.rotate %= 360;
+        this.rotatespeed += 0.001;
     }
     CheckBorders() {
-        let intersected = Intersects.circleBox(this.x, this.y, 50, 0, -10, window.innerWidth, 10);
-        if (intersected)
-            console.log('asd');
-
-        this.X -= Math.cos(this.angle) * this.speed;
-        this.Y -= Math.sin(this.angle) * this.speed;
-        this.speed += 0.005;
+        let intersected = Intersects.circleBox(this.x, this.y, 50, 0, 10, window.innerWidth, 10);
+        if (Intersects.circleBox(this.x, this.y, 25, 0, -35, window.innerWidth, 10)) {
+            this.angle += 180;
+        }
+        else if (Intersects.circleBox(this.x, this.y, 25, 0, window.innerHeight - 35, window.innerWidth, 10)) {
+            this.angle += 180;
+        }
+        else if (Intersects.circleBox(this.x, this.y, 25, -35, 0, 10, window.innerHeight)) {
+            this.angle += 180;
+        }
+        else if (Intersects.circleBox(this.x, this.y, 25, window.innerWidth - 35, 0, 10, window.innerHeight)) {
+            this.angle += 180;
+        }
+        // if (Intersects.circleBox(this.x, this.y, 25, 0, 10, window.innerWidth, 10)) this.angle = 270;
     }
 }
 class Game {
