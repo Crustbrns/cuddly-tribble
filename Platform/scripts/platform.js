@@ -7,63 +7,20 @@ class Platform {
 class Ball {
     constructor() {
         this.x = window.innerWidth / 2;
-        this.y = window.innerHeight * 0.85;
-        this.angle = 110 - Math.random() * 40;
+        this.y = window.innerHeight * 0.93;
+        this.angle = 90 - Math.random() * 180;
         this.speed = 2;
-        this.rotate = 0;
-        this.rotatespeed = 0;
     }
     UpdateBall() {
         let ballElement = document.getElementById('ball');
-        ballElement.style.transform = `translate(${this.x}px, ${this.y}px) rotate(${this.rotate}deg)`;
-        this.CheckBorders();
-        this.MoveBall();
-    }
-    MoveBall() {
-        this.x -= Math.cos(this.angle * Math.PI / 180) * this.speed;
-        this.y -= Math.sin(this.angle * Math.PI / 180) * this.speed;
-        if (this.speed < 8) {
-            this.speed += 0.001;
-            this.rotatespeed += 0.001;
-            this.rotate %= 360;
-        }
-        this.rotate += this.rotatespeed;
-    }
-    CheckBorders() {
-        if (Intersects.circleBox(this.x, this.y, 25, 0, -35, window.innerWidth, 10)) {
-            this.angle = 180 - this.angle + 180;
-            this.angle %= 360;
-            console.log(this.angle);
-        }
-        else if (Intersects.circleBox(this.x, this.y, 25, 0, window.innerHeight - 35, window.innerWidth, 10)) {
-            this.angle = 180 - this.angle + 180;
-            this.angle %= 360;
-            console.log(this.angle);
-        }
-        else if (Intersects.circleBox(this.x, this.y, 25, -35, 0, 10, window.innerHeight)) {
-            this.angle = 0 - this.angle + 180;
-            this.angle %= 360;
-            console.log(this.angle);
-        }
-        else if (Intersects.circleBox(this.x, this.y, 25, window.innerWidth - 35, 0, 10, window.innerHeight)) {
-            this.angle = 0 - this.angle + 180;
-            this.angle %= 360;
-            console.log(this.angle);
-        }
-        // if (Intersects.circleBox(this.x, this.y, 25, 0, 10, window.innerWidth, 10)) this.angle = 270;
+        ballElement.style.transform = `translate(${this.x}px, ${this.y}px)`;
+        this.y -= this.speed;
     }
 }
 class Game {
     constructor() {
         this.player = new Platform(960);
         this.ball = new Ball();
-    }
-    CheckBallPlayerCollision() {
-        if (Intersects.circleBox(this.ball.x, this.ball.y, 25, this.player.x - 128, window.innerHeight * 0.93 - 32, 256, 32)) {
-            let calcangle = Math.atan2(this.ball.y - window.innerHeight * 0.98, this.ball.x - this.player.x);
-            console.log(calcangle, calcangle * 180 / Math.PI);
-            this.ball.angle = calcangle * 180 / Math.PI + 180;
-        }
     }
     UpdatePlatform(e) {
         this.player.x = e.x;
