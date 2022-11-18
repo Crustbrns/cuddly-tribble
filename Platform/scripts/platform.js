@@ -15,6 +15,16 @@ class Ball {
         let ballElement = document.getElementById('ball');
         ballElement.style.transform = `translate(${this.x}px, ${this.y}px)`;
         this.y -= this.speed;
+        this.CheckBorders();
+    }
+    CheckBorders() {
+        let intersected = Intersects.circleBox(this.x, this.y, 50, 0, -10, window.innerWidth, 10);
+        if (intersected)
+            console.log('asd');
+
+        this.X -= Math.cos(this.angle) * this.speed;
+        this.Y -= Math.sin(this.angle) * this.speed;
+        this.speed += 0.005;
     }
 }
 class Game {

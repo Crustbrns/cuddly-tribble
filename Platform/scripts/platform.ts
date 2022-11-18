@@ -21,6 +21,13 @@ class Ball {
         let ballElement = document.getElementById('ball')!;
         ballElement!.style.transform = `translate(${this.x}px, ${this.y}px)`;
         this.y -= this.speed;
+        this.CheckBorders();
+    }
+
+    private CheckBorders() {
+        let intersected = Intersects.circleBox(this.x, this.y, 50, 0, -10, window.innerWidth, 10);
+        if(intersected) console.log('asd');
+        
     }
 }
 
