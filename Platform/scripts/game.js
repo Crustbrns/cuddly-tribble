@@ -13,5 +13,6 @@ window.onload = () => {
     document.addEventListener('mousemove', (Event) => game.UpdatePlatform(Event), false);
     setInterval(() => {
         game.ball.UpdateBall();
+        game.CheckBallPlayerCollision();
     }, 1);
 };

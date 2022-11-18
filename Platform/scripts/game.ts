@@ -16,5 +16,6 @@ window.onload = () => {
 
     setInterval(()=>{
         game.ball.UpdateBall();
+        game.CheckBallPlayerCollision();
     }, 1);
 }
