@@ -12,10 +12,13 @@ window.onload = () => {
     ball.id = 'ball';
     gameElement?.appendChild(ball);
 
+    game.DisplayTiles();
+
     document.addEventListener('mousemove', (Event) => game.UpdatePlatform(Event), false);
 
     setInterval(()=>{
         game.ball.UpdateBall();
         game.CheckBallPlayerCollision();
+        game.CheckBallTilesCollision();
     }, 1);
 }

@@ -5,7 +5,7 @@
     pointer-events: none;
 }
 
-body{
+body {
     background-color: #25282d;
     overflow: hidden;
 }
@@ -13,4 +13,9 @@ body{
 #player {
     position: absolute;
     bottom: 5%;
+}
+
+.tile {
+    width: 100px;
+    height: 32px;
 }

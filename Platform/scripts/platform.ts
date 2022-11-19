@@ -77,15 +77,34 @@ class Game {
         this.player = new Platform(960);
         this.ball = new Ball();
         this.tiles = new Array<Tile>;
+
+        this.tiles.push(new Tile(800, 300));
+    }
+
+    DisplayTiles() {
+        let index = 0;
+        this.tiles.forEach((x) => {
+            x.id = index;
+            let tile = document.createElement('img');
+            tile.id = `tile${index++}`;
+            tile.src = `./images/tile-3.png`;
+            tile.classList.add('tile');
+            tile.style.transform = `translate(${x.x}px, ${x.y}px)`;
+            document.getElementById('game')?.appendChild(tile);
+        })
     }
 
     CheckBallPlayerCollision(): void {
         if (Intersects.circleBox(this.ball.x, this.ball.y, 25, this.player.x - 128, window.innerHeight * 0.93 - 32, 256, 32)) {
             let calcangle = Math.atan2(this.ball.y - window.innerHeight * 0.98, this.ball.x - this.player.x);
             console.log(calcangle, calcangle * 180 / Math.PI);
-            
+
             this.ball.angle = calcangle * 180 / Math.PI + 180;
         }
+    }
+
+    CheckBallTilesCollision(): void {
+        this.tiles.forEach(x => x.CheckCollision(this.ball));
     }
 
     UpdatePlatform(e: MouseEvent): void {
@@ -107,15 +126,33 @@ class Game {
 }
 
 class Tile {
+    public id?: number;
     public x: number;
     public y: number;
     public width: number;
     public height: number;
+    public lives: number;
 
-    constructor(x: number, y: number, width: number, height: number) {
+    constructor(x: number, y: number) {
         this.x = x;
         this.y = y;
-        this.width = width;
-        this.height = height;
+        this.width = 64;
+        this.height = 16;
+        this.lives = 3;
+    }
+
+    public CheckCollision(ball: Ball): void {
+        if (Intersects.circleBox(ball.x, ball.y, 25, this.x, this.y, 64, 16)) {
+            this.lives--;
+
+            ball.angle = 180 - ball.angle + 180;
+
+            if (this.lives === 0) {
+                document.getElementById(`tile${this.id}`)!.remove();
+            }
+            else {
+                let tile = document.getElementById(`tile${this.id}`)!.src = `./images/tile-${this.lives}.png`;
+            }
+        }
     }
 }

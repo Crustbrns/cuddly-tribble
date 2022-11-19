@@ -10,8 +10,11 @@ window.onload = () => {
     ball.src = './images/ball-platform.png';
     ball.id = 'ball';
     gameElement === null || gameElement === void 0 ? void 0 : gameElement.appendChild(ball);
+    game.DisplayTiles();
     document.addEventListener('mousemove', (Event) => game.UpdatePlatform(Event), false);
     setInterval(() => {
         game.ball.UpdateBall();
+        game.CheckBallPlayerCollision();
+        game.CheckBallTilesCollision();
     }, 1);
 };
