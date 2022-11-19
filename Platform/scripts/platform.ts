@@ -104,7 +104,11 @@ class Game {
     }
 
     CheckBallTilesCollision(): void {
-        this.tiles.forEach(x => x.CheckCollision(this.ball));
+        this.tiles.forEach(x => {
+            if (x.CheckCollision(this.ball)) {
+                this.tiles.splice(this.tiles.findIndex(y => y === x), 1);
+            }
+        });
     }
 
     UpdatePlatform(e: MouseEvent): void {
@@ -141,7 +145,7 @@ class Tile {
         this.lives = 3;
     }
 
-    public CheckCollision(ball: Ball): void {
+    public CheckCollision(ball: Ball): boolean {
         if (Intersects.circleBox(ball.x, ball.y, 25, this.x, this.y, 64, 16)) {
             this.lives--;
 
@@ -149,10 +153,12 @@ class Tile {
 
             if (this.lives === 0) {
                 document.getElementById(`tile${this.id}`)!.remove();
+                return true;
             }
             else {
                 let tile = document.getElementById(`tile${this.id}`)!.src = `./images/tile-${this.lives}.png`;
             }
         }
+        return false;
     }
 }

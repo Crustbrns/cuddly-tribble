@@ -81,7 +81,11 @@ class Game {
         }
     }
     CheckBallTilesCollision() {
-        this.tiles.forEach(x => x.CheckCollision(this.ball));
+        this.tiles.forEach(x => {
+            if (x.CheckCollision(this.ball)) {
+                this.tiles.splice(this.tiles.findIndex(y => y === x), 1);
+            }
+        });
     }
     UpdatePlatform(e) {
         this.player.x = e.x;
@@ -113,10 +117,12 @@ class Tile {
             ball.angle = 180 - ball.angle + 180;
             if (this.lives === 0) {
                 document.getElementById(`tile${this.id}`).remove();
+                return true;
             }
             else {
                 let tile = document.getElementById(`tile${this.id}`).src = `./images/tile-${this.lives}.png`;
             }
         }
+        return false;
     }
 }
