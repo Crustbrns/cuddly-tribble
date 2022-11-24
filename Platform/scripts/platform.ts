@@ -98,7 +98,6 @@ class Game {
         if (Intersects.circleBox(this.ball.x, this.ball.y, 25, this.player.x - 128, window.innerHeight * 0.93 - 32, 256, 32)) {
             let calcangle = Math.atan2(this.ball.y - window.innerHeight * 0.98, this.ball.x - this.player.x);
             console.log(calcangle, calcangle * 180 / Math.PI);
-
             this.ball.angle = calcangle * 180 / Math.PI + 180;
         }
     }
