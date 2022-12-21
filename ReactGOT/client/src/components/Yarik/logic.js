@@ -120,7 +120,7 @@ class Game {
                 item.speed += window.innerHeight / 108000;
 
                 if (this.CheckPlayerKill(item, player)) {
-                    this.Bonuses.splice(this.Bonuses.findIndex(x => x == item), 1);
+                    this.Bonuses.splice(this.Bonuses.findIndex(x => x === item), 1);
                     if (item.type === 'Pill') {
                         this.BusterTime = 3;
                         this.PillsCount++;
@@ -149,7 +149,7 @@ class Game {
                             this.Points += this.MultiplyPoints();
                             item.alive = false;
                             setTimeout(() => {
-                                this.Enemies.splice(this.Enemies.findIndex(x => x == item), 1);
+                                this.Enemies.splice(this.Enemies.findIndex(x => x === item), 1);
                             }, 500);
                         }
                         if (this.Boss !== null) {
@@ -166,7 +166,7 @@ class Game {
                 if (item.type === 'Pill' || item.type === 'Unity') {
                     for (const ally of this.Allies) {
                         if (this.checkZohaCollision(item, ally.pos)) {
-                            this.Bonuses.splice(this.Bonuses.findIndex(x => x == item), 1);
+                            this.Bonuses.splice(this.Bonuses.findIndex(x => x === item), 1);
                             if (item.type === 'Pill') {
                                 zohaevents[3].play();
                                 ally.BusterTime = 3;
@@ -179,7 +179,7 @@ class Game {
                                     this.Points += this.MultiplyPoints();
                                     item.alive = false;
                                     setTimeout(() => {
-                                        this.Enemies.splice(this.Enemies.findIndex(x => x == item), 1);
+                                        this.Enemies.splice(this.Enemies.findIndex(x => x === item), 1);
                                     }, 500);
                                 }
                                 if (this.Boss !== null) {
@@ -258,7 +258,7 @@ class Game {
                 }
                 for (const ally of this.Allies) {
                     if (ally.alive && this.CheckPlayerKill(item, ally.pos)) {
-                        this.Balls.splice(this.Balls.findIndex(x => x == item), 1);
+                        this.Balls.splice(this.Balls.findIndex(x => x === item), 1);
                         zohadamage.at(Math.floor(Math.random()*zohadamage.length)).play();
                         ally.hp -= 20;
                         console.log(ally.hp);
@@ -266,7 +266,7 @@ class Game {
                             zohaevents[0].play();
                             ally.alive = false;
                             setTimeout(() => {
-                                this.Allies.splice(this.Allies.findIndex(x => x == ally), 1);
+                                this.Allies.splice(this.Allies.findIndex(x => x === ally), 1);
                             }, 500);
                         }
                     }
@@ -323,7 +323,7 @@ class Game {
                 item.speed += window.innerHeight / 42000;
                 if (this.CheckKill(item)) {
                     if (item.type === 'Shishka' || item.type.includes('cgrt')) {
-                        this.Drops.splice(this.Drops.findIndex(x => x == item), 1);
+                        this.Drops.splice(this.Drops.findIndex(x => x === item), 1);
                     }
                     else if (item.type === 'Shavuha') {
                         shotshavuha.at(Math.floor(Math.random() * shotshavuha.length)).play();
@@ -351,12 +351,12 @@ class Game {
                 }
                 if (this.Boss !== null && this.CheckBossHit(item)) {
                     if (item.type === 'Shishka' || item.type.includes('cgrt')) {
-                        this.Drops.splice(this.Drops.findIndex(x => x == item), 1);
+                        this.Drops.splice(this.Drops.findIndex(x => x === item), 1);
                         this.Boss.hp -= 20;
                     }
                     else if (item.type === 'Shavuha') {
                         shotshavuha.at(Math.floor(Math.random() * shotshavuha.length)).play();
-                        this.Drops.splice(this.Drops.findIndex(x => x == item), 1);
+                        this.Drops.splice(this.Drops.findIndex(x => x === item), 1);
                         this.Boss.hp -= 60;
                     }
                     if (Math.random() < 0.0075 * this.TimeAlive) {
@@ -409,7 +409,7 @@ class Game {
                     item.alive = false;
                     audios[Math.floor(Math.random() * 5)].play();
                     setTimeout(() => {
-                        this.Enemies.splice(this.Enemies.findIndex(x => x == item), 1);
+                        this.Enemies.splice(this.Enemies.findIndex(x => x === item), 1);
                     }, 500);
                     return true;
                 }
@@ -500,7 +500,7 @@ class Enemy {
     }
 
     ChangeDirection = () => {
-        this.direction == 1 ? this.direction = 2 : this.direction = 1;
+        this.direction === 1 ? this.direction = 2 : this.direction = 1;
     }
 
     CheckBorders() {
@@ -518,8 +518,8 @@ class Enemy {
     }
 
     Move() {
-        if (this.direction != 0) {
-            this.direction == 1 ? this.pos.x -= window.innerWidth / 1920 : this.pos.x += window.innerWidth / 1920;
+        if (this.direction !== 0) {
+            this.direction === 1 ? this.pos.x -= window.innerWidth / 1920 : this.pos.x += window.innerWidth / 1920;
         }
         this.CheckBorders();
     }
@@ -536,7 +536,7 @@ class Ally {
         this.BusterTime = 0;
     }
     ChangeDirection = () => {
-        this.direction == 1 ? this.direction = 2 : this.direction = 1;
+        this.direction === 1 ? this.direction = 2 : this.direction = 1;
     }
 
     Update() {
@@ -560,9 +560,9 @@ class Ally {
     }
 
     Move() {
-        if (this.direction != 0) {
+        if (this.direction !== 0) {
             let speed = this.BusterTime === 0 ? window.innerWidth / 1000 : window.innerWidth / 600
-            this.direction == 1 ? this.pos.x -= speed : this.pos.x += speed;
+            this.direction === 1 ? this.pos.x -= speed : this.pos.x += speed;
         }
         if (Math.random() < 0.001) {
             this.ChangeDirection();
@@ -583,7 +583,7 @@ class Boss {
     }
 
     ChangeDirection = () => {
-        this.direction == 1 ? this.direction = 2 : this.direction = 1;
+        this.direction === 1 ? this.direction = 2 : this.direction = 1;
     }
 
     CheckBorders() {
@@ -601,8 +601,8 @@ class Boss {
     }
 
     Move() {
-        if (this.direction != 0) {
-            this.direction == 1 ? this.pos.x -= window.innerWidth / 1340 : this.pos.x += window.innerWidth / 1340;
+        if (this.direction !== 0) {
+            this.direction === 1 ? this.pos.x -= window.innerWidth / 1340 : this.pos.x += window.innerWidth / 1340;
         }
         if (Math.random() < 0.001) {
             this.ChangeDirection();
