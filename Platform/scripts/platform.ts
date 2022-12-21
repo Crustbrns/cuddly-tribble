@@ -139,8 +139,8 @@ class Tile {
     constructor(x: number, y: number) {
         this.x = x;
         this.y = y;
-        this.width = 64;
-        this.height = 16;
+        this.width = 32;
+        this.height = 8;
         this.lives = 3;
     }
 
