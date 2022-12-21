@@ -25,6 +25,8 @@ import classes from './yarik.module.css';
 import { DeadAnim, Game } from './logic';
 import { GameRadio } from './radio';
 
+import SnowGif from './Resources/snow03.gif';
+
 import { saveResult } from './result';
 import { Confetti, __esModule } from 'react-confetti-cannon';
 import { getOdnorazka } from './odnorazka';
@@ -304,7 +306,7 @@ const Yarik = function () {
                             <div className={classes.keybutton}>D</div>
                         </div>
                             <div className={classes.keysRowContainer}>
-                            <div className={classes.keybutton + " " + classes.spase}>Spase</div>
+                            <div className={classes.keybutton + " " + classes.spase}>Space</div>
                         </div>
                     </div>
                 </div>
@@ -328,6 +330,10 @@ const Yarik = function () {
                         <div style={{ marginTop: '4vh' }} className={`${classes.keybutton}`}>R</div>
                     </div>
                 </div>
+                <img className={classes.snowgif} src={SnowGif}/>
+                <img className={classes.snowgif} style={{left: '50%'}} src={SnowGif}/>
+                <img className={classes.snowgif} style={{top: '50%'}} src={SnowGif}/>
+                <img className={classes.snowgif} style={{left: '50%', top: '50%'}} src={SnowGif}/>
                 {game.Allies.map((item, index) => {
                     return <img key={index} style={{ transform: `translate(${item.pos.x}px` }} className={`${classes.zoha}  ${item.alive ? '' : getDeadAnim(item)}`} src={!item.alive ? ZohaDeadImage : item.BusterTime === 0 ? ZohaImage : ZohaBoostedImage} />
                 })}

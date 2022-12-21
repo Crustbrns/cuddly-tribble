@@ -16,6 +16,15 @@
     left: 0;
 }
 
+.snowgif{
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 50%;
+    height: 50%;
+    opacity: 0.3;
+}
+
 .darkenLite {
     background-color: rgba(0, 0, 0, 0.01);
     position: absolute;
