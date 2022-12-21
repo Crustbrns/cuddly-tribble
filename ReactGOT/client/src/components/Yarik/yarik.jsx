@@ -3,8 +3,8 @@ import YarikImage from './Resources/Yarik.png';
 import YarikBoostedImage from './Resources/YarikBoosted.png';
 import TolikImage from './Resources/Tolik.png';
 import TolikBoostedImage from './Resources/TolikBoosted.png';
-import DropImage from './Resources/Шишка.png';
-import BallImage from './Resources/ball.png';
+import DropImage from './Resources/snowball.png';
+import CoalImage from './Resources/coal.png';
 import PillsImage from './Resources/pills.png';
 import NeedleImage from './Resources/Шприц.png';
 import ShavuhaImage from './Resources/Шавуха.png';
@@ -19,9 +19,8 @@ import UnityImage from './Resources/unity.png';
 import BossImage from './Resources/Boss.png';
 import BossBoostedImage from './Resources/BossBoosted.png';
 import BossDefeatedImage from './Resources/BossDefeated.png';
-import EnemyImage from './Resources/enemy.png';
-import EnemyDeadImage from './Resources/enemy-stuffed.png';
 import WinVideo from './Resources/Win.gif';
+import Background from './Resources/Background.jpg';
 import classes from './yarik.module.css';
 import { DeadAnim, Game } from './logic';
 import { GameRadio } from './radio';
@@ -82,19 +81,17 @@ const Yarik = function () {
         const Interval = setInterval(() => {
             if (!game.Over) {
                 calcPos();
-                setGame(game, game.UpdateDrops());
-                setGame(game, game.UpdateBalls(pos));
-                setGame(game, game.UpdateEnemies());
-                setGame(game, game.UpdateBoss());
-                setGame(game, game.UpdateAllies());
-                setGame(game, game.RemoveLast());
-                setGame(game, game.UpdateBonuses(pos));
-                setGame(game, game.BusterTime = game.BusterTime);
-                setGame(game, game.TolikTime = game.TolikTime);
-                setGame(game, game.NeedleTime = game.NeedleTime);
+                game.UpdateDrops()
+                game.UpdateBalls(pos)
+                game.UpdateEnemies()
+                game.UpdateBoss()
+                game.UpdateAllies()
+                game.RemoveLast()
+                game.UpdateBonuses(pos)
+                setGame(game);
 
                 if (reload.time > 0)
-                    setReload(reload.time = reload.time - 1);
+                    setReload(--reload.time);
             }
             else {
                 setIsExploding(isExploding, isExploding = game.getWinConditions());
@@ -103,11 +100,12 @@ const Yarik = function () {
 
         const TimeInterval = setInterval(() => {
             if (!game.Over && game.Started) {
-                setGame(game, game.TimeAlive += 1);
-                setGame(game, game.BusterTime > 0 ? game.BusterTime -= 1 : game.BusterTime = 0);
-                setGame(game, game.TolikTime > 0 ? game.TolikTime -= 1 : game.TolikTime = 0);
-                setGame(game, game.NeedleTime > 0 ? game.NeedleTime -= 1 : game.NeedleTime = 0);
-                setGame(game, game.UpdateAlliesBoosters());
+                game.TimeAlive += 1;
+                game.BusterTime > 0 ? game.BusterTime -= 1 : game.BusterTime = 0;
+                game.TolikTime > 0 ? game.TolikTime -= 1 : game.TolikTime = 0;
+                game.NeedleTime > 0 ? game.NeedleTime -= 1 : game.NeedleTime = 0;
+                game.UpdateAlliesBoosters();
+                setGame(game);
             }
         }, 1000);
 
@@ -147,20 +145,21 @@ const Yarik = function () {
 
         if (movement.dirleft || movement.dirright || movement.shooting) {
 
+            game.InitGame()
+            GameRadio.InitRadio();
+
             if (movement.dirleft) {
-                GameRadio.InitRadio();
-                setGame(game, game.InitGame());
                 tempPos.x -= game.NeedleTime === 0 ? window.innerWidth / 300 : window.innerWidth / 200;
             }
             if (movement.dirright) {
-                GameRadio.InitRadio();
-                setGame(game, game.InitGame());
                 tempPos.x += game.NeedleTime === 0 ? window.innerWidth / 300 : window.innerWidth / 200;
             }
-            if (movement.shooting && reload.time == 0) {
-                setGame(game, game.addNewDrop({ x: tempPos.x + window.innerWidth * 0.01, y: window.innerHeight * 0.8 }));
+            if (movement.shooting && reload.time === 0) {
+                game.addNewDrop({ x: tempPos.x + window.innerWidth * 0.01, y: window.innerHeight * 0.8 })
+                setGame(game);
                 setReload(reload.time = game.BusterTime === 0 ? 150 : 30);
             }
+            setGame(game);
         }
 
         if (tempPos.x < leftBorder) tempPos.x = leftBorder;
@@ -194,30 +193,32 @@ const Yarik = function () {
         GameRadio.ToggleSomething();
         GameRadio.PlaySwitch();
         setGame(new Game([], [], [], 3000, 0, 0));
-        setGame(game, game.Balls = []);
-        setGame(game, game.Drops = []);
-        setGame(game, game.Bonuses = []);
-        setGame(game, game.Enemies = []);
-        setGame(game, game.spawnTime = 3000);
-        setGame(game, game.Points = 0);
-        setGame(game, game.killedCount = 0);
-        setGame(game, game.Started = false);
-        setGame(game, game.Over = false);
-        setGame(game, game.BulletsCount = 0);
-        setGame(game, game.TimeAlive = 0);
-        setGame(game, game.BusterTime = 0);
-        setGame(game, game.TolikTime = 0);
-        setGame(game, game.ShavuhaCount = 0);
-        setGame(game, game.PillsCount = 0);
-        setGame(game, game.UnityCount = 0);
-        setGame(game, game.NeedlesCount = 0);
-        setGame(game, game.OdnorazkaCount = 0);
-        setGame(game, game.ZohaCount = 0);
-        setGame(game, game.Win = false);
-        setGame(game, game.Boss = null);
-        setGame(game, game.NeedleTime = 0);
-        setGame(game, game.Allies = []);
-        setPos(pos, pos.x = -55);
+        game.Balls = [];
+        game.Drops = [];
+        game.Bonuses = [];
+        game.Enemies = [];
+        game.spawnTime = 3000;
+        game.Points = 0;
+        game.killedCount = 0;
+        game.Started = false;
+        game.Over = false;
+        game.BulletsCount = 0;
+        game.TimeAlive = 0;
+        game.BusterTime = 0;
+        game.TolikTime = 0;
+        game.ShavuhaCount = 0;
+        game.PillsCount = 0;
+        game.UnityCount = 0;
+        game.NeedlesCount = 0;
+        game.OdnorazkaCount = 0;
+        game.ZohaCount = 0;
+        game.Win = false;
+        game.Boss = null;
+        game.NeedleTime = 0;
+        game.Allies = [];
+        setGame(game);
+        pos.x = -55;
+        setPos(pos);
         CreateEnemy();
     }
 
@@ -241,13 +242,15 @@ const Yarik = function () {
     }
 
     function getBack() {
-        const styles = {
-            backgroundImage: `url(${WinVideo})`
-        }
         if (game.Over && game.Win) {
-            return styles;
+            return {
+                backgroundImage: `url(${WinVideo})`
+            };
+        } else {
+            return {
+                backgroundImage: `url(${Background})`
+            }
         }
-        return null;
     }
 
     function getBoss() {
@@ -293,11 +296,16 @@ const Yarik = function () {
 
     return (
         <div style={getBack()} className={`${classes.container} ${game.Boss !== null ? classes.bossArived : ''}`}>
-            <div className={classes.darken}>
+            <div className={classes.darkenLite}>
                 <div className={getHints()}>
-                    <div className={classes.keysContainer}>
-                        <div className={classes.keybutton}>A</div>
-                        <div className={classes.keybutton}>D</div>
+                    <div className={classes.keysColumnContainer}>
+                        <div className={classes.keysRowContainer}>
+                            <div className={classes.keybutton}>A</div>
+                            <div className={classes.keybutton}>D</div>
+                        </div>
+                            <div className={classes.keysRowContainer}>
+                            <div className={classes.keybutton + " " + classes.spase}>Spase</div>
+                        </div>
                     </div>
                 </div>
                 <div className={`${classes.deadtitle} ${game.Over ? classes.show : classes.hide}`}>
@@ -348,7 +356,7 @@ const Yarik = function () {
                     })}
                 </div>
                 {game.Balls.map((item, index) => {
-                    return <img key={index} style={{ transform: `translate(${item.pos.x}px, ${item.pos.y}px)` }} className={classes.drop} src={BallImage} />
+                    return <img key={index} style={{ transform: `translate(${item.pos.x}px, ${item.pos.y}px)` }} className={classes.drop} src={CoalImage} />
                 })}
                 {game.Bonuses.map((item, index) => {
                     return <img key={index} style={{ transform: `translate(${item.pos.x}px, ${item.pos.y}px)` }} className={classes.drop} src={getBonusImage(item)} />

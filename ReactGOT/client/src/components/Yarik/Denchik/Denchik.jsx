@@ -1,8 +1,8 @@
 import React from 'react';
 import classes from './Denchik.module.css';
 
-import EnemyImage from '../Resources/enemy.png';
-import EnemyDeadImage from '../Resources/enemy-stuffed.png';
+import EnemyImage from '../Resources/enemy_2.png';
+import EnemyDeadImage from '../Resources/enemy-stuffed_2.png';
 import { DeadAnim } from '../logic';
 
 function getDeadAnim(enemy) {
