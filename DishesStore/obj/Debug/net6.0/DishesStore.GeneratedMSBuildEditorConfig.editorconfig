@@ -1,0 +1,93 @@
+is_global = true
+build_property.TargetFramework = net6.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = DishesStore
+build_property.RootNamespace = DishesStore
+build_property.ProjectDir = d:\github\cuddly-tribble\cuddly-tribble\DishesStore\
+build_property.RazorLangVersion = 6.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = d:\github\cuddly-tribble\cuddly-tribble\DishesStore
+build_property._RazorSourceGeneratorDebug = 
+
+[d:/github/cuddly-tribble/cuddly-tribble/DishesStore/Additional/Admin/AdminPanelComponent.razor]
+build_metadata.AdditionalFiles.TargetPath = QWRkaXRpb25hbFxBZG1pblxBZG1pblBhbmVsQ29tcG9uZW50LnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[d:/github/cuddly-tribble/cuddly-tribble/DishesStore/Additional/Toast/Toast.razor]
+build_metadata.AdditionalFiles.TargetPath = QWRkaXRpb25hbFxUb2FzdFxUb2FzdC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[d:/github/cuddly-tribble/cuddly-tribble/DishesStore/Additional/Toast/ToastError.razor]
+build_metadata.AdditionalFiles.TargetPath = QWRkaXRpb25hbFxUb2FzdFxUb2FzdEVycm9yLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[d:/github/cuddly-tribble/cuddly-tribble/DishesStore/Additional/ToolTip/Tooltip.razor]
+build_metadata.AdditionalFiles.TargetPath = QWRkaXRpb25hbFxUb29sVGlwXFRvb2x0aXAucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[d:/github/cuddly-tribble/cuddly-tribble/DishesStore/App.razor]
+build_metadata.AdditionalFiles.TargetPath = QXBwLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[d:/github/cuddly-tribble/cuddly-tribble/DishesStore/Pages/AdminPanel.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW5QYW5lbC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[d:/github/cuddly-tribble/cuddly-tribble/DishesStore/Pages/Auth.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQXV0aC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[d:/github/cuddly-tribble/cuddly-tribble/DishesStore/Pages/CartPage.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ2FydFBhZ2UucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[d:/github/cuddly-tribble/cuddly-tribble/DishesStore/Pages/Confirmation.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlybWF0aW9uLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[d:/github/cuddly-tribble/cuddly-tribble/DishesStore/Pages/Conversation.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29udmVyc2F0aW9uLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[d:/github/cuddly-tribble/cuddly-tribble/DishesStore/Pages/Index.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5kZXgucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[d:/github/cuddly-tribble/cuddly-tribble/DishesStore/Pages/Profile.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUHJvZmlsZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[d:/github/cuddly-tribble/cuddly-tribble/DishesStore/Shared/Footer.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXEZvb3Rlci5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[d:/github/cuddly-tribble/cuddly-tribble/DishesStore/Shared/SurveyPrompt.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXFN1cnZleVByb21wdC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[d:/github/cuddly-tribble/cuddly-tribble/DishesStore/_Imports.razor]
+build_metadata.AdditionalFiles.TargetPath = X0ltcG9ydHMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[d:/github/cuddly-tribble/cuddly-tribble/DishesStore/Shared/MainLayout.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXE1haW5MYXlvdXQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-9s6hl630hp
+
+[d:/github/cuddly-tribble/cuddly-tribble/DishesStore/Pages/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRXJyb3IuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[d:/github/cuddly-tribble/cuddly-tribble/DishesStore/Pages/_Host.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcX0hvc3QuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[d:/github/cuddly-tribble/cuddly-tribble/DishesStore/Pages/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcX0xheW91dC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
